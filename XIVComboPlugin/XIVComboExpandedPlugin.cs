@@ -1,264 +1,234 @@
-using Dalamud.Game.Command;
-using Dalamud.Game.Text;
-using Dalamud.Plugin;
-using ImGuiNET;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 
-namespace XIVComboExpandedPlugin
-{
-    public sealed class XIVComboExpandedPlugin : IDalamudPlugin
-    {
-        public string Name => "XIV Combo Expanded Plugin";
+using Dalamud.Game.Command;
+using Dalamud.Game.Text;
+using Dalamud.Plugin;
 
-        private readonly string Command = "/pcombo";
-        internal XIVComboExpandedConfiguration Configuration;
-        internal const int CURRENT_CONFIG_VERSION = 4;
+using ImGuiNET;
 
-        internal DalamudPluginInterface Interface;
-        private IconReplacer IconReplacer;
+namespace XIVComboExpandedPlugin {
+	public sealed class XIVComboExpandedPlugin: IDalamudPlugin {
+		public string Name => "XIV Combo Expanded Plugin";
 
-        private Dictionary<string, List<(CustomComboPreset preset, CustomComboInfoAttribute info)>> GroupedPresets;
+		private readonly string Command = "/pcombo";
+		internal XIVComboExpandedConfiguration Configuration;
+		internal const int CURRENT_CONFIG_VERSION = 4;
 
-        public void Initialize(DalamudPluginInterface pluginInterface)
-        {
-            Interface = pluginInterface;
+		internal DalamudPluginInterface Interface;
+		private IconReplacer IconReplacer;
 
-            Interface.CommandManager.AddHandler(Command, new CommandInfo(OnCommandDebugCombo)
-            {
-                HelpMessage = "Open a window to edit custom combo settings.",
-                ShowInHelp = true
-            });
+		private Dictionary<string, List<(CustomComboPreset preset, CustomComboInfoAttribute info)>> GroupedPresets;
 
-            Configuration = pluginInterface.GetPluginConfig() as XIVComboExpandedConfiguration ?? new XIVComboExpandedConfiguration();
-            if (Configuration.Version < CURRENT_CONFIG_VERSION)
-            {
-                Configuration.Upgrade();
-                SaveConfiguration();
-            }
+		public void Initialize(DalamudPluginInterface pluginInterface) {
+			this.Interface = pluginInterface;
 
-            IconReplacer = new IconReplacer(pluginInterface, Configuration);
+			this.Interface.CommandManager.AddHandler(this.Command, new CommandInfo(this.OnCommandDebugCombo) {
+				HelpMessage = "Open a window to edit custom combo settings.",
+				ShowInHelp = true
+			});
 
-            Interface.UiBuilder.OnOpenConfigUi += (sender, args) => isImguiComboSetupOpen = true;
-            Interface.UiBuilder.OnBuildUi += UiBuilder_OnBuildUi;
+			this.Configuration = pluginInterface.GetPluginConfig() as XIVComboExpandedConfiguration ?? new XIVComboExpandedConfiguration();
+			if (this.Configuration.Version < CURRENT_CONFIG_VERSION) {
+				this.Configuration.Upgrade();
+				this.SaveConfiguration();
+			}
 
-            GroupedPresets = Enum
-                .GetValues(typeof(CustomComboPreset))
-                .Cast<CustomComboPreset>()
-                .Select(preset => (preset, info: preset.GetAttribute<CustomComboInfoAttribute>()))
-                .Where(presetWithInfo => presetWithInfo.info != null)
-                .OrderBy(presetWithInfo => presetWithInfo.info.JobName)
-                .GroupBy(presetWithInfo => presetWithInfo.info.JobName)
-                .ToDictionary(presetWithInfos => presetWithInfos.Key,
-                              presetWithInfos => presetWithInfos.ToList());
-        }
+			this.IconReplacer = new IconReplacer(pluginInterface, this.Configuration);
 
-        private bool isImguiComboSetupOpen = false;
+			this.Interface.UiBuilder.OnOpenConfigUi += (sender, args) => this.isImguiComboSetupOpen = true;
+			this.Interface.UiBuilder.OnBuildUi += this.UiBuilder_OnBuildUi;
 
-        private void SaveConfiguration()
-        {
-            Interface.SavePluginConfig(Configuration);
-        }
+			this.GroupedPresets = Enum
+				.GetValues(typeof(CustomComboPreset))
+				.Cast<CustomComboPreset>()
+				.Select(preset => (preset, info: preset.GetAttribute<CustomComboInfoAttribute>()))
+				.Where(presetWithInfo => presetWithInfo.info != null)
+				.OrderBy(presetWithInfo => presetWithInfo.info.JobName)
+				.GroupBy(presetWithInfo => presetWithInfo.info.JobName)
+				.ToDictionary(presetWithInfos => presetWithInfos.Key,
+							  presetWithInfos => presetWithInfos.ToList());
+		}
 
-        private void UiBuilder_OnBuildUi()
-        {
-            if (!isImguiComboSetupOpen)
-                return;
+		private bool isImguiComboSetupOpen = false;
 
-            ImGui.SetNextWindowSize(new Vector2(740, 490), ImGuiCond.FirstUseEver);
+		private void SaveConfiguration() {
+			this.Interface.SavePluginConfig(this.Configuration);
+		}
 
-            ImGui.Begin("Custom Combo Setup", ref isImguiComboSetupOpen);
+		private void UiBuilder_OnBuildUi() {
+			if (!this.isImguiComboSetupOpen)
+				return;
 
-            ImGui.Text("This window allows you to enable and disable custom combos to your liking.");
+			ImGui.SetNextWindowSize(new Vector2(740, 490), ImGuiCond.FirstUseEver);
 
-            ImGui.BeginChild("scrolling", new Vector2(0, -1), true);
+			ImGui.Begin("Custom Combo Setup", ref this.isImguiComboSetupOpen);
 
-            ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(0, 5));
+			ImGui.Text("This window allows you to enable and disable custom combos to your liking.");
 
-            bool showSecrets = Configuration.EnableSecretCombos;
+			ImGui.BeginChild("scrolling", new Vector2(0, -1), true);
 
-            int i = 1;
-            foreach (var jobName in GroupedPresets.Keys)
-            {
-                if (ImGui.CollapsingHeader(jobName))
-                {
-                    foreach (var (preset, info) in GroupedPresets[jobName])
-                    {
-                        var enabled = Configuration.IsEnabled(preset);
-                        var secret = Configuration.IsSecret(preset);
+			ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(0, 5));
 
-                        if (secret && !showSecrets)
-                            continue;
+			bool showSecrets = this.Configuration.EnableSecretCombos;
 
-                        ImGui.PushItemWidth(200);
+			int i = 1;
+			foreach (string jobName in this.GroupedPresets.Keys) {
+				if (ImGui.CollapsingHeader(jobName)) {
+					foreach ((CustomComboPreset preset, CustomComboInfoAttribute info) in this.GroupedPresets[jobName]) {
+						bool enabled = this.Configuration.IsEnabled(preset);
+						bool secret = this.Configuration.IsSecret(preset);
 
-                        if (ImGui.Checkbox(info.FancyName, ref enabled))
-                        {
-                            if (enabled)
-                                Configuration.EnabledActions.Add(preset);
-                            else
-                                Configuration.EnabledActions.Remove(preset);
-                            IconReplacer.UpdateEnabledActionIDs();
-                            SaveConfiguration();
-                        }
+						if (secret && !showSecrets)
+							continue;
 
-                        ImGui.PopItemWidth();
+						ImGui.PushItemWidth(200);
 
-                        ImGui.TextColored(new Vector4(0.68f, 0.68f, 0.68f, 1.0f), $"#{i}: {info.Description}");
-                        ImGui.Spacing();
+						if (ImGui.Checkbox(info.FancyName, ref enabled)) {
+							if (enabled)
+								this.Configuration.EnabledActions.Add(preset);
+							else
+								this.Configuration.EnabledActions.Remove(preset);
+							this.IconReplacer.UpdateEnabledActionIDs();
+							this.SaveConfiguration();
+						}
 
-                        if (preset == CustomComboPreset.DancerDanceComboCompatibility && enabled)
-                        {
-                            var actions = Configuration.DancerDanceCompatActionIDs.Select(i => (int)i).ToArray();
-                            if (ImGui.InputInt("Emboite (Red) ActionID", ref actions[0], 0) ||
-                                ImGui.InputInt("Entrechat (Blue) ActionID", ref actions[1], 0) ||
-                                ImGui.InputInt("Jete (Green) ActionID", ref actions[2], 0) ||
-                                ImGui.InputInt("Pirouette (Yellow) ActionID", ref actions[3], 0))
-                            {
-                                Configuration.DancerDanceCompatActionIDs = actions.Select(i => (uint)i).ToArray();
-                                IconReplacer.UpdateEnabledActionIDs();
-                                SaveConfiguration();
-                            }
-                            ImGui.Spacing();
-                        }
+						ImGui.PopItemWidth();
 
-                        i++;
-                    }
-                }
-                else
-                {
-                    i += GroupedPresets[jobName].Count;
-                }
-            }
+						ImGui.TextColored(new Vector4(0.68f, 0.68f, 0.68f, 1.0f), $"#{i}: {info.Description}");
+						ImGui.Spacing();
 
-            ImGui.PopStyleVar();
+						if (preset == CustomComboPreset.DancerDanceComboCompatibility && enabled) {
+							int[] actions = this.Configuration.DancerDanceCompatActionIDs.Select(i => (int)i).ToArray();
+							if (ImGui.InputInt("Emboite (Red) ActionID", ref actions[0], 0) ||
+								ImGui.InputInt("Entrechat (Blue) ActionID", ref actions[1], 0) ||
+								ImGui.InputInt("Jete (Green) ActionID", ref actions[2], 0) ||
+								ImGui.InputInt("Pirouette (Yellow) ActionID", ref actions[3], 0)) {
+								this.Configuration.DancerDanceCompatActionIDs = actions.Select(i => (uint)i).ToArray();
+								this.IconReplacer.UpdateEnabledActionIDs();
+								this.SaveConfiguration();
+							}
+							ImGui.Spacing();
+						}
 
-            ImGui.EndChild();
+						i++;
+					}
+				}
+				else {
+					i += this.GroupedPresets[jobName].Count;
+				}
+			}
 
-            ImGui.End();
-        }
+			ImGui.PopStyleVar();
 
-        public void Dispose()
-        {
-            IconReplacer.Dispose();
+			ImGui.EndChild();
 
-            Interface.CommandManager.RemoveHandler(Command);
+			ImGui.End();
+		}
 
-            Interface.Dispose();
-        }
+		public void Dispose() {
+			this.IconReplacer.Dispose();
 
-        private void OnCommandDebugCombo(string command, string arguments)
-        {
-            var argumentsParts = arguments.Split();
+			this.Interface.CommandManager.RemoveHandler(this.Command);
 
-            switch (argumentsParts[0])
-            {
-                case "setall":
-                    {
-                        foreach (var preset in Enum.GetValues(typeof(CustomComboPreset)).Cast<CustomComboPreset>())
-                            Configuration.EnabledActions.Add(preset);
+			this.Interface.Dispose();
+		}
 
-                        Interface.Framework.Gui.Chat.Print("All SET");
-                    }
-                    break;
-                case "unsetall":
-                    {
-                        foreach (var preset in Enum.GetValues(typeof(CustomComboPreset)).Cast<CustomComboPreset>())
-                            Configuration.EnabledActions.Remove(preset);
+		private void OnCommandDebugCombo(string command, string arguments) {
+			string[] argumentsParts = arguments.Split();
 
-                        Interface.Framework.Gui.Chat.Print("All UNSET");
-                    }
-                    break;
-                case "set":
-                    {
-                        var targetPreset = argumentsParts[1].ToLower();
-                        foreach (var preset in Enum.GetValues(typeof(CustomComboPreset)).Cast<CustomComboPreset>())
-                        {
-                            if (preset.ToString().ToLower() != targetPreset)
-                                continue;
+			switch (argumentsParts[0]) {
+				case "setall": {
+					foreach (CustomComboPreset preset in Enum.GetValues(typeof(CustomComboPreset)).Cast<CustomComboPreset>())
+						this.Configuration.EnabledActions.Add(preset);
 
-                            Configuration.EnabledActions.Add(preset);
-                            Interface.Framework.Gui.Chat.Print($"{preset} SET");
-                        }
-                    }
-                    break;
-                case "secrets":
-                    Configuration.EnableSecretCombos = !Configuration.EnableSecretCombos;
-                    if (Configuration.EnableSecretCombos)
-                        Interface.Framework.Gui.Chat.Print($"Secret combos are now shown");
-                    else
-                        Interface.Framework.Gui.Chat.Print($"Secret combos are now hidden");
-                    SaveConfiguration();
-                    break;
-                case "toggle":
-                    {
-                        var targetPreset = argumentsParts[1].ToLower();
-                        foreach (var preset in Enum.GetValues(typeof(CustomComboPreset)).Cast<CustomComboPreset>())
-                        {
-                            if (preset.ToString().ToLower() != targetPreset)
-                                continue;
+					this.Interface.Framework.Gui.Chat.Print("All SET");
+				}
+				break;
+				case "unsetall": {
+					foreach (CustomComboPreset preset in Enum.GetValues(typeof(CustomComboPreset)).Cast<CustomComboPreset>())
+						this.Configuration.EnabledActions.Remove(preset);
 
-                            if (Configuration.EnabledActions.Contains(preset))
-                            {
-                                Configuration.EnabledActions.Remove(preset);
-                                Interface.Framework.Gui.Chat.Print($"{preset} UNSET");
-                            }
-                            else
-                            {
-                                Configuration.EnabledActions.Add(preset);
-                                Interface.Framework.Gui.Chat.Print($"{preset} SET");
-                            }
-                        }
-                    }
-                    break;
-                case "unset":
-                    {
-                        var targetPreset = argumentsParts[1].ToLower();
-                        foreach (var preset in Enum.GetValues(typeof(CustomComboPreset)).Cast<CustomComboPreset>())
-                        {
-                            if (preset.ToString().ToLower() != targetPreset)
-                                continue;
+					this.Interface.Framework.Gui.Chat.Print("All UNSET");
+				}
+				break;
+				case "set": {
+					string targetPreset = argumentsParts[1].ToLower();
+					foreach (CustomComboPreset preset in Enum.GetValues(typeof(CustomComboPreset)).Cast<CustomComboPreset>()) {
+						if (preset.ToString().ToLower() != targetPreset)
+							continue;
 
-                            Configuration.EnabledActions.Remove(preset);
-                            Interface.Framework.Gui.Chat.Print($"{preset} UNSET");
-                        }
-                    }
-                    break;
-                case "list":
-                    {
-                        string filter;
-                        if (argumentsParts.Length == 1)
-                            filter = "all";
-                        else
-                            filter = argumentsParts[1].ToLower();
+						this.Configuration.EnabledActions.Add(preset);
+						this.Interface.Framework.Gui.Chat.Print($"{preset} SET");
+					}
+				}
+				break;
+				case "secrets":
+					this.Configuration.EnableSecretCombos = !this.Configuration.EnableSecretCombos;
+					if (this.Configuration.EnableSecretCombos)
+						this.Interface.Framework.Gui.Chat.Print($"Secret combos are now shown");
+					else
+						this.Interface.Framework.Gui.Chat.Print($"Secret combos are now hidden");
+					this.SaveConfiguration();
+					break;
+				case "toggle": {
+					string targetPreset = argumentsParts[1].ToLower();
+					foreach (CustomComboPreset preset in Enum.GetValues(typeof(CustomComboPreset)).Cast<CustomComboPreset>()) {
+						if (preset.ToString().ToLower() != targetPreset)
+							continue;
 
-                        foreach (var preset in Enum.GetValues(typeof(CustomComboPreset)).Cast<CustomComboPreset>())
-                        {
-                            if (filter == "set")
-                            {
-                                if (Configuration.EnabledActions.Contains(preset))
-                                    Interface.Framework.Gui.Chat.Print(preset.ToString());
-                            }
-                            else if (filter == "unset")
-                            {
-                                if (!Configuration.EnabledActions.Contains(preset))
-                                    Interface.Framework.Gui.Chat.Print(preset.ToString());
-                            }
-                            else if (filter == "all")
-                            {
-                                Interface.Framework.Gui.Chat.Print(preset.ToString());
-                            }
-                        }
-                    }
-                    break;
-                default:
-                    isImguiComboSetupOpen = true;
-                    break;
-            }
+						if (this.Configuration.EnabledActions.Contains(preset)) {
+							this.Configuration.EnabledActions.Remove(preset);
+							this.Interface.Framework.Gui.Chat.Print($"{preset} UNSET");
+						}
+						else {
+							this.Configuration.EnabledActions.Add(preset);
+							this.Interface.Framework.Gui.Chat.Print($"{preset} SET");
+						}
+					}
+				}
+				break;
+				case "unset": {
+					string targetPreset = argumentsParts[1].ToLower();
+					foreach (CustomComboPreset preset in Enum.GetValues(typeof(CustomComboPreset)).Cast<CustomComboPreset>()) {
+						if (preset.ToString().ToLower() != targetPreset)
+							continue;
 
-            Interface.SavePluginConfig(Configuration);
-        }
-    }
+						this.Configuration.EnabledActions.Remove(preset);
+						this.Interface.Framework.Gui.Chat.Print($"{preset} UNSET");
+					}
+				}
+				break;
+				case "list": {
+					string filter;
+					if (argumentsParts.Length == 1)
+						filter = "all";
+					else
+						filter = argumentsParts[1].ToLower();
+
+					foreach (CustomComboPreset preset in Enum.GetValues(typeof(CustomComboPreset)).Cast<CustomComboPreset>()) {
+						if (filter == "set") {
+							if (this.Configuration.EnabledActions.Contains(preset))
+								this.Interface.Framework.Gui.Chat.Print(preset.ToString());
+						}
+						else if (filter == "unset") {
+							if (!this.Configuration.EnabledActions.Contains(preset))
+								this.Interface.Framework.Gui.Chat.Print(preset.ToString());
+						}
+						else if (filter == "all") {
+							this.Interface.Framework.Gui.Chat.Print(preset.ToString());
+						}
+					}
+				}
+				break;
+				default:
+					this.isImguiComboSetupOpen = true;
+					break;
+			}
+
+			this.Interface.SavePluginConfig(this.Configuration);
+		}
+	}
 }

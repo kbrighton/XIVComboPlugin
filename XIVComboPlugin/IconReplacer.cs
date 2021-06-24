@@ -1,212 +1,216 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
+
+using Dalamud.Game.ClientState;
 using Dalamud.Game.ClientState.Actors.Types;
 using Dalamud.Game.Text;
 using Dalamud.Hooking;
 using Dalamud.Plugin;
-using Structs = Dalamud.Game.ClientState.Structs;
+
 using XIVComboExpandedPlugin.Combos;
-using Dalamud.Game.ClientState;
-using System.Reflection;
 
-namespace XIVComboExpandedPlugin
-{
-    internal class IconReplacer
-    {
-        private readonly DalamudPluginInterface Interface;
-        private readonly PluginAddressResolver Address;
-        private readonly XIVComboExpandedConfiguration Configuration;
+using Structs = Dalamud.Game.ClientState.Structs;
 
-        private delegate ulong IsIconReplaceableDelegate(uint actionID);
-        private delegate uint GetIconDelegate(IntPtr actionManager, uint actionID);
-        private delegate IntPtr GetActionCooldownSlotDelegate(IntPtr actionManager, int cooldownGroup);
+namespace XIVComboExpandedPlugin {
+	internal class IconReplacer {
+		private readonly DalamudPluginInterface Interface;
+		private readonly PluginAddressResolver Address;
+		private readonly XIVComboExpandedConfiguration Configuration;
 
-        private readonly Hook<IsIconReplaceableDelegate> IsIconReplaceableHook;
-        private readonly Hook<GetIconDelegate> GetIconHook;
+		private delegate ulong IsIconReplaceableDelegate(uint actionID);
+		private delegate uint GetIconDelegate(IntPtr actionManager, uint actionID);
+		private delegate IntPtr GetActionCooldownSlotDelegate(IntPtr actionManager, int cooldownGroup);
 
-        private readonly GetActionCooldownSlotDelegate GetActionCooldownSlot;
-        private IntPtr ActionManager = IntPtr.Zero;
+		private readonly Hook<IsIconReplaceableDelegate> IsIconReplaceableHook;
+		private readonly Hook<GetIconDelegate> GetIconHook;
 
-        private readonly HashSet<uint> CustomIds = new();
-        private List<CustomCombo> CustomCombos;
+		private readonly GetActionCooldownSlotDelegate GetActionCooldownSlot;
+		private IntPtr ActionManager = IntPtr.Zero;
 
-        public IconReplacer(DalamudPluginInterface pluginInterface, XIVComboExpandedConfiguration configuration)
-        {
-            Interface = pluginInterface;
-            Configuration = configuration;
+		private readonly HashSet<uint> CustomIds = new();
+		private List<CustomCombo> CustomCombos;
 
-            Address = new PluginAddressResolver();
-            Address.Setup(pluginInterface.TargetModuleScanner);
+		public IconReplacer(DalamudPluginInterface pluginInterface, XIVComboExpandedConfiguration configuration) {
+			this.Interface = pluginInterface;
+			this.Configuration = configuration;
 
-            CustomCombo.Initialize(this, configuration);
-            UpdateCustomCombos();
+			this.Address = new PluginAddressResolver();
+			this.Address.Setup(pluginInterface.TargetModuleScanner);
 
-            UpdateEnabledActionIDs();
+			CustomCombo.Initialize(this, configuration);
+			this.UpdateCustomCombos();
 
-            GetActionCooldownSlot = Marshal.GetDelegateForFunctionPointer<GetActionCooldownSlotDelegate>(Address.GetActionCooldown);
+			this.UpdateEnabledActionIDs();
 
-            GetIconHook = new Hook<GetIconDelegate>(Address.GetIcon, new GetIconDelegate(GetIconDetour), this);
-            IsIconReplaceableHook = new Hook<IsIconReplaceableDelegate>(Address.IsIconReplaceable, new IsIconReplaceableDelegate(IsIconReplaceableDetour), this);
+			this.GetActionCooldownSlot = Marshal.GetDelegateForFunctionPointer<GetActionCooldownSlotDelegate>(this.Address.GetActionCooldown);
 
-            GetIconHook.Enable();
-            IsIconReplaceableHook.Enable();
+			this.GetIconHook = new Hook<GetIconDelegate>(this.Address.GetIcon, new GetIconDelegate(this.GetIconDetour), this);
+			this.IsIconReplaceableHook = new Hook<IsIconReplaceableDelegate>(this.Address.IsIconReplaceable, new IsIconReplaceableDelegate(this.IsIconReplaceableDetour), this);
 
-        }
+			this.GetIconHook.Enable();
+			this.IsIconReplaceableHook.Enable();
 
-        internal void Dispose()
-        {
-            GetIconHook.Dispose();
-            IsIconReplaceableHook.Dispose();
-        }
+		}
 
-        private void UpdateCustomCombos()
-        {
-            CustomCombos = Assembly.GetAssembly(typeof(CustomCombo)).GetTypes()
-                .Where(t => t.BaseType == typeof(CustomCombo))
-                .Select(t => Activator.CreateInstance(t))
-                .Cast<CustomCombo>()
-                .ToList();
-        }
+		internal void Dispose() {
+			this.GetIconHook.Dispose();
+			this.IsIconReplaceableHook.Dispose();
+		}
 
-        /// <summary>
-        /// Maps to <see cref="XIVComboExpandedConfiguration.EnabledActions"/>, these actions can potentially update their icon per the user configuration.
-        /// </summary>
-        public void UpdateEnabledActionIDs()
-        {
-            var actionIDs = Enum
-                .GetValues(typeof(CustomComboPreset))
-                .Cast<CustomComboPreset>()
-                .Select(preset => preset.GetAttribute<CustomComboInfoAttribute>())
-                .OfType<CustomComboInfoAttribute>()
-                .SelectMany(comboInfo => comboInfo.ActionIDs)
-                .Concat(Configuration.DancerDanceCompatActionIDs)
-                .ToHashSet();
-            CustomIds.Clear();
-            CustomIds.UnionWith(actionIDs);
-        }
+		private void UpdateCustomCombos() {
+			this.CustomCombos = Assembly.GetAssembly(typeof(CustomCombo)).GetTypes()
+				.Where(t => t.BaseType == typeof(CustomCombo))
+				.Select(t => Activator.CreateInstance(t))
+				.Cast<CustomCombo>()
+				.ToList();
+		}
 
-        public uint GetNewAction(uint actionID, uint lastComboMove, float comboTime, byte level)
-        {
-            foreach (var combo in CustomCombos)
-            {
-                if (combo.TryInvoke(actionID, lastComboMove, comboTime, level, out var newActionID))
-                    return newActionID;
-            }
-            return OriginalHook(actionID);
-        }
+		/// <summary>
+		/// Maps to <see cref="XIVComboExpandedConfiguration.EnabledActions"/>, these actions can potentially update their icon per the user configuration.
+		/// </summary>
+		public void UpdateEnabledActionIDs() {
+			HashSet<uint> actionIDs = Enum
+				.GetValues(typeof(CustomComboPreset))
+				.Cast<CustomComboPreset>()
+				.Select(preset => preset.GetAttribute<CustomComboInfoAttribute>())
+				.OfType<CustomComboInfoAttribute>()
+				.SelectMany(comboInfo => comboInfo.ActionIDs)
+				.Concat(this.Configuration.DancerDanceCompatActionIDs)
+				.ToHashSet();
+			this.CustomIds.Clear();
+			this.CustomIds.UnionWith(actionIDs);
+		}
 
-        private ulong IsIconReplaceableDetour(uint actionID) => 1;
+		public uint GetNewAction(uint actionID, uint lastComboMove, float comboTime, byte level) {
+			foreach (CustomCombo combo in this.CustomCombos) {
+				if (combo.TryInvoke(actionID, lastComboMove, comboTime, level, out uint newActionID))
+					return newActionID;
+			}
+			return this.OriginalHook(actionID);
+		}
 
-        /// <summary>
-        /// Replace an ability with another ability
-        /// actionID is the original ability to be "used"
-        /// Return either actionID (itself) or a new Action table ID as the
-        /// ability to take its place.
-        /// I tend to make the "combo chain" button be the last move in the combo
-        /// For example, Souleater combo on DRK happens by dragging Souleater
-        /// onto your bar and mashing it.
-        /// </summary>
-        private uint GetIconDetour(IntPtr actionManager, uint actionID)
-        {
-            try
-            {
-                ActionManager = actionManager;
+		private ulong IsIconReplaceableDetour(uint actionID) {
+			return 1;
+		}
 
-                if (LocalPlayer == null || !CustomIds.Contains(actionID))
-                    return OriginalHook(actionID);
+		/// <summary>
+		/// Replace an ability with another ability
+		/// actionID is the original ability to be "used"
+		/// Return either actionID (itself) or a new Action table ID as the
+		/// ability to take its place.
+		/// I tend to make the "combo chain" button be the last move in the combo
+		/// For example, Souleater combo on DRK happens by dragging Souleater
+		/// onto your bar and mashing it.
+		/// </summary>
+		private uint GetIconDetour(IntPtr actionManager, uint actionID) {
+			try {
+				this.ActionManager = actionManager;
 
-                return GetNewAction(actionID, LastComboMove, ComboTime, LocalPlayer.Level);
-            }
-            catch (Exception ex)
-            {
-                PluginLog.Error(ex, "Don't crash the game");
-                return GetIconHook.Original(actionManager, actionID);
-            }
-        }
+				if (this.LocalPlayer == null || !this.CustomIds.Contains(actionID))
+					return this.OriginalHook(actionID);
 
-        #region Getters
+				return this.GetNewAction(actionID, this.LastComboMove, this.ComboTime, this.LocalPlayer.Level);
+			}
+			catch (Exception ex) {
+				PluginLog.Error(ex, "Don't crash the game");
+				return this.GetIconHook.Original(actionManager, actionID);
+			}
+		}
 
-        internal bool HasCondition(ConditionFlag flag) => Interface.ClientState.Condition[flag];
+		#region Getters
 
-        internal PlayerCharacter LocalPlayer => Interface.ClientState.LocalPlayer;
+		internal bool HasCondition(ConditionFlag flag) {
+			return this.Interface.ClientState.Condition[flag];
+		}
 
-        internal Actor CurrentTarget => Interface.ClientState.Targets.CurrentTarget;
+		internal PlayerCharacter LocalPlayer => this.Interface.ClientState.LocalPlayer;
 
-        internal uint LastComboMove => (uint)Marshal.ReadInt32(Address.LastComboMove);
+		internal Actor CurrentTarget => this.Interface.ClientState.Targets.CurrentTarget;
 
-        internal float ComboTime => Marshal.PtrToStructure<float>(Address.ComboTimer);
+		internal uint LastComboMove => (uint)Marshal.ReadInt32(this.Address.LastComboMove);
 
-        internal T GetJobGauge<T>() => Interface.ClientState.JobGauges.Get<T>();
+		internal float ComboTime => Marshal.PtrToStructure<float>(this.Address.ComboTimer);
 
-        internal uint OriginalHook(uint actionID) => GetIconHook.Original(ActionManager, actionID);
+		internal T GetJobGauge<T>() {
+			return this.Interface.ClientState.JobGauges.Get<T>();
+		}
 
-        #endregion
+		internal uint OriginalHook(uint actionID) {
+			return this.GetIconHook.Original(this.ActionManager, actionID);
+		}
 
-        #region Effects
+		#endregion
 
-        internal bool HasEffect(short effectId) => FindEffect(effectId) != null;
+		#region Effects
 
-        internal bool TargetHasEffect(short effectId) => FindTargetEffect(effectId) != null;
+		internal bool HasEffect(short effectId) {
+			return this.FindEffect(effectId) != null;
+		}
 
-        internal Structs.StatusEffect? FindEffect(short effectId) => FindEffect(effectId, LocalPlayer, null);
+		internal bool TargetHasEffect(short effectId) {
+			return this.FindTargetEffect(effectId) != null;
+		}
 
-        internal Structs.StatusEffect? FindTargetEffect(short effectId) => FindEffect(effectId, CurrentTarget, LocalPlayer?.ActorId);
+		internal Structs.StatusEffect? FindEffect(short effectId) {
+			return FindEffect(effectId, this.LocalPlayer, null);
+		}
 
-        internal static Structs.StatusEffect? FindEffect(short effectId, Actor actor, int? ownerId)
-        {
-            if (actor == null)
-                return null;
+		internal Structs.StatusEffect? FindTargetEffect(short effectId) {
+			return FindEffect(effectId, this.CurrentTarget, this.LocalPlayer?.ActorId);
+		}
 
-            foreach (var status in actor.StatusEffects)
-            {
-                if (status.EffectId == effectId)
-                    if (!ownerId.HasValue || status.OwnerId == ownerId)
-                        return status;
-            }
+		internal static Structs.StatusEffect? FindEffect(short effectId, Actor actor, int? ownerId) {
+			if (actor == null)
+				return null;
 
-            return null;
-        }
+			foreach (Structs.StatusEffect status in actor.StatusEffects) {
+				if (status.EffectId == effectId) {
+					if (!ownerId.HasValue || status.OwnerId == ownerId)
+						return status;
+				}
+			}
 
-        #endregion
+			return null;
+		}
 
-        #region Cooldowns
+		#endregion
 
-        private readonly Dictionary<uint, byte> CooldownGroups = new();
+		#region Cooldowns
 
-        private byte GetCooldownGroup(uint actionID)
-        {
-            if (CooldownGroups.TryGetValue(actionID, out var cooldownGroup))
-                return cooldownGroup;
+		private readonly Dictionary<uint, byte> CooldownGroups = new();
 
-            var sheet = Interface.Data.GetExcelSheet<Lumina.Excel.GeneratedSheets.Action>();
-            var row = sheet.GetRow(actionID);
+		private byte GetCooldownGroup(uint actionID) {
+			if (this.CooldownGroups.TryGetValue(actionID, out byte cooldownGroup))
+				return cooldownGroup;
 
-            return CooldownGroups[actionID] = row.CooldownGroup;
-        }
+			Lumina.Excel.ExcelSheet<Lumina.Excel.GeneratedSheets.Action> sheet = this.Interface.Data.GetExcelSheet<Lumina.Excel.GeneratedSheets.Action>();
+			Lumina.Excel.GeneratedSheets.Action row = sheet.GetRow(actionID);
 
-        internal CooldownData GetCooldown(uint actionID)
-        {
-            var cooldownGroup = GetCooldownGroup(actionID);
-            if (ActionManager == IntPtr.Zero)
-                return new CooldownData() { ActionID = actionID };
+			return this.CooldownGroups[actionID] = row.CooldownGroup;
+		}
 
-            var cooldownPtr = GetActionCooldownSlot(ActionManager, cooldownGroup - 1);
-            return Marshal.PtrToStructure<CooldownData>(cooldownPtr);
-        }
+		internal CooldownData GetCooldown(uint actionID) {
+			byte cooldownGroup = this.GetCooldownGroup(actionID);
+			if (this.ActionManager == IntPtr.Zero)
+				return new CooldownData() { ActionID = actionID };
 
-        #endregion
-    }
+			IntPtr cooldownPtr = this.GetActionCooldownSlot(this.ActionManager, cooldownGroup - 1);
+			return Marshal.PtrToStructure<CooldownData>(cooldownPtr);
+		}
 
-    [StructLayout(LayoutKind.Explicit)]
-    internal struct CooldownData
-    {
-        [FieldOffset(0x0)] public bool IsCooldown;
-        [FieldOffset(0x4)] public uint ActionID;
-        [FieldOffset(0x8)] public float CooldownElapsed;
-        [FieldOffset(0xC)] public float CooldownTotal;
+		#endregion
+	}
 
-        public float CooldownRemaining => IsCooldown ? CooldownTotal - CooldownElapsed : 0;
-    }
+	[StructLayout(LayoutKind.Explicit)]
+	internal struct CooldownData {
+		[FieldOffset(0x0)] public bool IsCooldown;
+		[FieldOffset(0x4)] public uint ActionID;
+		[FieldOffset(0x8)] public float CooldownElapsed;
+		[FieldOffset(0xC)] public float CooldownTotal;
+
+		public float CooldownRemaining => this.IsCooldown ? this.CooldownTotal - this.CooldownElapsed : 0;
+	}
 }

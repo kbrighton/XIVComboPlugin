@@ -1,200 +1,162 @@
-﻿using Dalamud.Game.ClientState;
+using Dalamud.Game.ClientState;
 using Dalamud.Game.ClientState.Structs.JobGauge;
 
-namespace XIVComboExpandedPlugin.Combos
-{
-    internal static class RDM
-    {
-        public const byte JobID = 35;
+namespace XIVComboExpandedPlugin.Combos {
+	internal static class RDM {
+		public const byte JobID = 35;
 
-        public const uint
-            Verthunder = 7505,
-            Veraero = 7507,
-            Veraero2 = 16525,
-            Verthunder2 = 16524,
-            Impact = 16526,
-            Redoublement = 7516,
-            EnchantedRedoublement = 7529,
-            Zwerchhau = 7512,
-            EnchantedZwerchhau = 7528,
-            Riposte = 7504,
-            EnchantedRiposte = 7527,
-            Scatter = 7509,
-            Verstone = 7511,
-            Verfire = 7510,
-            Jolt = 7503,
-            Jolt2 = 7524,
-            Verholy = 7526,
-            Verflare = 7525,
-            Scorch = 16530;
+		public const uint
+			Verthunder = 7505,
+			Veraero = 7507,
+			Veraero2 = 16525,
+			Verthunder2 = 16524,
+			Impact = 16526,
+			Redoublement = 7516,
+			EnchantedRedoublement = 7529,
+			Zwerchhau = 7512,
+			EnchantedZwerchhau = 7528,
+			Riposte = 7504,
+			EnchantedRiposte = 7527,
+			Scatter = 7509,
+			Verstone = 7511,
+			Verfire = 7510,
+			Jolt = 7503,
+			Jolt2 = 7524,
+			Verholy = 7526,
+			Verflare = 7525,
+			Scorch = 16530;
 
-        public static class Buffs
-        {
-            public const short
-                Swiftcast = 167,
-                VerfireReady = 1234,
-                VerstoneReady = 1235,
-                Dualcast = 1249;
-        }
+		public static class Buffs {
+			public const short
+				Swiftcast = 167,
+				VerfireReady = 1234,
+				VerstoneReady = 1235,
+				Dualcast = 1249;
+		}
 
-        public static class Debuffs
-        {
-            // public const short placeholder = 0;
-        }
+		public static class Debuffs {
+			// public const short placeholder = 0;
+		}
 
-        public static class Levels
-        {
-            public const byte
-                Jolt = 2,
-                Verthunder = 4,
-                Veraero = 10,
-                Verraise = 64,
-                Zwerchhau = 35,
-                Redoublement = 50,
-                Vercure = 54,
-                Jolt2 = 62,
-                Impact = 66,
-                Verflare = 68,
-                Verholy = 70,
-                Scorch = 80;
-        }
-    }
+		public static class Levels {
+			public const byte
+				Jolt = 2,
+				Verthunder = 4,
+				Veraero = 10,
+				Verraise = 64,
+				Zwerchhau = 35,
+				Redoublement = 50,
+				Vercure = 54,
+				Jolt2 = 62,
+				Impact = 66,
+				Verflare = 68,
+				Verholy = 70,
+				Scorch = 80;
+		}
+	}
 
-    internal class RedMageAoECombo : CustomCombo
-    {
-        protected override CustomComboPreset Preset => CustomComboPreset.RedMageAoECombo;
+	internal class RedMageAoECombo: CustomCombo {
+		protected override CustomComboPreset Preset => CustomComboPreset.RedMageAoECombo;
 
-        protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level)
-        {
-            if (actionID == RDM.Veraero2)
-            {
-                if (HasEffect(RDM.Buffs.Swiftcast) || HasEffect(RDM.Buffs.Dualcast))
-                    return OriginalHook(RDM.Impact);
+		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+			if ((actionID == RDM.Veraero2 || actionID == RDM.Verthunder2) && (HasEffect(RDM.Buffs.Swiftcast) || HasEffect(RDM.Buffs.Dualcast)))
+				return OriginalHook(RDM.Impact);
 
-                return RDM.Veraero2;
-            }
+			return actionID;
+		}
+	}
 
-            if (actionID == RDM.Verthunder2)
-            {
-                if (HasEffect(RDM.Buffs.Swiftcast) || HasEffect(RDM.Buffs.Dualcast))
-                    return OriginalHook(RDM.Impact);
+	internal class RedMageMeleeCombo: CustomCombo {
+		protected override CustomComboPreset Preset => CustomComboPreset.RedMageMeleeCombo;
 
-                return RDM.Verthunder2;
-            }
+		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+			if (actionID == RDM.Redoublement) {
+				RDMGauge gauge = GetJobGauge<RDMGauge>();
 
-            return actionID;
-        }
-    }
+				if (IsEnabled(CustomComboPreset.RedMageMeleeComboPlus) && lastComboMove == RDM.EnchantedRedoublement) {
+					if (gauge.BlackGauge >= gauge.WhiteGauge && level >= RDM.Levels.Verholy) {
+						if (HasEffect(RDM.Buffs.VerstoneReady) && !HasEffect(RDM.Buffs.VerfireReady) && (gauge.BlackGauge - gauge.WhiteGauge <= 9))
+							return RDM.Verflare;
 
-    internal class RedMageMeleeCombo : CustomCombo
-    {
-        protected override CustomComboPreset Preset => CustomComboPreset.RedMageMeleeCombo;
+						return RDM.Verholy;
+					}
+					else if (level >= RDM.Levels.Verflare) {
+						if ((!HasEffect(RDM.Buffs.VerstoneReady) && HasEffect(RDM.Buffs.VerfireReady)) && level >= RDM.Levels.Verholy && (gauge.WhiteGauge - gauge.BlackGauge <= 9))
+							return RDM.Verholy;
 
-        protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level)
-        {
-            if (actionID == RDM.Redoublement)
-            {
-                var gauge = GetJobGauge<RDMGauge>();
+						return RDM.Verflare;
+					}
+				}
 
-                if (IsEnabled(CustomComboPreset.RedMageMeleeComboPlus))
-                {
-                    if (lastComboMove == RDM.EnchantedRedoublement)
-                    {
-                        if (gauge.BlackGauge >= gauge.WhiteGauge && level >= RDM.Levels.Verholy)
-                        {
-                            if (HasEffect(RDM.Buffs.VerstoneReady) && !HasEffect(RDM.Buffs.VerfireReady) && (gauge.BlackGauge - gauge.WhiteGauge <= 9))
-                                return RDM.Verflare;
+				if ((lastComboMove == RDM.Riposte || lastComboMove == RDM.EnchantedRiposte) && level >= RDM.Levels.Zwerchhau)
+					return OriginalHook(RDM.Zwerchhau);
 
-                            return RDM.Verholy;
-                        }
-                        else if (level >= RDM.Levels.Verflare)
-                        {
-                            if ((!HasEffect(RDM.Buffs.VerstoneReady) && HasEffect(RDM.Buffs.VerfireReady)) && level >= RDM.Levels.Verholy && (gauge.WhiteGauge - gauge.BlackGauge <= 9))
-                                return RDM.Verholy;
+				if (lastComboMove == RDM.Zwerchhau && level >= RDM.Levels.Redoublement)
+					return OriginalHook(RDM.Redoublement);
 
-                            return RDM.Verflare;
-                        }
-                    }
-                }
+				if (IsEnabled(CustomComboPreset.RedMageMeleeComboPlus)) {
+					if ((lastComboMove == RDM.Verflare || lastComboMove == RDM.Verholy) && level >= RDM.Levels.Scorch)
+						return RDM.Scorch;
+				}
 
-                if ((lastComboMove == RDM.Riposte || lastComboMove == RDM.EnchantedRiposte) && level >= RDM.Levels.Zwerchhau)
-                    return OriginalHook(RDM.Zwerchhau);
+				return OriginalHook(RDM.Riposte);
+			}
 
-                if (lastComboMove == RDM.Zwerchhau && level >= RDM.Levels.Redoublement)
-                    return OriginalHook(RDM.Redoublement);
+			return actionID;
+		}
+	}
 
-                if (IsEnabled(CustomComboPreset.RedMageMeleeComboPlus))
-                {
-                    if ((lastComboMove == RDM.Verflare || lastComboMove == RDM.Verholy) && level >= RDM.Levels.Scorch)
-                        return RDM.Scorch;
-                }
+	internal class RedMageVerprocCombo: CustomCombo {
+		protected override CustomComboPreset Preset => CustomComboPreset.RedMageVerprocCombo;
 
-                return OriginalHook(RDM.Riposte);
-            }
+		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+			if (actionID == RDM.Verstone) {
+				if (level >= RDM.Levels.Scorch && (lastComboMove == RDM.Verflare || lastComboMove == RDM.Verholy))
+					return RDM.Scorch;
 
-            return actionID;
-        }
-    }
+				if (lastComboMove == RDM.EnchantedRedoublement && level >= RDM.Levels.Verholy)
+					return RDM.Verholy;
 
-    internal class RedMageVerprocCombo : CustomCombo
-    {
-        protected override CustomComboPreset Preset => CustomComboPreset.RedMageVerprocCombo;
+				if (IsEnabled(CustomComboPreset.RedMageVerprocComboPlus)) {
+					if ((HasEffect(RDM.Buffs.Dualcast) || HasEffect(RDM.Buffs.Swiftcast)) && level >= RDM.Levels.Veraero)
+						return RDM.Veraero;
+				}
 
-        protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level)
-        {
-            if (actionID == RDM.Verstone)
-            {
-                if (level >= RDM.Levels.Scorch && (lastComboMove == RDM.Verflare || lastComboMove == RDM.Verholy))
-                    return RDM.Scorch;
+				if (IsEnabled(CustomComboPreset.RedMageVerprocOpenerFeature)) {
+					if (!HasEffect(RDM.Buffs.VerstoneReady) && !HasCondition(ConditionFlag.InCombat) && level >= RDM.Levels.Veraero)
+						return RDM.Veraero;
+				}
 
-                if (lastComboMove == RDM.EnchantedRedoublement && level >= RDM.Levels.Verholy)
-                    return RDM.Verholy;
+				if (HasEffect(RDM.Buffs.VerstoneReady))
+					return RDM.Verstone;
 
-                if (IsEnabled(CustomComboPreset.RedMageVerprocComboPlus))
-                {
-                    if ((HasEffect(RDM.Buffs.Dualcast) || HasEffect(RDM.Buffs.Swiftcast)) && level >= RDM.Levels.Veraero)
-                        return RDM.Veraero;
-                }
+				return OriginalHook(RDM.Jolt2);
+			}
 
-                if (IsEnabled(CustomComboPreset.RedMageVerprocOpenerFeature))
-                {
-                    if (!HasEffect(RDM.Buffs.VerstoneReady) && !HasCondition(ConditionFlag.InCombat) && level >= RDM.Levels.Veraero)
-                        return RDM.Veraero;
-                }
+			if (actionID == RDM.Verfire) {
+				if (level >= RDM.Levels.Scorch && (lastComboMove == RDM.Verflare || lastComboMove == RDM.Verholy))
+					return RDM.Scorch;
 
-                if (HasEffect(RDM.Buffs.VerstoneReady))
-                    return RDM.Verstone;
+				if (lastComboMove == RDM.EnchantedRedoublement && level >= RDM.Levels.Verflare)
+					return RDM.Verflare;
 
-                return OriginalHook(RDM.Jolt2);
-            }
+				if (IsEnabled(CustomComboPreset.RedMageVerprocComboPlus)) {
+					if (HasEffect(RDM.Buffs.Dualcast) || HasEffect(RDM.Buffs.Swiftcast) && level >= RDM.Levels.Verthunder)
+						return RDM.Verthunder;
+				}
 
-            if (actionID == RDM.Verfire)
-            {
-                if (level >= RDM.Levels.Scorch && (lastComboMove == RDM.Verflare || lastComboMove == RDM.Verholy))
-                    return RDM.Scorch;
+				if (IsEnabled(CustomComboPreset.RedMageVerprocOpenerFeature)) {
+					if (!HasEffect(RDM.Buffs.VerfireReady) && !HasCondition(ConditionFlag.InCombat) && level >= RDM.Levels.Verthunder)
+						return RDM.Verthunder;
+				}
 
-                if (lastComboMove == RDM.EnchantedRedoublement && level >= RDM.Levels.Verflare)
-                    return RDM.Verflare;
+				if (HasEffect(RDM.Buffs.VerfireReady))
+					return RDM.Verfire;
 
-                if (IsEnabled(CustomComboPreset.RedMageVerprocComboPlus))
-                {
-                    if (HasEffect(RDM.Buffs.Dualcast) || HasEffect(RDM.Buffs.Swiftcast) && level >= RDM.Levels.Verthunder)
-                        return RDM.Verthunder;
-                }
+				return OriginalHook(RDM.Jolt2);
+			}
 
-                if (IsEnabled(CustomComboPreset.RedMageVerprocOpenerFeature))
-                {
-                    if (!HasEffect(RDM.Buffs.VerfireReady) && !HasCondition(ConditionFlag.InCombat) && level >= RDM.Levels.Verthunder)
-                        return RDM.Verthunder;
-                }
-
-                if (HasEffect(RDM.Buffs.VerfireReady))
-                    return RDM.Verfire;
-
-                return OriginalHook(RDM.Jolt2);
-            }
-
-            return actionID;
-        }
-    }
+			return actionID;
+		}
+	}
 }
