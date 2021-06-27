@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 
 using Dalamud.Game.ClientState;
 using Dalamud.Game.ClientState.Actors.Types;
