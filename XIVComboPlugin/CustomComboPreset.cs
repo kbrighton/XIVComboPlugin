@@ -196,11 +196,8 @@ namespace XIVComboExpandedPlugin {
 		[CustomComboInfo("Kassatsu Chi/Jin Feature", "Replaces Chi with Jin while Kassatsu is up if you have Enhanced Kassatsu.", NIN.JobID, NIN.Chi)]
 		NinjaKassatsuChiJinFeature = 89,
 
-		[CustomComboInfo("Hide to Mug", "Replaces Hide with Mug while in combat.", NIN.JobID, NIN.Hide)]
+		[CustomComboInfo("Hide to Mug", "Replaces Hide with Trick Attack while under the effect of Suiton or Hidden, or else Mug if in combat.", NIN.JobID, NIN.Hide)]
 		NinjaHideMugFeature = 90,
-
-		[CustomComboInfo("Aeolian to Ninjutsu Feature", "Replaces Aeolian Edge (combo) with Ninjutsu if any Mudra are used.", NIN.JobID, NIN.AeolianEdge)]
-		NinjaNinjutsuFeature = 91,
 
 		[CustomComboInfo("GCDs to Ninjutsu Feature", "Every GCD combo becomes Ninjutsu while Mudras are being used.", NIN.JobID, NIN.AeolianEdge, NIN.ArmorCrush, NIN.HakkeMujinsatsu)]
 		NinjaGCDNinjutsuFeature = 92,
