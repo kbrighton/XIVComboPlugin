@@ -1,4 +1,4 @@
-namespace XIVComboExpandedPlugin.Combos {
+namespace XIVComboVeryExpandedPlugin.Combos {
 	internal static class MNK {
 		public const byte JobID = 20;
 

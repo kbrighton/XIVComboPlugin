@@ -2,9 +2,9 @@ using System;
 
 using Dalamud.Game.Text;
 
-using XIVComboExpandedPlugin.Combos;
+using XIVComboVeryExpandedPlugin.Combos;
 
-namespace XIVComboExpandedPlugin {
+namespace XIVComboVeryExpandedPlugin {
 	public enum CustomComboPreset {
 		// Last enum used: 94
 		// ====================================================================================

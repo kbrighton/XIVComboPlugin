@@ -1,6 +1,6 @@
 using Dalamud.Game.ClientState;
 
-namespace XIVComboExpandedPlugin.Combos {
+namespace XIVComboVeryExpandedPlugin.Combos {
 	internal static class NIN {
 		public const byte JobID = 30;
 

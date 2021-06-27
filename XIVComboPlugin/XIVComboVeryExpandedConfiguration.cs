@@ -6,11 +6,11 @@ using Dalamud.Plugin;
 
 using Newtonsoft.Json;
 
-using XIVComboExpandedPlugin.Combos;
+using XIVComboVeryExpandedPlugin.Combos;
 
-namespace XIVComboExpandedPlugin {
+namespace XIVComboVeryExpandedPlugin {
 	[Serializable]
-	public class XIVComboExpandedConfiguration: IPluginConfiguration {
+	public class XIVComboVeryExpandedConfiguration: IPluginConfiguration {
 		public int Version { get; set; } = 4;
 
 		[JsonProperty("EnabledActionsV4")]

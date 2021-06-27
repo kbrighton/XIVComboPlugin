@@ -5,14 +5,14 @@ using Dalamud.Game.ClientState.Actors.Types;
 
 using Structs = Dalamud.Game.ClientState.Structs;
 
-namespace XIVComboExpandedPlugin.Combos {
+namespace XIVComboVeryExpandedPlugin.Combos {
 	internal abstract class CustomCombo {
 		#region static 
 
 		private static IconReplacer IconReplacer;
-		protected static XIVComboExpandedConfiguration Configuration;
+		protected static XIVComboVeryExpandedConfiguration Configuration;
 
-		public static void Initialize(IconReplacer iconReplacer, XIVComboExpandedConfiguration configuration) {
+		public static void Initialize(IconReplacer iconReplacer, XIVComboVeryExpandedConfiguration configuration) {
 			IconReplacer = iconReplacer;
 			Configuration = configuration;
 		}

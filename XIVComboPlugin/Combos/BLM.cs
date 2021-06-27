@@ -1,6 +1,6 @@
 using Dalamud.Game.ClientState.Structs.JobGauge;
 
-namespace XIVComboExpandedPlugin.Combos {
+namespace XIVComboVeryExpandedPlugin.Combos {
 	internal static class BLM {
 		public const byte JobID = 25;
 

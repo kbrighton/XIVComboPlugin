@@ -9,12 +9,12 @@ using Dalamud.Plugin;
 
 using ImGuiNET;
 
-namespace XIVComboExpandedPlugin {
-	public sealed class XIVComboExpandedPlugin: IDalamudPlugin {
-		public string Name => "XIV Combo Expanded Plugin";
+namespace XIVComboVeryExpandedPlugin {
+	public sealed class XIVComboVeryExpandedPlugin: IDalamudPlugin {
+		public string Name => "XIV Combo Very Expanded Plugin";
 
 		private readonly string Command = "/pcombo";
-		internal XIVComboExpandedConfiguration Configuration;
+		internal XIVComboVeryExpandedConfiguration Configuration;
 		internal const int CURRENT_CONFIG_VERSION = 4;
 
 		internal DalamudPluginInterface Interface;
@@ -30,7 +30,7 @@ namespace XIVComboExpandedPlugin {
 				ShowInHelp = true
 			});
 
-			this.Configuration = pluginInterface.GetPluginConfig() as XIVComboExpandedConfiguration ?? new XIVComboExpandedConfiguration();
+			this.Configuration = pluginInterface.GetPluginConfig() as XIVComboVeryExpandedConfiguration ?? new XIVComboVeryExpandedConfiguration();
 			if (this.Configuration.Version < CURRENT_CONFIG_VERSION) {
 				this.Configuration.Upgrade();
 				this.SaveConfiguration();

@@ -10,15 +10,15 @@ using Dalamud.Game.Text;
 using Dalamud.Hooking;
 using Dalamud.Plugin;
 
-using XIVComboExpandedPlugin.Combos;
+using XIVComboVeryExpandedPlugin.Combos;
 
 using Structs = Dalamud.Game.ClientState.Structs;
 
-namespace XIVComboExpandedPlugin {
+namespace XIVComboVeryExpandedPlugin {
 	internal class IconReplacer {
 		private readonly DalamudPluginInterface Interface;
 		private readonly PluginAddressResolver Address;
-		private readonly XIVComboExpandedConfiguration Configuration;
+		private readonly XIVComboVeryExpandedConfiguration Configuration;
 
 		private delegate ulong IsIconReplaceableDelegate(uint actionID);
 		private delegate uint GetIconDelegate(IntPtr actionManager, uint actionID);
@@ -33,7 +33,7 @@ namespace XIVComboExpandedPlugin {
 		private readonly HashSet<uint> CustomIds = new();
 		private List<CustomCombo> CustomCombos;
 
-		public IconReplacer(DalamudPluginInterface pluginInterface, XIVComboExpandedConfiguration configuration) {
+		public IconReplacer(DalamudPluginInterface pluginInterface, XIVComboVeryExpandedConfiguration configuration) {
 			this.Interface = pluginInterface;
 			this.Configuration = configuration;
 
@@ -69,7 +69,7 @@ namespace XIVComboExpandedPlugin {
 		}
 
 		/// <summary>
-		/// Maps to <see cref="XIVComboExpandedConfiguration.EnabledActions"/>, these actions can potentially update their icon per the user configuration.
+		/// Maps to <see cref="XIVComboVeryExpandedConfiguration.EnabledActions"/>, these actions can potentially update their icon per the user configuration.
 		/// </summary>
 		public void UpdateEnabledActionIDs() {
 			HashSet<uint> actionIDs = Enum
