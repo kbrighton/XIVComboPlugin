@@ -80,8 +80,24 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 			return IconReplacer.FindEffect(effectId);
 		}
 
+		protected static float EffectDuration(short effectId) {
+			return IconReplacer.EffectDuration(effectId);
+		}
+
+		protected static float EffectStacks(short effectId) {
+			return IconReplacer.EffectStacks(effectId);
+		}
+
 		protected static Structs.StatusEffect? FindTargetEffect(short effectId) {
 			return IconReplacer.FindTargetEffect(effectId);
+		}
+
+		protected static float TargetEffectDuration(short effectId) {
+			return IconReplacer.TargetEffectDuration(effectId);
+		}
+
+		protected static float TargetEffectStacks(short effectId) {
+			return IconReplacer.TargetEffectStacks(effectId);
 		}
 
 		protected static CooldownData GetCooldown(uint actionID) {

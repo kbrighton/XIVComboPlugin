@@ -158,6 +158,34 @@ namespace XIVComboVeryExpandedPlugin {
 			return FindEffect(effectId, this.LocalPlayer, null);
 		}
 
+		internal float EffectDuration(short effectId) {
+			Structs.StatusEffect? eff = this.FindEffect(effectId);
+			if (eff.HasValue)
+				return (byte)eff?.Duration;
+			return 0;
+		}
+
+		internal float EffectStacks(short effectId) {
+			Structs.StatusEffect? eff = this.FindEffect(effectId);
+			if (eff.HasValue)
+				return (byte)eff?.StackCount;
+			return 0;
+		}
+
+		internal float TargetEffectDuration(short effectId) {
+			Structs.StatusEffect? eff = this.FindTargetEffect(effectId);
+			if (eff.HasValue)
+				return (byte)eff?.Duration;
+			return 0;
+		}
+
+		internal float TargetEffectStacks(short effectId) {
+			Structs.StatusEffect? eff = this.FindTargetEffect(effectId);
+			if (eff.HasValue)
+				return (byte)eff?.StackCount;
+			return 0;
+		}
+
 		internal Structs.StatusEffect? FindTargetEffect(short effectId) {
 			return FindEffect(effectId, this.CurrentTarget, this.LocalPlayer?.ActorId);
 		}
