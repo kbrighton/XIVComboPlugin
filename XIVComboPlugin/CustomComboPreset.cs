@@ -239,7 +239,7 @@ namespace XIVComboVeryExpandedPlugin {
 		RedMageMeleeCombo = 49,
 
 		[SecretCustomCombo]
-		[CustomComboInfo("Redoublement Combo Plus", "Replaces Redoublement with Verflare/Verholy after Enchanted Redoublement, whichever is more appropriate.\nRequires Redoublement Combo.", RDM.JobID, RDM.Redoublement)]
+		[CustomComboInfo("Redoublement Combo Plus", "Replaces Redoublement with Verflare/Verholy after Enchanted Redoublement, whichever is more appropriate.\nAlso replaces Redoublement with Scorch after Verflare/Verholy.\nRequires Redoublement Combo.", RDM.JobID, RDM.Redoublement)]
 		RedMageMeleeComboPlus = 68,
 
 		[CustomComboInfo("Verproc into Jolt", "Replaces Verstone/Verfire with Jolt/Scorch when no proc is available.", RDM.JobID, RDM.Verstone, RDM.Verfire)]
