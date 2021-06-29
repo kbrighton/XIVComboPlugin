@@ -58,10 +58,45 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 			if (actionID == BLM.Enochian) {
 				BLMGauge gauge = GetJobGauge<BLMGauge>();
 				if (gauge.IsEnoActive()) {
-					if (gauge.InUmbralIce() && level >= BLM.Levels.Blizzard4)
+					if (gauge.InUmbralIce() && level >= BLM.Levels.Blizzard4) {
+						if (Configuration.IsEnabled(CustomComboPreset.BlackThunderFeature)
+							&& gauge.ElementTimeRemaining >= 5000
+							&& HasEffect(BLM.Buffs.Thundercloud)
+							&& ((EffectDuration(BLM.Buffs.Thundercloud) < 4 && EffectDuration(BLM.Buffs.Thundercloud) > 0)
+								|| (TargetHasEffect(BLM.Debuffs.Thunder3) && TargetEffectDuration(BLM.Debuffs.Thunder3) < 4))) {
+							return BLM.Thunder3;
+						}
+
 						return BLM.Blizzard4;
-					if (level >= BLM.Levels.Fire4)
+					}
+					if (level >= BLM.Levels.Fire4) { // fire4 is unlocked AFTER blizzard4
+						if (Configuration.IsEnabled(CustomComboPreset.BlackThunderFeature)
+							&& gauge.ElementTimeRemaining >= 6000
+							&& HasEffect(BLM.Buffs.Thundercloud)
+							&& ((EffectDuration(BLM.Buffs.Thundercloud) < 4 && EffectDuration(BLM.Buffs.Thundercloud) > 0)
+								|| (TargetHasEffect(BLM.Debuffs.Thunder3) && TargetEffectDuration(BLM.Debuffs.Thunder3) < 4))) {
+							return BLM.Thunder3;
+						}
+
+						if (Configuration.IsEnabled(CustomComboPreset.BlackFire3Feature) && gauge.ElementTimeRemaining < 3000 && HasEffect(BLM.Buffs.Firestarter))
+							return BLM.Fire3;
+
+						if (Configuration.IsEnabled(CustomComboPreset.BlackDespairFeature) && LocalPlayer.CurrentMp < 2400 && level >= BLM.Levels.Despair) {
+							return BLM.Despair;
+						}
+						if (Configuration.IsEnabled(CustomComboPreset.BlackFire3Feature) && gauge.ElementTimeRemaining < 6000 && !HasEffect(BLM.Buffs.Firestarter))
+							return BLM.Fire;
 						return BLM.Fire4;
+					}
+				}
+
+				if (Configuration.IsEnabled(CustomComboPreset.BlackThunderFeature)
+					&& gauge.ElementTimeRemaining >= 5000
+					&& level < BLM.Levels.Thunder3
+					&& HasEffect(BLM.Buffs.Thundercloud)
+					&& ((EffectDuration(BLM.Buffs.Thundercloud) < 4 && EffectDuration(BLM.Buffs.Thundercloud) > 0)
+							|| (TargetHasEffect(BLM.Debuffs.Thunder) && TargetEffectDuration(BLM.Debuffs.Thunder) < 4))) {
+					return BLM.Thunder;
 				}
 
 				if (level < BLM.Levels.Fire3)
@@ -125,13 +160,13 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 	}
 
 	internal class BlackFireFeature: CustomCombo {
-		protected override CustomComboPreset Preset => CustomComboPreset.BlackFireFeature;
-
+		protected override CustomComboPreset Preset => CustomComboPreset.BlackFire13Feature;
+		
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			if (actionID == BLM.Fire) {
 				BLMGauge gauge = GetJobGauge<BLMGauge>();
 				if (level >= BLM.Levels.Fire3 && (!gauge.InAstralFire() || HasEffect(BLM.Buffs.Firestarter)))
-					return BLM.Fire3;
+					return OriginalHook(BLM.Fire3);
 			}
 
 			return actionID;

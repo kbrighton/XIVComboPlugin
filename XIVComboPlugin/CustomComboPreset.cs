@@ -6,7 +6,7 @@ using XIVComboVeryExpandedPlugin.Combos;
 
 namespace XIVComboVeryExpandedPlugin {
 	public enum CustomComboPreset {
-		// Last enum used: 94
+		// Last enum used: 97
 		// ====================================================================================
 		#region ASTROLOGIAN
 
@@ -32,11 +32,20 @@ namespace XIVComboVeryExpandedPlugin {
 		[CustomComboInfo("(Between the) Ley Lines", "Change Ley Lines into BTL when Ley Lines is active", BLM.JobID, BLM.LeyLines)]
 		BlackLeyLinesFeature = 56,
 
-		[CustomComboInfo("Fire 1/3 Feature", "Fire 1 becomes Fire 3 outside of Astral Fire, and when Firestarter proc is up.", BLM.JobID, BLM.Fire)]
-		BlackFireFeature = 70,
+		[CustomComboInfo("Fire 1/3", "Fire 1 becomes Fire 3 outside of Astral Fire, OR when Firestarter proc is up.", BLM.JobID, BLM.Fire)]
+		BlackFire13Feature = 70,
 
-		[CustomComboInfo("Blizzard 1/2/3 Feature", "Blizzard 1 becomes Blizzard 3 when out of Umbral Ice. Freeze becomes Blizzard 2 when synced.", BLM.JobID, BLM.Blizzard, BLM.Freeze)]
+		[CustomComboInfo("Blizzard 1/2/3", "Blizzard 1 becomes Blizzard 3 when out of Umbral Ice. Freeze becomes Blizzard 2 when synced.", BLM.JobID, BLM.Blizzard, BLM.Freeze)]
 		BlackBlizzardFeature = 71,
+
+		[CustomComboInfo("Thunder", "Thunder 1/3 replaces Enochian/Fire 4/Blizzard 4 on Enochian switcher when Thundercloud is up and either\n- Thundercloud buff on you is about to run out, or\n- Thunder debuff on your CURRENT target is about to run out\nassuming it won't interrupt timer upkeep.\nEnochian Stance Switcher must be active.", BLM.JobID, BLM.Enochian)]
+		BlackThunderFeature = 95,
+
+		[CustomComboInfo("Despair", "Despair replaces Fire 4 on Enochian switcher when below 2400 MP.\nEnochian Stance Switcher must be active.", BLM.JobID, BLM.Enochian)]
+		BlackDespairFeature = 96,
+
+		[CustomComboInfo("Fire 3 to Fire 1 Feature", "Fire 1 (and 3 if procced) will replace Fire 4 on Enochian Switcher if:\n- less than 3 seconds left and firestarter up (for F3), or\n- less than 6 seconds left and NO firestarter (for F1)\nEnochian Stance Switcher must be active.", BLM.JobID, BLM.Enochian)]
+		BlackFire3Feature = 97,
 
 		#endregion
 		// ====================================================================================
