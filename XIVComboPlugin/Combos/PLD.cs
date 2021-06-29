@@ -93,7 +93,7 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 				}
 
 				if (IsEnabled(CustomComboPreset.PaladinAtonementFeature)) {
-					if (HasEffect(PLD.Buffs.SwordOath))
+					if (HasEffect(PLD.Buffs.SwordOath) && level >= PLD.Levels.Atonement)
 						return PLD.Atonement;
 				}
 
@@ -134,19 +134,8 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 		protected override CustomComboPreset Preset => CustomComboPreset.PaladinConfiteorFeature;
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID == PLD.HolySpirit) {
-				if (HasEffect(PLD.Buffs.Requiescat) && level >= PLD.Levels.Confiteor && LocalPlayer.CurrentMp < 4000)
-					return PLD.Confiteor;
-
-				return PLD.HolySpirit;
-			}
-
-			if (actionID == PLD.HolyCircle) {
-				if (HasEffect(PLD.Buffs.Requiescat) && level >= PLD.Levels.Confiteor && LocalPlayer.CurrentMp < 4000)
-					return PLD.Confiteor;
-
-				return PLD.HolyCircle;
-			}
+			if ((actionID == PLD.HolySpirit || actionID == PLD.HolyCircle) && HasEffect(PLD.Buffs.Requiescat) && level >= PLD.Levels.Confiteor && LocalPlayer.CurrentMp < 4000)
+				return PLD.Confiteor;
 
 			return actionID;
 		}
@@ -156,12 +145,8 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 		protected override CustomComboPreset Preset => CustomComboPreset.PaladinRequiescatCombo;
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID == PLD.Requiescat) {
-				if (HasEffect(PLD.Buffs.Requiescat) && level >= PLD.Levels.Confiteor)
-					return PLD.Confiteor;
-
-				return PLD.Requiescat;
-			}
+			if (actionID == PLD.Requiescat && HasEffect(PLD.Buffs.Requiescat) && level >= PLD.Levels.Confiteor)
+				return PLD.Confiteor;
 
 			return actionID;
 		}
