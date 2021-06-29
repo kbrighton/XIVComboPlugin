@@ -71,9 +71,9 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			if (actionID == RDM.Redoublement) {
-				RDMGauge gauge = GetJobGauge<RDMGauge>();
 
 				if (IsEnabled(CustomComboPreset.RedMageMeleeComboPlus) && lastComboMove == RDM.EnchantedRedoublement) {
+					RDMGauge gauge = GetJobGauge<RDMGauge>();
 					if (gauge.BlackGauge >= gauge.WhiteGauge && level >= RDM.Levels.Verholy) {
 						if (HasEffect(RDM.Buffs.VerstoneReady) && !HasEffect(RDM.Buffs.VerfireReady) && (gauge.BlackGauge - gauge.WhiteGauge <= 9))
 							return RDM.Verflare;
@@ -91,7 +91,7 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 				if ((lastComboMove == RDM.Riposte || lastComboMove == RDM.EnchantedRiposte) && level >= RDM.Levels.Zwerchhau)
 					return OriginalHook(RDM.Zwerchhau);
 
-				if (lastComboMove == RDM.Zwerchhau && level >= RDM.Levels.Redoublement)
+				if ((lastComboMove == RDM.Zwerchhau || lastComboMove == RDM.EnchantedZwerchhau) && level >= RDM.Levels.Redoublement)
 					return OriginalHook(RDM.Redoublement);
 
 				if (IsEnabled(CustomComboPreset.RedMageMeleeComboPlus)) {
