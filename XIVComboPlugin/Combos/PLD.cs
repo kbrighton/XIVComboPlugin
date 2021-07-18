@@ -73,7 +73,7 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 		protected override CustomComboPreset Preset => CustomComboPreset.PaladinRoyalAuthorityCombo;
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID == PLD.RoyalAuthority || actionID == PLD.RageOfHalone) {
+			if (actionID is PLD.RoyalAuthority or PLD.RageOfHalone) {
 				if (IsEnabled(CustomComboPreset.PaladinRequiescatFeature)) {
 					//Replace with Holy Spirit when Requiescat is up
 					if (HasEffect(PLD.Buffs.Requiescat)) {
