@@ -22,6 +22,12 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 		protected abstract CustomComboPreset Preset { get; }
 
 		protected byte JobID { get; set; }
+		public byte ClassID => this.JobID switch {
+			>= 19 and <= 25 => (byte)(this.JobID - 18),
+			27 or 28 => 26,
+			30 => 29,
+			_ => this.JobID,
+		};
 
 		protected virtual uint[] ActionIDs { get; set; }
 
@@ -37,7 +43,7 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 			if (!IsEnabled(this.Preset))
 				return false;
 
-			if (this.JobID != LocalPlayer.ClassJob.Id || !this.ActionIDs.Contains(actionID))
+			if ((this.JobID != LocalPlayer.ClassJob.Id && this.ClassID != LocalPlayer.ClassJob.Id) || !this.ActionIDs.Contains(actionID))
 				return false;
 
 			uint resultingActionID = this.Invoke(actionID, lastComboMove, comboTime, level);
