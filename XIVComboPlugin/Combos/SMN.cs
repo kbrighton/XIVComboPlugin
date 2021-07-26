@@ -87,7 +87,7 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 		protected override CustomComboPreset Preset => CustomComboPreset.SummonerBoPCombo;
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID == SMN.Ruin1 || actionID == SMN.Ruin3) {
+			if (actionID is SMN.Ruin1 or SMN.Ruin3) {
 				SMNGauge gauge = GetJobGauge<SMNGauge>();
 				if (gauge.TimerRemaining > 0) {
 					if (gauge.IsPhoenixReady()) {

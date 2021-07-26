@@ -162,7 +162,7 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 
 	internal class BlackFireFeature: CustomCombo {
 		protected override CustomComboPreset Preset => CustomComboPreset.BlackFire13Feature;
-		
+
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			if (actionID == BLM.Fire) {
 				BLMGauge gauge = GetJobGauge<BLMGauge>();

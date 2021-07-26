@@ -68,7 +68,7 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			if (actionID == AST.Benefic2) {
-				if (level < (AST.Levels.Benefic2))
+				if (level < AST.Levels.Benefic2)
 					return AST.Benefic;
 			}
 

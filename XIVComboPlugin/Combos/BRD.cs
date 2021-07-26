@@ -60,7 +60,7 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 		protected override CustomComboPreset Preset => CustomComboPreset.BardStraightShotUpgradeFeature;
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID == BRD.HeavyShot || actionID == BRD.BurstShot) {
+			if (actionID is BRD.HeavyShot or BRD.BurstShot) {
 				BRDGauge gauge = GetJobGauge<BRDGauge>();
 				if (gauge.SoulVoiceValue == 100 && IsEnabled(CustomComboPreset.BardApexFeature))
 					return BRD.ApexArrow;

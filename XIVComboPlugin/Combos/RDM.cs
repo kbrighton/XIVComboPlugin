@@ -82,7 +82,7 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 						return RDM.Verholy;
 					}
 					else if (level >= RDM.Levels.Verflare) {
-						if ((!HasEffect(RDM.Buffs.VerstoneReady) && HasEffect(RDM.Buffs.VerfireReady)) && level >= RDM.Levels.Verholy && (gauge.WhiteGauge - gauge.BlackGauge <= 9))
+						if (!HasEffect(RDM.Buffs.VerstoneReady) && HasEffect(RDM.Buffs.VerfireReady) && level >= RDM.Levels.Verholy && (gauge.WhiteGauge - gauge.BlackGauge <= 9))
 							return RDM.Verholy;
 
 						return RDM.Verflare;
