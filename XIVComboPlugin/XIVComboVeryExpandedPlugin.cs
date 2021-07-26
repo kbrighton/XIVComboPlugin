@@ -72,17 +72,11 @@ namespace XIVComboVeryExpandedPlugin {
 
 			ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(0, 5));
 
-			bool showSecrets = this.Configuration.EnableSecretCombos;
-
 			int i = 1;
 			foreach (string jobName in this.GroupedPresets.Keys) {
 				if (ImGui.CollapsingHeader(jobName)) {
 					foreach ((CustomComboPreset preset, CustomComboInfoAttribute info) in this.GroupedPresets[jobName]) {
 						bool enabled = this.Configuration.IsEnabled(preset);
-						bool secret = this.Configuration.IsSecret(preset);
-
-						if (secret && !showSecrets)
-							continue;
 
 						ImGui.PushItemWidth(200);
 
@@ -166,12 +160,7 @@ namespace XIVComboVeryExpandedPlugin {
 				}
 				break;
 				case "secrets":
-					this.Configuration.EnableSecretCombos = !this.Configuration.EnableSecretCombos;
-					if (this.Configuration.EnableSecretCombos)
-						this.Interface.Framework.Gui.Chat.Print($"Secret combos are now shown");
-					else
-						this.Interface.Framework.Gui.Chat.Print($"Secret combos are now hidden");
-					this.SaveConfiguration();
+					this.Interface.Framework.Gui.Chat.Print("Secret combos have been removed in VX; all combos are always available.");
 					break;
 				case "toggle": {
 					string targetPreset = argumentsParts[1].ToLower();

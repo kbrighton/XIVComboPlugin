@@ -16,9 +16,6 @@ namespace XIVComboVeryExpandedPlugin {
 		[JsonProperty("EnabledActionsV4")]
 		public HashSet<CustomComboPreset> EnabledActions = new();
 
-		[JsonProperty("Debug")]
-		public bool EnableSecretCombos = false;
-
 		public uint[] DancerDanceCompatActionIDs = new uint[]
 		{
 			DNC.Cascade,
@@ -28,13 +25,7 @@ namespace XIVComboVeryExpandedPlugin {
 		};
 
 		public bool IsEnabled(CustomComboPreset preset) {
-			return this.EnabledActions.Contains(preset) && (this.EnableSecretCombos || !this.IsSecret(preset));
-		}
-
-		//public bool IsSecret(CustomComboPreset preset) => preset.GetAttribute<SecretCustomComboAttribute>() != default;
-
-		public bool IsSecret(CustomComboPreset preset) {
-			return false;
+			return this.EnabledActions.Contains(preset);
 		}
 
 		#region Obsolete
