@@ -142,7 +142,7 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 					return RDM.Verflare;
 
 				if (IsEnabled(CustomComboPreset.RedMageVerprocComboPlus)) {
-					if (HasEffect(RDM.Buffs.Dualcast) || HasEffect(RDM.Buffs.Swiftcast) && level >= RDM.Levels.Verthunder)
+					if ((HasEffect(RDM.Buffs.Dualcast) || HasEffect(RDM.Buffs.Swiftcast)) && level >= RDM.Levels.Verthunder)
 						return RDM.Verthunder;
 				}
 
