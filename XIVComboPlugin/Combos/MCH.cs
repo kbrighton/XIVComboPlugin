@@ -1,6 +1,7 @@
 using Dalamud.Game.ClientState.Structs.JobGauge;
 
 namespace XIVComboVeryExpandedPlugin.Combos {
+	[System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Leftover from original fork")]
 	internal static class MCH {
 		public const byte JobID = 31;
 
@@ -52,7 +53,7 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 		protected override CustomComboPreset Preset => CustomComboPreset.MachinistMainCombo;
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID == MCH.CleanShot || actionID == MCH.HeatedCleanShot) {
+			if (actionID is MCH.CleanShot or MCH.HeatedCleanShot) {
 				if (comboTime > 0) {
 					if (lastComboMove == MCH.SplitShot && level >= MCH.Levels.SlugShot)
 						return OriginalHook(MCH.SlugShot);
@@ -72,7 +73,7 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 		protected override CustomComboPreset Preset => CustomComboPreset.MachinistGaussRoundRicochetFeature;
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID == MCH.GaussRound || actionID == MCH.Ricochet) {
+			if (actionID is MCH.GaussRound or MCH.Ricochet) {
 				if (level < MCH.Levels.Ricochet)
 					return MCH.GaussRound;
 
@@ -97,7 +98,7 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 		protected override CustomComboPreset Preset => CustomComboPreset.MachinistOverheatFeature;
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID == MCH.HeatBlast || actionID == MCH.AutoCrossbow) {
+			if (actionID is MCH.HeatBlast or MCH.AutoCrossbow) {
 				MCHGauge gauge = GetJobGauge<MCHGauge>();
 				if (!gauge.IsOverheated() && level >= MCH.Levels.Hypercharge)
 					return MCH.Hypercharge;
@@ -128,7 +129,7 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 		protected override CustomComboPreset Preset => CustomComboPreset.MachinistOverdriveFeature;
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID == MCH.RookAutoturret || actionID == MCH.AutomatonQueen) {
+			if (actionID is MCH.RookAutoturret or MCH.AutomatonQueen) {
 				MCHGauge gauge = GetJobGauge<MCHGauge>();
 				if (gauge.IsRobotActive())
 					return OriginalHook(MCH.QueenOverdrive);

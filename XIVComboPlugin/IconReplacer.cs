@@ -15,6 +15,8 @@ using XIVComboVeryExpandedPlugin.Combos;
 using Structs = Dalamud.Game.ClientState.Structs;
 
 namespace XIVComboVeryExpandedPlugin {
+	// why would you make me do this
+	[System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Leftover from original fork")]
 	internal class IconReplacer {
 		private readonly DalamudPluginInterface Interface;
 		private readonly PluginAddressResolver Address;

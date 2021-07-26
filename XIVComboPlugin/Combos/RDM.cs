@@ -2,6 +2,7 @@ using Dalamud.Game.ClientState;
 using Dalamud.Game.ClientState.Structs.JobGauge;
 
 namespace XIVComboVeryExpandedPlugin.Combos {
+	[System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Leftover from original fork")]
 	internal static class RDM {
 		public const byte JobID = 35;
 
