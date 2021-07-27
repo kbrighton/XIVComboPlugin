@@ -6,6 +6,7 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 		public const byte JobID = 33;
 
 		public const uint
+			Ascend = 3603,
 			Benefic = 3594,
 			Benefic2 = 3610,
 			Draw = 3590,
@@ -32,6 +33,17 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 				Benefic2 = 26,
 				MinorArcana = 50,
 				SleeveDraw = 70;
+		}
+	}
+
+	internal class AstrologianSwiftcastRaiserFeature: CustomCombo {
+		protected override CustomComboPreset Preset => CustomComboPreset.AstrologianSwiftcastRaiserFeature;
+
+		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+			if (actionID == AST.Ascend && GetCooldown(CommonSkills.Swiftcast).CooldownRemaining == 0)
+				return CommonSkills.Swiftcast;
+
+			return actionID;
 		}
 	}
 

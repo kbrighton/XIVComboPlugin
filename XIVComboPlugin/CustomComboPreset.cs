@@ -6,7 +6,7 @@ using XIVComboVeryExpandedPlugin.Combos;
 
 namespace XIVComboVeryExpandedPlugin {
 	public enum CustomComboPreset {
-		// Last enum used: 97
+		// Last enum used: 102
 		// ====================================================================================
 		#region ASTROLOGIAN
 
@@ -18,6 +18,9 @@ namespace XIVComboVeryExpandedPlugin {
 
 		[CustomComboInfo("Benefic 2 to Benefic Level Sync", "Changes Benefic 2 to Benefic when below level 26.", AST.JobID, AST.Benefic2)]
 		AstrologianBeneficFeature = 73,
+
+		[CustomComboInfo("Swiftcast Ascend", "Ascend turns into Swiftcast when it's off cooldown.", AST.JobID, AST.Ascend)]
+		AstrologianSwiftcastRaiserFeature = 98,
 
 		#endregion
 		// ====================================================================================
@@ -254,6 +257,9 @@ namespace XIVComboVeryExpandedPlugin {
 		[CustomComboInfo("Verproc into Jolt Plus Opener Feature", "Turns Verfire into Verthunder when out of combat.\nRequires Verproc into Jolt Plus.", RDM.JobID, RDM.Verfire)]
 		RedMageVerprocOpenerFeature = 94,
 
+		[CustomComboInfo("Swiftcast Verraise", "Verraise turns into Swiftcast when it's off cooldown and Dualcast isn't up.", RDM.JobID, RDM.Verraise)]
+		RedMageSwiftcastRaiserFeature = 99,
+
 		#endregion
 		// ====================================================================================
 		#region SAMURAI
@@ -301,6 +307,9 @@ namespace XIVComboVeryExpandedPlugin {
 		[CustomComboInfo("ED Aetherflow", "Change Energy Drain into Aetherflow when you have no more Aetherflow stacks.", SCH.JobID, SCH.EnergyDrain)]
 		ScholarEnergyDrainFeature = 37,
 
+		[CustomComboInfo("Swiftcast Resurrection", "Resurrection turns into Swiftcast when it's off cooldown.", SCH.JobID, SCH.Resurrection)]
+		ScholarSwiftcastRaiserFeature = 100,
+
 		#endregion
 		// ====================================================================================
 		#region SUMMONER
@@ -319,6 +328,9 @@ namespace XIVComboVeryExpandedPlugin {
 
 		[CustomComboInfo("Demi-Summon Combiners Ultra", "Dreadwyrm Trance, Summon Bahamut, Firebird Trance, Deathflare, Enkindle Bahamut, and Enkindle Phoenix are now one button.\nRequires Demi-Summon Combiners feature.", SMN.JobID, SMN.DreadwyrmTrance)]
 		SummonerDemiComboUltra = 80,
+
+		[CustomComboInfo("Swiftcast Resurrection", "Resurrection turns into Swiftcast when it's off cooldown.", SMN.JobID, SMN.Resurrection)]
+		SummonerSwiftcastRaiserFeature = 101,
 
 		#endregion
 		// ====================================================================================
@@ -357,6 +369,9 @@ namespace XIVComboVeryExpandedPlugin {
 
 		[CustomComboInfo("Afflatus Feature", "Changes Cure 2 into Afflatus Solace, and Medica into Afflatus Rapture, when lilies are up.", WHM.JobID, WHM.Cure2, WHM.Medica)]
 		WhiteMageAfflatusFeature = 77,
+
+		[CustomComboInfo("Swiftcast Raise", "Raise turns into Swiftcast when it's off cooldown.", WHM.JobID, WHM.Raise)]
+		WhiteMageSwiftcastRaiserFeature = 102,
 
 		#endregion
 		// ====================================================================================

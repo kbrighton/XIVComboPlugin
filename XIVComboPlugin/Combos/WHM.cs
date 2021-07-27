@@ -6,6 +6,7 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 		public const byte JobID = 24;
 
 		public const uint
+			Raise = 125,
 			Cure = 120,
 			Medica = 124,
 			Cure2 = 135,
@@ -26,6 +27,17 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 				Cure2 = 30,
 				AfflatusSolace = 52,
 				AfflatusRapture = 76;
+		}
+	}
+
+	internal class WhiteMageSwiftcastRaiserFeature: CustomCombo {
+		protected override CustomComboPreset Preset => CustomComboPreset.WhiteMageSwiftcastRaiserFeature;
+
+		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+			if (actionID == WHM.Raise && GetCooldown(CommonSkills.Swiftcast).CooldownRemaining == 0)
+				return CommonSkills.Swiftcast;
+
+			return actionID;
 		}
 	}
 

@@ -6,6 +6,7 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 		public const byte JobID = 27;
 
 		public const uint
+			Resurrection = 173,
 			Deathflare = 3582,
 			EnkindlePhoenix = 16516,
 			EnkindleBahamut = 7429,
@@ -36,6 +37,17 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 				Painflare = 52,
 				Ruin3 = 54,
 				EnhancedFirebirdTrance = 80;
+		}
+	}
+
+	internal class SummonerSwiftcastRaiserFeature: CustomCombo {
+		protected override CustomComboPreset Preset => CustomComboPreset.SummonerSwiftcastRaiserFeature;
+
+		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+			if (actionID == SMN.Resurrection && GetCooldown(CommonSkills.Swiftcast).CooldownRemaining == 0)
+				return CommonSkills.Swiftcast;
+
+			return actionID;
 		}
 	}
 

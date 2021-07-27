@@ -6,6 +6,7 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 		public const byte JobID = 28;
 
 		public const uint
+			Resurrection = 173,
 			FeyBless = 16543,
 			Consolation = 16546,
 			EnergyDrain = 167,
@@ -21,6 +22,17 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 
 		public static class Levels {
 			// public const byte placeholder = 0;
+		}
+	}
+
+	internal class ScholarSwiftcastRaiserFeature: CustomCombo {
+		protected override CustomComboPreset Preset => CustomComboPreset.ScholarSwiftcastRaiserFeature;
+
+		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+			if (actionID == SCH.Resurrection && GetCooldown(CommonSkills.Swiftcast).CooldownRemaining == 0)
+				return CommonSkills.Swiftcast;
+
+			return actionID;
 		}
 	}
 

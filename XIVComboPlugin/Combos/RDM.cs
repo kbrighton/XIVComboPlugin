@@ -7,6 +7,7 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 		public const byte JobID = 35;
 
 		public const uint
+			Verraise = 7523,
 			Verthunder = 7505,
 			Veraero = 7507,
 			Veraero2 = 16525,
@@ -53,6 +54,17 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 				Verflare = 68,
 				Verholy = 70,
 				Scorch = 80;
+		}
+	}
+
+	internal class RedMageSwiftcastRaiserFeature: CustomCombo {
+		protected override CustomComboPreset Preset => CustomComboPreset.RedMageSwiftcastRaiserFeature;
+
+		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+			if (actionID == RDM.Verraise && GetCooldown(CommonSkills.Swiftcast).CooldownRemaining == 0 && !HasEffect(RDM.Buffs.Dualcast))
+				return CommonSkills.Swiftcast;
+
+			return actionID;
 		}
 	}
 
