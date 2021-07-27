@@ -3,6 +3,7 @@
 | AST | Benefic 2 to Benefic Level Sync | Changes Benefic 2 to Benefic when below level 26. |
 | AST | Draw on Play | Play turns into Draw when no card is drawn, as well as the usual Play behavior. |
 | AST | Minor Arcana to Sleeve Draw | Changes Minor Arcana to Sleeve Draw when a card is not drawn. |
+| AST | Swiftcast Ascend | Ascend turns into Swiftcast when it's off cooldown. |
 | BLM | (Between the) Ley Lines | Change Ley Lines into BTL when Ley Lines is active. |
 | BLM | Blizzard 1/2/3 | Blizzard 1 becomes Blizzard 3 when out of Umbral Ice. Freeze becomes Blizzard 2 when synced. |
 | BLM | Despair | Despair replaces Fire 4 on Enochian switcher when below 2400 MP. |
@@ -63,6 +64,7 @@
 | RDM | Red Mage AoE Combo | Replaces Veraero/Verthunder 2 with Impact when Dualcast or Swiftcast are active. |
 | RDM | Redoublement Combo Plus | Replaces Redoublement with Verflare/Verholy after Enchanted Redoublement, whichever is more appropriate. Also replaces Redoublement with Scorch after Verflare/Verholy. |
 | RDM | Redoublement combo | Replaces Redoublement with its combo chain, following enchantment rules. |
+| RDM | Swiftcast Verraise | Verraise turns into Swiftcast when it's off cooldown and Dualcast isn't up. |
 | RDM | Verproc into Jolt | Replaces Verstone/Verfire with Jolt/Scorch when no proc is available. |
 | RDM | Verproc into Jolt Plus | Additionally replaces Verstone/Verfire with Veraero/Verthunder if dualcast/swiftcast are up. |
 | RDM | Verproc into Jolt Plus Opener Feature | Turns Verfire into Verthunder when out of combat. |
@@ -79,11 +81,13 @@
 | SAM | Yukikaze Combo | Replace Yukikaze with its combo chain. |
 | SCH | ED Aetherflow | Change Energy Drain into Aetherflow when you have no more Aetherflow stacks. |
 | SCH | Seraph Fey Blessing/Consolation | Change Fey Blessing into Consolation when Seraph is out. |
+| SCH | Swiftcast Resurrection | Resurrection turns into Swiftcast when it's off cooldown. |
 | SMN | Brand of Purgatory Combo | Replaces Fountain of Fire with Brand of Purgatory when under the affect of Hellish Conduit. |
 | SMN | Demi-Summon Combiners Ultra | Dreadwyrm Trance, Summon Bahamut, Firebird Trance, Deathflare, Enkindle Bahamut, and Enkindle Phoenix are now one button. |
 | SMN | Demi-summon combiners | Dreadwyrm Trance, Summon Bahamut, and Firebird Trance are now one button. |
 | SMN | ED Fester | Change Fester into Energy Drain when out of Aetherflow stacks. |
 | SMN | ES Painflare | Change Painflare into Energy Syphon when out of Aetherflow stacks. |
+| SMN | Swiftcast Resurrection | Resurrection turns into Swiftcast when it's off cooldown. |
 | WAR | Inner Release Feature | Replace Single-target and AoE combo with Fell Cleave/Decimate during Inner Release. |
 | WAR | Mythril Tempest Combo | Replace Mythril Tempest with its combo chain. |
 | WAR | Nascent Flash Feature | Replace Nascent Flash with Raw intuition when below level 76. |
@@ -94,3 +98,4 @@
 | WHM | Cure 2 to Cure Level Sync | Changes Cure 2 to Cure when below level 30 in synced content. |
 | WHM | Rapture into Misery | Replaces Afflatus Rapture with Afflatus Misery when Misery is ready to be used. |
 | WHM | Solace into Misery | Replaces Afflatus Solace with Afflatus Misery when Misery is ready to be used. |
+| WHM | Swiftcast Raise | Raise turns into Swiftcast when it's off cooldown. |
