@@ -6,7 +6,7 @@ using XIVComboVeryExpandedPlugin.Combos;
 
 namespace XIVComboVeryExpandedPlugin {
 	public enum CustomComboPreset {
-		// Last enum used: 102
+		// Last enum used: 103
 		// ====================================================================================
 		#region ASTROLOGIAN
 
@@ -70,8 +70,11 @@ namespace XIVComboVeryExpandedPlugin {
 		// ====================================================================================
 		#region DANCER
 
-		[CustomComboInfo("Fan Dance Combos", "Change Fan Dance and Fan Dance 2 into Fan Dance 3 while flourishing.", DNC.JobID, DNC.FanDance1, DNC.FanDance2)]
-		DancerFanDanceCombo = 33,
+		[CustomComboInfo("Fan Dance 1 Combo", "Change Fan Dance 1 into Fan Dance 3 while flourishing.", DNC.JobID, DNC.FanDance1)]
+		DancerFanDance1Combo = 33,
+
+		[CustomComboInfo("Fan Dance 2 Combo", "Change Fan Dance 2 into Fan Dance 3 while flourishing.", DNC.JobID, DNC.FanDance2)]
+		DancerFanDance2Combo = 102,
 
 		[CustomComboInfo("Dance Step Combo", "Change Standard Step and Technical Step into each dance step while dancing.", DNC.JobID, DNC.StandardStep, DNC.TechnicalStep)]
 		DancerDanceStepCombo = 31,

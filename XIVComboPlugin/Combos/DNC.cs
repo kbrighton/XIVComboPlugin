@@ -98,11 +98,22 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 		}
 	}
 
-	internal class DancerFanDanceCombo: CustomCombo {
-		protected override CustomComboPreset Preset => CustomComboPreset.DancerFanDanceCombo;
+	internal class DancerFanDance1Combo: CustomCombo {
+		protected override CustomComboPreset Preset => CustomComboPreset.DancerFanDance1Combo;
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if ((actionID == DNC.FanDance1 || actionID == DNC.FanDance2) && level >= DNC.Levels.FanDance3 && HasEffect(DNC.Buffs.FlourishingFanDance))
+			if (actionID == DNC.FanDance1 && level >= DNC.Levels.FanDance3 && HasEffect(DNC.Buffs.FlourishingFanDance))
+				return DNC.FanDance3;
+
+			return actionID;
+		}
+	}
+
+	internal class DancerFanDance2Combo: CustomCombo {
+		protected override CustomComboPreset Preset => CustomComboPreset.DancerFanDance2Combo;
+
+		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+			if (actionID == DNC.FanDance2 && level >= DNC.Levels.FanDance3 && HasEffect(DNC.Buffs.FlourishingFanDance))
 				return DNC.FanDance3;
 
 			return actionID;
