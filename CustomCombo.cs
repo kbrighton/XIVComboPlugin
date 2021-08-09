@@ -58,61 +58,35 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 
 		#region Passthru
 
-		protected static uint OriginalHook(uint actionID) {
-			return IconReplacer.OriginalHook(actionID);
-		}
+		protected static uint OriginalHook(uint actionID) => IconReplacer.OriginalHook(actionID);
 
 		protected static PlayerCharacter LocalPlayer => IconReplacer.LocalPlayer;
 
 		protected static Actor CurrentTarget => IconReplacer.CurrentTarget;
 
-		protected static bool IsEnabled(CustomComboPreset preset) {
-			return Configuration.IsEnabled(preset);
-		}
+		protected static bool IsEnabled(CustomComboPreset preset) => Configuration.IsEnabled(preset);
 
-		protected static bool HasCondition(ConditionFlag flag) {
-			return IconReplacer.HasCondition(flag);
-		}
+		protected static bool HasCondition(ConditionFlag flag) => IconReplacer.HasCondition(flag);
 
-		protected static bool HasEffect(short effectID) {
-			return IconReplacer.HasEffect(effectID);
-		}
+		protected static bool HasEffect(short effectID) => IconReplacer.HasEffect(effectID);
 
-		protected static bool TargetHasEffect(short effectID) {
-			return IconReplacer.TargetHasEffect(effectID);
-		}
+		protected static bool TargetHasEffect(short effectID) => IconReplacer.TargetHasEffect(effectID);
 
-		protected static Structs.StatusEffect? FindEffect(short effectId) {
-			return IconReplacer.FindEffect(effectId);
-		}
+		protected static Structs.StatusEffect? FindEffect(short effectId) => IconReplacer.FindEffect(effectId);
 
-		protected static float EffectDuration(short effectId) {
-			return IconReplacer.EffectDuration(effectId);
-		}
+		protected static float EffectDuration(short effectId) => IconReplacer.EffectDuration(effectId);
 
-		protected static float EffectStacks(short effectId) {
-			return IconReplacer.EffectStacks(effectId);
-		}
+		protected static float EffectStacks(short effectId) => IconReplacer.EffectStacks(effectId);
 
-		protected static Structs.StatusEffect? FindTargetEffect(short effectId) {
-			return IconReplacer.FindTargetEffect(effectId);
-		}
+		protected static Structs.StatusEffect? FindTargetEffect(short effectId) => IconReplacer.FindTargetEffect(effectId);
 
-		protected static float TargetEffectDuration(short effectId) {
-			return IconReplacer.TargetEffectDuration(effectId);
-		}
+		protected static float TargetEffectDuration(short effectId) => IconReplacer.TargetEffectDuration(effectId);
 
-		protected static float TargetEffectStacks(short effectId) {
-			return IconReplacer.TargetEffectStacks(effectId);
-		}
+		protected static float TargetEffectStacks(short effectId) => IconReplacer.TargetEffectStacks(effectId);
 
-		protected static CooldownData GetCooldown(uint actionID) {
-			return IconReplacer.GetCooldown(actionID);
-		}
+		protected static CooldownData GetCooldown(uint actionID) => IconReplacer.GetCooldown(actionID);
 
-		protected static T GetJobGauge<T>() {
-			return IconReplacer.GetJobGauge<T>();
-		}
+		protected static T GetJobGauge<T>() => IconReplacer.GetJobGauge<T>();
 
 		#endregion
 	}

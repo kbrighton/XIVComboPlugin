@@ -94,9 +94,7 @@ namespace XIVComboVeryExpandedPlugin {
 			return this.OriginalHook(actionID);
 		}
 
-		private ulong IsIconReplaceableDetour(uint actionID) {
-			return 1;
-		}
+		private ulong IsIconReplaceableDetour(uint actionID) => 1;
 
 		/// <summary>
 		/// Replace an ability with another ability
@@ -124,9 +122,7 @@ namespace XIVComboVeryExpandedPlugin {
 
 		#region Getters
 
-		internal bool HasCondition(ConditionFlag flag) {
-			return this.Interface.ClientState.Condition[flag];
-		}
+		internal bool HasCondition(ConditionFlag flag) => this.Interface.ClientState.Condition[flag];
 
 		internal PlayerCharacter LocalPlayer => this.Interface.ClientState.LocalPlayer;
 
@@ -136,29 +132,19 @@ namespace XIVComboVeryExpandedPlugin {
 
 		internal float ComboTime => Marshal.PtrToStructure<float>(this.Address.ComboTimer);
 
-		internal T GetJobGauge<T>() {
-			return this.Interface.ClientState.JobGauges.Get<T>();
-		}
+		internal T GetJobGauge<T>() => this.Interface.ClientState.JobGauges.Get<T>();
 
-		internal uint OriginalHook(uint actionID) {
-			return this.GetIconHook.Original(this.ActionManager, actionID);
-		}
+		internal uint OriginalHook(uint actionID) => this.GetIconHook.Original(this.ActionManager, actionID);
 
 		#endregion
 
 		#region Effects
 
-		internal bool HasEffect(short effectId) {
-			return this.FindEffect(effectId) != null;
-		}
+		internal bool HasEffect(short effectId) => this.FindEffect(effectId) != null;
 
-		internal bool TargetHasEffect(short effectId) {
-			return this.FindTargetEffect(effectId) != null;
-		}
+		internal bool TargetHasEffect(short effectId) => this.FindTargetEffect(effectId) != null;
 
-		internal Structs.StatusEffect? FindEffect(short effectId) {
-			return FindEffect(effectId, this.LocalPlayer, null);
-		}
+		internal Structs.StatusEffect? FindEffect(short effectId) => FindEffect(effectId, this.LocalPlayer, null);
 
 		internal float EffectDuration(short effectId) {
 			Structs.StatusEffect? eff = this.FindEffect(effectId);
@@ -188,9 +174,7 @@ namespace XIVComboVeryExpandedPlugin {
 			return 0;
 		}
 
-		internal Structs.StatusEffect? FindTargetEffect(short effectId) {
-			return FindEffect(effectId, this.CurrentTarget, this.LocalPlayer?.ActorId);
-		}
+		internal Structs.StatusEffect? FindTargetEffect(short effectId) => FindEffect(effectId, this.CurrentTarget, this.LocalPlayer?.ActorId);
 
 		internal static Structs.StatusEffect? FindEffect(short effectId, Actor actor, int? ownerId) {
 			if (actor == null)

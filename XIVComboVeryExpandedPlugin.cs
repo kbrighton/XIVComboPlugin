@@ -54,9 +54,7 @@ namespace XIVComboVeryExpandedPlugin {
 
 		private bool isImguiComboSetupOpen = false;
 
-		private void SaveConfiguration() {
-			this.Interface.SavePluginConfig(this.Configuration);
-		}
+		private void SaveConfiguration() => this.Interface.SavePluginConfig(this.Configuration);
 
 		private void UiBuilder_OnBuildUi() {
 			if (!this.isImguiComboSetupOpen)

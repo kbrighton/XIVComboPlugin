@@ -24,9 +24,7 @@ namespace XIVComboVeryExpandedPlugin {
 			DNC.FanDance2,
 		};
 
-		public bool IsEnabled(CustomComboPreset preset) {
-			return this.EnabledActions.Contains(preset);
-		}
+		public bool IsEnabled(CustomComboPreset preset) => this.EnabledActions.Contains(preset);
 
 		#region Obsolete
 #pragma warning disable IDE1006 // Naming Styles
