@@ -47,7 +47,7 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 				if (IsEnabled(CustomComboPreset.PaladinRequiescatFeature)) {
 					//Replace with Holy Spirit when Requiescat is up
 					if (HasEffect(PLD.Buffs.Requiescat)) {
-						if (IsEnabled(CustomComboPreset.PaladinConfiteorFeature) && level >= PLD.Levels.Confiteor && LocalPlayer.CurrentMp < 4000)
+						if (IsEnabled(CustomComboPreset.PaladinConfiteorFeature) && level >= PLD.Levels.Confiteor && LocalPlayer!.CurrentMp < 4000)
 							return PLD.Confiteor;
 
 						return PLD.HolySpirit;
@@ -78,7 +78,7 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 					//Replace with Holy Spirit when Requiescat is up
 					if (HasEffect(PLD.Buffs.Requiescat)) {
 						//Replace with Confiteor when under 4000 MP
-						if (IsEnabled(CustomComboPreset.PaladinConfiteorFeature) && level >= PLD.Levels.Confiteor && LocalPlayer.CurrentMp < 4000)
+						if (IsEnabled(CustomComboPreset.PaladinConfiteorFeature) && level >= PLD.Levels.Confiteor && LocalPlayer!.CurrentMp < 4000)
 							return PLD.Confiteor;
 						return PLD.HolySpirit;
 					}
@@ -111,7 +111,7 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 			if (actionID == PLD.Prominence) {
 				if (IsEnabled(CustomComboPreset.PaladinRequiescatFeature)) {
 					if (HasEffect(PLD.Buffs.Requiescat) && level >= PLD.Levels.HolyCircle) {
-						if (IsEnabled(CustomComboPreset.PaladinConfiteorFeature) && level >= PLD.Levels.Confiteor && LocalPlayer.CurrentMp < 4000)
+						if (IsEnabled(CustomComboPreset.PaladinConfiteorFeature) && level >= PLD.Levels.Confiteor && LocalPlayer!.CurrentMp < 4000)
 							return PLD.Confiteor;
 
 						return PLD.HolyCircle;
@@ -134,7 +134,7 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 		protected override CustomComboPreset Preset => CustomComboPreset.PaladinConfiteorFeature;
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if ((actionID == PLD.HolySpirit || actionID == PLD.HolyCircle) && HasEffect(PLD.Buffs.Requiescat) && level >= PLD.Levels.Confiteor && LocalPlayer.CurrentMp < 4000)
+			if ((actionID == PLD.HolySpirit || actionID == PLD.HolyCircle) && HasEffect(PLD.Buffs.Requiescat) && level >= PLD.Levels.Confiteor && LocalPlayer!.CurrentMp < 4000)
 				return PLD.Confiteor;
 
 			return actionID;

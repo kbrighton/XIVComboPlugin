@@ -41,6 +41,9 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 		public bool TryInvoke(uint actionID, uint lastComboMove, float comboTime, byte level, out uint newActionID) {
 			newActionID = 0;
 
+			if (LocalPlayer is null)
+				return false;
+
 			if (!IsEnabled(this.Preset))
 				return false;
 
@@ -57,37 +60,67 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 
 		protected abstract uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level);
 
-		#region Passthru
+		#region Utility/convenience getters
 
 		protected static uint OriginalHook(uint actionID) => iconReplacer.OriginalHook(actionID);
 
-		protected static PlayerCharacter LocalPlayer => IconReplacer.LocalPlayer;
+		protected static PlayerCharacter? LocalPlayer => XIVComboVeryExpandedPlugin.client.LocalPlayer;
 
-		protected static GameObject? CurrentTarget => IconReplacer.CurrentTarget;
+		protected static GameObject? CurrentTarget => XIVComboVeryExpandedPlugin.targets.Target;
 
 		protected static bool IsEnabled(CustomComboPreset preset) => Configuration.IsEnabled(preset);
 
-		protected static bool HasCondition(ConditionFlag flag) => IconReplacer.HasCondition(flag);
-
-		protected static bool HasEffect(short effectID) => IconReplacer.HasEffect(effectID);
-
-		protected static bool TargetHasEffect(short effectID) => IconReplacer.TargetHasEffect(effectID);
-
-		protected static Status? FindEffect(short effectId) => IconReplacer.FindEffect(effectId);
-
-		protected static float EffectDuration(short effectId) => IconReplacer.EffectDuration(effectId);
-
-		protected static float EffectStacks(short effectId) => IconReplacer.EffectStacks(effectId);
-
-		protected static Status? FindTargetEffect(short effectId) => IconReplacer.FindTargetEffect(effectId);
-
-		protected static float TargetEffectDuration(short effectId) => IconReplacer.TargetEffectDuration(effectId);
-
-		protected static float TargetEffectStacks(short effectId) => IconReplacer.TargetEffectStacks(effectId);
+		protected static bool HasCondition(ConditionFlag flag) => XIVComboVeryExpandedPlugin.conditions[flag];
 
 		protected static CooldownData GetCooldown(uint actionID) => iconReplacer.GetCooldown(actionID);
 
-		protected static T GetJobGauge<T>() where T : JobGaugeBase => IconReplacer.GetJobGauge<T>();
+		protected static T GetJobGauge<T>() where T : JobGaugeBase => XIVComboVeryExpandedPlugin.jobGauge.Get<T>();
+
+		#endregion
+
+		#region Effects
+
+		protected static bool HasEffect(short effectId) => FindEffect(effectId) != null;
+
+		protected static bool TargetHasEffect(short effectId) => FindTargetEffect(effectId) != null;
+
+		protected static Status? FindEffect(short effectId) => FindEffect(effectId, LocalPlayer, null);
+
+		protected static float EffectDuration(short effectId) {
+			Status? eff = FindEffect(effectId);
+			return eff?.RemainingTime ?? 0;
+		}
+
+		protected static float EffectStacks(short effectId) {
+			Status? eff = FindEffect(effectId);
+			return eff?.StackCount ?? 0;
+		}
+
+		protected static float TargetEffectDuration(short effectId) {
+			Status? eff = FindTargetEffect(effectId);
+			return eff?.RemainingTime ?? 0;
+		}
+
+		protected static float TargetEffectStacks(short effectId) {
+			Status? eff = FindTargetEffect(effectId);
+			return eff?.StackCount ?? 0;
+		}
+
+		protected static Status? FindTargetEffect(short effectId) => FindEffect(effectId, CurrentTarget, LocalPlayer?.ObjectId);
+
+		protected static Status? FindEffect(short effectId, GameObject? actor, uint? sourceId) {
+			if (actor is null)
+				return null;
+			if (actor is BattleChara chara)
+				foreach (Status status in chara.StatusList) {
+					if (status.StatusId == effectId) {
+						if (!sourceId.HasValue || status.SourceID == sourceId)
+							return status;
+					}
+				}
+
+			return null;
+		}
 
 		#endregion
 	}

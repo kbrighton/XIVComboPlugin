@@ -81,7 +81,7 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 						if (Configuration.IsEnabled(CustomComboPreset.BlackFire3Feature) && gauge.ElementTimeRemaining < 3000 && HasEffect(BLM.Buffs.Firestarter))
 							return BLM.Fire3;
 
-						if (Configuration.IsEnabled(CustomComboPreset.BlackDespairFeature) && LocalPlayer.CurrentMp < 2400 && level >= BLM.Levels.Despair) {
+						if (Configuration.IsEnabled(CustomComboPreset.BlackDespairFeature) && LocalPlayer!.CurrentMp < 2400 && level >= BLM.Levels.Despair) {
 							return BLM.Despair;
 						}
 						if (Configuration.IsEnabled(CustomComboPreset.BlackFire3Feature) && gauge.ElementTimeRemaining < 6000 && !HasEffect(BLM.Buffs.Firestarter))

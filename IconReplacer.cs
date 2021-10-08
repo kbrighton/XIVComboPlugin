@@ -121,65 +121,13 @@ namespace XIVComboVeryExpandedPlugin {
 
 		#region Getters
 
-		internal static bool HasCondition(ConditionFlag flag) => XIVComboVeryExpandedPlugin.conditions[flag];
-
 		internal static PlayerCharacter LocalPlayer => XIVComboVeryExpandedPlugin.client.LocalPlayer!;
-
-		internal static GameObject? CurrentTarget => XIVComboVeryExpandedPlugin.targets.Target;
 
 		internal uint LastComboMove => (uint)Marshal.ReadInt32(this.Address.LastComboMove);
 
 		internal float ComboTime => Marshal.PtrToStructure<float>(this.Address.ComboTimer);
 
-		internal static T GetJobGauge<T>() where T : JobGaugeBase => XIVComboVeryExpandedPlugin.jobGauge.Get<T>();
-
 		internal uint OriginalHook(uint actionID) => this.GetIconHook.Original(this.ActionManager, actionID);
-
-		#endregion
-
-		#region Effects
-
-		internal static bool HasEffect(short effectId) => FindEffect(effectId) != null;
-
-		internal static bool TargetHasEffect(short effectId) => FindTargetEffect(effectId) != null;
-
-		internal static Status? FindEffect(short effectId) => FindEffect(effectId, LocalPlayer, null);
-
-		internal static float EffectDuration(short effectId) {
-			Status? eff = FindEffect(effectId);
-			return eff?.RemainingTime ?? 0;
-		}
-
-		internal static float EffectStacks(short effectId) {
-			Status? eff = FindEffect(effectId);
-			return eff?.StackCount ?? 0;
-		}
-
-		internal static float TargetEffectDuration(short effectId) {
-			Status? eff = FindTargetEffect(effectId);
-			return eff?.RemainingTime ?? 0;
-		}
-
-		internal static float TargetEffectStacks(short effectId) {
-			Status? eff = FindTargetEffect(effectId);
-			return eff?.StackCount ?? 0;
-		}
-
-		internal static Status? FindTargetEffect(short effectId) => FindEffect(effectId, CurrentTarget, LocalPlayer?.ObjectId);
-
-		internal static Status? FindEffect(short effectId, GameObject? actor, uint? sourceId) {
-			if (actor is null)
-				return null;
-			if (actor is BattleChara chara)
-				foreach (Status status in chara.StatusList) {
-					if (status.StatusId == effectId) {
-						if (!sourceId.HasValue || status.SourceID == sourceId)
-							return status;
-					}
-				}
-
-			return null;
-		}
 
 		#endregion
 
