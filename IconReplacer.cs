@@ -48,8 +48,8 @@ namespace XIVComboVeryExpandedPlugin {
 
 			this.GetActionCooldownSlot = Marshal.GetDelegateForFunctionPointer<GetActionCooldownSlotDelegate>(this.Address.GetActionCooldown);
 
-			this.GetIconHook = new Hook<GetIconDelegate>(this.Address.GetIcon, this.GetIconDetour);
-			this.IsIconReplaceableHook = new Hook<IsIconReplaceableDelegate>(this.Address.IsIconReplaceable, this.IsIconReplaceableDetour);
+			this.GetIconHook = new Hook<GetIconDelegate>(this.Address.GetAdjustedActionId, this.GetIconDetour);
+			this.IsIconReplaceableHook = new Hook<IsIconReplaceableDelegate>(this.Address.IsActionIdReplaceable, this.IsIconReplaceableDetour);
 
 			this.GetIconHook.Enable();
 			this.IsIconReplaceableHook.Enable();
