@@ -24,7 +24,6 @@ namespace XIVComboVeryExpandedPlugin {
 
 		private const string command = "/pcombo";
 		internal XIVComboVeryExpandedConfiguration configuration;
-		[SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
 		internal const int CURRENT_CONFIG_VERSION = 4;
 
 		[PluginService] internal static DalamudPluginInterface pluginInterface { get; private set; } = null!;
