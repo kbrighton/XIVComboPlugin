@@ -6,7 +6,7 @@ using XIVComboVeryExpandedPlugin.Combos;
 
 namespace XIVComboVeryExpandedPlugin {
 	public enum CustomComboPreset {
-		// Last enum used: 103
+		// Last enum used: 104
 		// ====================================================================================
 		#region ASTROLOGIAN
 
@@ -49,6 +49,9 @@ namespace XIVComboVeryExpandedPlugin {
 
 		[CustomComboInfo("Fire 3 to Fire 1 Feature", "Fire 1 (and 3 if procced) will replace Fire 4 on Enochian Switcher.\nOccurs when:\n- less than 3 seconds left and firestarter up (for F3), or\n- less than 6 seconds left and NO firestarter (for F1)\nEnochian Stance Switcher must be active.", BLM.JobID, BLM.Enochian)]
 		BlackFire3Feature = 97,
+
+		[CustomComboInfo("Scathe/Xenoglossy Feature", "Scathe becomes Xenoglossy when available.", BLM.JobID, BLM.Scathe)]
+		BlackScatheFeature = 104,
 
 		#endregion
 		// ====================================================================================

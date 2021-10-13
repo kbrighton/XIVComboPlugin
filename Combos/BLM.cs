@@ -21,7 +21,9 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 			Transpose = 149,
 			UmbralSoul = 16506,
 			LeyLines = 3573,
-			BetweenTheLines = 7419;
+			BetweenTheLines = 7419,
+			Scathe = 156,
+			Xenoglossy = 16507;
 
 		public static class Buffs {
 			public const short
@@ -47,7 +49,8 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 				Fire4 = 60,
 				BetweenTheLines = 62,
 				Despair = 72,
-				UmbralSoul = 76;
+				UmbralSoul = 76,
+				Xenoglossy = 80;
 		}
 	}
 
@@ -165,8 +168,22 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			if (actionID == BLM.Fire) {
 				BLMGauge gauge = GetJobGauge<BLMGauge>();
-				if (level >= BLM.Levels.Fire3 && (!gauge.InAstralFire || HasEffect(BLM.Buffs.Firestarter)))
+				if (level >= BLM.Levels.Fire3 && (!gauge.InAstralFire || SelfHasEffect(BLM.Buffs.Firestarter)))
 					return OriginalHook(BLM.Fire3);
+			}
+
+			return actionID;
+		}
+	}
+
+	internal class BlackScatheFeature: CustomCombo {
+		protected override CustomComboPreset Preset => CustomComboPreset.BlackScatheFeature;
+
+		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+			if (actionID == BLM.Scathe) {
+				BLMGauge gauge = GetJobGauge<BLMGauge>();
+				if (level >= BLM.Levels.Xenoglossy && gauge.PolyglotStacks > 0)
+					return BLM.Xenoglossy;
 			}
 
 			return actionID;
