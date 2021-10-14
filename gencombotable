@@ -17,8 +17,8 @@ sub scanToLine($$) {
 	return;
 }
 
-my $fileToParse = "XIVComboPlugin/CustomComboPreset.cs";
-my $fileToWrite = "ComboTable.frag";
+my $fileToParse = "CustomComboPreset.cs";
+my $fileToWrite = "Table.frag";
 my $file = IO::File->new($fileToParse, 'r');
 defined scanToLine $file, "public enum CustomComboPreset"
 	or die "Can't find start of combo enums!\n";
