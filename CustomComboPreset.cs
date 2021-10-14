@@ -5,7 +5,7 @@ using XIVComboVeryExpandedPlugin.Combos;
 
 namespace XIVComboVeryExpandedPlugin {
 	public enum CustomComboPreset {
-		// Last enum used: 105
+		// Last enum used: 106
 		// ====================================================================================
 		#region ASTROLOGIAN
 
@@ -194,6 +194,10 @@ namespace XIVComboVeryExpandedPlugin {
 		[Ordered]
 		[CustomComboInfo("No Mercy Feature", "Replace No Mercy with Bow Shock, and then Sonic Break, while No Mercy is active.", GNB.JobID, GNB.NoMercy)]
 		GunbreakerNoMercyFeature = 84,
+
+		[Ordered]
+		[CustomComboInfo("Bow Shock / Sonic Break Swap", "Replace Bow Shock and Sonic Break with one or the other, depending on which is on cooldown.", GNB.JobID, GNB.BowShock, GNB.SonicBreak)]
+		GunbreakerBowShockSonicBreakFeature = 106,
 
 		#endregion
 		// ====================================================================================
