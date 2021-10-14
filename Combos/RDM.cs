@@ -32,7 +32,8 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 				Swiftcast = 167,
 				VerfireReady = 1234,
 				VerstoneReady = 1235,
-				Dualcast = 1249;
+				Dualcast = 1249,
+				LostChainspell = 2560;
 		}
 
 		public static class Debuffs {
@@ -60,7 +61,11 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 		protected override CustomComboPreset Preset => CustomComboPreset.RedMageSwiftcastRaiserFeature;
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID == RDM.Verraise && GetCooldown(CommonSkills.Swiftcast).CooldownRemaining == 0 && !SelfHasEffect(RDM.Buffs.Dualcast))
+			if (actionID == RDM.Verraise
+				&& GetCooldown(CommonSkills.Swiftcast).CooldownRemaining == 0
+				&& !SelfHasEffect(RDM.Buffs.Dualcast)
+				&& !SelfHasEffect(RDM.Buffs.LostChainspell)
+			)
 				return CommonSkills.Swiftcast;
 
 			return actionID;
@@ -71,7 +76,10 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 		protected override CustomComboPreset Preset => CustomComboPreset.RedMageAoECombo;
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if ((actionID == RDM.Veraero2 || actionID == RDM.Verthunder2) && (SelfHasEffect(RDM.Buffs.Swiftcast) || SelfHasEffect(RDM.Buffs.Dualcast)))
+			if (
+				(actionID is RDM.Veraero2 or RDM.Verthunder2)
+				&& (SelfHasEffect(RDM.Buffs.Swiftcast) || SelfHasEffect(RDM.Buffs.Dualcast) || SelfHasEffect(RDM.Buffs.LostChainspell))
+			)
 				return OriginalHook(RDM.Impact);
 
 			return actionID;
@@ -130,7 +138,10 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 					return RDM.Verholy;
 
 				if (IsEnabled(CustomComboPreset.RedMageVerprocComboPlus)) {
-					if ((SelfHasEffect(RDM.Buffs.Dualcast) || SelfHasEffect(RDM.Buffs.Swiftcast)) && level >= RDM.Levels.Veraero)
+					if (
+						(SelfHasEffect(RDM.Buffs.Dualcast) || SelfHasEffect(RDM.Buffs.Swiftcast) || SelfHasEffect(RDM.Buffs.LostChainspell))
+						&& level >= RDM.Levels.Veraero
+					)
 						return RDM.Veraero;
 				}
 
@@ -153,7 +164,10 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 					return RDM.Verflare;
 
 				if (IsEnabled(CustomComboPreset.RedMageVerprocComboPlus)) {
-					if ((SelfHasEffect(RDM.Buffs.Dualcast) || SelfHasEffect(RDM.Buffs.Swiftcast)) && level >= RDM.Levels.Verthunder)
+					if (
+						(SelfHasEffect(RDM.Buffs.Dualcast) || SelfHasEffect(RDM.Buffs.Swiftcast) || SelfHasEffect(RDM.Buffs.LostChainspell))
+						&& level >= RDM.Levels.Verthunder
+					)
 						return RDM.Verthunder;
 				}
 
