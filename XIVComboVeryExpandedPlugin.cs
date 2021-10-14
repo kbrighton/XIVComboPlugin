@@ -18,6 +18,8 @@ using Dalamud.Utility;
 
 using ImGuiNET;
 
+using XIVCombo;
+
 namespace XIVComboVeryExpandedPlugin {
 	public sealed class XIVComboVeryExpandedPlugin: IDalamudPlugin {
 		public string Name => "XIV Combo Very Expanded Plugin";
@@ -58,14 +60,19 @@ namespace XIVComboVeryExpandedPlugin {
 			pluginInterface.UiBuilder.Draw += this.buildUi;
 
 			this.groupedPresets = Enum
-				.GetValues(typeof(CustomComboPreset))
-				.Cast<CustomComboPreset>()
-				.Select(preset => (preset, info: preset.GetAttribute<CustomComboInfoAttribute>()))
-				.Where(presetWithInfo => presetWithInfo.info != null)
-				.OrderBy(presetWithInfo => presetWithInfo.info.JobName)
-				.GroupBy(presetWithInfo => presetWithInfo.info.JobName)
-				.ToDictionary(presetWithInfos => presetWithInfos.Key,
-							  presetWithInfos => presetWithInfos.ToList());
+				.GetValues<CustomComboPreset>()
+				.Select(preset => (
+					preset,
+					info: preset.GetAttribute<CustomComboInfoAttribute>(),
+					order: preset.GetAttribute<OrderedAttribute>()
+				))
+				.Where(data => data.info is not null)
+				.GroupBy(data => data.info.JobName)
+				.OrderBy(group => group.Key)
+				.ToDictionary(
+					group => group.Key,
+					data => data.OrderBy(e => e.order?.Order ?? int.MaxValue).Select(e => (e.preset, e.info)).ToList()
+				);
 		}
 
 		private bool isImguiComboSetupOpen = false;
