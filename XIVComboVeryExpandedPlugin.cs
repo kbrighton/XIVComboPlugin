@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Numerics;
 
@@ -26,7 +25,6 @@ namespace XIVComboVeryExpandedPlugin {
 
 		private const string command = "/pcombo";
 		internal XIVComboVeryExpandedConfiguration configuration;
-		internal const int CURRENT_CONFIG_VERSION = 4;
 
 		[PluginService] internal static DalamudPluginInterface pluginInterface { get; private set; } = null!;
 		[PluginService] internal static CommandManager cmdManager { get; private set; } = null!;
@@ -49,10 +47,7 @@ namespace XIVComboVeryExpandedPlugin {
 			});
 
 			this.configuration = pluginInterface.GetPluginConfig() as XIVComboVeryExpandedConfiguration ?? new XIVComboVeryExpandedConfiguration();
-			if (this.configuration.Version < CURRENT_CONFIG_VERSION) {
-				this.configuration.Upgrade();
-				this.saveConfiguration();
-			}
+			this.configuration.CheckVersion();
 
 			this.iconReplacer = new IconReplacer(this.configuration);
 

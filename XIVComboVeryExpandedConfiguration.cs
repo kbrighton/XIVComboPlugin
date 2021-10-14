@@ -11,6 +11,7 @@ using XIVComboVeryExpandedPlugin.Combos;
 namespace XIVComboVeryExpandedPlugin {
 	[Serializable]
 	public class XIVComboVeryExpandedConfiguration: IPluginConfiguration {
+		public const int CURRENT_CONFIG_VERSION = 4;
 		public int Version { get; set; } = 4;
 
 		[JsonProperty("EnabledActionsV4")]
@@ -107,11 +108,17 @@ namespace XIVComboVeryExpandedPlugin {
 #pragma warning restore IDE1006 // Naming Styles
 		#endregion
 
-		public void Upgrade() {
+		protected void Upgrade() {
 			if (this.Version < 3)
 				this.upgradeToVersion3();
 			if (this.Version == 3)
 				this.upgradeToVersion4();
+		}
+		public void CheckVersion() {
+			if (this.Version < CURRENT_CONFIG_VERSION) {
+				this.Upgrade();
+				XIVComboVeryExpandedPlugin.pluginInterface.SavePluginConfig(this);
+			}
 		}
 
 		private void upgradeToVersion3() {

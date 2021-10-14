@@ -22,7 +22,7 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 		}
 
 		#endregion
-
+		
 		protected abstract CustomComboPreset Preset { get; }
 
 		protected byte JobID { get; set; }
