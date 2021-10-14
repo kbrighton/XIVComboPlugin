@@ -101,13 +101,8 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			if (actionID is SMN.Ruin1 or SMN.Ruin3) {
 				SMNGauge gauge = GetJobGauge<SMNGauge>();
-				if (gauge.TimerRemaining > 0) {
-					if (gauge.IsPhoenixReady) {
-						if (HasEffect(SMN.Buffs.HellishConduit))
-							return SMN.BrandOfPurgatory;
-
-						return SMN.FountainOfFire;
-					}
+				if (gauge.TimerRemaining > 0 && gauge.IsPhoenixReady) {
+					return SelfHasEffect(SMN.Buffs.HellishConduit) ? SMN.BrandOfPurgatory : SMN.FountainOfFire;
 				}
 
 				return OriginalHook(SMN.Ruin3);

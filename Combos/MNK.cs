@@ -42,16 +42,16 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			if (actionID == MNK.Rockbreaker) {
-				if (HasEffect(MNK.Buffs.PerfectBalance) || HasEffect(MNK.Buffs.FormlessFist))
+				if (SelfHasEffect(MNK.Buffs.PerfectBalance) || SelfHasEffect(MNK.Buffs.FormlessFist))
 					return MNK.Rockbreaker;
 
-				if (HasEffect(MNK.Buffs.OpoOpoForm))
+				if (SelfHasEffect(MNK.Buffs.OpoOpoForm))
 					return MNK.ArmOfTheDestroyer;
 
-				if (HasEffect(MNK.Buffs.RaptorForm) && level >= MNK.Levels.FourPointFury)
+				if (SelfHasEffect(MNK.Buffs.RaptorForm) && level >= MNK.Levels.FourPointFury)
 					return MNK.FourPointFury;
 
-				if (HasEffect(MNK.Buffs.CoerlForm) && level >= MNK.Levels.Rockbreaker)
+				if (SelfHasEffect(MNK.Buffs.CoerlForm) && level >= MNK.Levels.Rockbreaker)
 					return MNK.Rockbreaker;
 
 				return MNK.ArmOfTheDestroyer;
@@ -66,9 +66,9 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			if (actionID == MNK.DragonKick) {
-				if (HasEffect(MNK.Buffs.LeadenFist) && (
-					HasEffect(MNK.Buffs.FormlessFist) || HasEffect(MNK.Buffs.PerfectBalance) ||
-					HasEffect(MNK.Buffs.OpoOpoForm) || HasEffect(MNK.Buffs.RaptorForm) || HasEffect(MNK.Buffs.CoerlForm))) {
+				if (SelfHasEffect(MNK.Buffs.LeadenFist) && (
+					SelfHasEffect(MNK.Buffs.FormlessFist) || SelfHasEffect(MNK.Buffs.PerfectBalance) ||
+					SelfHasEffect(MNK.Buffs.OpoOpoForm) || SelfHasEffect(MNK.Buffs.RaptorForm) || SelfHasEffect(MNK.Buffs.CoerlForm))) {
 					return MNK.Bootshine;
 				}
 

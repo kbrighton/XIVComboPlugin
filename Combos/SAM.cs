@@ -54,7 +54,7 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			if (actionID == SAM.Yukikaze) {
-				if (HasEffect(SAM.Buffs.MeikyoShisui))
+				if (SelfHasEffect(SAM.Buffs.MeikyoShisui))
 					return SAM.Yukikaze;
 
 				if (comboTime > 0 && lastComboMove == SAM.Hakaze && level >= SAM.Levels.Yukikaze)
@@ -72,7 +72,7 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			if (actionID == SAM.Gekko) {
-				if (HasEffect(SAM.Buffs.MeikyoShisui))
+				if (SelfHasEffect(SAM.Buffs.MeikyoShisui))
 					return SAM.Gekko;
 
 				if (comboTime > 0) {
@@ -95,7 +95,7 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			if (actionID == SAM.Kasha) {
-				if (HasEffect(SAM.Buffs.MeikyoShisui))
+				if (SelfHasEffect(SAM.Buffs.MeikyoShisui))
 					return SAM.Kasha;
 
 				if (comboTime > 0) {
@@ -118,7 +118,7 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			if (actionID == SAM.Mangetsu) {
-				if (HasEffect(SAM.Buffs.MeikyoShisui))
+				if (SelfHasEffect(SAM.Buffs.MeikyoShisui))
 					return SAM.Mangetsu;
 
 				if (comboTime > 0 && lastComboMove == SAM.Fuga && level >= SAM.Levels.Mangetsu)
@@ -136,7 +136,7 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			if (actionID == SAM.Oka) {
-				if (HasEffect(SAM.Buffs.MeikyoShisui))
+				if (SelfHasEffect(SAM.Buffs.MeikyoShisui))
 					return SAM.Oka;
 
 				if (comboTime > 0 && lastComboMove == SAM.Fuga && level >= SAM.Levels.Oka)
@@ -154,7 +154,7 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			if (actionID == SAM.Seigan) {
-				if (HasEffect(SAM.Buffs.EyesOpen))
+				if (SelfHasEffect(SAM.Buffs.EyesOpen))
 					return SAM.Seigan;
 
 				return SAM.ThirdEye;
@@ -169,11 +169,11 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			if (actionID == SAM.MeikyoShisui) {
-				if (HasEffect(SAM.Buffs.MeikyoShisui) && IsEnabled(CustomComboPreset.SamuraiJinpuShifuFeature)) {
-					if (!HasEffect(SAM.Buffs.Jinpu))
+				if (SelfHasEffect(SAM.Buffs.MeikyoShisui) && IsEnabled(CustomComboPreset.SamuraiJinpuShifuFeature)) {
+					if (!SelfHasEffect(SAM.Buffs.Jinpu))
 						return SAM.Jinpu;
 
-					if (!HasEffect(SAM.Buffs.Shifu))
+					if (!SelfHasEffect(SAM.Buffs.Shifu))
 						return SAM.Shifu;
 
 				}

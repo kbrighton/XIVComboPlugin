@@ -50,7 +50,7 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			if (actionID == WAR.StormsPath) {
-				if (IsEnabled(CustomComboPreset.WarriorInnerReleaseFeature) && HasEffect(WAR.Buffs.InnerRelease))
+				if (IsEnabled(CustomComboPreset.WarriorInnerReleaseFeature) && SelfHasEffect(WAR.Buffs.InnerRelease))
 					return OriginalHook(WAR.FellCleave);
 
 				if (comboTime > 0) {
@@ -73,7 +73,7 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			if (actionID == WAR.StormsEye) {
-				if (Configuration.IsEnabled(CustomComboPreset.WarriorInnerReleaseFeature) && HasEffect(WAR.Buffs.InnerRelease))
+				if (Configuration.IsEnabled(CustomComboPreset.WarriorInnerReleaseFeature) && SelfHasEffect(WAR.Buffs.InnerRelease))
 					return OriginalHook(WAR.FellCleave);
 
 				if (comboTime > 0) {
@@ -96,7 +96,7 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			if (actionID == WAR.MythrilTempest) {
-				if (IsEnabled(CustomComboPreset.WarriorInnerReleaseFeature) && HasEffect(WAR.Buffs.InnerRelease))
+				if (IsEnabled(CustomComboPreset.WarriorInnerReleaseFeature) && SelfHasEffect(WAR.Buffs.InnerRelease))
 					return OriginalHook(WAR.Decimate);
 
 				if (comboTime > 0) {

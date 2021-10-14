@@ -77,13 +77,13 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 			if (actionID == GNB.WickedTalon) {
 				if (IsEnabled(CustomComboPreset.GunbreakerGnashingFangCont)) {
 					if (level >= GNB.Levels.Continuation) {
-						if (HasEffect(GNB.Buffs.ReadyToRip))
+						if (SelfHasEffect(GNB.Buffs.ReadyToRip))
 							return GNB.JugularRip;
 
-						if (HasEffect(GNB.Buffs.ReadyToTear))
+						if (SelfHasEffect(GNB.Buffs.ReadyToTear))
 							return GNB.AbdomenTear;
 
-						if (HasEffect(GNB.Buffs.ReadyToGouge))
+						if (SelfHasEffect(GNB.Buffs.ReadyToGouge))
 							return GNB.EyeGouge;
 					}
 				}
@@ -142,8 +142,8 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			if (actionID == GNB.NoMercy) {
-				if (HasEffect(GNB.Buffs.NoMercy)) {
-					if (level >= GNB.Levels.BowShock && !TargetHasEffect(GNB.Debuffs.BowShock))
+				if (SelfHasEffect(GNB.Buffs.NoMercy)) {
+					if (level >= GNB.Levels.BowShock && !TargetHasAnyEffect(GNB.Debuffs.BowShock))
 						return GNB.BowShock;
 
 					if (level >= GNB.Levels.SonicBreak)

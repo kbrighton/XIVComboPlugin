@@ -116,10 +116,8 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 		protected override CustomComboPreset Preset => CustomComboPreset.NinjaAssassinateFeature;
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID == NIN.DreamWithinADream) {
-				if (level >= NIN.Levels.Assassinate && HasEffect(NIN.Buffs.AssassinateReady))
-					return NIN.Assassinate;
-			}
+			if (actionID == NIN.DreamWithinADream && level >= NIN.Levels.Assassinate && SelfHasEffect(NIN.Buffs.AssassinateReady))
+				return NIN.Assassinate;
 
 			return actionID;
 		}
@@ -129,12 +127,8 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 		protected override CustomComboPreset Preset => CustomComboPreset.NinjaKassatsuTrickFeature;
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID == NIN.Kassatsu) {
-				if (HasEffect(NIN.Buffs.Suiton) || HasEffect(NIN.Buffs.Hidden))
-					return NIN.TrickAttack;
-
-				return NIN.Kassatsu;
-			}
+			if (actionID == NIN.Kassatsu && (SelfHasEffect(NIN.Buffs.Suiton) || SelfHasEffect(NIN.Buffs.Hidden)))
+				return NIN.TrickAttack;
 
 			return actionID;
 		}
@@ -145,7 +139,7 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			if (actionID == NIN.Hide) {
-				if (HasEffect(NIN.Buffs.Suiton) || HasEffect(NIN.Buffs.Hidden))
+				if (SelfHasEffect(NIN.Buffs.Suiton) || SelfHasEffect(NIN.Buffs.Hidden))
 					return NIN.TrickAttack;
 
 				if (HasCondition(ConditionFlag.InCombat))
@@ -160,10 +154,8 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 		protected override CustomComboPreset Preset => CustomComboPreset.NinjaKassatsuChiJinFeature;
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID == NIN.Chi) {
-				if (level >= NIN.Levels.EnhancedKassatsu && HasEffect(NIN.Buffs.Kassatsu))
-					return NIN.Jin;
-			}
+			if (actionID == NIN.Chi && level >= NIN.Levels.EnhancedKassatsu && SelfHasEffect(NIN.Buffs.Kassatsu))
+				return NIN.Jin;
 
 			return actionID;
 		}
@@ -173,12 +165,8 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 		protected override CustomComboPreset Preset => CustomComboPreset.NinjaTCJMeisuiFeature;
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID == NIN.TenChiJin) {
-				if (HasEffect(NIN.Buffs.Suiton))
-					return NIN.Meisui;
-
-				return NIN.TenChiJin;
-			}
+			if (actionID == NIN.TenChiJin && SelfHasEffect(NIN.Buffs.Suiton))
+				return NIN.Meisui;
 
 			return actionID;
 		}

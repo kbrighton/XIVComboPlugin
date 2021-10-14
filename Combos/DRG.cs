@@ -56,7 +56,7 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			if (actionID == DRG.Jump) {
-				if (HasEffect(DRG.Buffs.DiveReady))
+				if (SelfHasEffect(DRG.Buffs.DiveReady))
 					return DRG.MirageDive;
 
 				return OriginalHook(DRG.HighJump);
@@ -115,10 +115,10 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 						return DRG.ChaosThrust;
 				}
 
-				if (HasEffect(DRG.Buffs.SharperFangAndClaw) && level >= DRG.Levels.FangAndClaw)
+				if (SelfHasEffect(DRG.Buffs.SharperFangAndClaw) && level >= DRG.Levels.FangAndClaw)
 					return DRG.FangAndClaw;
 
-				if (HasEffect(DRG.Buffs.EnhancedWheelingThrust) && level >= DRG.Levels.WheelingThrust)
+				if (SelfHasEffect(DRG.Buffs.EnhancedWheelingThrust) && level >= DRG.Levels.WheelingThrust)
 					return DRG.WheelingThrust;
 
 				return OriginalHook(DRG.TrueThrust);
@@ -141,10 +141,10 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 						return DRG.FullThrust;
 				}
 
-				if (HasEffect(DRG.Buffs.SharperFangAndClaw) && level >= DRG.Levels.FangAndClaw)
+				if (SelfHasEffect(DRG.Buffs.SharperFangAndClaw) && level >= DRG.Levels.FangAndClaw)
 					return DRG.FangAndClaw;
 
-				if (HasEffect(DRG.Buffs.EnhancedWheelingThrust) && level >= DRG.Levels.WheelingThrust)
+				if (SelfHasEffect(DRG.Buffs.EnhancedWheelingThrust) && level >= DRG.Levels.WheelingThrust)
 					return DRG.WheelingThrust;
 
 				return OriginalHook(DRG.TrueThrust);

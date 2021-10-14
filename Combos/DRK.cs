@@ -46,7 +46,7 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			if (actionID == DRK.Souleater) {
 				if (IsEnabled(CustomComboPreset.DeliriumFeature)) {
-					if (level >= DRK.Levels.Bloodpiller && level >= DRK.Levels.Delirium && HasEffect(DRK.Buffs.Delirium))
+					if (level >= DRK.Levels.Bloodpiller && level >= DRK.Levels.Delirium && SelfHasEffect(DRK.Buffs.Delirium))
 						return DRK.Bloodspiller;
 				}
 
@@ -72,12 +72,12 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 			if (actionID == DRK.StalwartSoul) {
 				if (IsEnabled(CustomComboPreset.DRKOvercapFeature)) {
 					DRKGauge gauge = GetJobGauge<DRKGauge>();
-					if (gauge.Blood >= 90 && HasEffect(DRK.Buffs.BloodWeapon))
+					if (gauge.Blood >= 90 && SelfHasEffect(DRK.Buffs.BloodWeapon))
 						return DRK.Quietus;
 				}
 
 				if (IsEnabled(CustomComboPreset.DeliriumFeature)) {
-					if (level >= DRK.Levels.Quietus && level >= DRK.Levels.Delirium && HasEffect(DRK.Buffs.Delirium))
+					if (level >= DRK.Levels.Quietus && level >= DRK.Levels.Delirium && SelfHasEffect(DRK.Buffs.Delirium))
 						return DRK.Quietus;
 				}
 

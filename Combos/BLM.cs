@@ -64,9 +64,9 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 					if (gauge.InUmbralIce && level >= BLM.Levels.Blizzard4) {
 						if (Configuration.IsEnabled(CustomComboPreset.BlackThunderFeature)
 							&& gauge.ElementTimeRemaining >= 5000
-							&& HasEffect(BLM.Buffs.Thundercloud)
-							&& ((EffectDuration(BLM.Buffs.Thundercloud) < 4 && EffectDuration(BLM.Buffs.Thundercloud) > 0)
-								|| (TargetHasEffect(BLM.Debuffs.Thunder3) && TargetEffectDuration(BLM.Debuffs.Thunder3) < 4))) {
+							&& SelfHasEffect(BLM.Buffs.Thundercloud)
+							&& ((SelfEffectDuration(BLM.Buffs.Thundercloud) < 4 && SelfEffectDuration(BLM.Buffs.Thundercloud) > 0)
+								|| (TargetHasAnyEffect(BLM.Debuffs.Thunder3) && TargetAnyEffectDuration(BLM.Debuffs.Thunder3) < 4))) {
 							return BLM.Thunder3;
 						}
 
@@ -75,19 +75,19 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 					if (level >= BLM.Levels.Fire4) { // fire4 is unlocked AFTER blizzard4
 						if (Configuration.IsEnabled(CustomComboPreset.BlackThunderFeature)
 							&& gauge.ElementTimeRemaining >= 6000
-							&& HasEffect(BLM.Buffs.Thundercloud)
-							&& ((EffectDuration(BLM.Buffs.Thundercloud) < 4 && EffectDuration(BLM.Buffs.Thundercloud) > 0)
-								|| (TargetHasEffect(BLM.Debuffs.Thunder3) && TargetEffectDuration(BLM.Debuffs.Thunder3) < 4))) {
+							&& SelfHasEffect(BLM.Buffs.Thundercloud)
+							&& ((SelfEffectDuration(BLM.Buffs.Thundercloud) < 4 && SelfEffectDuration(BLM.Buffs.Thundercloud) > 0)
+								|| (TargetHasAnyEffect(BLM.Debuffs.Thunder3) && TargetAnyEffectDuration(BLM.Debuffs.Thunder3) < 4))) {
 							return BLM.Thunder3;
 						}
 
-						if (Configuration.IsEnabled(CustomComboPreset.BlackFire3Feature) && gauge.ElementTimeRemaining < 3000 && HasEffect(BLM.Buffs.Firestarter))
+						if (Configuration.IsEnabled(CustomComboPreset.BlackFire3Feature) && gauge.ElementTimeRemaining < 3000 && SelfHasEffect(BLM.Buffs.Firestarter))
 							return BLM.Fire3;
 
 						if (Configuration.IsEnabled(CustomComboPreset.BlackDespairFeature) && LocalPlayer!.CurrentMp < 2400 && level >= BLM.Levels.Despair) {
 							return BLM.Despair;
 						}
-						if (Configuration.IsEnabled(CustomComboPreset.BlackFire3Feature) && gauge.ElementTimeRemaining < 6000 && !HasEffect(BLM.Buffs.Firestarter))
+						if (Configuration.IsEnabled(CustomComboPreset.BlackFire3Feature) && gauge.ElementTimeRemaining < 6000 && !SelfHasEffect(BLM.Buffs.Firestarter))
 							return BLM.Fire;
 						return BLM.Fire4;
 					}
@@ -96,9 +96,9 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 				if (Configuration.IsEnabled(CustomComboPreset.BlackThunderFeature)
 					&& gauge.ElementTimeRemaining >= 5000
 					&& level < BLM.Levels.Thunder3
-					&& HasEffect(BLM.Buffs.Thundercloud)
-					&& ((EffectDuration(BLM.Buffs.Thundercloud) < 4 && EffectDuration(BLM.Buffs.Thundercloud) > 0)
-							|| (TargetHasEffect(BLM.Debuffs.Thunder) && TargetEffectDuration(BLM.Debuffs.Thunder) < 4))) {
+					&& SelfHasEffect(BLM.Buffs.Thundercloud)
+					&& ((SelfEffectDuration(BLM.Buffs.Thundercloud) < 4 && SelfEffectDuration(BLM.Buffs.Thundercloud) > 0)
+							|| (TargetHasAnyEffect(BLM.Debuffs.Thunder) && TargetAnyEffectDuration(BLM.Debuffs.Thunder) < 4))) {
 					return BLM.Thunder;
 				}
 
@@ -106,7 +106,7 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 					return BLM.Fire;
 
 				if (gauge.InAstralFire && (level < BLM.Levels.Enochian || gauge.IsEnochianActive)) {
-					if (HasEffect(BLM.Buffs.Firestarter))
+					if (SelfHasEffect(BLM.Buffs.Firestarter))
 						return BLM.Fire3;
 					return BLM.Fire;
 				}
@@ -135,7 +135,7 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			if (actionID == BLM.LeyLines) {
-				if (HasEffect(BLM.Buffs.LeyLines) && level >= BLM.Levels.BetweenTheLines)
+				if (SelfHasEffect(BLM.Buffs.LeyLines) && level >= BLM.Levels.BetweenTheLines)
 					return BLM.BetweenTheLines;
 			}
 

@@ -60,7 +60,7 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 		protected override CustomComboPreset Preset => CustomComboPreset.RedMageSwiftcastRaiserFeature;
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID == RDM.Verraise && GetCooldown(CommonSkills.Swiftcast).CooldownRemaining == 0 && !HasEffect(RDM.Buffs.Dualcast))
+			if (actionID == RDM.Verraise && GetCooldown(CommonSkills.Swiftcast).CooldownRemaining == 0 && !SelfHasEffect(RDM.Buffs.Dualcast))
 				return CommonSkills.Swiftcast;
 
 			return actionID;
@@ -71,7 +71,7 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 		protected override CustomComboPreset Preset => CustomComboPreset.RedMageAoECombo;
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if ((actionID == RDM.Veraero2 || actionID == RDM.Verthunder2) && (HasEffect(RDM.Buffs.Swiftcast) || HasEffect(RDM.Buffs.Dualcast)))
+			if ((actionID == RDM.Veraero2 || actionID == RDM.Verthunder2) && (SelfHasEffect(RDM.Buffs.Swiftcast) || SelfHasEffect(RDM.Buffs.Dualcast)))
 				return OriginalHook(RDM.Impact);
 
 			return actionID;
@@ -87,13 +87,13 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 				if (IsEnabled(CustomComboPreset.RedMageMeleeComboPlus) && lastComboMove == RDM.EnchantedRedoublement) {
 					RDMGauge gauge = GetJobGauge<RDMGauge>();
 					if (gauge.BlackMana >= gauge.WhiteMana && level >= RDM.Levels.Verholy) {
-						if (HasEffect(RDM.Buffs.VerstoneReady) && !HasEffect(RDM.Buffs.VerfireReady) && (gauge.BlackMana - gauge.WhiteMana <= 9))
+						if (SelfHasEffect(RDM.Buffs.VerstoneReady) && !SelfHasEffect(RDM.Buffs.VerfireReady) && (gauge.BlackMana - gauge.WhiteMana <= 9))
 							return RDM.Verflare;
 
 						return RDM.Verholy;
 					}
 					else if (level >= RDM.Levels.Verflare) {
-						if (!HasEffect(RDM.Buffs.VerstoneReady) && HasEffect(RDM.Buffs.VerfireReady) && level >= RDM.Levels.Verholy && (gauge.WhiteMana - gauge.BlackMana <= 9))
+						if (!SelfHasEffect(RDM.Buffs.VerstoneReady) && SelfHasEffect(RDM.Buffs.VerfireReady) && level >= RDM.Levels.Verholy && (gauge.WhiteMana - gauge.BlackMana <= 9))
 							return RDM.Verholy;
 
 						return RDM.Verflare;
@@ -130,16 +130,16 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 					return RDM.Verholy;
 
 				if (IsEnabled(CustomComboPreset.RedMageVerprocComboPlus)) {
-					if ((HasEffect(RDM.Buffs.Dualcast) || HasEffect(RDM.Buffs.Swiftcast)) && level >= RDM.Levels.Veraero)
+					if ((SelfHasEffect(RDM.Buffs.Dualcast) || SelfHasEffect(RDM.Buffs.Swiftcast)) && level >= RDM.Levels.Veraero)
 						return RDM.Veraero;
 				}
 
 				if (IsEnabled(CustomComboPreset.RedMageVerprocOpenerFeature)) {
-					if (!HasEffect(RDM.Buffs.VerstoneReady) && !HasCondition(ConditionFlag.InCombat) && level >= RDM.Levels.Veraero)
+					if (!SelfHasEffect(RDM.Buffs.VerstoneReady) && !HasCondition(ConditionFlag.InCombat) && level >= RDM.Levels.Veraero)
 						return RDM.Veraero;
 				}
 
-				if (HasEffect(RDM.Buffs.VerstoneReady))
+				if (SelfHasEffect(RDM.Buffs.VerstoneReady))
 					return RDM.Verstone;
 
 				return OriginalHook(RDM.Jolt2);
@@ -153,16 +153,16 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 					return RDM.Verflare;
 
 				if (IsEnabled(CustomComboPreset.RedMageVerprocComboPlus)) {
-					if ((HasEffect(RDM.Buffs.Dualcast) || HasEffect(RDM.Buffs.Swiftcast)) && level >= RDM.Levels.Verthunder)
+					if ((SelfHasEffect(RDM.Buffs.Dualcast) || SelfHasEffect(RDM.Buffs.Swiftcast)) && level >= RDM.Levels.Verthunder)
 						return RDM.Verthunder;
 				}
 
 				if (IsEnabled(CustomComboPreset.RedMageVerprocOpenerFeature)) {
-					if (!HasEffect(RDM.Buffs.VerfireReady) && !HasCondition(ConditionFlag.InCombat) && level >= RDM.Levels.Verthunder)
+					if (!SelfHasEffect(RDM.Buffs.VerfireReady) && !HasCondition(ConditionFlag.InCombat) && level >= RDM.Levels.Verthunder)
 						return RDM.Verthunder;
 				}
 
-				if (HasEffect(RDM.Buffs.VerfireReady))
+				if (SelfHasEffect(RDM.Buffs.VerfireReady))
 					return RDM.Verfire;
 
 				return OriginalHook(RDM.Jolt2);

@@ -101,7 +101,7 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 		protected override CustomComboPreset Preset => CustomComboPreset.DancerFanDance1Combo;
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID == DNC.FanDance1 && level >= DNC.Levels.FanDance3 && HasEffect(DNC.Buffs.FlourishingFanDance))
+			if (actionID == DNC.FanDance1 && level >= DNC.Levels.FanDance3 && SelfHasEffect(DNC.Buffs.FlourishingFanDance))
 				return DNC.FanDance3;
 
 			return actionID;
@@ -112,7 +112,7 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 		protected override CustomComboPreset Preset => CustomComboPreset.DancerFanDance2Combo;
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID == DNC.FanDance2 && level >= DNC.Levels.FanDance3 && HasEffect(DNC.Buffs.FlourishingFanDance))
+			if (actionID == DNC.FanDance2 && level >= DNC.Levels.FanDance3 && SelfHasEffect(DNC.Buffs.FlourishingFanDance))
 				return DNC.FanDance3;
 
 			return actionID;
@@ -125,7 +125,7 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			if (actionID == DNC.StandardStep) {
 				DNCGauge gauge = GetJobGauge<DNCGauge>();
-				if (gauge.IsDancing && HasEffect(DNC.Buffs.StandardStep)) {
+				if (gauge.IsDancing && SelfHasEffect(DNC.Buffs.StandardStep)) {
 					if (gauge.CompletedSteps < 2)
 						return gauge.NextStep;
 
@@ -135,7 +135,7 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 
 			if (actionID == DNC.TechnicalStep) {
 				DNCGauge gauge = GetJobGauge<DNCGauge>();
-				if (gauge.IsDancing && HasEffect(DNC.Buffs.TechnicalStep)) {
+				if (gauge.IsDancing && SelfHasEffect(DNC.Buffs.TechnicalStep)) {
 					if (gauge.CompletedSteps < 4)
 						return gauge.NextStep;
 
@@ -152,16 +152,16 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			if (actionID == DNC.Flourish) {
-				if (level >= DNC.Levels.Fountainfall && HasEffect(DNC.Buffs.FlourishingFountain))
+				if (level >= DNC.Levels.Fountainfall && SelfHasEffect(DNC.Buffs.FlourishingFountain))
 					return DNC.Fountainfall;
 
-				if (level >= DNC.Levels.ReverseCascade && HasEffect(DNC.Buffs.FlourishingCascade))
+				if (level >= DNC.Levels.ReverseCascade && SelfHasEffect(DNC.Buffs.FlourishingCascade))
 					return DNC.ReverseCascade;
 
-				if (level >= DNC.Levels.Bloodshower && HasEffect(DNC.Buffs.FlourishingShower))
+				if (level >= DNC.Levels.Bloodshower && SelfHasEffect(DNC.Buffs.FlourishingShower))
 					return DNC.Bloodshower;
 
-				if (level >= DNC.Levels.RisingWindmill && HasEffect(DNC.Buffs.FlourishingWindmill))
+				if (level >= DNC.Levels.RisingWindmill && SelfHasEffect(DNC.Buffs.FlourishingWindmill))
 					return DNC.RisingWindmill;
 
 				return DNC.Flourish;
@@ -177,11 +177,11 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			if (actionID == DNC.Cascade) {
 				// From Fountain
-				if (level >= DNC.Levels.Fountainfall && HasEffect(DNC.Buffs.FlourishingFountain))
+				if (level >= DNC.Levels.Fountainfall && SelfHasEffect(DNC.Buffs.FlourishingFountain))
 					return DNC.Fountainfall;
 
 				// From Cascade
-				if (level >= DNC.Levels.ReverseCascade && HasEffect(DNC.Buffs.FlourishingCascade))
+				if (level >= DNC.Levels.ReverseCascade && SelfHasEffect(DNC.Buffs.FlourishingCascade))
 					return DNC.ReverseCascade;
 
 				// Cascade Combo
@@ -201,11 +201,11 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			if (actionID == DNC.Windmill) {
 				// From Bladeshower
-				if (level >= DNC.Levels.Bloodshower && HasEffect(DNC.Buffs.FlourishingShower))
+				if (level >= DNC.Levels.Bloodshower && SelfHasEffect(DNC.Buffs.FlourishingShower))
 					return DNC.Bloodshower;
 
 				// From Windmill
-				if (level >= DNC.Levels.RisingWindmill && HasEffect(DNC.Buffs.FlourishingWindmill))
+				if (level >= DNC.Levels.RisingWindmill && SelfHasEffect(DNC.Buffs.FlourishingWindmill))
 					return DNC.RisingWindmill;
 
 				// Windmill Combo

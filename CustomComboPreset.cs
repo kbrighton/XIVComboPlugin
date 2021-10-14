@@ -442,8 +442,4 @@ namespace XIVComboVeryExpandedPlugin {
 			};
 		}
 	}
-
-	internal static class CustomComboPresetExtensions {
-		public static CustomComboInfoAttribute GetInfo(this CustomComboPreset preset) => preset.GetAttribute<CustomComboInfoAttribute>();
-	}
 }

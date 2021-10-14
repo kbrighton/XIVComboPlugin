@@ -66,7 +66,7 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 				if (gauge.SoulVoice == 100 && IsEnabled(CustomComboPreset.BardApexFeature))
 					return BRD.ApexArrow;
 
-				if (HasEffect(BRD.Buffs.StraightShotReady))
+				if (SelfHasEffect(BRD.Buffs.StraightShotReady))
 					return OriginalHook(BRD.RefulgentArrow);
 			}
 
@@ -80,8 +80,8 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			if (actionID == BRD.IronJaws) {
 				if (level < BRD.Levels.IronJaws) {
-					Status? venomous = FindTargetEffect(BRD.Debuffs.VenomousBite);
-					Status? windbite = FindTargetEffect(BRD.Debuffs.Windbite);
+					Status? venomous = TargetFindAnyEffect(BRD.Debuffs.VenomousBite);
+					Status? windbite = TargetFindAnyEffect(BRD.Debuffs.Windbite);
 					if (venomous is not null && windbite is not null) {
 						if (venomous.RemainingTime < windbite.RemainingTime)
 							return BRD.VenomousBite;
@@ -95,8 +95,8 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 				}
 
 				if (level < BRD.Levels.BiteUpgrade) {
-					bool venomous = TargetHasEffect(BRD.Debuffs.VenomousBite);
-					bool windbite = TargetHasEffect(BRD.Debuffs.Windbite);
+					bool venomous = TargetHasAnyEffect(BRD.Debuffs.VenomousBite);
+					bool windbite = TargetHasAnyEffect(BRD.Debuffs.Windbite);
 					if (venomous && windbite)
 						return BRD.IronJaws;
 					if (windbite)
@@ -104,8 +104,8 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 					return BRD.Windbite;
 				}
 
-				bool caustic = TargetHasEffect(BRD.Debuffs.CausticBite);
-				bool stormbite = TargetHasEffect(BRD.Debuffs.Stormbite);
+				bool caustic = TargetHasAnyEffect(BRD.Debuffs.CausticBite);
+				bool stormbite = TargetHasAnyEffect(BRD.Debuffs.Stormbite);
 				if (caustic && stormbite)
 					return BRD.IronJaws;
 				if (stormbite)

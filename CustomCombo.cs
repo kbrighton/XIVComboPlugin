@@ -5,10 +5,13 @@ using Dalamud.Game.ClientState.JobGauge.Types;
 using Dalamud.Game.ClientState.Objects.SubKinds;
 using Dalamud.Game.ClientState.Objects.Types;
 using Dalamud.Game.ClientState.Statuses;
+using Dalamud.Utility;
 
 namespace XIVComboVeryExpandedPlugin.Combos {
 	internal abstract class CustomCombo {
 		#region static 
+
+		public const uint InvalidObjectID = 0xE000_0000;
 
 		private static IconReplacer iconReplacer = null!;
 		protected static XIVComboVeryExpandedConfiguration Configuration = null!;
@@ -33,24 +36,22 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 		protected virtual uint[] ActionIDs { get; set; }
 
 		protected CustomCombo() {
-			CustomComboInfoAttribute presetInfo = this.Preset.GetInfo();
+			CustomComboInfoAttribute presetInfo = this.Preset.GetAttribute<CustomComboInfoAttribute>();
 			this.JobID = presetInfo.JobID;
 			this.ActionIDs = presetInfo.ActionIDs;
 		}
 
-		public bool TryInvoke(uint actionID, uint lastComboMove, float comboTime, byte level, out uint newActionID) {
+		public bool TryInvoke(uint actionID, uint lastComboActionId, float comboTime, byte level, out uint newActionID) {
 			newActionID = 0;
 
-			if (LocalPlayer is null)
+			if (LocalPlayer is null
+				|| !IsEnabled(this.Preset)
+				|| (this.JobID != LocalPlayer.ClassJob.Id && this.ClassID != LocalPlayer.ClassJob.Id)
+				|| !this.ActionIDs.Contains(actionID)
+			)
 				return false;
 
-			if (!IsEnabled(this.Preset))
-				return false;
-
-			if ((this.JobID != LocalPlayer.ClassJob.Id && this.ClassID != LocalPlayer.ClassJob.Id) || !this.ActionIDs.Contains(actionID))
-				return false;
-
-			uint resultingActionID = this.Invoke(actionID, lastComboMove, comboTime, level);
+			uint resultingActionID = this.Invoke(actionID, lastComboActionId, comboTime, level);
 			if (resultingActionID == 0 || actionID == resultingActionID)
 				return false;
 
@@ -58,7 +59,7 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 			return true;
 		}
 
-		protected abstract uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level);
+		protected abstract uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level);
 
 		#region Utility/convenience getters
 
@@ -80,45 +81,48 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 
 		#region Effects
 
-		protected static bool HasEffect(short effectId) => FindEffect(effectId) != null;
-
-		protected static bool TargetHasEffect(short effectId) => FindTargetEffect(effectId) != null;
-
-		protected static Status? FindEffect(short effectId) => FindEffect(effectId, LocalPlayer, null);
-
-		protected static float EffectDuration(short effectId) {
-			Status? eff = FindEffect(effectId);
+		protected static Status? SelfFindEffect(short effectId) => FindEffect(effectId, LocalPlayer, null);
+		protected static bool SelfHasEffect(short effectId) => SelfFindEffect(effectId) is not null;
+		protected static float SelfEffectDuration(short effectId) {
+			Status? eff = SelfFindEffect(effectId);
 			return eff?.RemainingTime ?? 0;
 		}
-
-		protected static float EffectStacks(short effectId) {
-			Status? eff = FindEffect(effectId);
+		protected static float SelfEffectStacks(short effectId) {
+			Status? eff = SelfFindEffect(effectId);
 			return eff?.StackCount ?? 0;
 		}
 
-		protected static float TargetEffectDuration(short effectId) {
-			Status? eff = FindTargetEffect(effectId);
+		protected static Status? TargetFindAnyEffect(short effectId) => FindEffect(effectId, CurrentTarget, null);
+		protected static bool TargetHasAnyEffect(short effectId) => TargetFindAnyEffect(effectId) is not null;
+		protected static float TargetAnyEffectDuration(short effectId) {
+			Status? eff = TargetFindAnyEffect(effectId);
 			return eff?.RemainingTime ?? 0;
 		}
-
-		protected static float TargetEffectStacks(short effectId) {
-			Status? eff = FindTargetEffect(effectId);
+		protected static float TargetAnyEffectStacks(short effectId) {
+			Status? eff = TargetFindAnyEffect(effectId);
 			return eff?.StackCount ?? 0;
 		}
 
-		protected static Status? FindTargetEffect(short effectId) => FindEffect(effectId, CurrentTarget, LocalPlayer?.ObjectId);
+		protected static Status? TargetFindOwnEffect(short effectId) => FindEffect(effectId, CurrentTarget, LocalPlayer?.ObjectId);
+		protected static bool TargetHasOwnEffect(short effectId) => TargetFindOwnEffect(effectId) is not null;
+		protected static float TargetOwnEffectDuration(short effectId) {
+			Status? eff = TargetFindOwnEffect(effectId);
+			return eff?.RemainingTime ?? 0;
+		}
+		protected static float TargetOwnEffectStacks(short effectId) {
+			Status? eff = TargetFindOwnEffect(effectId);
+			return eff?.StackCount ?? 0;
+		}
 
 		protected static Status? FindEffect(short effectId, GameObject? actor, uint? sourceId) {
 			if (actor is null)
 				return null;
-			if (actor is BattleChara chara)
-				foreach (Status status in chara.StatusList) {
-					if (status.StatusId == effectId) {
-						if (!sourceId.HasValue || status.SourceID == sourceId)
-							return status;
-					}
-				}
-
+			if (actor is not BattleChara chara)
+				return null;
+			foreach (Status status in chara.StatusList) {
+				if (status.StatusId == effectId && (!sourceId.HasValue || status.SourceID == 0 || status.SourceID == InvalidObjectID || status.SourceID == sourceId))
+					return status;
+			}
 			return null;
 		}
 
