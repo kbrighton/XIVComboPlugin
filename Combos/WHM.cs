@@ -14,7 +14,7 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 			AfflatusMisery = 16535;
 
 		public static class Buffs {
-			// public const short placeholder = 0;
+			public const short LostChainspell = 2560;
 		}
 
 		public static class Debuffs {
@@ -33,7 +33,7 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 		protected override CustomComboPreset Preset => CustomComboPreset.WhiteMageSwiftcastRaiserFeature;
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID == WHM.Raise && GetCooldown(CommonSkills.Swiftcast).CooldownRemaining == 0)
+			if (actionID == WHM.Raise && GetCooldown(CommonSkills.Swiftcast).CooldownRemaining == 0 && !SelfHasEffect(WHM.Buffs.LostChainspell))
 				return CommonSkills.Swiftcast;
 
 			return actionID;

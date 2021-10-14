@@ -25,7 +25,8 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 
 		public static class Buffs {
 			public const short
-				HellishConduit = 1867;
+				HellishConduit = 1867,
+				LostChainspell = 2560;
 		}
 
 		public static class Debuffs {
@@ -44,7 +45,7 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 		protected override CustomComboPreset Preset => CustomComboPreset.SummonerSwiftcastRaiserFeature;
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID == SMN.Resurrection && GetCooldown(CommonSkills.Swiftcast).CooldownRemaining == 0)
+			if (actionID == SMN.Resurrection && GetCooldown(CommonSkills.Swiftcast).CooldownRemaining == 0 && !SelfHasEffect(SMN.Buffs.LostChainspell))
 				return CommonSkills.Swiftcast;
 
 			return actionID;

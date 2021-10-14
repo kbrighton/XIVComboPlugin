@@ -21,7 +21,7 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 			Play = 17055;
 
 		public static class Buffs {
-			// public const short placeholder = 0;
+			public const short LostChainspell = 2560;
 		}
 
 		public static class Debuffs {
@@ -40,7 +40,7 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 		protected override CustomComboPreset Preset => CustomComboPreset.AstrologianSwiftcastRaiserFeature;
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID == AST.Ascend && GetCooldown(CommonSkills.Swiftcast).CooldownRemaining == 0)
+			if (actionID == AST.Ascend && GetCooldown(CommonSkills.Swiftcast).CooldownRemaining == 0 && !SelfHasEffect(AST.Buffs.LostChainspell))
 				return CommonSkills.Swiftcast;
 
 			return actionID;
