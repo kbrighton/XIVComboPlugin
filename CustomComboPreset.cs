@@ -213,7 +213,7 @@ namespace XIVComboVeryExpandedPlugin {
 		[CustomComboInfo("Hide to Mug", "Replaces Hide with Trick Attack while under the effect of Suiton or Hidden, or else Mug if in combat.", NIN.JobID, NIN.Hide)]
 		NinjaHideMugFeature = 90,
 
-		[CustomComboInfo("GCDs to Ninjutsu Feature", "Every GCD combo becomes Ninjutsu while Mudras are being used.", NIN.JobID, NIN.AeolianEdge, NIN.ArmorCrush, NIN.HakkeMujinsatsu)]
+		[CustomComboInfo("GCDs to Ninjutsu Feature", "Every GCD combo becomes Ninjutsu while Mudras are being used.\nONLY affects GCDs that are in COMBOS!\nIf you turn off the Armor Crush combo, AC will NOT be changed, for instance.", NIN.JobID, NIN.AeolianEdge, NIN.ArmorCrush, NIN.HakkeMujinsatsu)]
 		NinjaGCDNinjutsuFeature = 92,
 
 		#endregion
