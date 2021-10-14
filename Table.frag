@@ -9,7 +9,8 @@
 | BLM | Despair | Despair replaces Fire 4 on Enochian switcher when below 2400 MP. |
 | BLM | Enochian Stance Switcher | Change Enochian to Fire 4 or Blizzard 4 depending on stance. |
 | BLM | Fire 1/3 | Fire 1 becomes Fire 3 outside of Astral Fire, OR when Firestarter proc is up. |
-| BLM | Fire 3 to Fire 1 Feature | Fire 1 (and 3 if procced) will replace Fire 4 on Enochian Switcher. |
+| BLM | Fire 4 to Fire 1/3 Feature | Fire 1 (and 3 if procced) will replace Fire 4 on Enochian Switcher. |
+| BLM | Scathe/Xenoglossy Feature | Scathe becomes Xenoglossy when available. |
 | BLM | Thunder | Thunder 1/3 replaces Enochian/Fire 4/Blizzard 4 on Enochian switcher. |
 | BLM | Umbral Soul/Transpose Switcher | Change Transpose into Umbral Soul when Umbral Soul is usable. |
 | BRD | Burst Shot/Quick Nock into Apex Arrow | Replaces Burst Shot and Quick Nock with Apex Arrow when gauge is full. |
@@ -19,7 +20,8 @@
 | DNC | AoE Multibutton | Change Windmill into procs and combos as available. |
 | DNC | Dance Step Combo | Change Standard Step and Technical Step into each dance step while dancing. |
 | DNC | Dance Step Feature | Change custom actions into dance steps while dancing. |
-| DNC | Fan Dance Combos | Change Fan Dance and Fan Dance 2 into Fan Dance 3 while flourishing. |
+| DNC | Fan Dance 1 Combo | Change Fan Dance 1 into Fan Dance 3 while flourishing. |
+| DNC | Fan Dance 2 Combo | Change Fan Dance 2 into Fan Dance 3 while flourishing. |
 | DNC | Flourish Proc Saver | Change Flourish into any available procs before using. |
 | DNC | Single Target Multibutton | Change Cascade into procs and combos as available. |
 | DRG | BOTD Into Stardiver | Replace Blood of the Dragon with Stardiver when in Life of the Dragon. |
@@ -27,10 +29,11 @@
 | DRG | Coerthan Torment Combo | Replace Coerthan Torment with its combo chain. |
 | DRG | Full Thrust Combo | Replace Full Thrust with its combo chain. |
 | DRG | Jump + Mirage Dive | Replace (High) Jump with Mirage Dive when Dive Ready. |
-| DRK | Dark Knight Gauge Overcap Feature | Replace AoE combo with gauge spender if you are about to overcap. |
+| DRK | Dark Knight Gauge Overcap Saver | Replace AoE combo with gauge spender if you are about to overcap. |
 | DRK | Delirium Feature | Replace Souleater and Stalwart Soul with Bloodspiller and Quietus when Delirium is active. |
 | DRK | Souleater Combo | Replace Souleater with its combo chain. |
 | DRK | Stalwart Soul Combo | Replace Stalwart Soul with its combo chain. |
+| GNB | Bow Shock / Sonic Break Swap | Replace Bow Shock and Sonic Break with one or the other, depending on which is on cooldown. |
 | GNB | Burst Strike to Bloodfest Feature | Replace Burst Strike with Bloodfest if you have no powder gauge. |
 | GNB | Demon Slaughter Combo | Replace Demon Slaughter with its combo chain. |
 | GNB | Fated Circle Feature | In addition to the Demon Slaughter combo, add Fated Circle when charges are full. |
@@ -50,16 +53,16 @@
 | NIN | Dream to Assassinate | Replace Dream Within a Dream with Assassinate when Assassinate Ready. |
 | NIN | GCDs to Ninjutsu Feature | Every GCD combo becomes Ninjutsu while Mudras are being used. |
 | NIN | Hakke Mujinsatsu Combo | Replace Hakke Mujinsatsu with its combo chain. |
-| NIN | Hide to Mug | Replaces Hide with Trick Attack while under the effect of Suiton or Hidden, or else Mug if in combat. |
 | NIN | Kassatsu Chi/Jin Feature | Replaces Chi with Jin while Kassatsu is up if you have Enhanced Kassatsu. |
 | NIN | Kassatsu to Trick | Replaces Kassatsu with Trick Attack while Suiton or Hidden is up. |
+| NIN | Smart Hide | Replaces Hide with Trick Attack while under the effect of Suiton or Hidden, or else Mug if in combat. |
 | NIN | Ten Chi Jin to Meisui | Replaces Ten Chi Jin (the move) with Meisui while Suiton is up. |
 | PLD | Atonement Feature | Replace Royal Authority with Atonement when under the effect of Sword Oath. |
 | PLD | Confiteor Feature | Replace Holy Spirit/Circle with Confiteor while MP is under 4000 and Requiescat is up. |
 | PLD | Goring Blade Combo | Replace Goring Blade with its combo chain. |
 | PLD | Prominence Combo | Replace Prominence with its combo chain. |
-| PLD | Requiescat Confiteor | Replace Requiescat with Confiter while under the effect of Requiescat. |
-| PLD | Requiescat Feature | Replace Royal Authority/Goring Blade combo with Holy Spirit and Prominence combo with Holy Circle while Requiescat is active. |
+| PLD | Requiescat Confiteor | Replace Requiescat with Confiteor while under the effect of Requiescat. |
+| PLD | Requiescat Feature | Replace Royal Authority/Goring Blade combo with Holy Spirit, and Prominence combo with Holy Circle, while Requiescat is active. |
 | PLD | Royal Authority Combo | Replace Royal Authority/Rage of Halone with its combo chain. |
 | RDM | Red Mage AoE Combo | Replaces Veraero/Verthunder 2 with Impact when Dualcast or Swiftcast are active. |
 | RDM | Redoublement Combo Plus | Replaces Redoublement with Verflare/Verholy after Enchanted Redoublement, whichever is more appropriate. Also replaces Redoublement with Scorch after Verflare/Verholy. |
@@ -67,7 +70,8 @@
 | RDM | Swiftcast Verraise | Verraise turns into Swiftcast when it's off cooldown and Dualcast isn't up. |
 | RDM | Verproc into Jolt | Replaces Verstone/Verfire with Jolt/Scorch when no proc is available. |
 | RDM | Verproc into Jolt Plus | Additionally replaces Verstone/Verfire with Veraero/Verthunder if dualcast/swiftcast are up. |
-| RDM | Verproc into Jolt Plus Opener Feature | Turns Verfire into Verthunder when out of combat. |
+| RDM | Verproc into Jolt Plus Veraero Opener | Turns Verstone into Veraero when out of combat. |
+| RDM | Verproc into Jolt Plus Verthunder Opener | Turns Verfire into Verthunder when out of combat. |
 | SAM | Gekko Combo | Replace Gekko with its combo chain. |
 | SAM | Iaijutsu to Shoha | Replace Iaijutsu with Shoha when meditation is 3. |
 | SAM | Iaijutsu to Tsubame-gaeshi | Replace Iaijutsu with Tsubame-gaeshi when Sen is not empty. |
@@ -93,7 +97,7 @@
 | WAR | Nascent Flash Feature | Replace Nascent Flash with Raw intuition when below level 76. |
 | WAR | Storms Eye Combo | Replace Storms Eye with its combo chain. |
 | WAR | Storms Path Combo | Replace Storms Path with its combo chain. |
-| WAR | Warrior Gauge Overcap Feature | Replace Single-target or AoE combo with gauge spender if you are about to overcap and are before a step of a combo that would generate beast gauge. |
+| WAR | Warrior Gauge Overcap Saver | Replace Single-target or AoE combo with gauge spender if you are about to overcap and are before a step of a combo that would generate beast gauge. |
 | WHM | Afflatus Feature | Changes Cure 2 into Afflatus Solace, and Medica into Afflatus Rapture, when lilies are up. |
 | WHM | Cure 2 to Cure Level Sync | Changes Cure 2 to Cure when below level 30 in synced content. |
 | WHM | Rapture into Misery | Replaces Afflatus Rapture with Afflatus Misery when Misery is ready to be used. |
