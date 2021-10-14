@@ -6,7 +6,7 @@ using XIVComboVeryExpandedPlugin.Combos;
 
 namespace XIVComboVeryExpandedPlugin {
 	public enum CustomComboPreset {
-		// Last enum used: 104
+		// Last enum used: 105
 		// ====================================================================================
 		#region ASTROLOGIAN
 
@@ -260,8 +260,11 @@ namespace XIVComboVeryExpandedPlugin {
 		[CustomComboInfo("Verproc into Jolt Plus", "Additionally replaces Verstone/Verfire with Veraero/Verthunder if dualcast/swiftcast are up.\nRequires Verproc into Jolt.", RDM.JobID, RDM.Verstone, RDM.Verfire)]
 		RedMageVerprocComboPlus = 93,
 
-		[CustomComboInfo("Verproc into Jolt Plus Opener Feature", "Turns Verfire into Verthunder when out of combat.\nRequires Verproc into Jolt Plus.", RDM.JobID, RDM.Verfire)]
-		RedMageVerprocOpenerFeature = 94,
+		[CustomComboInfo("Verproc into Jolt Plus Veraero Opener Feature", "Turns Verstone into Veraero when out of combat.\nRequires Verproc into Jolt Plus.", RDM.JobID, RDM.Verfire)]
+		RedMageVeraeroOpenerFeature = 94,
+
+		[CustomComboInfo("Verproc into Jolt Plus Verthunder Opener Feature", "Turns Verfire into Verthunder when out of combat.\nRequires Verproc into Jolt Plus.", RDM.JobID, RDM.Verfire)]
+		RedMageVerthunderOpenerFeature = 105,
 
 		[CustomComboInfo("Swiftcast Verraise", "Verraise turns into Swiftcast when it's off cooldown and Dualcast isn't up.", RDM.JobID, RDM.Verraise)]
 		RedMageSwiftcastRaiserFeature = 99,
