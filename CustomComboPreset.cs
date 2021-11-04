@@ -5,7 +5,7 @@ using XIVComboVeryExpandedPlugin.Combos;
 
 namespace XIVComboVeryExpandedPlugin {
 	public enum CustomComboPreset {
-		// Last enum used: 107
+		// Last enum used: 108
 		// ====================================================================================
 		#region ASTROLOGIAN
 
@@ -224,8 +224,12 @@ namespace XIVComboVeryExpandedPlugin {
 		MachinistOverdriveFeature = 58,
 
 		[Ordered]
-		[CustomComboInfo("Gauss Round / Ricochet Feature", "Replace Gauss Round and Ricochet with one or the other depending on which has more charges.", MCH.JobID, MCH.GaussRound, MCH.Ricochet)]
+		[CustomComboInfo("Gauss Round / Ricochet Feature", "Replace Gauss Round and Ricochet with one or the other depending on which has less recharge time left.", MCH.JobID, MCH.GaussRound, MCH.Ricochet)]
 		MachinistGaussRoundRicochetFeature = 66,
+
+		[Ordered]
+		[CustomComboInfo("Drill / Air Anchor (Hot Shot) Feature", "Replace Drill and Air Anchor (Hot Shot) with one or the other depending on which is on cooldown.", MCH.JobID, MCH.Drill, MCH.AirAnchor, MCH.HotShot)]
+		MachinistDrillAirAnchorFeature = 108,
 
 		#endregion
 		// ====================================================================================
