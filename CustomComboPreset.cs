@@ -5,7 +5,7 @@ using XIVComboVeryExpandedPlugin.Combos;
 
 namespace XIVComboVeryExpandedPlugin {
 	public enum CustomComboPreset {
-		// Last enum used: 106
+		// Last enum used: 107
 		// ====================================================================================
 		#region ASTROLOGIAN
 
@@ -43,11 +43,15 @@ namespace XIVComboVeryExpandedPlugin {
 
 		[Ordered]
 		[CustomComboInfo("Fire 4 to Fire 1/3 Feature", "Fire 1 (and 3 if procced) will replace Fire 4 on Enochian Switcher.\nOccurs when:\n- less than 3 seconds left and firestarter up (for F3), or\n- less than 6 seconds left and NO firestarter (for F1)\nEnochian Stance Switcher must be active.", BLM.JobID, BLM.Enochian)]
-		BlackFire3Feature = 97,
+		BlackEnochianSmartFireSwitcherFeature = 97,
 
 		[Ordered]
-		[CustomComboInfo("Blizzard 1/2/3", "Blizzard 1 becomes Blizzard 3 when out of Umbral Ice. Freeze becomes Blizzard 2 when synced.", BLM.JobID, BLM.Blizzard, BLM.Freeze)]
+		[CustomComboInfo("Blizzard 1/3", "Blizzard 1 becomes Blizzard 3 when out of Umbral Ice.", BLM.JobID, BLM.Blizzard)]
 		BlackBlizzardFeature = 71,
+
+		[Ordered]
+		[CustomComboInfo("Freeze Feature", "Freeze becomes Blizzard 2 when synced.", BLM.JobID, BLM.Freeze)]
+		BlackFreezeFeature = 107,
 
 		[Ordered]
 		[CustomComboInfo("Thunder", "Thunder 1/3 replaces Enochian/Fire 4/Blizzard 4 on Enochian switcher.\n Occurs when Thundercloud is up and either\n- Thundercloud buff on you is about to run out, or\n- Thunder debuff on your CURRENT target is about to run out\nassuming it won't interrupt timer upkeep.\nEnochian Stance Switcher must be active.", BLM.JobID, BLM.Enochian)]

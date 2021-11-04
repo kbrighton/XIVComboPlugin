@@ -81,13 +81,13 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 							return BLM.Thunder3;
 						}
 
-						if (Configuration.IsEnabled(CustomComboPreset.BlackFire3Feature) && gauge.ElementTimeRemaining < 3000 && SelfHasEffect(BLM.Buffs.Firestarter))
+						if (Configuration.IsEnabled(CustomComboPreset.BlackEnochianSmartFireSwitcherFeature) && gauge.ElementTimeRemaining < 3000 && SelfHasEffect(BLM.Buffs.Firestarter))
 							return BLM.Fire3;
 
 						if (Configuration.IsEnabled(CustomComboPreset.BlackDespairFeature) && LocalPlayer!.CurrentMp < 2400 && level >= BLM.Levels.Despair) {
 							return BLM.Despair;
 						}
-						if (Configuration.IsEnabled(CustomComboPreset.BlackFire3Feature) && gauge.ElementTimeRemaining < 6000 && !SelfHasEffect(BLM.Buffs.Firestarter))
+						if (Configuration.IsEnabled(CustomComboPreset.BlackEnochianSmartFireSwitcherFeature) && gauge.ElementTimeRemaining < 6000 && !SelfHasEffect(BLM.Buffs.Firestarter))
 							return BLM.Fire;
 						return BLM.Fire4;
 					}
@@ -152,7 +152,13 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 				if (level >= BLM.Levels.Blizzard3 && !gauge.InUmbralIce)
 					return BLM.Blizzard3;
 			}
+			return actionID;
+		}
+	}
+	internal class BlackFreezeFeature: CustomCombo {
+		protected override CustomComboPreset Preset => CustomComboPreset.BlackFreezeFeature;
 
+		protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
 			if (actionID == BLM.Freeze) {
 				if (level < BLM.Levels.Freeze)
 					return BLM.Blizzard2;
