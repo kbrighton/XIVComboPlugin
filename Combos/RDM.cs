@@ -45,6 +45,8 @@ namespace XIVComboVX.Combos {
 				Jolt = 2,
 				Verthunder = 4,
 				Veraero = 10,
+				Verthunder2 = 18,
+				Veraero2 = 22,
 				Verraise = 64,
 				Zwerchhau = 35,
 				Redoublement = 50,
@@ -201,8 +203,11 @@ namespace XIVComboVX.Combos {
 				RDMGauge gauge = GetJobGauge<RDMGauge>();
 				int black = gauge.BlackMana;
 				int white = gauge.WhiteMana;
-				// TODO: need to handle levels being too low for certain actions
 				if (actionID is RDM.Veraero or RDM.Verthunder) {
+					if (level < RDM.Levels.Verthunder)
+						return OriginalHook(RDM.Jolt2);
+					if (level is < RDM.Levels.Veraero and >= RDM.Levels.Verthunder)
+						return RDM.Verthunder;
 					// This is for the long opener only, so we're not bothered about fast casting or finishers or anything like that
 					if (black < white)
 						return RDM.Verthunder;
@@ -234,6 +239,8 @@ namespace XIVComboVX.Combos {
 						return RDM.Verflare;
 					}
 					if (fastCasting) {
+						if (level is < RDM.Levels.Veraero and >= RDM.Levels.Verthunder)
+							return RDM.Verthunder;
 						if (verfireUp == verstoneUp) {
 							// Either both procs are already up or neither is - use whatever gives us the mana we need
 							if (black < white)
@@ -292,8 +299,10 @@ namespace XIVComboVX.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			if (actionID is RDM.Veraero2 or RDM.Verthunder2) {
-				if (SelfHasEffect(RDM.Buffs.Swiftcast) || SelfHasEffect(RDM.Buffs.Dualcast) || SelfHasEffect(RDM.Buffs.LostChainspell))
+				if (SelfHasEffect(RDM.Buffs.Swiftcast) || SelfHasEffect(RDM.Buffs.Dualcast) || SelfHasEffect(RDM.Buffs.LostChainspell) || level < RDM.Levels.Verthunder2)
 					return OriginalHook(RDM.Impact);
+				if (level < RDM.Levels.Veraero2)
+					return RDM.Verthunder2;
 				RDMGauge gauge = GetJobGauge<RDMGauge>();
 				if (gauge.BlackMana > gauge.WhiteMana)
 					return RDM.Veraero2;
