@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 
-namespace XIVCombo {
+namespace XIVComboVX.Attributes {
 	[AttributeUsage(AttributeTargets.Field)]
 	internal class OrderedAttribute: Attribute {
 		public int Order { get; }

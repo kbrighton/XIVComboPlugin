@@ -1,6 +1,6 @@
 using Dalamud.Game.ClientState.JobGauge.Types;
 
-namespace XIVComboVeryExpandedPlugin.Combos {
+namespace XIVComboVX.Combos {
 	internal static class GNB {
 		public const byte JobID = 37;
 

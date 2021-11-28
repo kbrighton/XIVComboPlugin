@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace XIVComboVeryExpandedPlugin {
+namespace XIVComboVX.Attributes {
 	[AttributeUsage(AttributeTargets.Field)]
 	internal class CustomComboInfoAttribute: Attribute {
 		internal CustomComboInfoAttribute(string fancyName, string description, byte jobID, params uint[] actionIDs) {

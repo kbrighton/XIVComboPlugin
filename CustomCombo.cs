@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System;
 using System.Linq;
 
 using Dalamud.Game.ClientState.Conditions;
@@ -7,16 +9,19 @@ using Dalamud.Game.ClientState.Objects.Types;
 using Dalamud.Game.ClientState.Statuses;
 using Dalamud.Utility;
 
-namespace XIVComboVeryExpandedPlugin.Combos {
+using XIVComboVX.Attributes;
+using System.Collections.Concurrent;
+
+namespace XIVComboVX.Combos {
 	internal abstract class CustomCombo {
 		#region static 
 
 		public const uint InvalidObjectID = 0xE000_0000;
 
 		private static IconReplacer iconReplacer = null!;
-		protected static XIVComboVeryExpandedConfiguration Configuration = null!;
+		protected static PluginConfiguration Configuration = null!;
 
-		public static void Initialize(IconReplacer iconReplacer, XIVComboVeryExpandedConfiguration configuration) {
+		public static void Initialize(IconReplacer iconReplacer, PluginConfiguration configuration) {
 			CustomCombo.iconReplacer = iconReplacer;
 			Configuration = configuration;
 		}
@@ -34,6 +39,8 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 		};
 
 		protected virtual uint[] ActionIDs { get; set; }
+
+		private static readonly Dictionary<Type, JobGaugeBase> jobGauges = new();
 
 		protected CustomCombo() {
 			CustomComboInfoAttribute presetInfo = this.Preset.GetAttribute<CustomComboInfoAttribute>();
@@ -65,17 +72,21 @@ namespace XIVComboVeryExpandedPlugin.Combos {
 
 		protected static uint OriginalHook(uint actionID) => iconReplacer.OriginalHook(actionID);
 
-		protected static PlayerCharacter? LocalPlayer => XIVComboVeryExpandedPlugin.client.LocalPlayer;
+		protected static PlayerCharacter? LocalPlayer => Service.client.LocalPlayer;
 
-		protected static GameObject? CurrentTarget => XIVComboVeryExpandedPlugin.targets.Target;
+		protected static GameObject? CurrentTarget => Service.targets.Target;
 
 		protected static bool IsEnabled(CustomComboPreset preset) => Configuration.IsEnabled(preset);
 
-		protected static bool HasCondition(ConditionFlag flag) => XIVComboVeryExpandedPlugin.conditions[flag];
+		protected static bool HasCondition(ConditionFlag flag) => Service.conditions[flag];
 
 		protected static CooldownData GetCooldown(uint actionID) => iconReplacer.GetCooldown(actionID);
 
-		protected static T GetJobGauge<T>() where T : JobGaugeBase => XIVComboVeryExpandedPlugin.jobGauge.Get<T>();
+		protected static T GetJobGauge<T>() where T : JobGaugeBase {
+			if (!jobGauges.TryGetValue(typeof(T), out JobGaugeBase? gauge))
+				gauge = jobGauges[typeof(T)] = Service.jobGauges.Get<T>();
+			return (T)gauge;
+		}
 
 		#endregion
 

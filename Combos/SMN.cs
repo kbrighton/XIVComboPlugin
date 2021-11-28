@@ -1,7 +1,7 @@
 using Dalamud.Game.ClientState.JobGauge.Enums;
 using Dalamud.Game.ClientState.JobGauge.Types;
 
-namespace XIVComboVeryExpandedPlugin.Combos {
+namespace XIVComboVX.Combos {
 	internal static class SMN {
 		public const byte JobID = 27;
 

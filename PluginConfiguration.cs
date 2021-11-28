@@ -3,14 +3,16 @@ using System.Collections.Generic;
 
 using Dalamud.Configuration;
 using Dalamud.Logging;
+using Dalamud.Utility;
 
 using Newtonsoft.Json;
 
-using XIVComboVeryExpandedPlugin.Combos;
+using XIVComboVX.Attributes;
+using XIVComboVX.Combos;
 
-namespace XIVComboVeryExpandedPlugin {
+namespace XIVComboVX {
 	[Serializable]
-	public class XIVComboVeryExpandedConfiguration: IPluginConfiguration {
+	public class PluginConfiguration: IPluginConfiguration {
 		public const int CURRENT_CONFIG_VERSION = 4;
 		public int Version { get; set; } = 4;
 
@@ -26,6 +28,8 @@ namespace XIVComboVeryExpandedPlugin {
 		};
 
 		public bool IsEnabled(CustomComboPreset preset) => this.EnabledActions.Contains(preset);
+
+		public void Save() => Service.pluginInterface.SavePluginConfig(this);
 
 		#region Obsolete
 #pragma warning disable IDE1006 // Naming Styles
@@ -117,7 +121,7 @@ namespace XIVComboVeryExpandedPlugin {
 		public void CheckVersion() {
 			if (this.Version < CURRENT_CONFIG_VERSION) {
 				this.Upgrade();
-				XIVComboVeryExpandedPlugin.pluginInterface.SavePluginConfig(this);
+				Service.pluginInterface.SavePluginConfig(this);
 			}
 		}
 

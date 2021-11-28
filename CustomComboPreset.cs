@@ -1,11 +1,13 @@
+using System;
 
-using XIVCombo;
+using Dalamud.Utility;
 
-using XIVComboVeryExpandedPlugin.Combos;
+using XIVComboVX.Attributes;
+using XIVComboVX.Combos;
 
-namespace XIVComboVeryExpandedPlugin {
+namespace XIVComboVX {
 	public enum CustomComboPreset {
-		// Last enum used: 108
+		// Last enum used: 110
 		// ====================================================================================
 		#region ASTROLOGIAN
 
@@ -114,10 +116,12 @@ namespace XIVComboVeryExpandedPlugin {
 		DancerFlourishFeature = 34,
 
 		[Ordered]
+		[Conflicts(DancerDanceComboCompatibility)]
 		[CustomComboInfo("Dance Step Combo", "Change Standard Step and Technical Step into each dance step while dancing.", DNC.JobID, DNC.StandardStep, DNC.TechnicalStep)]
 		DancerDanceStepCombo = 31,
 
 		[Ordered]
+		[Conflicts(DancerDanceStepCombo)]
 		[CustomComboInfo("Dance Step Feature", "Change custom actions into dance steps while dancing." +
 			"\nThe defaults are Cascade, Flourish, Fan Dance and Fan Dance II. If set to 0, they will reset to these actions." +
 			"\nYou can get Action IDs with Garland Tools by searching for the action and clicking the cog.", DNC.JobID)]
@@ -161,11 +165,11 @@ namespace XIVComboVeryExpandedPlugin {
 
 		[Ordered]
 		[CustomComboInfo("Delirium Feature", "Replace Souleater and Stalwart Soul with Bloodspiller and Quietus when Delirium is active.", DRK.JobID, DRK.Souleater, DRK.StalwartSoul)]
-		DeliriumFeature = 57,
+		DarkDeliriumFeature = 57,
 
 		[Ordered]
 		[CustomComboInfo("Dark Knight Gauge Overcap Saver", "Replace AoE combo with gauge spender if you are about to overcap.", DRK.JobID, DRK.StalwartSoul)]
-		DRKOvercapFeature = 85,
+		DarkOvercapFeature = 85,
 
 		#endregion
 		// ====================================================================================
@@ -324,6 +328,7 @@ namespace XIVComboVeryExpandedPlugin {
 		RedMageSwiftcastRaiserFeature = 99,
 
 		[Ordered]
+		[Conflicts(RedMageSmartcastAoEFeature)]
 		[CustomComboInfo("Red Mage AoE Combo", "Replaces Veraero/Verthunder 2 with Impact when Dualcast or Swiftcast are active.", RDM.JobID, RDM.Veraero2, RDM.Verthunder2)]
 		RedMageAoECombo = 48,
 
@@ -336,6 +341,7 @@ namespace XIVComboVeryExpandedPlugin {
 		RedMageMeleeComboPlus = 68,
 
 		[Ordered]
+		[Conflicts(RedMageSmartcastSingleFeature)]
 		[CustomComboInfo("Verproc into Jolt", "Replaces Verstone/Verfire with Jolt/Scorch when no proc is available.", RDM.JobID, RDM.Verstone, RDM.Verfire)]
 		RedMageVerprocCombo = 53,
 
@@ -350,6 +356,16 @@ namespace XIVComboVeryExpandedPlugin {
 		[Ordered]
 		[CustomComboInfo("Verproc into Jolt Plus Verthunder Opener", "Turns Verfire into Verthunder when out of combat.\nRequires Verproc into Jolt Plus.", RDM.JobID, RDM.Verfire)]
 		RedMageVerthunderOpenerFeature = 105,
+
+		[Ordered]
+		[Conflicts(RedMageAoECombo)]
+		[CustomComboInfo("Smartcast AoE", "Dynamically replaces Veraero/Verthunder 2 with the appropriate spell based on your black/white mana levels.\nIncludes Impact/Scatter when under a cast speeder.\nRequires the AoE Combo feature.", RDM.JobID, RDM.Veraero2, RDM.Verthunder2)]
+		RedMageSmartcastAoEFeature = 109,
+
+		[Ordered]
+		[Conflicts(RedMageVerprocCombo)]
+		[CustomComboInfo("Smartcast Single Target", "Dynamically replaces Verstone/Verfire with the appropriate spell based on your black/white mana levels.\nVeraero and Verthunder are replaced with one or the other accordingly, for openers.", RDM.JobID, RDM.Verstone, RDM.Veraero, RDM.Verfire, RDM.Verthunder)]
+		RedMageSmartcastSingleFeature = 110,
 
 		#endregion
 		// ====================================================================================
@@ -384,19 +400,23 @@ namespace XIVComboVeryExpandedPlugin {
 		SamuraiJinpuShifuFeature = 81,
 
 		[Ordered]
+		[Conflicts(SamuraiIaijutsuTsubameGaeshiFeature)]
 		[CustomComboInfo("Tsubame-gaeshi to Iaijutsu", "Replace Tsubame-gaeshi with Iaijutsu when Sen is empty.", SAM.JobID, SAM.TsubameGaeshi)]
 		SamuraiTsubameGaeshiIaijutsuFeature = 60,
 
 		[Ordered]
+		[Conflicts(SamuraiTsubameGaeshiIaijutsuFeature)]
+		[CustomComboInfo("Iaijutsu to Tsubame-gaeshi", "Replace Iaijutsu with Tsubame-gaeshi when Sen is not empty.", SAM.JobID, SAM.Iaijutsu)]
+		SamuraiIaijutsuTsubameGaeshiFeature = 64,
+
+		[Ordered]
+		[Conflicts(SamuraiIaijutsuShohaFeature)]
 		[CustomComboInfo("Tsubame-gaeshi to Shoha", "Replace Tsubame-gaeshi with Shoha when meditation is 3.", SAM.JobID, SAM.TsubameGaeshi)]
 		SamuraiTsubameGaeshiShohaFeature = 61,
 
 		[Ordered]
-		[CustomComboInfo("Iaijutsu to Tsubame-gaeshi", "Replace Iaijutsu with Tsubame-gaeshi when Sen is not empty.\n(Use either the Tsubame-gaeshi version or this)", SAM.JobID, SAM.Iaijutsu)]
-		SamuraiIaijutsuTsubameGaeshiFeature = 64,
-
-		[Ordered]
-		[CustomComboInfo("Iaijutsu to Shoha", "Replace Iaijutsu with Shoha when meditation is 3.\n(Use either the Tsubame-gaeshi version or this)", SAM.JobID, SAM.Iaijutsu)]
+		[Conflicts(SamuraiTsubameGaeshiShohaFeature)]
+		[CustomComboInfo("Iaijutsu to Shoha", "Replace Iaijutsu with Shoha when meditation is 3.", SAM.JobID, SAM.Iaijutsu)]
 		SamuraiIaijutsuShohaFeature = 65,
 
 		#endregion
@@ -497,5 +517,8 @@ namespace XIVComboVeryExpandedPlugin {
 
 		#endregion
 		// ====================================================================================
+	}
+	public static class CustomComboPresetExtensions {
+		public static CustomComboPreset[] GetConflicts(this CustomComboPreset preset) => preset.GetAttribute<ConflictsAttribute>()?.Conflicts ?? Array.Empty<CustomComboPreset>();
 	}
 }

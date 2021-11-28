@@ -13,14 +13,13 @@ using Dalamud.Hooking;
 using Dalamud.Logging;
 using Dalamud.Utility;
 
-using XIVComboVeryExpandedPlugin.Combos;
+using XIVComboVX.Attributes;
+using XIVComboVX.Combos;
 
-namespace XIVComboVeryExpandedPlugin {
+namespace XIVComboVX {
 	// why would you make me do this
 	[System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "Leftover from original fork")]
 	internal class IconReplacer {
-		private readonly PluginAddressResolver Address;
-		private readonly XIVComboVeryExpandedConfiguration Configuration;
 
 		private delegate ulong IsIconReplaceableDelegate(uint actionID);
 		private delegate uint GetIconDelegate(IntPtr actionManager, uint actionID);
@@ -35,21 +34,17 @@ namespace XIVComboVeryExpandedPlugin {
 		private readonly HashSet<uint> CustomIds = new();
 		private List<CustomCombo> CustomCombos = null!;
 
-		public IconReplacer(XIVComboVeryExpandedConfiguration configuration) {
-			this.Configuration = configuration;
+		public IconReplacer() {
 
-			this.Address = new PluginAddressResolver();
-			this.Address.Setup(XIVComboVeryExpandedPlugin.scanner);
-
-			CustomCombo.Initialize(this, configuration);
+			CustomCombo.Initialize(this, Service.configuration);
 			this.UpdateCustomCombos();
 
 			this.UpdateEnabledActionIDs();
 
-			this.GetActionCooldownSlot = Marshal.GetDelegateForFunctionPointer<GetActionCooldownSlotDelegate>(this.Address.GetActionCooldown);
+			this.GetActionCooldownSlot = Marshal.GetDelegateForFunctionPointer<GetActionCooldownSlotDelegate>(Service.address.GetActionCooldown);
 
-			this.GetIconHook = new Hook<GetIconDelegate>(this.Address.GetAdjustedActionId, this.GetIconDetour);
-			this.IsIconReplaceableHook = new Hook<IsIconReplaceableDelegate>(this.Address.IsActionIdReplaceable, this.IsIconReplaceableDetour);
+			this.GetIconHook = new Hook<GetIconDelegate>(Service.address.GetAdjustedActionId, this.GetIconDetour);
+			this.IsIconReplaceableHook = new Hook<IsIconReplaceableDelegate>(Service.address.IsActionIdReplaceable, this.IsIconReplaceableDetour);
 
 			this.GetIconHook.Enable();
 			this.IsIconReplaceableHook.Enable();
@@ -70,7 +65,7 @@ namespace XIVComboVeryExpandedPlugin {
 		}
 
 		/// <summary>
-		/// Maps to <see cref="XIVComboVeryExpandedConfiguration.EnabledActions"/>, these actions can potentially update their icon per the user configuration.
+		/// Maps to <see cref="PluginConfiguration.EnabledActions"/>, these actions can potentially update their icon per the user configuration.
 		/// </summary>
 		public void UpdateEnabledActionIDs() {
 			HashSet<uint> actionIDs = Enum
@@ -79,7 +74,7 @@ namespace XIVComboVeryExpandedPlugin {
 				.Select(preset => preset.GetAttribute<CustomComboInfoAttribute>())
 				.OfType<CustomComboInfoAttribute>()
 				.SelectMany(comboInfo => comboInfo.ActionIDs)
-				.Concat(this.Configuration.DancerDanceCompatActionIDs)
+				.Concat(Service.configuration.DancerDanceCompatActionIDs)
 				.ToHashSet();
 			this.CustomIds.Clear();
 			this.CustomIds.UnionWith(actionIDs);
@@ -111,7 +106,7 @@ namespace XIVComboVeryExpandedPlugin {
 				if (LocalPlayer == null || !this.CustomIds.Contains(actionID))
 					return this.OriginalHook(actionID);
 
-				return this.GetNewAction(actionID, this.LastComboMove, this.ComboTime, LocalPlayer.Level);
+				return this.GetNewAction(actionID, LastComboMove, ComboTime, LocalPlayer.Level);
 			}
 			catch (Exception ex) {
 				PluginLog.Error(ex, "Don't crash the game");
@@ -121,11 +116,11 @@ namespace XIVComboVeryExpandedPlugin {
 
 		#region Getters
 
-		internal static PlayerCharacter LocalPlayer => XIVComboVeryExpandedPlugin.client.LocalPlayer!;
+		internal static PlayerCharacter LocalPlayer => Service.client.LocalPlayer!;
 
-		internal uint LastComboMove => (uint)Marshal.ReadInt32(this.Address.LastComboMove);
+		internal static uint LastComboMove => (uint)Marshal.ReadInt32(Service.address.LastComboMove);
 
-		internal float ComboTime => Marshal.PtrToStructure<float>(this.Address.ComboTimer);
+		internal static float ComboTime => Marshal.PtrToStructure<float>(Service.address.ComboTimer);
 
 		internal uint OriginalHook(uint actionID) => this.GetIconHook.Original(this.ActionManager, actionID);
 
@@ -139,7 +134,7 @@ namespace XIVComboVeryExpandedPlugin {
 			if (this.CooldownGroups.TryGetValue(actionID, out byte cooldownGroup))
 				return cooldownGroup;
 
-			Lumina.Excel.ExcelSheet<Lumina.Excel.GeneratedSheets.Action> sheet = XIVComboVeryExpandedPlugin.data.GetExcelSheet<Lumina.Excel.GeneratedSheets.Action>()!;
+			Lumina.Excel.ExcelSheet<Lumina.Excel.GeneratedSheets.Action> sheet = Service.data.GetExcelSheet<Lumina.Excel.GeneratedSheets.Action>()!;
 			Lumina.Excel.GeneratedSheets.Action row = sheet.GetRow(actionID)!;
 
 			return this.CooldownGroups[actionID] = row.CooldownGroup;

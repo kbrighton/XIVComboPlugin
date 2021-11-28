@@ -3,7 +3,7 @@ using System;
 using Dalamud.Game;
 using Dalamud.Logging;
 
-namespace XIVComboVeryExpandedPlugin {
+namespace XIVComboVX {
 	internal class PluginAddressResolver: BaseAddressResolver {
 		public IntPtr ComboTimer { get; private set; }
 		public IntPtr LastComboMove => this.ComboTimer + 0x4;
