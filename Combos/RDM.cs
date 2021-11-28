@@ -201,6 +201,7 @@ namespace XIVComboVX.Combos {
 				RDMGauge gauge = GetJobGauge<RDMGauge>();
 				int black = gauge.BlackMana;
 				int white = gauge.WhiteMana;
+				// TODO: need to handle levels being too low for certain actions
 				if (actionID is RDM.Veraero or RDM.Verthunder) {
 					// This is for the long opener only, so we're not bothered about fast casting or finishers or anything like that
 					if (black < white)

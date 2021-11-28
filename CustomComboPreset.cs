@@ -359,11 +359,13 @@ namespace XIVComboVX {
 
 		[Ordered]
 		[Conflicts(RedMageAoECombo)]
+		[Experimental]
 		[CustomComboInfo("Smartcast AoE", "Dynamically replaces Veraero/Verthunder 2 with the appropriate spell based on your black/white mana levels.\nIncludes Impact/Scatter when under a cast speeder.\nRequires the AoE Combo feature.", RDM.JobID, RDM.Veraero2, RDM.Verthunder2)]
 		RedMageSmartcastAoEFeature = 109,
 
 		[Ordered]
 		[Conflicts(RedMageVerprocCombo)]
+		[Experimental]
 		[CustomComboInfo("Smartcast Single Target", "Dynamically replaces Verstone/Verfire with the appropriate spell based on your black/white mana levels.\nVeraero and Verthunder are replaced with one or the other accordingly, for openers.", RDM.JobID, RDM.Verstone, RDM.Veraero, RDM.Verfire, RDM.Verthunder)]
 		RedMageSmartcastSingleFeature = 110,
 
