@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Dalamud.Game.ClientState.Conditions;
@@ -10,7 +10,6 @@ using Dalamud.Game.ClientState.Statuses;
 using Dalamud.Utility;
 
 using XIVComboVX.Attributes;
-using System.Collections.Concurrent;
 
 namespace XIVComboVX.Combos {
 	internal abstract class CustomCombo {
@@ -18,19 +17,12 @@ namespace XIVComboVX.Combos {
 
 		public const uint InvalidObjectID = 0xE000_0000;
 
-		private static IconReplacer iconReplacer = null!;
-		protected static PluginConfiguration Configuration = null!;
-
-		public static void Initialize(IconReplacer iconReplacer, PluginConfiguration configuration) {
-			CustomCombo.iconReplacer = iconReplacer;
-			Configuration = configuration;
-		}
-
 		#endregion
-		
-		protected abstract CustomComboPreset Preset { get; }
 
-		protected byte JobID { get; set; }
+		protected internal abstract CustomComboPreset Preset { get; }
+		protected internal abstract uint[] ActionIDs { get; }
+
+		protected byte JobID { get; }
 		public byte ClassID => this.JobID switch {
 			>= 19 and <= 25 => (byte)(this.JobID - 18),
 			27 or 28 => 26,
@@ -38,14 +30,11 @@ namespace XIVComboVX.Combos {
 			_ => this.JobID,
 		};
 
-		protected virtual uint[] ActionIDs { get; set; }
-
 		private static readonly Dictionary<Type, JobGaugeBase> jobGauges = new();
 
 		protected CustomCombo() {
 			CustomComboInfoAttribute presetInfo = this.Preset.GetAttribute<CustomComboInfoAttribute>();
 			this.JobID = presetInfo.JobID;
-			this.ActionIDs = presetInfo.ActionIDs;
 		}
 
 		public bool TryInvoke(uint actionID, uint lastComboActionId, float comboTime, byte level, out uint newActionID) {
@@ -68,23 +57,62 @@ namespace XIVComboVX.Combos {
 
 		protected abstract uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level);
 
+		protected static uint PickByCooldown(uint original, params uint[] actions) {
+			static (uint ActionID, CooldownData Data) Compare(uint original, (uint ActionID, CooldownData Data) a1, (uint ActionID, CooldownData Data) a2) {
+
+				// Neither on cooldown, return the original (or the last one provided)
+				if (!a1.Data.IsCooldown && !a2.Data.IsCooldown)
+					return original == a1.ActionID ? a1 : a2;
+
+				// Both on cooldown, return soonest available
+				if (a1.Data.IsCooldown && a2.Data.IsCooldown)
+					return a1.Data.CooldownRemaining < a2.Data.CooldownRemaining ? a1 : a2;
+
+				// Return whatever's not on cooldown
+				return a1.Data.IsCooldown ? a2 : a1;
+
+			}
+
+			static (uint ActionID, CooldownData Data) Selector(uint actionID) => (actionID, GetCooldown(actionID));
+
+			return actions
+				.Select(Selector)
+				.Aggregate((a1, a2) => Compare(original, a1, a2))
+				.ActionID;
+		}
+
+		protected static uint SimpleChainCombo(byte level, uint last, float time, params (byte lvl, uint id)[] sequence) {
+			if (time > 0) {
+				// Work backwards, find the latest item in the chain that can be used (level >= lvl) and is ready to be used (last == prev.id)
+				for (int i = sequence.Length - 1; i > 0; --i) {
+					(byte lvl, uint id) = sequence[i];
+					uint prev = sequence[i - 1].id;
+					if (level >= lvl && prev == last)
+						return id;
+				}
+			}
+
+			// If nothing is found or we're not in a combo, then use the first item in the chain
+			return sequence[0].id;
+		}
+
 		#region Utility/convenience getters
 
-		protected static uint OriginalHook(uint actionID) => iconReplacer.OriginalHook(actionID);
+		protected internal static uint OriginalHook(uint actionID) => Service.IconReplacer.OriginalHook(actionID);
 
-		protected static PlayerCharacter? LocalPlayer => Service.client.LocalPlayer;
+		protected internal static PlayerCharacter? LocalPlayer => Service.Client.LocalPlayer;
 
-		protected static GameObject? CurrentTarget => Service.targets.Target;
+		protected internal static GameObject? CurrentTarget => Service.Targets.Target;
 
-		protected static bool IsEnabled(CustomComboPreset preset) => Configuration.IsEnabled(preset);
+		protected internal static bool IsEnabled(CustomComboPreset preset) => Service.Configuration.IsEnabled(preset);
 
-		protected static bool HasCondition(ConditionFlag flag) => Service.conditions[flag];
+		protected internal static bool HasCondition(ConditionFlag flag) => Service.Conditions[flag];
 
-		protected static CooldownData GetCooldown(uint actionID) => iconReplacer.GetCooldown(actionID);
+		protected internal static CooldownData GetCooldown(uint actionID) => Service.IconReplacer.GetCooldown(actionID);
 
-		protected static T GetJobGauge<T>() where T : JobGaugeBase {
+		protected internal static T GetJobGauge<T>() where T : JobGaugeBase {
 			if (!jobGauges.TryGetValue(typeof(T), out JobGaugeBase? gauge))
-				gauge = jobGauges[typeof(T)] = Service.jobGauges.Get<T>();
+				gauge = jobGauges[typeof(T)] = Service.JobGauge.Get<T>();
 			return (T)gauge;
 		}
 
@@ -92,40 +120,40 @@ namespace XIVComboVX.Combos {
 
 		#region Effects
 
-		protected static Status? SelfFindEffect(short effectId) => FindEffect(effectId, LocalPlayer, null);
-		protected static bool SelfHasEffect(short effectId) => SelfFindEffect(effectId) is not null;
-		protected static float SelfEffectDuration(short effectId) {
+		protected internal static Status? SelfFindEffect(ushort effectId) => FindEffect(effectId, LocalPlayer, null);
+		protected internal static bool SelfHasEffect(ushort effectId) => SelfFindEffect(effectId) is not null;
+		protected internal static float SelfEffectDuration(ushort effectId) {
 			Status? eff = SelfFindEffect(effectId);
 			return eff?.RemainingTime ?? 0;
 		}
-		protected static float SelfEffectStacks(short effectId) {
+		protected internal static float SelfEffectStacks(ushort effectId) {
 			Status? eff = SelfFindEffect(effectId);
 			return eff?.StackCount ?? 0;
 		}
 
-		protected static Status? TargetFindAnyEffect(short effectId) => FindEffect(effectId, CurrentTarget, null);
-		protected static bool TargetHasAnyEffect(short effectId) => TargetFindAnyEffect(effectId) is not null;
-		protected static float TargetAnyEffectDuration(short effectId) {
+		protected internal static Status? TargetFindAnyEffect(ushort effectId) => FindEffect(effectId, CurrentTarget, null);
+		protected internal static bool TargetHasAnyEffect(ushort effectId) => TargetFindAnyEffect(effectId) is not null;
+		protected internal static float TargetAnyEffectDuration(ushort effectId) {
 			Status? eff = TargetFindAnyEffect(effectId);
 			return eff?.RemainingTime ?? 0;
 		}
-		protected static float TargetAnyEffectStacks(short effectId) {
+		protected internal static float TargetAnyEffectStacks(ushort effectId) {
 			Status? eff = TargetFindAnyEffect(effectId);
 			return eff?.StackCount ?? 0;
 		}
 
-		protected static Status? TargetFindOwnEffect(short effectId) => FindEffect(effectId, CurrentTarget, LocalPlayer?.ObjectId);
-		protected static bool TargetHasOwnEffect(short effectId) => TargetFindOwnEffect(effectId) is not null;
-		protected static float TargetOwnEffectDuration(short effectId) {
+		protected internal static Status? TargetFindOwnEffect(ushort effectId) => FindEffect(effectId, CurrentTarget, LocalPlayer?.ObjectId);
+		protected internal static bool TargetHasOwnEffect(ushort effectId) => TargetFindOwnEffect(effectId) is not null;
+		protected internal static float TargetOwnEffectDuration(ushort effectId) {
 			Status? eff = TargetFindOwnEffect(effectId);
 			return eff?.RemainingTime ?? 0;
 		}
-		protected static float TargetOwnEffectStacks(short effectId) {
+		protected internal static float TargetOwnEffectStacks(ushort effectId) {
 			Status? eff = TargetFindOwnEffect(effectId);
 			return eff?.StackCount ?? 0;
 		}
 
-		protected static Status? FindEffect(short effectId, GameObject? actor, uint? sourceId) {
+		protected internal static Status? FindEffect(ushort effectId, GameObject? actor, uint? sourceId) {
 			if (actor is null)
 				return null;
 			if (actor is not BattleChara chara)

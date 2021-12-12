@@ -1,23 +1,35 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using Dalamud.Configuration;
-using Dalamud.Logging;
-using Dalamud.Utility;
 
 using Newtonsoft.Json;
 
-using XIVComboVX.Attributes;
 using XIVComboVX.Combos;
 
 namespace XIVComboVX {
 	[Serializable]
 	public class PluginConfiguration: IPluginConfiguration {
-		public const int CURRENT_CONFIG_VERSION = 4;
-		public int Version { get; set; } = 4;
+		public int Version { get; set; } = 5;
+
+		[JsonProperty("CrashGameOnLoadError")]
+		public bool FailFastSetting = true;
+
+		[JsonIgnore]
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Instance-only when non-DEBUG")]
+		public bool FailFastOnError =>
+#if DEBUG
+			true;
+#else
+			this.FailFastSetting || Service.Interface.IsDev;
+#endif
+
+		[JsonProperty("EnabledActionsV5")]
+		public HashSet<CustomComboPreset> EnabledActions = new();
 
 		[JsonProperty("EnabledActionsV4")]
-		public HashSet<CustomComboPreset> EnabledActions = new();
+		public HashSet<CustomComboPreset> EnabledActions4 = new();
 
 		public uint[] DancerDanceCompatActionIDs = new uint[]
 		{
@@ -29,127 +41,125 @@ namespace XIVComboVX {
 
 		public bool IsEnabled(CustomComboPreset preset) => this.EnabledActions.Contains(preset);
 
-		public void Save() => Service.pluginInterface.SavePluginConfig(this);
+		public void Save() => Service.Interface.SavePluginConfig(this);
 
-		#region Obsolete
-#pragma warning disable IDE1006 // Naming Styles
-
-		[Flags]
-		[Obsolete("Old config versions")]
-		public enum LegacyCustomComboPreset: long {
-			None = 0,
-			DragoonJumpFeature = 1L << 44,
-			DragoonBOTDFeature = 1L << 46,
-			DragoonCoerthanTormentCombo = 1L << 0,
-			DragoonChaosThrustCombo = 1L << 1,
-			DragoonFullThrustCombo = 1L << 2,
-			DarkSouleaterCombo = 1L << 3,
-			DarkStalwartSoulCombo = 1L << 4,
-			PaladinGoringBladeCombo = 1L << 5,
-			PaladinRoyalAuthorityCombo = 1L << 6,
-			PaladinProminenceCombo = 1L << 7,
-			PaladinRequiescatCombo = 1L << 55,
-			WarriorStormsPathCombo = 1L << 8,
-			WarriorStormsEyeCombo = 1L << 9,
-			WarriorMythrilTempestCombo = 1L << 10,
-			SamuraiYukikazeCombo = 1L << 11,
-			SamuraiGekkoCombo = 1L << 12,
-			SamuraiKashaCombo = 1L << 13,
-			SamuraiMangetsuCombo = 1L << 14,
-			SamuraiOkaCombo = 1L << 15,
-			SamuraiThirdEyeFeature = 1L << 51,
-			NinjaArmorCrushCombo = 1L << 17,
-			NinjaAeolianEdgeCombo = 1L << 18,
-			NinjaHakkeMujinsatsuCombo = 1L << 19,
-			NinjaAssassinateFeature = 1L << 45,
-			GunbreakerSolidBarrelCombo = 1L << 20,
-			GunbreakerGnashingFangCombo = 1L << 21,
-			GunbreakerGnashingFangCont = 1L << 52,
-			GunbreakerDemonSlaughterCombo = 1L << 22,
-			MachinistMainCombo = 1L << 23,
-			MachinistSpreadShotFeature = 1L << 24,
-			MachinistOverheatFeature = 1L << 47,
-			BlackEnochianFeature = 1L << 25,
-			BlackManaFeature = 1L << 26,
-			BlackLeyLines = 1L << 56,
-			AstrologianCardsOnDrawFeature = 1L << 27,
-			SummonerDemiCombo = 1L << 28,
-			SummonerBoPCombo = 1L << 38,
-			SummonerEDFesterCombo = 1L << 39,
-			SummonerESPainflareCombo = 1L << 40,
-			ScholarSeraphConsolationFeature = 1L << 29,
-			ScholarEnergyDrainFeature = 1L << 37,
-			DancerAoeGcdFeature = 1L << 32,
-			DancerFanDanceCombo = 1L << 33,
-			WhiteMageSolaceMiseryFeature = 1L << 35,
-			WhiteMageRaptureMiseryFeature = 1L << 36,
-			BardWandererPPFeature = 1L << 41,
-			BardStraightShotUpgradeFeature = 1L << 42,
-			MnkAoECombo = 1L << 54,
-			RedMageAoECombo = 1L << 48,
-			RedMageMeleeCombo = 1L << 49,
-			RedMageVerprocCombo = 1L << 53,
-		}
-
-		// By omitting the getter, we can prevent any obsolete fields from being serialized after the upgrade
-
-		[JsonProperty("ComboPresets")]
-		[Obsolete("This was removed in favor of EnabledActions in version 4")]
-		public LegacyCustomComboPreset _ComboPresets { set => this._ComboPresetsBacker = value; }
-
-		[JsonIgnore]
-		[Obsolete("This was added to prevent serialization of another obsolete property")]
-		private LegacyCustomComboPreset _ComboPresetsBacker;
-
-		[JsonProperty("HiddenActions")]
-		[Obsolete("This was removed in favor of HiddenActions in version 4")]
-		public List<bool> _HiddenActions { set => this._HiddenActionsBacker = value; }
-
-		[JsonIgnore]
-		[Obsolete("This was added to prevent serialization of another obsolete property")]
-		private List<bool> _HiddenActionsBacker = new();
-
-#pragma warning restore IDE1006 // Naming Styles
-		#endregion
-
-		protected void Upgrade() {
-			if (this.Version < 3)
-				this.upgradeToVersion3();
-			if (this.Version == 3)
-				this.upgradeToVersion4();
-		}
-		public void CheckVersion() {
-			if (this.Version < CURRENT_CONFIG_VERSION) {
-				this.Upgrade();
-				Service.pluginInterface.SavePluginConfig(this);
+		public void Upgrade() {
+			if (this.Version == 5)
+				return;
+			else if (this.Version == 4) {
+				this.Version = 5;
+				this.EnabledActions = this.EnabledActions4
+					.Select(preset => (int)preset switch {
+						5 => 1900,
+						6 => 1901,
+						59 => 1902,
+						7 => 1903,
+						55 => 1904,
+						86 => 1905,
+						54 => 2000,
+						82 => 2001,
+						8 => 2100,
+						9 => 2101,
+						10 => 2102,
+						78 => 2103,
+						79 => 2104,
+						67 => 2105,
+						0 => 2200,
+						1 => 2201,
+						2 => 2202,
+						44 => 2203,
+						41 => 2300,
+						42 => 2301,
+						63 => 2302,
+						74 => 2303,
+						103 => 2400,
+						35 => 2401,
+						36 => 2402,
+						76 => 2403,
+						77 => 2404,
+						25 => 2500,
+						26 => 2501,
+						56 => 2502,
+						70 => 2503,
+						71 => 2504,
+						104 => 2506,
+						101 => 2700,
+						39 => 2704,
+						40 => 2705,
+						100 => 2800,
+						29 => 2801,
+						37 => 2802,
+						17 => 3000,
+						18 => 3001,
+						19 => 3002,
+						90 => 3004,
+						92 => 3005,
+						87 => 3006,
+						88 => 3007,
+						89 => 3008,
+						23 => 3100,
+						24 => 3101,
+						47 => 3102,
+						58 => 3103,
+						66 => 3104,
+						108 => 3105,
+						3 => 3200,
+						4 => 3201,
+						57 => 3202,
+						85 => 3203,
+						98 => 3300,
+						27 => 3301,
+						75 => 3302,
+						73 => 3303,
+						11 => 3400,
+						12 => 3401,
+						13 => 3402,
+						14 => 3403,
+						15 => 3404,
+						81 => 3406,
+						60 => 3407,
+						64 => 3408,
+						61 => 3409,
+						65 => 3410,
+						99 => 3500,
+						48 => 3501,
+						49 => 3502,
+						68 => 3503,
+						53 => 3504,
+						93 => 3505,
+						94 => 3506,
+						105 => 3507,
+						109 => 3508,
+						110 => 3509,
+						20 => 3700,
+						52 => 3702,
+						22 => 3703,
+						30 => 3704,
+						83 => 3705,
+						84 => 3706,
+						106 => 3707,
+						43 => 3800,
+						50 => 3801,
+						33 => 3802,
+						102 => 3803,
+						34 => 3804,
+						31 => 3805,
+						72 => 3806,
+						_ => 0,
+					})
+					.Where(id => id is not 0)
+					.SelectMany(id => new CustomComboPreset[] { (CustomComboPreset)id, ((CustomComboPreset)id).GetParent() ?? (CustomComboPreset)id })
+					.ToHashSet();
+				this.EnabledActions4 = new();
+				this.Save();
+			}
+			else {
+				// no.
+				// in fact, why.
+				// for that matter, HOW.
+				this.Version = 5;
 			}
 		}
 
-		private void upgradeToVersion3() {
-			PluginLog.Information("Upgrading configuration to version 3");
-			foreach (object _ in Enum.GetValues(typeof(CustomComboPreset)))
-#pragma warning disable CS0618 // Type or member is obsolete
-				this._HiddenActionsBacker.Add(false);
-#pragma warning restore CS0618 // Type or member is obsolete
-			this.Version = 3;
-		}
-
-		private void upgradeToVersion4() {
-#pragma warning disable CS0612, CS0618 // Type or member is obsolete
-			PluginLog.Information("Upgrading configuration to version 4");
-			foreach (LegacyCustomComboPreset legacyPreset in Enum.GetValues(typeof(LegacyCustomComboPreset))) {
-				if (this._ComboPresetsBacker.HasFlag(legacyPreset)) {
-					int legacyPresetIndex = (int)Math.Log((long)legacyPreset, 2);
-					CustomComboPreset preset = (CustomComboPreset)legacyPresetIndex;
-					if (Enum.IsDefined(typeof(CustomComboPreset), preset)) {
-						this.EnabledActions.Add(preset);
-					}
-				}
-			}
-			this._ComboPresetsBacker = 0;
-			this._HiddenActionsBacker = null!;
-			this.Version = 4;
-#pragma warning restore CS0612, CS0618 // Type or member is obsolete
-		}
 	}
 }

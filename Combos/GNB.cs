@@ -11,9 +11,7 @@ namespace XIVComboVX.Combos {
 			DemonSlice = 16141,
 			SolidBarrel = 16145,
 			GnashingFang = 16146,
-			SavageClaw = 16147,
 			DemonSlaughter = 16149,
-			WickedTalon = 16150,
 			SonicBreak = 16153,
 			Continuation = 16155,
 			JugularRip = 16156,
@@ -22,23 +20,27 @@ namespace XIVComboVX.Combos {
 			BowShock = 16159,
 			BurstStrike = 16162,
 			FatedCircle = 16163,
-			Bloodfest = 16164;
+			Bloodfest = 16164,
+			DoubleDown = 25760,
+			Hypervelocity = 25759;
 
 		public static class Buffs {
-			public const short
+			public const ushort
 				NoMercy = 1831,
 				ReadyToRip = 1842,
 				ReadyToTear = 1843,
-				ReadyToGouge = 1844;
+				ReadyToGouge = 1844,
+				ReadyToBlast = 2686;
 		}
 
 		public static class Debuffs {
-			public const short
+			public const ushort
 				BowShock = 1838;
 		}
 
 		public static class Levels {
 			public const byte
+				NoMercy = 2,
 				BrutalShell = 4,
 				SolidBarrel = 26,
 				DemonSlaughter = 40,
@@ -46,69 +48,85 @@ namespace XIVComboVX.Combos {
 				BowShock = 62,
 				Continuation = 70,
 				FatedCircle = 72,
-				Bloodfest = 76;
+				Bloodfest = 76,
+				EnhancedContinuation = 86,
+				CartridgeCharge2 = 88,
+				DoubleDown = 90;
 		}
 	}
 
 	internal class GunbreakerSolidBarrelCombo: CustomCombo {
-		protected override CustomComboPreset Preset => CustomComboPreset.GunbreakerSolidBarrelCombo;
+		protected internal override CustomComboPreset Preset => CustomComboPreset.GunbreakerSolidBarrelCombo;
+		protected internal override uint[] ActionIDs { get; } = new[] { GNB.SolidBarrel };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID == GNB.SolidBarrel) {
-				if (comboTime > 0) {
-					if (lastComboMove == GNB.KeenEdge && level >= GNB.Levels.BrutalShell)
-						return GNB.BrutalShell;
+			if (actionID is GNB.SolidBarrel) {
 
-					if (lastComboMove == GNB.BrutalShell && level >= GNB.Levels.SolidBarrel)
-						return GNB.SolidBarrel;
-				}
+				return SimpleChainCombo(level, lastComboMove, comboTime, (1, GNB.KeenEdge),
+					(GNB.Levels.BrutalShell, GNB.BrutalShell),
+					(GNB.Levels.SolidBarrel, GNB.SolidBarrel)
+				);
 
-				return GNB.KeenEdge;
 			}
 
 			return actionID;
 		}
 	}
 
-	internal class GunbreakerGnashingFangCombo: CustomCombo {
-		protected override CustomComboPreset Preset => CustomComboPreset.GunbreakerGnashingFangCombo;
+	internal class GunbreakerGnashingFangContinuation: CustomCombo {
+		protected internal override CustomComboPreset Preset => CustomComboPreset.GunbreakerGnashingFangCont;
+		protected internal override uint[] ActionIDs { get; } = new[] { GNB.GnashingFang };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID == GNB.WickedTalon) {
-				if (IsEnabled(CustomComboPreset.GunbreakerGnashingFangCont)) {
-					if (level >= GNB.Levels.Continuation) {
-						if (SelfHasEffect(GNB.Buffs.ReadyToRip))
-							return GNB.JugularRip;
+			if (actionID is GNB.GnashingFang) {
 
-						if (SelfHasEffect(GNB.Buffs.ReadyToTear))
-							return GNB.AbdomenTear;
+				if (level >= GNB.Levels.Continuation) {
+					if (SelfHasEffect(GNB.Buffs.ReadyToGouge))
+						return GNB.EyeGouge;
 
-						if (SelfHasEffect(GNB.Buffs.ReadyToGouge))
-							return GNB.EyeGouge;
-					}
+					if (SelfHasEffect(GNB.Buffs.ReadyToTear))
+						return GNB.AbdomenTear;
+
+					if (SelfHasEffect(GNB.Buffs.ReadyToRip))
+						return GNB.JugularRip;
 				}
 
-				GNBGauge gauge = GetJobGauge<GNBGauge>();
-				return gauge.AmmoComboStep switch {
-					1 => GNB.SavageClaw,
-					2 => GNB.WickedTalon,
-					_ => GNB.GnashingFang,
-				};
+				return OriginalHook(GNB.GnashingFang);
 			}
 
+			return actionID;
+		}
+	}
+
+	internal class GunbreakerBowShockSonicBreakFeature: CustomCombo {
+		protected internal override CustomComboPreset Preset => CustomComboPreset.GunbreakerBowShockSonicBreakFeature;
+		protected internal override uint[] ActionIDs { get; } = new[] { GNB.BowShock, GNB.SonicBreak };
+
+		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+			if (actionID is GNB.BowShock or GNB.SonicBreak) {
+
+				if (level >= GNB.Levels.BowShock)
+					return PickByCooldown(actionID, GNB.SonicBreak, GNB.BowShock);
+
+			}
 			return actionID;
 		}
 	}
 
 	internal class GunbreakerDemonSlaughterCombo: CustomCombo {
-		protected override CustomComboPreset Preset => CustomComboPreset.GunbreakerDemonSlaughterCombo;
+		protected internal override CustomComboPreset Preset => CustomComboPreset.GunbreakerDemonSlaughterCombo;
+		protected internal override uint[] ActionIDs { get; } = new[] { GNB.DemonSlaughter };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID == GNB.DemonSlaughter) {
-				if (comboTime > 0 && lastComboMove == GNB.DemonSlice && level >= GNB.Levels.DemonSlaughter) {
-					if (IsEnabled(CustomComboPreset.GunbreakerFatedCircleFeature)) {
+			if (actionID is GNB.DemonSlaughter) {
+
+				if (level >= GNB.Levels.DemonSlaughter && comboTime > 0 && lastComboMove == GNB.DemonSlice) {
+
+					if (level >= GNB.Levels.FatedCircle && IsEnabled(CustomComboPreset.GunbreakerFatedCircleFeature)) {
 						GNBGauge gauge = GetJobGauge<GNBGauge>();
-						if (gauge.Ammo == 2 && level >= GNB.Levels.FatedCircle) {
+						int maxAmmo = level >= GNB.Levels.CartridgeCharge2 ? 3 : 2;
+
+						if (gauge.Ammo == maxAmmo) {
 							return GNB.FatedCircle;
 						}
 					}
@@ -123,14 +141,21 @@ namespace XIVComboVX.Combos {
 		}
 	}
 
-	internal class GunbreakerBloodfestOvercapFeature: CustomCombo {
-		protected override CustomComboPreset Preset => CustomComboPreset.GunbreakerBloodfestOvercapFeature;
+	internal class GunbreakerEmptyBloodfestFeature: CustomCombo {
+		protected internal override CustomComboPreset Preset => CustomComboPreset.GunbreakerEmptyBloodfestFeature;
+		protected internal override uint[] ActionIDs { get; } = new[] { GNB.BurstStrike, GNB.FatedCircle };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID == GNB.BurstStrike) {
+			if (actionID is GNB.BurstStrike or GNB.FatedCircle) {
+
+				if (level >= GNB.Levels.EnhancedContinuation && IsEnabled(CustomComboPreset.GunbreakerBurstStrikeCont) && SelfHasEffect(GNB.Buffs.ReadyToBlast))
+					return GNB.Hypervelocity;
+
 				GNBGauge gauge = GetJobGauge<GNBGauge>();
-				if (gauge.Ammo == 0 && level >= GNB.Levels.Bloodfest)
+
+				if (level >= GNB.Levels.Bloodfest && gauge.Ammo == 0)
 					return GNB.Bloodfest;
+
 			}
 
 			return actionID;
@@ -138,36 +163,22 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class GunbreakerNoMercyFeature: CustomCombo {
-		protected override CustomComboPreset Preset => CustomComboPreset.GunbreakerNoMercyFeature;
+		protected internal override CustomComboPreset Preset => CustomComboPreset.GunbreakerNoMercyFeature;
+		protected internal override uint[] ActionIDs { get; } = new[] { GNB.NoMercy };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID == GNB.NoMercy) {
-				if (SelfHasEffect(GNB.Buffs.NoMercy)) {
-					if (level >= GNB.Levels.BowShock && !TargetHasAnyEffect(GNB.Debuffs.BowShock))
-						return GNB.BowShock;
+			if (actionID is GNB.NoMercy) {
+
+				if (level >= GNB.Levels.NoMercy && SelfHasEffect(GNB.Buffs.NoMercy)) {
+
+					if (level >= GNB.Levels.BowShock)
+						return PickByCooldown(GNB.SonicBreak, GNB.SonicBreak, GNB.BowShock);
 
 					if (level >= GNB.Levels.SonicBreak)
 						return GNB.SonicBreak;
 				}
 			}
 
-			return actionID;
-		}
-	}
-
-	internal class GunbreakerBowShockSonicBreakFeature: CustomCombo {
-		protected override CustomComboPreset Preset => CustomComboPreset.GunbreakerBowShockSonicBreakFeature;
-
-		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is GNB.BowShock or GNB.SonicBreak) {
-				CooldownData bow = GetCooldown(GNB.BowShock);
-				CooldownData sonic = GetCooldown(GNB.SonicBreak);
-				if (bow.CooldownRemaining == sonic.CooldownRemaining)
-					return actionID;
-				return bow.CooldownRemaining < sonic.CooldownRemaining
-					? GNB.BowShock
-					: GNB.SonicBreak;
-			}
 			return actionID;
 		}
 	}

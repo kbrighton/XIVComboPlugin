@@ -1,4 +1,3 @@
-using Dalamud.Game.ClientState.JobGauge.Enums;
 using Dalamud.Game.ClientState.JobGauge.Types;
 
 namespace XIVComboVX.Combos {
@@ -7,139 +6,193 @@ namespace XIVComboVX.Combos {
 
 		public const uint
 			Resurrection = 173,
+			Ruin = 163,
+			Ruin2 = 172,
+			Fester = 181,
 			Deathflare = 3582,
+			Painflare = 3578,
+			Ruin3 = 3579,
+			Ruin4 = 7426,
 			EnkindlePhoenix = 16516,
 			EnkindleBahamut = 7429,
 			DreadwyrmTrance = 3581,
-			SummonBahamut = 7427,
-			FirebirdTranceLow = 16513,
-			FirebirdTranceHigh = 16549,
-			Ruin1 = 163,
-			Ruin3 = 3579,
-			BrandOfPurgatory = 16515,
-			FountainOfFire = 16514,
-			Fester = 181,
+			EnergySyphon = 16510,
+			Outburst = 16511,
 			EnergyDrain = 16508,
-			Painflare = 3578,
-			EnergySyphon = 16510;
+			SummonPhoenix = 25831,
+			SummonBahamut = 7427,
+			SummonCarbuncle = 25798,
+			RadiantAegis = 25799,
+			SearingLight = 25801,
+			TriDisaster = 25826,
+			Gemshine = 25883,
+			PreciousBrilliance = 25884;
 
 		public static class Buffs {
-			public const short
-				HellishConduit = 1867,
-				LostChainspell = 2560;
+			public const ushort
+				FurtherRuin = 2701;
 		}
 
 		public static class Debuffs {
-			// public const short placeholder = 0;
+			// public const ushort placeholder = 0;
 		}
 
 		public static class Levels {
 			public const byte
-				Painflare = 52,
+				RadiantAegis = 2,
+				Gemshine = 6,
+				EnergyDrain = 10,
+				PreciousBrilliance = 26,
+				Painflare = 40,
+				EnergySyphon = 52,
 				Ruin3 = 54,
-				EnhancedFirebirdTrance = 80;
+				Ruin4 = 62,
+				SearingLight = 66,
+				EnkindleBahamut = 70,
+				Rekindle = 80,
+				SummonPhoenix = 80;
 		}
 	}
 
 	internal class SummonerSwiftcastRaiserFeature: CustomCombo {
-		protected override CustomComboPreset Preset => CustomComboPreset.SummonerSwiftcastRaiserFeature;
+		protected internal override CustomComboPreset Preset => CustomComboPreset.SummonerSwiftcastRaiserFeature;
+		protected internal override uint[] ActionIDs { get; } = new[] { SMN.Resurrection };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID == SMN.Resurrection && GetCooldown(CommonSkills.Swiftcast).CooldownRemaining == 0 && !SelfHasEffect(SMN.Buffs.LostChainspell))
+
+			if (actionID is SMN.Resurrection && CommonUtil.shouldSwiftcast)
 				return CommonSkills.Swiftcast;
 
 			return actionID;
 		}
 	}
 
-	internal class SummonerDemiCombo: CustomCombo {
-		protected override CustomComboPreset Preset => CustomComboPreset.SummonerDemiCombo;
-
-		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			// Replace Deathflare with demi enkindles
-			if (actionID == SMN.Deathflare) {
-				SMNGauge gauge = GetJobGauge<SMNGauge>();
-
-				if (gauge.IsPhoenixReady)
-					return SMN.EnkindlePhoenix;
-
-				if (gauge.TimerRemaining > 0 && gauge.ReturnSummon != SummonPet.NONE)
-					return SMN.EnkindleBahamut;
-
-				return actionID;
-			}
-
-			//Replace DWT with demi summons
-			if (actionID == SMN.DreadwyrmTrance) {
-				SMNGauge gauge = GetJobGauge<SMNGauge>();
-
-				if (IsEnabled(CustomComboPreset.SummonerDemiComboUltra) && gauge.TimerRemaining > 0) {
-					if (gauge.IsPhoenixReady)
-						return SMN.EnkindlePhoenix;
-
-					if (gauge.ReturnSummon != SummonPet.NONE)
-						return SMN.EnkindleBahamut;
-
-					return SMN.Deathflare;
-				}
-
-				if (gauge.IsBahamutReady)
-					return SMN.SummonBahamut;
-
-				if (gauge.IsPhoenixReady)
-					return OriginalHook(SMN.FirebirdTranceLow);
-
-				return actionID;
-			}
-
-			return actionID;
-		}
-	}
-
-	internal class SummonerBoPCombo: CustomCombo {
-		protected override CustomComboPreset Preset => CustomComboPreset.SummonerBoPCombo;
-
-		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is SMN.Ruin1 or SMN.Ruin3) {
-				SMNGauge gauge = GetJobGauge<SMNGauge>();
-				if (gauge.TimerRemaining > 0 && gauge.IsPhoenixReady) {
-					return SelfHasEffect(SMN.Buffs.HellishConduit) ? SMN.BrandOfPurgatory : SMN.FountainOfFire;
-				}
-
-				return OriginalHook(SMN.Ruin3);
-			}
-
-			return actionID;
-		}
-	}
-
 	internal class SummonerEDFesterCombo: CustomCombo {
-		protected override CustomComboPreset Preset => CustomComboPreset.SummonerEDFesterCombo;
+		protected internal override CustomComboPreset Preset => CustomComboPreset.SummonerEDFesterCombo;
+		protected internal override uint[] ActionIDs { get; } = new[] { SMN.Fester };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID == SMN.Fester) {
-				SMNGauge gauge = GetJobGauge<SMNGauge>();
-				if (!gauge.HasAetherflowStacks)
-					return SMN.EnergyDrain;
-			}
+
+			if (actionID is SMN.Fester && !GetJobGauge<SMNGauge>().HasAetherflowStacks)
+				return SMN.EnergyDrain;
 
 			return actionID;
 		}
 	}
 
 	internal class SummonerESPainflareCombo: CustomCombo {
-		protected override CustomComboPreset Preset => CustomComboPreset.SummonerESPainflareCombo;
+		protected internal override CustomComboPreset Preset => CustomComboPreset.SummonerESPainflareCombo;
+		protected internal override uint[] ActionIDs { get; } = new[] { SMN.Painflare };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID == SMN.Painflare) {
-				SMNGauge gauge = GetJobGauge<SMNGauge>();
-				if (!gauge.HasAetherflowStacks)
+			if (actionID is SMN.Painflare) {
+
+				if (level >= SMN.Levels.EnergySyphon && !GetJobGauge<SMNGauge>().HasAetherflowStacks)
 					return SMN.EnergySyphon;
 
 				if (level >= SMN.Levels.Painflare)
 					return SMN.Painflare;
 
 				return SMN.EnergySyphon;
+			}
+
+			return actionID;
+		}
+	}
+
+	internal class SummonerShinyRuinFeature: CustomCombo {
+		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.SummonerShinyRuinFeature;
+		protected internal override uint[] ActionIDs { get; } = new[] { SMN.Ruin, SMN.Ruin2, SMN.Ruin3 };
+
+		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+			if (actionID is SMN.Ruin or SMN.Ruin2 or SMN.Ruin3) {
+				SMNGauge gauge = GetJobGauge<SMNGauge>();
+
+				if (level >= SMN.Levels.Gemshine && (gauge.IsIfritAttuned || gauge.IsTitanAttuned || gauge.IsGarudaAttuned))
+					return OriginalHook(SMN.Gemshine);
+
+				if (IsEnabled(CustomComboPreset.SummonerShinyRuinFeature)
+					&& level >= SMN.Levels.Ruin4
+					&& gauge.SummonTimerRemaining == 0
+					&& gauge.AttunmentTimerRemaining == 0
+					&& SelfHasEffect(SMN.Buffs.FurtherRuin)
+				)
+						return SMN.Ruin4;
+			}
+
+			return actionID;
+		}
+	}
+
+	internal class SummonerShinyOutburstFeature: CustomCombo {
+		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.SummonerFurtherOutburstFeature;
+		protected internal override uint[] ActionIDs { get; } = new[] { SMN.Outburst, SMN.TriDisaster };
+
+		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+			if (actionID is SMN.Outburst or SMN.TriDisaster) {
+				SMNGauge gauge = GetJobGauge<SMNGauge>();
+
+				if (level >= SMN.Levels.PreciousBrilliance && (gauge.IsIfritAttuned || gauge.IsTitanAttuned || gauge.IsGarudaAttuned))
+					return OriginalHook(SMN.PreciousBrilliance);
+
+				if (IsEnabled(CustomComboPreset.SummonerFurtherOutburstFeature)
+					&& level >= SMN.Levels.Ruin4
+					&& gauge.SummonTimerRemaining == 0
+					&& gauge.AttunmentTimerRemaining == 0
+					&& SelfHasEffect(SMN.Buffs.FurtherRuin)
+				)
+					return SMN.Ruin4;
+			}
+
+			return actionID;
+		}
+	}
+
+	internal class SummonerFurtherRuinFeature: CustomCombo {
+		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.SummonerFurtherRuinFeature;
+		protected internal override uint[] ActionIDs { get; } = new[] { SMN.Ruin, SMN.Ruin2, SMN.Ruin3 };
+
+		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+			if (actionID is SMN.Ruin or SMN.Ruin2 or SMN.Ruin3) {
+				SMNGauge gauge = GetJobGauge<SMNGauge>();
+
+				if (level >= SMN.Levels.Ruin4 && gauge.SummonTimerRemaining == 0 && gauge.AttunmentTimerRemaining == 0 && SelfHasEffect(SMN.Buffs.FurtherRuin))
+					return SMN.Ruin4;
+
+			}
+
+			return actionID;
+		}
+	}
+
+	internal class SummonerFurtherOutburstFeature: CustomCombo {
+		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.SummonerFurtherOutburstFeature;
+		protected internal override uint[] ActionIDs { get; } = new[] { SMN.Outburst, SMN.TriDisaster };
+
+		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+			if (actionID is SMN.Outburst or SMN.TriDisaster) {
+				SMNGauge gauge = GetJobGauge<SMNGauge>();
+
+				if (level >= SMN.Levels.Ruin4 && gauge.SummonTimerRemaining == 0 && gauge.AttunmentTimerRemaining == 0 && SelfHasEffect(SMN.Buffs.FurtherRuin))
+					return SMN.Ruin4;
+
+			}
+
+			return actionID;
+		}
+	}
+
+	internal class SummonerDemiFeature: CustomCombo {
+		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.SummonerDemiFeature;
+		protected internal override uint[] ActionIDs { get; } = new[] { SMN.Gemshine, SMN.PreciousBrilliance };
+
+		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+			if (actionID is SMN.Gemshine or SMN.PreciousBrilliance) {
+				SMNGauge gauge = GetJobGauge<SMNGauge>();
+
+				if (level >= SMN.Levels.EnkindleBahamut && !gauge.IsIfritAttuned && !gauge.IsTitanAttuned && !gauge.IsGarudaAttuned)
+					return OriginalHook(SMN.EnkindleBahamut);
+
 			}
 
 			return actionID;

@@ -5,111 +5,73 @@ namespace XIVComboVX.Combos {
 		public const byte JobID = 25;
 
 		public const uint
-			Enochian = 3575,
-			Blizzard4 = 3576,
 			Fire = 141,
-			Fire3 = 152,
-			Fire4 = 3577,
 			Blizzard = 142,
-			Blizzard2 = 146,
-			Blizzard3 = 154,
 			Thunder = 144,
-			Thunder3 = 153,
-			Despair = 16505,
-			Flare = 162,
-			Freeze = 159,
+			Blizzard2 = 146,
 			Transpose = 149,
-			UmbralSoul = 16506,
-			LeyLines = 3573,
-			BetweenTheLines = 7419,
+			Fire3 = 152,
+			Thunder3 = 153,
+			Blizzard3 = 154,
 			Scathe = 156,
-			Xenoglossy = 16507;
+			Freeze = 159,
+			Flare = 162,
+			LeyLines = 3573,
+			Blizzard4 = 3576,
+			Fire4 = 3577,
+			BetweenTheLines = 7419,
+			Despair = 16505,
+			UmbralSoul = 16506,
+			Xenoglossy = 16507,
+			Paradox = 25797;
 
 		public static class Buffs {
-			public const short
+			public const ushort
 				Thundercloud = 164,
 				LeyLines = 737,
 				Firestarter = 165;
 		}
+
 		public static class Debuffs {
-			public const short
+			public const ushort
 				Thunder = 161,
 				Thunder3 = 163;
 		}
 
 		public static class Levels {
 			public const byte
-				Fire3 = 34,
-				Freeze = 35,
-				Blizzard3 = 40,
+				Fire3 = 35,
+				Blizzard3 = 35,
+				Freeze = 40,
 				Thunder3 = 45,
 				Flare = 50,
-				Enochian = 56,
 				Blizzard4 = 58,
 				Fire4 = 60,
 				BetweenTheLines = 62,
 				Despair = 72,
 				UmbralSoul = 76,
-				Xenoglossy = 80;
+				Xenoglossy = 80,
+				HighFire2 = 82,
+				HighBlizzard2 = 82,
+				Paradox = 90;
 		}
 	}
 
 	internal class BlackEnochianFeature: CustomCombo {
-		protected override CustomComboPreset Preset => CustomComboPreset.BlackEnochianFeature;
+		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.BlackEnochianFeature;
+		protected internal override uint[] ActionIDs { get; } = new[] { BLM.Fire4, BLM.Blizzard4 };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID == BLM.Enochian) {
+
+			if (actionID is BLM.Fire4 or BLM.Blizzard4) {
+
 				BLMGauge gauge = GetJobGauge<BLMGauge>();
-				if (gauge.IsEnochianActive) {
-					if (gauge.InUmbralIce && level >= BLM.Levels.Blizzard4) {
-						if (Configuration.IsEnabled(CustomComboPreset.BlackThunderFeature)
-							&& gauge.ElementTimeRemaining >= 5000
-							&& SelfHasEffect(BLM.Buffs.Thundercloud)
-							&& ((SelfEffectDuration(BLM.Buffs.Thundercloud) < 4 && SelfEffectDuration(BLM.Buffs.Thundercloud) > 0)
-								|| (TargetHasAnyEffect(BLM.Debuffs.Thunder3) && TargetAnyEffectDuration(BLM.Debuffs.Thunder3) < 4))) {
-							return BLM.Thunder3;
-						}
+				if (level >= BLM.Levels.Blizzard4 && gauge.InUmbralIce)
+					return BLM.Blizzard4;
 
-						return BLM.Blizzard4;
-					}
-					if (level >= BLM.Levels.Fire4) { // fire4 is unlocked AFTER blizzard4
-						if (Configuration.IsEnabled(CustomComboPreset.BlackThunderFeature)
-							&& gauge.ElementTimeRemaining >= 6000
-							&& SelfHasEffect(BLM.Buffs.Thundercloud)
-							&& ((SelfEffectDuration(BLM.Buffs.Thundercloud) < 4 && SelfEffectDuration(BLM.Buffs.Thundercloud) > 0)
-								|| (TargetHasAnyEffect(BLM.Debuffs.Thunder3) && TargetAnyEffectDuration(BLM.Debuffs.Thunder3) < 4))) {
-							return BLM.Thunder3;
-						}
+				if (level >= BLM.Levels.Fire4)
+					return BLM.Fire4;
 
-						if (Configuration.IsEnabled(CustomComboPreset.BlackEnochianSmartFireSwitcherFeature) && gauge.ElementTimeRemaining < 3000 && SelfHasEffect(BLM.Buffs.Firestarter))
-							return BLM.Fire3;
-
-						if (Configuration.IsEnabled(CustomComboPreset.BlackDespairFeature) && LocalPlayer!.CurrentMp < 2400 && level >= BLM.Levels.Despair) {
-							return BLM.Despair;
-						}
-						if (Configuration.IsEnabled(CustomComboPreset.BlackEnochianSmartFireSwitcherFeature) && gauge.ElementTimeRemaining < 6000 && !SelfHasEffect(BLM.Buffs.Firestarter))
-							return BLM.Fire;
-						return BLM.Fire4;
-					}
-				}
-
-				if (Configuration.IsEnabled(CustomComboPreset.BlackThunderFeature)
-					&& gauge.ElementTimeRemaining >= 5000
-					&& level < BLM.Levels.Thunder3
-					&& SelfHasEffect(BLM.Buffs.Thundercloud)
-					&& ((SelfEffectDuration(BLM.Buffs.Thundercloud) < 4 && SelfEffectDuration(BLM.Buffs.Thundercloud) > 0)
-							|| (TargetHasAnyEffect(BLM.Debuffs.Thunder) && TargetAnyEffectDuration(BLM.Debuffs.Thunder) < 4))) {
-					return BLM.Thunder;
-				}
-
-				if (level < BLM.Levels.Fire3)
-					return BLM.Fire;
-
-				if (gauge.InAstralFire && (level < BLM.Levels.Enochian || gauge.IsEnochianActive)) {
-					if (SelfHasEffect(BLM.Buffs.Firestarter))
-						return BLM.Fire3;
-					return BLM.Fire;
-				}
 			}
 
 			return actionID;
@@ -117,13 +79,17 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class BlackManaFeature: CustomCombo {
-		protected override CustomComboPreset Preset => CustomComboPreset.BlackManaFeature;
+		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.BlackManaFeature;
+		protected internal override uint[] ActionIDs { get; } = new[] { BLM.Transpose };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID == BLM.Transpose) {
+
+			if (actionID is BLM.Transpose) {
+
 				BLMGauge gauge = GetJobGauge<BLMGauge>();
-				if (gauge.InUmbralIce && gauge.IsEnochianActive && level >= BLM.Levels.UmbralSoul)
+				if (level >= BLM.Levels.UmbralSoul && gauge.InUmbralIce && gauge.IsEnochianActive)
 					return BLM.UmbralSoul;
+
 			}
 
 			return actionID;
@@ -131,12 +97,16 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class BlackLeyLinesFeature: CustomCombo {
-		protected override CustomComboPreset Preset => CustomComboPreset.BlackLeyLinesFeature;
+		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.BlackLeyLinesFeature;
+		protected internal override uint[] ActionIDs { get; } = new[] { BLM.LeyLines };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID == BLM.LeyLines) {
-				if (SelfHasEffect(BLM.Buffs.LeyLines) && level >= BLM.Levels.BetweenTheLines)
+
+			if (actionID is BLM.LeyLines) {
+
+				if (level >= BLM.Levels.BetweenTheLines && SelfHasEffect(BLM.Buffs.LeyLines))
 					return BLM.BetweenTheLines;
+
 			}
 
 			return actionID;
@@ -144,24 +114,37 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class BlackBlizzardFeature: CustomCombo {
-		protected override CustomComboPreset Preset => CustomComboPreset.BlackBlizzardFeature;
+		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.BlackBlizzardFeature;
+		protected internal override uint[] ActionIDs { get; } = new[] { BLM.Blizzard };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID == BLM.Blizzard) {
+
+			if (actionID is BLM.Blizzard) {
+
 				BLMGauge gauge = GetJobGauge<BLMGauge>();
 				if (level >= BLM.Levels.Blizzard3 && !gauge.InUmbralIce)
 					return BLM.Blizzard3;
+
 			}
+
 			return actionID;
 		}
 	}
-	internal class BlackFreezeFeature: CustomCombo {
-		protected override CustomComboPreset Preset => CustomComboPreset.BlackFreezeFeature;
 
-		protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
-			if (actionID == BLM.Freeze) {
-				if (level < BLM.Levels.Freeze)
-					return BLM.Blizzard2;
+	internal class BlackFreezeFeature: CustomCombo {
+		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.BlackFreezeFlareFeature;
+		protected internal override uint[] ActionIDs { get; } = new[] { BLM.Freeze, BLM.Flare };
+
+		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+
+			if (actionID is BLM.Freeze or BLM.Flare) {
+
+				BLMGauge gauge = GetJobGauge<BLMGauge>();
+				if (level >= BLM.Levels.Freeze && gauge.InUmbralIce)
+					return BLM.Freeze;
+				if (level >= BLM.Levels.Flare)
+					return BLM.Flare;
+
 			}
 
 			return actionID;
@@ -169,27 +152,36 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class BlackFireFeature: CustomCombo {
-		protected override CustomComboPreset Preset => CustomComboPreset.BlackFire13Feature;
+		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.BlackFireFeature;
+		protected internal override uint[] ActionIDs { get; } = new[] { BLM.Fire };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID == BLM.Fire) {
+
+			if (actionID is BLM.Fire) {
+
 				BLMGauge gauge = GetJobGauge<BLMGauge>();
 				if (level >= BLM.Levels.Fire3 && (!gauge.InAstralFire || SelfHasEffect(BLM.Buffs.Firestarter)))
-					return OriginalHook(BLM.Fire3);
+					return BLM.Fire3;
+				return OriginalHook(BLM.Fire);
 			}
+
 
 			return actionID;
 		}
 	}
 
 	internal class BlackScatheFeature: CustomCombo {
-		protected override CustomComboPreset Preset => CustomComboPreset.BlackScatheFeature;
+		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.BlackScatheFeature;
+		protected internal override uint[] ActionIDs { get; } = new[] { BLM.Scathe };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID == BLM.Scathe) {
+
+			if (actionID is BLM.Scathe) {
+
 				BLMGauge gauge = GetJobGauge<BLMGauge>();
 				if (level >= BLM.Levels.Xenoglossy && gauge.PolyglotStacks > 0)
 					return BLM.Xenoglossy;
+
 			}
 
 			return actionID;

@@ -17,30 +17,36 @@ namespace XIVComboVX.Combos {
 			Ewer = 4405,
 			Spire = 4406,
 			MinorArcana = 7443,
-			SleeveDraw = 7448,
-			Play = 17055;
+			Play = 17055,
+			CrownPlay = 25869;
 
 		public static class Buffs {
-			public const short LostChainspell = 2560;
+			public const ushort
+				LostChainspell = 2560,
+				LordOfCrownsDrawn = 2054,
+				LadyOfCrownsDrawn = 2055;
 		}
 
 		public static class Debuffs {
-			// public const short placeholder = 0;
+			// public const ushort placeholder = 0;
 		}
 
 		public static class Levels {
 			public const byte
 				Benefic2 = 26,
-				MinorArcana = 50,
-				SleeveDraw = 70;
+				Draw = 30,
+				MinorArcana = 70,
+				CrownPlay = 70;
 		}
 	}
 
 	internal class AstrologianSwiftcastRaiserFeature: CustomCombo {
-		protected override CustomComboPreset Preset => CustomComboPreset.AstrologianSwiftcastRaiserFeature;
+		protected internal override CustomComboPreset Preset => CustomComboPreset.AstrologianSwiftcastRaiserFeature;
+		protected internal override uint[] ActionIDs { get; } = new[] { AST.Ascend };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID == AST.Ascend && GetCooldown(CommonSkills.Swiftcast).CooldownRemaining == 0 && !SelfHasEffect(AST.Buffs.LostChainspell))
+
+			if (actionID is AST.Ascend && CommonUtil.shouldSwiftcast)
 				return CommonSkills.Swiftcast;
 
 			return actionID;
@@ -48,27 +54,35 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class AstrologianCardsOnDrawFeature: CustomCombo {
-		protected override CustomComboPreset Preset => CustomComboPreset.AstrologianCardsOnDrawFeature;
+		protected internal override CustomComboPreset Preset => CustomComboPreset.AstrologianCardsOnDrawFeature;
+		protected internal override uint[] ActionIDs { get; } = new[] { AST.Play };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID == AST.Play) {
+
+			if (actionID is AST.Play) {
+
 				ASTGauge gauge = GetJobGauge<ASTGauge>();
-				if (gauge.DrawnCard == CardType.NONE)
+				if (level >= AST.Levels.Draw && gauge.DrawnCard is CardType.NONE)
 					return AST.Draw;
+
 			}
 
 			return actionID;
 		}
 	}
 
-	internal class AstrologianSleeveDrawFeature: CustomCombo {
-		protected override CustomComboPreset Preset => CustomComboPreset.AstrologianSleeveDrawFeature;
+	internal class AstrologianMinorArcanaPlayFeature: CustomCombo {
+		protected internal override CustomComboPreset Preset => CustomComboPreset.AstrologianMinorArcanaPlayFeature;
+		protected internal override uint[] ActionIDs { get; } = new[] { AST.MinorArcana };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID == AST.MinorArcana) {
+
+			if (actionID is AST.MinorArcana) {
+
 				ASTGauge gauge = GetJobGauge<ASTGauge>();
-				if (gauge.DrawnCard == CardType.NONE && level >= AST.Levels.SleeveDraw)
-					return AST.SleeveDraw;
+				if (level >= AST.Levels.CrownPlay && gauge.DrawnCrownCard is not CardType.NONE)
+					return OriginalHook(AST.CrownPlay);
+
 			}
 
 			return actionID;
@@ -76,12 +90,16 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class AstrologianBeneficFeature: CustomCombo {
-		protected override CustomComboPreset Preset => CustomComboPreset.AstrologianBeneficFeature;
+		protected internal override CustomComboPreset Preset => CustomComboPreset.AstrologianBeneficFeature;
+		protected internal override uint[] ActionIDs { get; } = new[] { AST.Benefic2 };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID == AST.Benefic2) {
+
+			if (actionID is AST.Benefic2) {
+
 				if (level < AST.Levels.Benefic2)
 					return AST.Benefic;
+
 			}
 
 			return actionID;

@@ -16,6 +16,7 @@ namespace XIVComboVX {
 		private readonly Dictionary<string, List<(CustomComboPreset preset, CustomComboInfoAttribute info)>> groupedPresets;
 		private static readonly Vector4 shadedColour = new(0.69f, 0.69f, 0.69f, 1.0f); // NICE (x3 COMBO)
 		private static readonly Vector4 warningColour = new(200f / 255f, 25f / 255f, 35f / 255f, 1f);
+		private const int minWidth = 800;
 
 		public ConfigWindow() : base("Custom Combo Setup") {
 			this.RespectCloseHotkey = true;
@@ -24,19 +25,24 @@ namespace XIVComboVX {
 				.GetValues<CustomComboPreset>()
 				.Select(preset => (
 					preset,
-					info: preset.GetAttribute<CustomComboInfoAttribute>(),
-					order: preset.GetAttribute<OrderedAttribute>()
+					info: preset.GetAttribute<CustomComboInfoAttribute>()
 				))
 				.Where(data => data.info is not null)
 				.GroupBy(data => data.info.JobName)
 				.OrderBy(group => group.Key)
 				.ToDictionary(
 					group => group.Key,
-					data => data.OrderBy(e => e.order?.Order ?? int.MaxValue).Select(e => (e.preset, e.info)).ToList()
+					data => data
+						.OrderBy(e => e.info.Order)
+						.ToList()
 				);
 
 			this.SizeCondition = ImGuiCond.FirstUseEver;
-			this.Size = new Vector2(740, 490);
+			this.Size = new(800, 800);
+			this.SizeConstraints = new() {
+				MinimumSize = new(800, 400),
+				MaximumSize = new(int.MaxValue, int.MaxValue),
+			};
 		}
 
 		public override void Draw() {
@@ -49,64 +55,82 @@ namespace XIVComboVX {
 			int i = 1;
 			foreach (string jobName in this.groupedPresets.Keys) {
 				if (ImGui.CollapsingHeader(jobName)) {
+
 					foreach ((CustomComboPreset preset, CustomComboInfoAttribute info) in this.groupedPresets[jobName]) {
-						bool enabled = Service.configuration.IsEnabled(preset);
+
+						bool enabled = Service.Configuration.IsEnabled(preset);
 						CustomComboPreset[]? conflicts = preset.GetConflicts();
+						CustomComboPreset? parent = preset.GetParent();
+						bool dangerous = preset.GetAttribute<DangerousAttribute>() is not null;
+						bool experimental = preset.GetAttribute<ExperimentalAttribute>() is not null;
 
 						ImGui.PushItemWidth(200);
 
 						if (ImGui.Checkbox(info.FancyName, ref enabled)) {
 							if (enabled) {
-								Service.configuration.EnabledActions.Add(preset);
+								Service.Configuration.EnabledActions.Add(preset);
 								foreach (CustomComboPreset conflict in conflicts) {
-									Service.configuration.EnabledActions.Remove(conflict);
+									Service.Configuration.EnabledActions.Remove(conflict);
 								}
 							}
 							else
-								Service.configuration.EnabledActions.Remove(preset);
+								Service.Configuration.EnabledActions.Remove(preset);
 
-							Service.iconReplacer.UpdateEnabledActionIDs();
-							Service.configuration.Save();
+							Service.IconReplacer.UpdateEnabledActionIDs();
+							Service.Configuration.Save();
 						}
 
 						ImGui.PopItemWidth();
 
-						if (preset.GetAttribute<ExperimentalAttribute>() is not null)
-							ImGui.TextColored(warningColour, "EXPERIMENTAL - use at your own risk!");
-						ImGui.TextColored(shadedColour, $"#{i}: {info.Description}");
+						string description = $"#{i}: {info.Description}";
+						if (parent is not null)
+							description += $"\nRequires {parent.GetAttribute<CustomComboInfoAttribute>().FancyName}";
+
+						if (dangerous)
+							ImGui.TextColored(warningColour, "UNSAFE - may potentially crash, use at your own risk!\n");
+						else if (experimental)
+							ImGui.TextColored(warningColour, "EXPERIMENTAL - not yet fully tested, may cause unwanted behaviour!");
+
+						ImGui.PushTextWrapPos((this.Size?.X ?? minWidth) - 20);
+						ImGui.TextColored(shadedColour, description);
+						ImGui.PopTextWrapPos();
 						ImGui.Spacing();
 
 						if (conflicts.Length > 0) {
-							string? conflictText = conflicts.Select(preset =>
-							{
-								CustomComboInfoAttribute? info = preset.GetAttribute<CustomComboInfoAttribute>();
-								return $"\n - {info.FancyName}";
-							}).Aggregate((t1, t2) => $"{t1}{t2}");
+							string? conflictText = conflicts
+								.Select(preset => $"\n - {preset.GetAttribute<CustomComboInfoAttribute>().FancyName}")
+								.Aggregate((t1, t2) => $"{t1}{t2}");
 
 							ImGui.TextColored(warningColour, $"Conflicts with:{conflictText}");
 							if (ImGui.IsItemHovered()) {
 								ImGui.BeginTooltip();
-								ImGui.TextUnformatted("All conflicting features will be automatically disabled if this one is turned on");
+								ImGui.TextUnformatted("All conflicting features will be automatically disabled if this one is turned on.");
 								ImGui.EndTooltip();
 							}
 							ImGui.Spacing();
 						}
 
 						if (preset == CustomComboPreset.DancerDanceComboCompatibility && enabled) {
-							int[] actions = Service.configuration.DancerDanceCompatActionIDs.Select(i => (int)i).ToArray();
-							if (ImGui.InputInt("Emboite (Red) ActionID", ref actions[0], 0) ||
-								ImGui.InputInt("Entrechat (Blue) ActionID", ref actions[1], 0) ||
-								ImGui.InputInt("Jete (Green) ActionID", ref actions[2], 0) ||
-								ImGui.InputInt("Pirouette (Yellow) ActionID", ref actions[3], 0)) {
-								Service.configuration.DancerDanceCompatActionIDs = actions.Cast<uint>().ToArray();
-								Service.iconReplacer.UpdateEnabledActionIDs();
-								Service.configuration.Save();
+							int[] actions = Service.Configuration.DancerDanceCompatActionIDs.Cast<int>().ToArray();
+							bool changed = false;
+
+							changed |= ImGui.InputInt("Emboite (Red) ActionID", ref actions[0], 0);
+							changed |= ImGui.InputInt("Entrechat (Blue) ActionID", ref actions[1], 0);
+							changed |= ImGui.InputInt("Jete (Green) ActionID", ref actions[2], 0);
+							changed |= ImGui.InputInt("Pirouette (Yellow) ActionID", ref actions[3], 0);
+
+							if (changed) {
+								Service.Configuration.DancerDanceCompatActionIDs = actions.Cast<uint>().ToArray();
+								Service.IconReplacer.UpdateEnabledActionIDs();
+								Service.Configuration.Save();
 							}
+
 							ImGui.Spacing();
 						}
 
 						i++;
 					}
+
 				}
 				else
 					i += this.groupedPresets[jobName].Count;

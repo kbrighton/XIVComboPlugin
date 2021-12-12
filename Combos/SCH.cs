@@ -12,23 +12,27 @@ namespace XIVComboVX.Combos {
 			Aetherflow = 166;
 
 		public static class Buffs {
-			public const short LostChainspell = 2560;
+			// public const ushort placeholder = 0;
 		}
 
 		public static class Debuffs {
-			// public const short placeholder = 0;
+			// public const ushort placeholder = 0;
 		}
 
 		public static class Levels {
-			// public const byte placeholder = 0;
+			public const byte
+				Aetherflow = 45,
+				Consolation = 80;
 		}
 	}
 
 	internal class ScholarSwiftcastRaiserFeature: CustomCombo {
-		protected override CustomComboPreset Preset => CustomComboPreset.ScholarSwiftcastRaiserFeature;
+		protected internal override CustomComboPreset Preset => CustomComboPreset.ScholarSwiftcastRaiserFeature;
+		protected internal override uint[] ActionIDs { get; } = new[] { SCH.Resurrection };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID == SCH.Resurrection && GetCooldown(CommonSkills.Swiftcast).CooldownRemaining == 0 && !SelfHasEffect(SCH.Buffs.LostChainspell))
+
+			if (actionID is SCH.Resurrection && CommonUtil.shouldSwiftcast)
 				return CommonSkills.Swiftcast;
 
 			return actionID;
@@ -36,28 +40,26 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class ScholarSeraphConsolationFeature: CustomCombo {
-		protected override CustomComboPreset Preset => CustomComboPreset.ScholarSeraphConsolationFeature;
+		protected internal override CustomComboPreset Preset => CustomComboPreset.ScholarSeraphConsolationFeature;
+		protected internal override uint[] ActionIDs { get; } = new[] { SCH.FeyBless };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID == SCH.FeyBless) {
-				SCHGauge gauge = GetJobGauge<SCHGauge>();
-				if (gauge.SeraphTimer > 0)
-					return SCH.Consolation;
-			}
+
+			if (actionID is SCH.FeyBless && GetJobGauge<SCHGauge>().SeraphTimer > 0)
+				return SCH.Consolation;
 
 			return actionID;
 		}
 	}
 
 	internal class ScholarEnergyDrainFeature: CustomCombo {
-		protected override CustomComboPreset Preset => CustomComboPreset.ScholarEnergyDrainFeature;
+		protected internal override CustomComboPreset Preset => CustomComboPreset.ScholarEnergyDrainFeature;
+		protected internal override uint[] ActionIDs { get; } = new[] { SCH.EnergyDrain };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID == SCH.EnergyDrain) {
-				SCHGauge gauge = GetJobGauge<SCHGauge>();
-				if (gauge.Aetherflow == 0)
-					return SCH.Aetherflow;
-			}
+
+			if (actionID is SCH.EnergyDrain && GetJobGauge<SCHGauge>().Aetherflow == 0)
+				return SCH.Aetherflow;
 
 			return actionID;
 		}

@@ -5,134 +5,140 @@ namespace XIVComboVX.Combos {
 		public const byte JobID = 38;
 
 		public const uint
-			// Single Target
-			Cascade = 15989,
+            // Single Target
+            Cascade = 15989,
 			Fountain = 15990,
 			ReverseCascade = 15991,
 			Fountainfall = 15992,
-			// AoE
-			Windmill = 15993,
+            // AoE
+            Windmill = 15993,
 			Bladeshower = 15994,
 			RisingWindmill = 15995,
 			Bloodshower = 15996,
-			// Dancing
-			StandardStep = 15997,
+            // Dancing
+            StandardStep = 15997,
 			TechnicalStep = 15998,
-			// Fans
-			FanDance1 = 16007,
+			Tillana = 25790,
+            // Fans
+            FanDance1 = 16007,
 			FanDance2 = 16008,
 			FanDance3 = 16009,
-			// Other
-			SaberDance = 16005,
+			FanDance4 = 25791,
+            // Other
+            SaberDance = 16005,
 			EnAvant = 16010,
+			Devilment = 16011,
 			Flourish = 16013,
-			Improvisation = 16014;
+			Improvisation = 16014,
+			StarfallDance = 25792;
 
 		public static class Buffs {
-			public const short
-				FlourishingCascade = 1814,
-				FlourishingFountain = 1815,
-				FlourishingWindmill = 1816,
-				FlourishingShower = 1817,
+			public const ushort
+				FlourishingSymmetry = 2693,
+				FlourishingFlow = 2694,
+				FlourishingFinish = 2698,
+				FlourishingStarfall = 2700,
 				StandardStep = 1818,
 				TechnicalStep = 1819,
-				FlourishingFanDance = 1820;
+				ThreefoldFanDance = 1820,
+				FourfoldFanDance = 2699;
 		}
 
 		public static class Debuffs {
-			// public const short placeholder = 0;
+			// public const ushort placeholder = 0;
 		}
 
 		public static class Levels {
 			public const byte
 				Fountain = 2,
 				Windmill = 15,
+				StandardStep = 15,
 				ReverseCascade = 20,
 				Bladeshower = 25,
-				FanDance1 = 30,
 				RisingWindmill = 35,
 				Fountainfall = 40,
 				Bloodshower = 45,
-				FanDance2 = 50,
 				FanDance3 = 66,
-				Flourish = 72,
-				SaberDance = 76,
-				Improvisation = 80;
+				TechnicalStep = 70,
+				Tillana = 82,
+				FanDance4 = 86,
+				StarfallDance = 90;
 
 		}
 	}
 
 	internal class DancerDanceComboCompatibility: CustomCombo {
-		protected override CustomComboPreset Preset => CustomComboPreset.DancerDanceComboCompatibility;
-
-		protected override uint[] ActionIDs => Configuration.DancerDanceCompatActionIDs;
+		protected internal override CustomComboPreset Preset => CustomComboPreset.DancerDanceComboCompatibility;
+		protected internal override uint[] ActionIDs => Service.Configuration.DancerDanceCompatActionIDs;
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			DNCGauge gauge = GetJobGauge<DNCGauge>();
-			if (gauge.IsDancing) {
-				uint[] actionIDs = Configuration.DancerDanceCompatActionIDs;
 
-				if (actionID == actionIDs[0] || (actionIDs[0] == 0 && actionID == DNC.Cascade))
+			if (GetJobGauge<DNCGauge>().IsDancing) {
+				uint[] actionIDs = Service.Configuration.DancerDanceCompatActionIDs;
+
+				if (actionID == actionIDs[0] || (actionIDs[0] == 0 && actionID is DNC.Cascade))
 					return OriginalHook(DNC.Cascade);
 
-				if (actionID == actionIDs[1] || (actionIDs[1] == 0 && actionID == DNC.Flourish))
+				if (actionID == actionIDs[1] || (actionIDs[1] == 0 && actionID is DNC.Flourish))
 					return OriginalHook(DNC.Fountain);
 
-				if (actionID == actionIDs[2] || (actionIDs[2] == 0 && actionID == DNC.FanDance1))
+				if (actionID == actionIDs[2] || (actionIDs[2] == 0 && actionID is DNC.FanDance1))
 					return OriginalHook(DNC.ReverseCascade);
 
-				if (actionID == actionIDs[3] || (actionIDs[3] == 0 && actionID == DNC.FanDance2))
+				if (actionID == actionIDs[3] || (actionIDs[3] == 0 && actionID is DNC.FanDance2))
 					return OriginalHook(DNC.Fountainfall);
+
 			}
 
 			return actionID;
 		}
 	}
 
-	internal class DancerFanDance1Combo: CustomCombo {
-		protected override CustomComboPreset Preset => CustomComboPreset.DancerFanDance1Combo;
+	internal class DancerFanDanceCombos: CustomCombo {
+		protected internal override CustomComboPreset Preset => CustomComboPreset.DancerFanDanceSwitcher;
+		protected internal override uint[] ActionIDs { get; } = new[] { DNC.FanDance1, DNC.FanDance2 };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID == DNC.FanDance1 && level >= DNC.Levels.FanDance3 && SelfHasEffect(DNC.Buffs.FlourishingFanDance))
-				return DNC.FanDance3;
 
-			return actionID;
-		}
-	}
+			if (actionID is DNC.FanDance1 or DNC.FanDance2) {
+				bool can4 = level >= DNC.Levels.FanDance4 && SelfHasEffect(DNC.Buffs.FourfoldFanDance);
+				bool can3 = level >= DNC.Levels.FanDance3 && SelfHasEffect(DNC.Buffs.ThreefoldFanDance);
 
-	internal class DancerFanDance2Combo: CustomCombo {
-		protected override CustomComboPreset Preset => CustomComboPreset.DancerFanDance2Combo;
+				if (actionID is DNC.FanDance1) {
+					if (IsEnabled(CustomComboPreset.DancerFanDance14Combo) && can4)
+						return DNC.FanDance4;
+					if (IsEnabled(CustomComboPreset.DancerFanDance13Combo) && can3)
+						return DNC.FanDance3;
+				}
+				else if (actionID is DNC.FanDance2) {
+					if (IsEnabled(CustomComboPreset.DancerFanDance24Combo) && can4)
+						return DNC.FanDance4;
+					if (IsEnabled(CustomComboPreset.DancerFanDance23Combo) && can3)
+						return DNC.FanDance3;
+				}
 
-		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID == DNC.FanDance2 && level >= DNC.Levels.FanDance3 && SelfHasEffect(DNC.Buffs.FlourishingFanDance))
-				return DNC.FanDance3;
+			}
 
 			return actionID;
 		}
 	}
 
 	internal class DancerDanceStepCombo: CustomCombo {
-		protected override CustomComboPreset Preset => CustomComboPreset.DancerDanceStepCombo;
+		protected internal override CustomComboPreset Preset => CustomComboPreset.DancerDanceStepCombo;
+		protected internal override uint[] ActionIDs { get; } = new[] { DNC.StandardStep, DNC.TechnicalStep };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID == DNC.StandardStep) {
+			if (actionID is DNC.StandardStep or DNC.TechnicalStep) {
 				DNCGauge gauge = GetJobGauge<DNCGauge>();
-				if (gauge.IsDancing && SelfHasEffect(DNC.Buffs.StandardStep)) {
-					if (gauge.CompletedSteps < 2)
+				int steps = actionID is DNC.StandardStep ? 2 : 4;
+
+				if (gauge.IsDancing) {
+					if (gauge.CompletedSteps < steps)
 						return gauge.NextStep;
 
-					return OriginalHook(DNC.StandardStep);
+					return OriginalHook(actionID);
 				}
-			}
 
-			if (actionID == DNC.TechnicalStep) {
-				DNCGauge gauge = GetJobGauge<DNCGauge>();
-				if (gauge.IsDancing && SelfHasEffect(DNC.Buffs.TechnicalStep)) {
-					if (gauge.CompletedSteps < 4)
-						return gauge.NextStep;
-
-					return OriginalHook(DNC.TechnicalStep);
-				}
 			}
 
 			return actionID;
@@ -140,23 +146,25 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class DancerFlourishFeature: CustomCombo {
-		protected override CustomComboPreset Preset => CustomComboPreset.DancerFlourishFeature;
+		protected internal override CustomComboPreset Preset => CustomComboPreset.DancerFlourishFeature;
+		protected internal override uint[] ActionIDs { get; } = new[] { DNC.Flourish };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID == DNC.Flourish) {
-				if (level >= DNC.Levels.Fountainfall && SelfHasEffect(DNC.Buffs.FlourishingFountain))
+
+			if (actionID is DNC.Flourish) {
+
+				if (level >= DNC.Levels.Fountainfall && SelfHasEffect(DNC.Buffs.FlourishingFlow))
 					return DNC.Fountainfall;
 
-				if (level >= DNC.Levels.ReverseCascade && SelfHasEffect(DNC.Buffs.FlourishingCascade))
+				if (level >= DNC.Levels.FanDance4 && SelfHasEffect(DNC.Buffs.FourfoldFanDance))
+					return DNC.FanDance4;
+
+				if (level >= DNC.Levels.ReverseCascade && SelfHasEffect(DNC.Buffs.FlourishingSymmetry))
 					return DNC.ReverseCascade;
 
-				if (level >= DNC.Levels.Bloodshower && SelfHasEffect(DNC.Buffs.FlourishingShower))
-					return DNC.Bloodshower;
+				if (level >= DNC.Levels.FanDance3 && SelfHasEffect(DNC.Buffs.ThreefoldFanDance))
+					return DNC.FanDance3;
 
-				if (level >= DNC.Levels.RisingWindmill && SelfHasEffect(DNC.Buffs.FlourishingWindmill))
-					return DNC.RisingWindmill;
-
-				return DNC.Flourish;
 			}
 
 			return actionID;
@@ -164,23 +172,22 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class DancerSingleTargetMultibutton: CustomCombo {
-		protected override CustomComboPreset Preset => CustomComboPreset.DancerSingleTargetMultibutton;
+		protected internal override CustomComboPreset Preset => CustomComboPreset.DancerSingleTargetMultibutton;
+		protected internal override uint[] ActionIDs { get; } = new[] { DNC.Cascade };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID == DNC.Cascade) {
-				// From Fountain
-				if (level >= DNC.Levels.Fountainfall && SelfHasEffect(DNC.Buffs.FlourishingFountain))
-					return DNC.Fountainfall;
 
-				// From Cascade
-				if (level >= DNC.Levels.ReverseCascade && SelfHasEffect(DNC.Buffs.FlourishingCascade))
+			if (actionID is DNC.Cascade) {
+
+				if (level >= DNC.Levels.ReverseCascade && SelfHasEffect(DNC.Buffs.FlourishingSymmetry))
 					return DNC.ReverseCascade;
 
-				// Cascade Combo
+				if (level >= DNC.Levels.Fountainfall && SelfHasEffect(DNC.Buffs.FlourishingFlow))
+					return DNC.Fountainfall;
+
 				if (lastComboMove == DNC.Cascade && level >= DNC.Levels.Fountain)
 					return DNC.Fountain;
 
-				return DNC.Cascade;
 			}
 
 			return actionID;
@@ -188,24 +195,35 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class DancerAoeMultibutton: CustomCombo {
-		protected override CustomComboPreset Preset => CustomComboPreset.DancerAoeMultibutton;
+		protected internal override CustomComboPreset Preset => CustomComboPreset.DancerAoeMultibutton;
+		protected internal override uint[] ActionIDs { get; } = new[] { DNC.Windmill };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID == DNC.Windmill) {
-				// From Bladeshower
-				if (level >= DNC.Levels.Bloodshower && SelfHasEffect(DNC.Buffs.FlourishingShower))
-					return DNC.Bloodshower;
+			if (actionID is DNC.Windmill) {
 
-				// From Windmill
-				if (level >= DNC.Levels.RisingWindmill && SelfHasEffect(DNC.Buffs.FlourishingWindmill))
+				if (level >= DNC.Levels.RisingWindmill && SelfHasEffect(DNC.Buffs.FlourishingSymmetry))
 					return DNC.RisingWindmill;
 
-				// Windmill Combo
+				if (level >= DNC.Levels.Bloodshower && SelfHasEffect(DNC.Buffs.FlourishingFlow))
+					return DNC.Bloodshower;
+
 				if (lastComboMove == DNC.Windmill && level >= DNC.Levels.Bladeshower)
 					return DNC.Bladeshower;
 
-				return DNC.Windmill;
 			}
+
+			return actionID;
+		}
+	}
+
+	internal class DancerDevilmentFeature: CustomCombo {
+		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.DancerDevilmentFeature;
+		protected internal override uint[] ActionIDs { get; } = new[] { DNC.Devilment };
+
+		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+
+			if (actionID is DNC.Devilment && level >= DNC.Levels.StarfallDance && SelfHasEffect(DNC.Buffs.FlourishingStarfall))
+				return DNC.StarfallDance;
 
 			return actionID;
 		}

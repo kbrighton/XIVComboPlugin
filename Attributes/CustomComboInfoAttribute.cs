@@ -1,20 +1,21 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace XIVComboVX.Attributes {
 	[AttributeUsage(AttributeTargets.Field)]
 	internal class CustomComboInfoAttribute: Attribute {
-		internal CustomComboInfoAttribute(string fancyName, string description, byte jobID, params uint[] actionIDs) {
+		internal CustomComboInfoAttribute(string fancyName, string description, byte jobID, [CallerLineNumber] int order = 0) {
 			this.FancyName = fancyName;
 			this.Description = description;
 			this.JobID = jobID;
-			this.ActionIDs = actionIDs;
+			this.Order = order;
 		}
 
 		public string FancyName { get; }
 		public string Description { get; }
 		public byte JobID { get; }
 		public string JobName => jobIdToName(this.JobID);
-		public uint[] ActionIDs { get; }
+		public int Order { get; }
 
 		private static string jobIdToName(byte key) {
 			return key switch {
@@ -56,6 +57,8 @@ namespace XIVComboVX.Attributes {
 				36 => "Blue Mage",
 				37 => "Gunbreaker",
 				38 => "Dancer",
+				39 => "Reaper",
+				40 => "Sage",
 				_ => "Unknown",
 			};
 		}
