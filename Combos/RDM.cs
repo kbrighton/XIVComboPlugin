@@ -8,26 +8,28 @@ namespace XIVComboVX.Combos {
 
 		public const uint
 			Verraise = 7523,
+			Jolt = 7503,
+			Jolt2 = 7524,
 			Verthunder = 7505,
+			Verthunder2 = 16524,
+			Verfire = 7510,
+			Verflare = 7525,
 			Veraero = 7507,
 			Veraero2 = 16525,
-			Verthunder2 = 16524,
+			Verstone = 7511,
+			Verholy = 7526,
 			Impact = 16526,
+			Scatter = 7509,
 			Redoublement = 7516,
 			EnchantedRedoublement = 7529,
 			Zwerchhau = 7512,
 			EnchantedZwerchhau = 7528,
 			Riposte = 7504,
 			EnchantedRiposte = 7527,
-			Scatter = 7509,
-			Verstone = 7511,
-			Verfire = 7510,
-			Jolt = 7503,
+			Moulinet = 7513,
+			EnchantedMoulinet = 7530,
 			Fleche = 7517,
 			ContreSixte = 7519,
-			Jolt2 = 7524,
-			Verholy = 7526,
-			Verflare = 7525,
 			Scorch = 16530,
 			Resolution = 25858;
 
@@ -84,7 +86,12 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { RDM.Veraero2, RDM.Verthunder2 };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is RDM.Veraero2 or RDM.Verthunder2 && CommonUtil.isFastcasting)
+			if (actionID is RDM.Veraero2 or RDM.Verthunder2
+				&& (
+					(level >= RDM.Levels.Impact && CommonUtil.isFastcasting)
+					|| SelfHasEffect(RDM.Buffs.Acceleration)
+				)
+			)
 				return OriginalHook(RDM.Impact);
 
 			return actionID;
@@ -93,10 +100,10 @@ namespace XIVComboVX.Combos {
 
 	internal class RedMageMeleeCombo: CustomCombo {
 		protected internal override CustomComboPreset Preset => CustomComboPreset.RedMageMeleeCombo;
-		protected internal override uint[] ActionIDs { get; } = new[] { RDM.Redoublement };
+		protected internal override uint[] ActionIDs { get; } = new[] { RDM.Redoublement, RDM.Moulinet };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is RDM.Redoublement) {
+			if (actionID is RDM.Redoublement or RDM.Moulinet) {
 				RDMGauge gauge = GetJobGauge<RDMGauge>();
 
 				if (IsEnabled(CustomComboPreset.RedMageMeleeComboPlus)) {
@@ -119,21 +126,24 @@ namespace XIVComboVX.Combos {
 
 							return RDM.Verholy;
 						}
+
 						if (SelfHasEffect(RDM.Buffs.VerfireReady) && !SelfHasEffect(RDM.Buffs.VerstoneReady) && (gauge.WhiteMana - gauge.BlackMana <= 9))
 							return RDM.Verholy;
 
 						return RDM.Verflare;
-
 					}
 				}
 
-				if (lastComboMove is RDM.Zwerchhau or RDM.EnchantedZwerchhau && level >= RDM.Levels.Redoublement)
-					return OriginalHook(RDM.Redoublement);
+				if (actionID is RDM.Redoublement) {
+					if (lastComboMove is RDM.Zwerchhau or RDM.EnchantedZwerchhau && level >= RDM.Levels.Redoublement)
+						return OriginalHook(RDM.Redoublement);
 
-				if (lastComboMove is RDM.Riposte or RDM.EnchantedRiposte && level >= RDM.Levels.Zwerchhau)
-					return OriginalHook(RDM.Zwerchhau);
+					if (lastComboMove is RDM.Riposte or RDM.EnchantedRiposte && level >= RDM.Levels.Zwerchhau)
+						return OriginalHook(RDM.Zwerchhau);
 
-				return OriginalHook(RDM.Riposte);
+					return OriginalHook(RDM.Riposte);
+				}
+
 			}
 
 			return actionID;

@@ -91,7 +91,7 @@ namespace XIVComboVX {
 						else if (experimental)
 							ImGui.TextColored(warningColour, "EXPERIMENTAL - not yet fully tested, may cause unwanted behaviour!");
 
-						ImGui.PushTextWrapPos((this.Size?.X ?? minWidth) - 20);
+						ImGui.PushTextWrapPos((this.Size?.Y ?? minWidth) - 20);
 						ImGui.TextColored(shadedColour, description);
 						ImGui.PopTextWrapPos();
 						ImGui.Spacing();

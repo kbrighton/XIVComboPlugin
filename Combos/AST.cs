@@ -18,7 +18,8 @@ namespace XIVComboVX.Combos {
 			Spire = 4406,
 			MinorArcana = 7443,
 			Play = 17055,
-			CrownPlay = 25869;
+			CrownPlay = 25869,
+			Astrodyne = 25870;
 
 		public static class Buffs {
 			public const ushort

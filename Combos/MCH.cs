@@ -5,26 +5,27 @@ namespace XIVComboVX.Combos {
 		public const byte JobID = 31;
 
 		public const uint
-            // Single target
-            CleanShot = 2873,
+			// Single target
+			CleanShot = 2873,
 			HeatedCleanShot = 7413,
 			SplitShot = 2866,
 			HeatedSplitShot = 7411,
 			SlugShot = 2868,
 			HeatedSlugshot = 7412,
-            // Charges
-            GaussRound = 2874,
+			// Charges
+			GaussRound = 2874,
 			Ricochet = 2890,
-            // AoE
-            SpreadShot = 2870,
+			// AoE
+			SpreadShot = 2870,
 			AutoCrossbow = 16497,
-            // Rook
-            RookAutoturret = 2864,
+			Scattergun = 25786,
+			// Rook
+			RookAutoturret = 2864,
 			RookOverdrive = 7415,
 			AutomatonQueen = 16501,
 			QueenOverdrive = 16502,
-            // Other
-            Hypercharge = 17209,
+			// Other
+			Hypercharge = 17209,
 			HeatBlast = 7410,
 			HotShot = 2872,
 			Drill = 16498,
@@ -121,10 +122,10 @@ namespace XIVComboVX.Combos {
 
 	internal class MachinistSpreadShotFeature: CustomCombo {
 		protected internal override CustomComboPreset Preset => CustomComboPreset.MachinistSpreadShotFeature;
-		protected internal override uint[] ActionIDs { get; } = new[] { MCH.SpreadShot };
+		protected internal override uint[] ActionIDs { get; } = new[] { MCH.SpreadShot, MCH.Scattergun };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is MCH.SpreadShot) {
+			if (actionID is MCH.SpreadShot or MCH.Scattergun) {
 				MCHGauge gauge = GetJobGauge<MCHGauge>();
 
 				if (level >= MCH.Levels.AutoCrossbow && gauge.IsOverheated)

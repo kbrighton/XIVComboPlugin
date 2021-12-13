@@ -5,27 +5,27 @@ namespace XIVComboVX.Combos {
 		public const byte JobID = 38;
 
 		public const uint
-            // Single Target
-            Cascade = 15989,
+			// Single Target
+			Cascade = 15989,
 			Fountain = 15990,
 			ReverseCascade = 15991,
 			Fountainfall = 15992,
-            // AoE
-            Windmill = 15993,
+			// AoE
+			Windmill = 15993,
 			Bladeshower = 15994,
 			RisingWindmill = 15995,
 			Bloodshower = 15996,
-            // Dancing
-            StandardStep = 15997,
+			// Dancing
+			StandardStep = 15997,
 			TechnicalStep = 15998,
 			Tillana = 25790,
-            // Fans
-            FanDance1 = 16007,
+			// Fans
+			FanDance1 = 16007,
 			FanDance2 = 16008,
 			FanDance3 = 16009,
 			FanDance4 = 25791,
-            // Other
-            SaberDance = 16005,
+			// Other
+			SaberDance = 16005,
 			EnAvant = 16010,
 			Devilment = 16011,
 			Flourish = 16013,

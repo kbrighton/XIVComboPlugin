@@ -3,28 +3,28 @@ namespace XIVComboVX.Combos {
 		public const byte JobID = 39;
 
 		public const uint
-            // Single Target
-            Slice = 24373,
+			// Single Target
+			Slice = 24373,
 			WaxingSlice = 24374,
 			InfernalSlice = 24375,
-            // AoE
-            SpinningScythe = 24376,
+			// AoE
+			SpinningScythe = 24376,
 			NightmareScythe = 24377,
-            // Soul Reaver
-            BloodStalk = 24389,
+			// Soul Reaver
+			BloodStalk = 24389,
 			Gibbet = 24382,
 			Gallows = 24383,
 			Guillotine = 24384,
-            // Sacrifice
-            ArcaneCircle = 24405,
+			// Sacrifice
+			ArcaneCircle = 24405,
 			PlentifulHarvest = 24385,
-            // Shroud
-            Enshroud = 24394,
+			// Shroud
+			Enshroud = 24394,
 			Communio = 24398,
 			LemuresSlice = 24399,
 			LemuresScythe = 24400,
-            // Misc
-            ShadowOfDeath = 24378,
+			// Misc
+			ShadowOfDeath = 24378,
 			HellsIngress = 24401,
 			HellsEgress = 24402,
 			Regress = 24403;

@@ -69,10 +69,9 @@ namespace XIVComboVX.Combos {
 				if (level >= MNK.Levels.Rockbreaker && SelfHasEffect(MNK.Buffs.CoerlForm))
 					return MNK.Rockbreaker;
 
-				return MNK.ArmOfTheDestroyer;
+				return OriginalHook(MNK.ArmOfTheDestroyer);
 			}
 
-			// Currently disabled because Dalamud doesn't seem to have support for MNK's Beast Chakra yet
 			// if (actionID is MNK.FourPointFury) {
 			// 	MNKGauge gauge = GetJobGauge<MNKGauge>();
 			// 

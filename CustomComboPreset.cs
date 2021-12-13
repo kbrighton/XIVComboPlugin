@@ -44,6 +44,12 @@ namespace XIVComboVX {
 		[CustomComboInfo("Freeze/Flare Feature", "Freeze and Flare become whichever action you can currently use.", BLM.JobID)]
 		BlackFreezeFlareFeature = 2505,
 
+		[CustomComboInfo("Fire 2 Feature", "(High) Fire 2 becomes Flare in Astral Fire with 1 or fewer Umbral Hearts.", BLM.JobID)]
+		BlackFire2Feature = 2507,
+
+		[CustomComboInfo("Ice 2 Feature", "(High) Blizzard 2 becomes Freeze in Umbral Ice.", BLM.JobID)]
+		BlackBlizzard2Feature = 2508,
+
 		[CustomComboInfo("Scathe/Xenoglossy Feature", "Scathe becomes Xenoglossy when available.", BLM.JobID)]
 		BlackScatheFeature = 2506,
 
@@ -132,6 +138,9 @@ namespace XIVComboVX {
 
 		[CustomComboInfo("Jump + Mirage Dive", "Replace (High) Jump with Mirage Dive when Dive Ready.", DRG.JobID)]
 		DragoonJumpFeature = 2203,
+
+		[CustomComboInfo("Wheeling Thrust / Fang and Claw Option", "When you have either Enhanced Fang and Claw or Wheeling Thrust, Chaos Thrust becomes Wheeling Thrust and Full Thrust becomes Fang and Claw.\nOnly works with the respective combos.", DRG.JobID)]
+		DragoonFangThrustFeature = 2206,
 
 		[Experimental]
 		[CustomComboInfo("Dive Dive Dive!", "Replace Spineshatter Dive, Dragonfire Dive, and Stardiver with whichever is available.", DRG.JobID)]
@@ -255,9 +264,11 @@ namespace XIVComboVX {
 		[CustomComboInfo("Bunshin / Kamaitachi Feature", "Replaces Bunshin with Phantom Kamaitachi after usage.", NIN.JobID)]
 		NinjaBunshinKamaitachiFeature = 3009,
 
+		[ParentPreset(NinjaArmorCrushCombo)]
 		[CustomComboInfo("Armor Crush / Raiju Feature", "Replaces the Armor Crush combo with Forked and Fleeting Raiju when available.", NIN.JobID)]
 		NinjaArmorCrushRaijuFeature = 3010,
 
+		[ParentPreset(NinjaAeolianEdgeCombo)]
 		[CustomComboInfo("Aeolian Edge / Raiju Feature", "Replaces the Aeolian Edge combo with Forked and Fleeting Raiju when available.", NIN.JobID)]
 		NinjaAeolianEdgeRaijuFeature = 3011,
 
@@ -274,7 +285,8 @@ namespace XIVComboVX {
 		[CustomComboInfo("Royal Authority Combo", "Replace Royal Authority/Rage of Halone with its combo chain.", PLD.JobID)]
 		PaladinRoyalAuthorityCombo = 1901,
 
-		[CustomComboInfo("Atonement Feature", "Replace Royal Authority with Atonement when under the effect of Sword Oath.", PLD.JobID)]
+		[ParentPreset(PaladinRoyalAuthorityCombo)]
+		[CustomComboInfo("Atonement Feature", "Also replace Royal Authority with Atonement when under the effect of Sword Oath.", PLD.JobID)]
 		PaladinAtonementFeature = 1902,
 
 		[CustomComboInfo("Prominence Combo", "Replace Prominence with its combo chain.", PLD.JobID)]
@@ -336,7 +348,7 @@ namespace XIVComboVX {
 		RedMageMeleeCombo = 3502,
 
 		[ParentPreset(RedMageMeleeCombo)]
-		[CustomComboInfo("Redoublement Combo Plus", "Replaces Redoublement with Verflare/Verholy (and then Scorch and Resolution) after Enchanted Redoublement, whichever is more appropriate.", RDM.JobID)]
+		[CustomComboInfo("Redoublement Combo Plus", "Replaces Redoublement (and Moulinet) with Verflare/Verholy (and then Scorch and Resolution) after 3 mana stacks, whichever is more appropriate.", RDM.JobID)]
 		RedMageMeleeComboPlus = 3503,
 
 		[Conflicts(RedMageSmartcastAoEFeature)]
@@ -507,17 +519,19 @@ namespace XIVComboVX {
 		[CustomComboInfo("Swiftcast Raise", "Raise turns into Swiftcast when it's off cooldown.", WHM.JobID)]
 		WhiteMageSwiftcastRaiserFeature = 2400,
 
+		[CustomComboInfo("Afflatus Feature", "Changes Cure 2 into Afflatus Solace, and Medica into Afflatus Rapture, when lilies are up.", WHM.JobID)]
+		WhiteMageAfflatusFeature = 2404,
+
+		[ParentPreset(WhiteMageAfflatusFeature)]
 		[CustomComboInfo("Solace into Misery", "Replaces Afflatus Solace with Afflatus Misery when Misery is ready to be used.", WHM.JobID)]
 		WhiteMageSolaceMiseryFeature = 2401,
 
+		[ParentPreset(WhiteMageAfflatusFeature)]
 		[CustomComboInfo("Rapture into Misery", "Replaces Afflatus Rapture with Afflatus Misery when Misery is ready to be used.", WHM.JobID)]
 		WhiteMageRaptureMiseryFeature = 2402,
 
 		[CustomComboInfo("Cure 2 to Cure Level Sync", "Changes Cure 2 to Cure when below level 30 in synced content.", WHM.JobID)]
 		WhiteMageCureFeature = 2403,
-
-		[CustomComboInfo("Afflatus Feature", "Changes Cure 2 into Afflatus Solace, and Medica into Afflatus Rapture, when lilies are up.", WHM.JobID)]
-		WhiteMageAfflatusFeature = 2404,
 
 		#endregion
 		// ====================================================================================

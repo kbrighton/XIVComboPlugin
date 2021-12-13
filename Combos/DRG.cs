@@ -6,8 +6,8 @@ namespace XIVComboVX.Combos {
 		public const byte JobID = 22;
 
 		public const uint
-            // Single Target
-            TrueThrust = 75,
+			// Single Target
+			TrueThrust = 75,
 			VorpalThrust = 78,
 			Disembowel = 87,
 			FullThrust = 84,
@@ -17,20 +17,20 @@ namespace XIVComboVX.Combos {
 			WheelingThrust = 3556,
 			FangAndClaw = 3554,
 			RaidenThrust = 16479,
-            // AoE
-            DoomSpike = 86,
+			// AoE
+			DoomSpike = 86,
 			SonicThrust = 7397,
 			CoerthanTorment = 16477,
 			DraconianFury = 25770,
-            // Combined
-            // Jumps
-            Jump = 92,
+			// Combined
+			// Jumps
+			Jump = 92,
 			SpineshatterDive = 95,
 			DragonfireDive = 96,
 			HighJump = 16478,
 			MirageDive = 7399,
-            // Dragon
-            Stardiver = 16480,
+			// Dragon
+			Stardiver = 16480,
 			WyrmwindThrust = 25773;
 
 		public static class Buffs {
@@ -110,12 +110,25 @@ namespace XIVComboVX.Combos {
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			if (actionID is DRG.ChaosThrust or DRG.ChaoticSpring) {
 
-				if (comboTime > 0) {
-					if (level >= DRG.Levels.Disembowel && lastComboMove is DRG.TrueThrust or DRG.RaidenThrust)
-						return DRG.Disembowel;
+				if (IsEnabled(CustomComboPreset.DragoonFangThrustFeature)
+					&& level >= DRG.Levels.FangAndClaw
+					&& (SelfHasEffect(DRG.Buffs.SharperFangAndClaw) || SelfHasEffect(DRG.Buffs.EnhancedWheelingThrust))
+				)
+					return DRG.WheelingThrust;
 
-					if (level >= DRG.Levels.ChaosThrust && lastComboMove == DRG.Disembowel)
+				if (level >= DRG.Levels.FangAndClaw && SelfHasEffect(DRG.Buffs.SharperFangAndClaw))
+					return DRG.FangAndClaw;
+
+				if (level >= DRG.Levels.WheelingThrust && SelfHasEffect(DRG.Buffs.EnhancedWheelingThrust))
+					return DRG.WheelingThrust;
+
+				if (comboTime > 0) {
+
+					if (lastComboMove == DRG.Disembowel && level >= DRG.Levels.ChaosThrust)
 						return OriginalHook(DRG.ChaosThrust);
+
+					if (lastComboMove is DRG.TrueThrust or DRG.RaidenThrust && level >= DRG.Levels.Disembowel)
+						return DRG.Disembowel;
 
 				}
 
@@ -131,15 +144,28 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { DRG.FullThrust, DRG.HeavensThrust };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-
 			if (actionID is DRG.FullThrust or DRG.HeavensThrust) {
 
+				if (IsEnabled(CustomComboPreset.DragoonFangThrustFeature)
+					&& level >= DRG.Levels.FangAndClaw
+					&& (SelfHasEffect(DRG.Buffs.SharperFangAndClaw) || SelfHasEffect(DRG.Buffs.EnhancedWheelingThrust))
+				)
+					return DRG.FangAndClaw;
+
+				if (level >= DRG.Levels.WheelingThrust && SelfHasEffect(DRG.Buffs.EnhancedWheelingThrust))
+					return DRG.WheelingThrust;
+
+				if (level >= DRG.Levels.FangAndClaw && SelfHasEffect(DRG.Buffs.SharperFangAndClaw))
+					return DRG.FangAndClaw;
+
 				if (comboTime > 0) {
+
 					if (level >= DRG.Levels.VorpalThrust && lastComboMove is DRG.TrueThrust or DRG.RaidenThrust)
 						return DRG.VorpalThrust;
 
 					if (level >= DRG.Levels.FullThrust && lastComboMove == DRG.VorpalThrust)
 						return OriginalHook(DRG.FullThrust);
+
 				}
 
 				return OriginalHook(DRG.TrueThrust);

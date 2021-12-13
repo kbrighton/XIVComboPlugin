@@ -86,7 +86,6 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { BRD.HeavyShot, BRD.BurstShot };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-
 			if (actionID is BRD.HeavyShot or BRD.BurstShot) {
 
 				if (IsEnabled(CustomComboPreset.BardApexFeature)) {
