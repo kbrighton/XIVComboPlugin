@@ -250,7 +250,11 @@ namespace XIVComboVX.Combos {
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			if (actionID is RDM.Veraero2 or RDM.Verthunder2) {
 
-				if (CommonUtil.isFastcasting || level < RDM.Levels.Verthunder2)
+				if (
+					(level >= RDM.Levels.Impact && CommonUtil.isFastcasting)
+					|| SelfHasEffect(RDM.Buffs.Acceleration)
+					|| level < RDM.Levels.Verthunder2
+				)
 					return OriginalHook(RDM.Impact);
 
 				if (level < RDM.Levels.Veraero2)
@@ -342,7 +346,7 @@ namespace XIVComboVX.Combos {
 						return RDM.Verflare;
 					}
 
-					if (fastCasting) {
+					if (fastCasting || SelfHasEffect(RDM.Buffs.Acceleration)) {
 
 						if (level is < RDM.Levels.Veraero and >= RDM.Levels.Verthunder)
 							return RDM.Verthunder;
