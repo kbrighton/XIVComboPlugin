@@ -314,7 +314,7 @@ namespace XIVComboVX.Combos {
 				if (actionID is RDM.Verstone or RDM.Verfire) {
 
 					bool fastCasting = CommonUtil.isFastcasting;
-					bool isFinishing1 = comboTime > 0 && lastComboActionId is RDM.EnchantedRedoublement && gauge.ManaStacks == 3;
+					bool isFinishing1 = gauge.ManaStacks == 3;
 					bool isFinishing2 = comboTime > 0 && lastComboActionId is RDM.Verholy or RDM.Verflare;
 					bool isFinishing3 = comboTime > 0 && lastComboActionId is RDM.Scorch;
 					bool canFinishWhite = level >= RDM.Levels.Verholy;
