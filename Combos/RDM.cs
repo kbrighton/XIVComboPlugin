@@ -299,14 +299,14 @@ namespace XIVComboVX.Combos {
 						return RDM.Jolt;
 
 					if (level is < RDM.Levels.Veraero and >= RDM.Levels.Verthunder)
-						return RDM.Verthunder;
+						return OriginalHook(RDM.Verthunder);
 
 					// This is for the long opener only, so we're not bothered about fast casting or finishers or anything like that
 					if (black < white)
-						return RDM.Verthunder;
+						return OriginalHook(RDM.Verthunder);
 
 					if (white < black)
-						return RDM.Veraero;
+						return OriginalHook(RDM.Veraero);
 
 					return actionID;
 				}
@@ -355,33 +355,33 @@ namespace XIVComboVX.Combos {
 
 							// Either both procs are already up or neither is - use whatever gives us the mana we need
 							if (black < white)
-								return RDM.Verthunder;
+								return OriginalHook(RDM.Verthunder);
 
 							if (white < black)
-								return RDM.Veraero;
+								return OriginalHook(RDM.Veraero);
 
 							// If mana levels are equal, prioritise the colour that the original button was
 							return actionID is RDM.Verstone
-								? RDM.Veraero
-								: RDM.Verthunder;
+								? OriginalHook(RDM.Veraero)
+								: OriginalHook(RDM.Verthunder);
 						}
 
 						if (verfireUp) {
 
 							// If Veraero is feasible, use it
 							if (white + LONG_DELTA <= whiteThreshold)
-								return RDM.Veraero;
+								return OriginalHook(RDM.Veraero);
 
-							return RDM.Verthunder;
+							return OriginalHook(RDM.Verthunder);
 						}
 
 						if (verstoneUp) {
 
 							// If Verthunder is feasible, use it
 							if (black + LONG_DELTA <= blackThreshold)
-								return RDM.Verthunder;
+								return OriginalHook(RDM.Verthunder);
 
-							return RDM.Veraero;
+							return OriginalHook(RDM.Veraero);
 						}
 					}
 
