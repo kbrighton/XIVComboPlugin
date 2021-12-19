@@ -51,8 +51,8 @@ namespace XIVComboVX.Combos {
 		}
 	}
 
-	internal class DarkSingleTargetCombo: CustomCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.DarkSouleaterCombo;
+	internal class DarkSouleaterCombo: CustomCombo {
+		protected internal override CustomComboPreset Preset => CustomComboPreset.DrkAny;
 		protected internal override uint[] ActionIDs { get; } = new[] { DRK.Souleater };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
@@ -67,15 +67,11 @@ namespace XIVComboVX.Combos {
 				if (level >= DRK.Levels.Delirium && IsEnabled(CustomComboPreset.DarkDeliriumFeature) && SelfHasEffect(DRK.Buffs.Delirium))
 					return DRK.Bloodspiller;
 
-				if (comboTime > 0) {
-					if (level >= DRK.Levels.SyphonStrike && lastComboMove == DRK.HardSlash)
-						return DRK.SyphonStrike;
-
-					if (level >= DRK.Levels.Souleater && lastComboMove == DRK.SyphonStrike)
-						return DRK.Souleater;
-				}
-
-				return DRK.HardSlash;
+				if (IsEnabled(CustomComboPreset.DarkSouleaterCombo))
+					return SimpleChainCombo(level, lastComboMove, comboTime, (1, DRK.HardSlash),
+						(DRK.Levels.SyphonStrike, DRK.SyphonStrike),
+						(DRK.Levels.Souleater, DRK.Souleater)
+					);
 			}
 
 			return actionID;
@@ -83,7 +79,7 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class DarkAoECombo: CustomCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.DarkStalwartSoulCombo;
+		protected internal override CustomComboPreset Preset => CustomComboPreset.DrkAny;
 		protected internal override uint[] ActionIDs { get; } = new[] { DRK.StalwartSoul };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {

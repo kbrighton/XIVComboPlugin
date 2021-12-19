@@ -7,6 +7,7 @@ namespace XIVComboVX.Combos {
 		public const uint
 			HeavySwing = 31,
 			Maim = 37,
+			Berserk = 38,
 			Overpower = 41,
 			StormsPath = 42,
 			StormsEye = 45,
@@ -16,6 +17,7 @@ namespace XIVComboVX.Combos {
 			FellCleave = 3549,
 			Decimate = 3550,
 			RawIntuition = 3551,
+			InnerRelease = 7389,
 			MythrilTempest = 16462,
 			ChaoticCyclone = 16463,
 			NascentFlash = 16464,
@@ -118,6 +120,7 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { WAR.NascentFlash };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+
 			if (actionID is WAR.NascentFlash && level < WAR.Levels.NascentFlash)
 				return WAR.RawIntuition;
 
@@ -125,20 +128,36 @@ namespace XIVComboVX.Combos {
 		}
 	}
 
-	internal class WArriorPrimalRendFeature: CustomCombo {
-		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.WarriorPrimalRendFeature;
-		protected internal override uint[] ActionIDs { get; } = new[] { WAR.InnerBeast, WAR.SteelCyclone };
+	internal class WArriorPrimalBeastFeature: CustomCombo {
+		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.WarriorPrimalBeastFeature;
+		protected internal override uint[] ActionIDs { get; } = new[] { WAR.InnerBeast, WAR.FellCleave, WAR.SteelCyclone, WAR.Decimate };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is WAR.InnerBeast or WAR.SteelCyclone) {
+			if (actionID is WAR.InnerBeast or WAR.FellCleave or WAR.SteelCyclone or WAR.Decimate) {
 
 				if (level >= WAR.Levels.PrimalRend && SelfHasEffect(WAR.Buffs.PrimalRendReady))
 					return WAR.PrimalRend;
 
-				return OriginalHook(actionID);
 			}
 
 			return actionID;
 		}
 	}
+
+	internal class WArriorPrimalReleaseFeature: CustomCombo {
+		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.WarriorPrimalReleaseFeature;
+		protected internal override uint[] ActionIDs { get; } = new[] { WAR.Berserk, WAR.InnerRelease };
+
+		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+			if (actionID is WAR.Berserk or WAR.InnerRelease) {
+
+				if (level >= WAR.Levels.PrimalRend && SelfHasEffect(WAR.Buffs.PrimalRendReady))
+					return WAR.PrimalRend;
+
+			}
+
+			return actionID;
+		}
+	}
+
 }

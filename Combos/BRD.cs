@@ -70,19 +70,15 @@ namespace XIVComboVX.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-			if (actionID is BRD.WanderersMinuet) {
-
-				if (level >= BRD.Levels.PitchPerfect && GetJobGauge<BRDGauge>().Song == Song.WANDERER)
-					return BRD.PitchPerfect;
-
-			}
+			if (actionID is BRD.WanderersMinuet && level >= BRD.Levels.PitchPerfect && GetJobGauge<BRDGauge>().Song == Song.WANDERER)
+				return BRD.PitchPerfect;
 
 			return actionID;
 		}
 	}
 
 	internal class BardStraightShotUpgradeFeature: CustomCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.BardStraightShotUpgradeFeature;
+		protected internal override CustomComboPreset Preset => CustomComboPreset.BrdAny;
 		protected internal override uint[] ActionIDs { get; } = new[] { BRD.HeavyShot, BRD.BurstShot };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
@@ -90,16 +86,20 @@ namespace XIVComboVX.Combos {
 
 				if (IsEnabled(CustomComboPreset.BardApexFeature)) {
 
-					if (level >= BRD.Levels.BlastShot && SelfHasEffect(BRD.Buffs.BlastShotReady))
-						return BRD.BlastArrow;
-
 					if (level >= BRD.Levels.ApexArrow && GetJobGauge<BRDGauge>().SoulVoice == 100)
 						return BRD.ApexArrow;
 
+					if (level >= BRD.Levels.BlastShot && SelfHasEffect(BRD.Buffs.BlastShotReady))
+						return BRD.BlastArrow;
+
 				}
 
-				if (level >= BRD.Levels.StraightShot && SelfHasEffect(BRD.Buffs.StraightShotReady))
-					return OriginalHook(BRD.StraightShot);
+				if (IsEnabled(CustomComboPreset.BardStraightShotUpgradeFeature)) {
+
+					if (level >= BRD.Levels.StraightShot && SelfHasEffect(BRD.Buffs.StraightShotReady))
+						return OriginalHook(BRD.StraightShot);
+
+				}
 
 			}
 
@@ -165,24 +165,23 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class BardShadowbiteFeature: CustomCombo {
-		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.BardShadowbiteFeature;
+		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.BrdAny;
 		protected internal override uint[] ActionIDs { get; } = new[] { BRD.QuickNock, BRD.Ladonsbite };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-
 			if (actionID is BRD.QuickNock or BRD.Ladonsbite) {
 
 				if (IsEnabled(CustomComboPreset.BardApexFeature)) {
 
-					if (level >= BRD.Levels.BlastShot && SelfHasEffect(BRD.Buffs.BlastShotReady))
-						return BRD.BlastArrow;
-
 					if (level >= BRD.Levels.ApexArrow && GetJobGauge<BRDGauge>().SoulVoice == 100)
 						return BRD.ApexArrow;
 
+					if (level >= BRD.Levels.BlastShot && SelfHasEffect(BRD.Buffs.BlastShotReady))
+						return BRD.BlastArrow;
+
 				}
 
-				if (level >= BRD.Levels.Shadowbite && SelfHasEffect(BRD.Buffs.ShadowbiteReady))
+				if (IsEnabled(CustomComboPreset.BardShadowbiteFeature) && level >= BRD.Levels.Shadowbite && SelfHasEffect(BRD.Buffs.ShadowbiteReady))
 					return BRD.Shadowbite;
 
 			}
@@ -196,7 +195,6 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { BRD.Bloodletter };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-
 			if (actionID is BRD.Bloodletter) {
 
 				if (level >= BRD.Levels.Sidewinder)

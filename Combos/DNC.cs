@@ -72,9 +72,8 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs => Service.Configuration.DancerDanceCompatActionIDs;
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-
-			if (GetJobGauge<DNCGauge>().IsDancing) {
-				uint[] actionIDs = Service.Configuration.DancerDanceCompatActionIDs;
+			if (level >= DNC.Levels.StandardStep && GetJobGauge<DNCGauge>().IsDancing) {
+				uint[] actionIDs = this.ActionIDs;
 
 				if (actionID == actionIDs[0] || (actionIDs[0] == 0 && actionID is DNC.Cascade))
 					return OriginalHook(DNC.Cascade);
@@ -95,11 +94,10 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class DancerFanDanceCombos: CustomCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.DancerFanDanceSwitcher;
+		protected internal override CustomComboPreset Preset => CustomComboPreset.DncAny;
 		protected internal override uint[] ActionIDs { get; } = new[] { DNC.FanDance1, DNC.FanDance2 };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-
 			if (actionID is DNC.FanDance1 or DNC.FanDance2) {
 				bool can4 = level >= DNC.Levels.FanDance4 && SelfHasEffect(DNC.Buffs.FourfoldFanDance);
 				bool can3 = level >= DNC.Levels.FanDance3 && SelfHasEffect(DNC.Buffs.ThreefoldFanDance);
@@ -128,7 +126,7 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { DNC.StandardStep, DNC.TechnicalStep };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is DNC.StandardStep or DNC.TechnicalStep) {
+			if (actionID is DNC.StandardStep or DNC.TechnicalStep && level >= DNC.Levels.StandardStep) {
 				DNCGauge gauge = GetJobGauge<DNCGauge>();
 				int steps = actionID is DNC.StandardStep ? 2 : 4;
 
@@ -150,7 +148,6 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { DNC.Flourish };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-
 			if (actionID is DNC.Flourish) {
 
 				if (level >= DNC.Levels.Fountainfall && SelfHasEffect(DNC.Buffs.FlourishingFlow))
@@ -176,7 +173,6 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { DNC.Cascade };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-
 			if (actionID is DNC.Cascade) {
 
 				if (level >= DNC.Levels.ReverseCascade && SelfHasEffect(DNC.Buffs.FlourishingSymmetry))

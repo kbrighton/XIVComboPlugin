@@ -86,13 +86,18 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { RDM.Veraero2, RDM.Verthunder2 };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is RDM.Veraero2 or RDM.Verthunder2
-				&& (
-					(level >= RDM.Levels.Impact && CommonUtil.isFastcasting)
-					|| SelfHasEffect(RDM.Buffs.Acceleration)
-				)
-			)
-				return OriginalHook(RDM.Impact);
+			if (actionID is RDM.Veraero2 or RDM.Verthunder2) {
+
+				if (lastComboMove is RDM.Scorch && level >= RDM.Levels.Resolution)
+					return RDM.Resolution;
+
+				if (lastComboMove is RDM.Verflare or RDM.Verholy && level >= RDM.Levels.Scorch)
+					return RDM.Scorch;
+
+				if (level >= RDM.Levels.Scatter && CommonUtil.isFastcasting)
+					return OriginalHook(RDM.Scatter);
+
+			}
 
 			return actionID;
 		}
@@ -103,31 +108,42 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { RDM.Redoublement, RDM.Moulinet };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+			const int
+				FINISHER_DELTA = 11,
+				IMBALANCE_DIFF_MAX = 30;
+
 			if (actionID is RDM.Redoublement or RDM.Moulinet) {
 				RDMGauge gauge = GetJobGauge<RDMGauge>();
+				int black = gauge.BlackMana;
+				int white = gauge.WhiteMana;
+				bool isFinishing1 = gauge.ManaStacks == 3;
+				bool isFinishing2 = comboTime > 0 && lastComboMove is RDM.Verholy or RDM.Verflare;
+				bool isFinishing3 = comboTime > 0 && lastComboMove is RDM.Scorch;
+				bool canFinishWhite = level >= RDM.Levels.Verholy;
+				bool canFinishBlack = level >= RDM.Levels.Verflare;
+				int blackThreshold = white + IMBALANCE_DIFF_MAX;
+				int whiteThreshold = black + IMBALANCE_DIFF_MAX;
+				bool verfireUp = SelfHasEffect(RDM.Buffs.VerfireReady);
+				bool verstoneUp = SelfHasEffect(RDM.Buffs.VerstoneReady);
 
 				if (IsEnabled(CustomComboPreset.RedMageMeleeComboPlus)) {
 
-					if (lastComboMove == RDM.Scorch && level >= RDM.Levels.Resolution)
+					if (isFinishing3 && level >= RDM.Levels.Resolution)
 						return RDM.Resolution;
-
-					if ((lastComboMove == RDM.Verflare || lastComboMove == RDM.Verholy) && level >= RDM.Levels.Scorch)
+					if (isFinishing2 && level >= RDM.Levels.Scorch)
 						return RDM.Scorch;
 
-					if (gauge.ManaStacks == 3) {
+					if (isFinishing1 && canFinishBlack) {
 
-						if (level < RDM.Levels.Verholy)
-							return RDM.Verflare;
+						if (black >= white && canFinishWhite) {
 
-						if (gauge.BlackMana >= gauge.WhiteMana) {
-
-							if (SelfHasEffect(RDM.Buffs.VerstoneReady) && !SelfHasEffect(RDM.Buffs.VerfireReady) && (gauge.BlackMana - gauge.WhiteMana <= 9))
+							if (verstoneUp && !verfireUp && (black + FINISHER_DELTA <= blackThreshold))
 								return RDM.Verflare;
 
 							return RDM.Verholy;
 						}
 
-						if (SelfHasEffect(RDM.Buffs.VerfireReady) && !SelfHasEffect(RDM.Buffs.VerstoneReady) && (gauge.WhiteMana - gauge.BlackMana <= 9))
+						if (verfireUp && !verstoneUp && canFinishWhite && (white + FINISHER_DELTA <= whiteThreshold))
 							return RDM.Verholy;
 
 						return RDM.Verflare;
@@ -159,23 +175,15 @@ namespace XIVComboVX.Combos {
 
 				if (lastComboMove == RDM.Scorch && level >= RDM.Levels.Resolution)
 					return RDM.Resolution;
-
 				if (lastComboMove is RDM.Verflare or RDM.Verholy && level >= RDM.Levels.Scorch)
 					return RDM.Scorch;
 
 				RDMGauge gauge = GetJobGauge<RDMGauge>();
 
-				if (actionID is RDM.Veraero) {
+				if (actionID is RDM.Verstone) {
 
-					if (gauge.ManaStacks == 3) {
-
-						if (level >= RDM.Levels.Verholy)
-							return RDM.Verholy;
-
-						if (level >= RDM.Levels.Verflare)
-							return RDM.Verflare;
-
-					}
+					if (gauge.ManaStacks == 3 && level >= RDM.Levels.Verholy)
+						return RDM.Verholy;
 
 					if (IsEnabled(CustomComboPreset.RedMageVerprocComboPlus)
 						&& level >= RDM.Levels.Veraero
@@ -250,12 +258,8 @@ namespace XIVComboVX.Combos {
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			if (actionID is RDM.Veraero2 or RDM.Verthunder2) {
 
-				if (
-					(level >= RDM.Levels.Impact && CommonUtil.isFastcasting)
-					|| SelfHasEffect(RDM.Buffs.Acceleration)
-					|| level < RDM.Levels.Verthunder2
-				)
-					return OriginalHook(RDM.Impact);
+				if (CommonUtil.isFastcasting || SelfHasEffect(RDM.Buffs.Acceleration) || level < RDM.Levels.Verthunder2)
+					return RDM.Scatter;
 
 				if (level < RDM.Levels.Veraero2)
 					return RDM.Verthunder2;
@@ -314,6 +318,7 @@ namespace XIVComboVX.Combos {
 				if (actionID is RDM.Verstone or RDM.Verfire) {
 
 					bool fastCasting = CommonUtil.isFastcasting;
+					bool accelerated = SelfHasEffect(RDM.Buffs.Acceleration);
 					bool isFinishing1 = gauge.ManaStacks == 3;
 					bool isFinishing2 = comboTime > 0 && lastComboActionId is RDM.Verholy or RDM.Verflare;
 					bool isFinishing3 = comboTime > 0 && lastComboActionId is RDM.Scorch;
@@ -333,20 +338,20 @@ namespace XIVComboVX.Combos {
 						if (black >= white && canFinishWhite) {
 
 							// If we can already Verstone, but we can't Verfire, and Verflare WON'T imbalance us, use Verflare
-							if (SelfHasEffect(RDM.Buffs.VerstoneReady) && !SelfHasEffect(RDM.Buffs.VerfireReady) && (black + FINISHER_DELTA <= blackThreshold))
+							if (verstoneUp && !verfireUp && (black + FINISHER_DELTA <= blackThreshold))
 								return RDM.Verflare;
 
 							return RDM.Verholy;
 						}
 
 						// If we can already Verfire, but we can't Verstone, and we can use Verholy, and it WON'T imbalance us, use Verholy
-						if (SelfHasEffect(RDM.Buffs.VerfireReady) && !SelfHasEffect(RDM.Buffs.VerstoneReady) && canFinishWhite && (white + FINISHER_DELTA <= whiteThreshold))
+						if (verfireUp && !verstoneUp && canFinishWhite && (white + FINISHER_DELTA <= whiteThreshold))
 							return RDM.Verholy;
 
 						return RDM.Verflare;
 					}
 
-					if (fastCasting || SelfHasEffect(RDM.Buffs.Acceleration)) {
+					if (fastCasting || accelerated) {
 
 						if (level is < RDM.Levels.Veraero and >= RDM.Levels.Verthunder)
 							return RDM.Verthunder;

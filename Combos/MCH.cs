@@ -106,9 +106,8 @@ namespace XIVComboVX.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			if (actionID is MCH.HeatBlast or MCH.AutoCrossbow) {
-				MCHGauge gauge = GetJobGauge<MCHGauge>();
 
-				if (!gauge.IsOverheated)
+				if (!GetJobGauge<MCHGauge>().IsOverheated)
 					return MCH.Hypercharge;
 
 				if (level < MCH.Levels.AutoCrossbow)
@@ -126,9 +125,8 @@ namespace XIVComboVX.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			if (actionID is MCH.SpreadShot or MCH.Scattergun) {
-				MCHGauge gauge = GetJobGauge<MCHGauge>();
 
-				if (level >= MCH.Levels.AutoCrossbow && gauge.IsOverheated)
+				if (level >= MCH.Levels.AutoCrossbow && GetJobGauge<MCHGauge>().IsOverheated)
 					return MCH.AutoCrossbow;
 
 			}
@@ -143,9 +141,8 @@ namespace XIVComboVX.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			if (actionID is MCH.RookAutoturret or MCH.AutomatonQueen) {
-				MCHGauge gauge = GetJobGauge<MCHGauge>();
 
-				if (gauge.IsRobotActive)
+				if (level >= MCH.Levels.RookOverdrive && GetJobGauge<MCHGauge>().IsRobotActive)
 					return OriginalHook(MCH.RookOverdrive);
 
 			}
@@ -162,16 +159,17 @@ namespace XIVComboVX.Combos {
 			if (actionID is MCH.HotShot or MCH.AirAnchor or MCH.Drill or MCH.Chainsaw) {
 
 				if (level >= MCH.Levels.Chainsaw)
-					return PickByCooldown(actionID, MCH.Drill, MCH.AirAnchor, MCH.Chainsaw);
+					return PickByCooldown(actionID, MCH.Chainsaw, MCH.AirAnchor, MCH.Drill);
 
 				if (level >= MCH.Levels.AirAnchor)
-					return PickByCooldown(actionID, MCH.Drill, MCH.AirAnchor);
+					return PickByCooldown(actionID, MCH.AirAnchor, MCH.Drill);
 
 				if (level >= MCH.Levels.Drill)
-					return PickByCooldown(actionID, MCH.HotShot, MCH.Drill);
+					return PickByCooldown(actionID, MCH.Drill, MCH.HotShot);
 
 				return MCH.HotShot;
 			}
+
 			return actionID;
 		}
 	}

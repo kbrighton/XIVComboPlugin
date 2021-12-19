@@ -65,7 +65,7 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class NinjaArmorCrushCombo: CustomCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.NinjaArmorCrushCombo;
+		protected internal override CustomComboPreset Preset => CustomComboPreset.NinAny;
 		protected internal override uint[] ActionIDs { get; } = new[] { NIN.ArmorCrush };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
@@ -84,10 +84,11 @@ namespace XIVComboVX.Combos {
 
 				}
 
-				return SimpleChainCombo(level, lastComboMove, comboTime, (1, NIN.SpinningEdge),
-					(NIN.Levels.GustSlash, NIN.GustSlash),
-					(NIN.Levels.ArmorCrush, NIN.ArmorCrush));
-
+				if (IsEnabled(CustomComboPreset.NinjaArmorCrushCombo))
+					return SimpleChainCombo(level, lastComboMove, comboTime, (1, NIN.SpinningEdge),
+						(NIN.Levels.GustSlash, NIN.GustSlash),
+						(NIN.Levels.ArmorCrush, NIN.ArmorCrush)
+					);
 			}
 
 			return actionID;
@@ -95,7 +96,7 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class NinjaAeolianEdgeCombo: CustomCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.NinjaAeolianEdgeCombo;
+		protected internal override CustomComboPreset Preset => CustomComboPreset.NinAny;
 		protected internal override uint[] ActionIDs { get; } = new[] { NIN.AeolianEdge };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
@@ -113,10 +114,11 @@ namespace XIVComboVX.Combos {
 
 				}
 
-				return SimpleChainCombo(level, lastComboMove, comboTime, (1, NIN.SpinningEdge),
-					(NIN.Levels.GustSlash, NIN.GustSlash),
-					(NIN.Levels.AeolianEdge, NIN.AeolianEdge));
-
+				if (IsEnabled(CustomComboPreset.NinjaAeolianEdgeCombo))
+					return SimpleChainCombo(level, lastComboMove, comboTime, (1, NIN.SpinningEdge),
+						(NIN.Levels.GustSlash, NIN.GustSlash),
+						(NIN.Levels.AeolianEdge, NIN.AeolianEdge)
+					);
 			}
 
 			return actionID;
@@ -165,6 +167,7 @@ namespace XIVComboVX.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			if (actionID is NIN.Hide) {
+
 				if (
 					(level >= NIN.Levels.Hide && SelfHasEffect(NIN.Buffs.Hidden))
 					|| (level >= NIN.Levels.Suiton && SelfHasEffect(NIN.Buffs.Suiton))
@@ -220,8 +223,8 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { NIN.Huraijin };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-
 			if (actionID is NIN.Huraijin && level >= NIN.Levels.ForkedRaiju) {
+
 				if (SelfHasEffect(NIN.Buffs.FleetingRaijuReady))
 					return NIN.FleetingRaiju;
 

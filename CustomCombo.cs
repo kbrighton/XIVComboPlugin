@@ -104,9 +104,11 @@ namespace XIVComboVX.Combos {
 
 		protected internal static GameObject? CurrentTarget => Service.Targets.Target;
 
-		protected internal static bool IsEnabled(CustomComboPreset preset) => Service.Configuration.IsEnabled(preset);
+		protected internal static bool IsEnabled(CustomComboPreset preset) => (int)preset < 100 || Service.Configuration.IsEnabled(preset);
 
 		protected internal static bool HasCondition(ConditionFlag flag) => Service.Conditions[flag];
+
+		protected internal static bool HasPetPresent() => Service.BuddyList.PetBuddyPresent;
 
 		protected internal static CooldownData GetCooldown(uint actionID) => Service.IconReplacer.GetCooldown(actionID);
 

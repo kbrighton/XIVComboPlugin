@@ -57,7 +57,7 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class PaladinGoringBladeCombo: CustomCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.PaladinGoringBladeCombo;
+		protected internal override CustomComboPreset Preset => CustomComboPreset.PldAny;
 		protected internal override uint[] ActionIDs { get; } = new[] { PLD.GoringBlade };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
@@ -66,10 +66,23 @@ namespace XIVComboVX.Combos {
 				if (level >= PLD.Levels.HolySpirit && IsEnabled(CustomComboPreset.PaladinRequiescatFeature) && SelfHasEffect(PLD.Buffs.Requiescat))
 					return PLD.HolySpirit;
 
-				return SimpleChainCombo(level, lastComboMove, comboTime, (1, PLD.FastBlade),
-					(PLD.Levels.RiotBlade, PLD.RiotBlade),
-					(PLD.Levels.GoringBlade, PLD.GoringBlade)
-				);
+				bool doMainCombo = IsEnabled(CustomComboPreset.PaladinGoringBladeCombo);
+
+				if (comboTime > 0 && doMainCombo) {
+
+					if (lastComboMove is PLD.RiotBlade && level >= PLD.Levels.GoringBlade)
+						return PLD.GoringBlade;
+
+					if (lastComboMove == PLD.FastBlade && level >= PLD.Levels.RiotBlade)
+						return PLD.RiotBlade;
+
+				}
+
+				if (level >= PLD.Levels.Atonement && IsEnabled(CustomComboPreset.PaladinAtonementFeature) && SelfHasEffect(PLD.Buffs.SwordOath))
+					return PLD.Atonement;
+
+				if (doMainCombo)
+					return PLD.FastBlade;
 			}
 
 			return actionID;
@@ -77,7 +90,7 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class PaladinRoyalAuthorityCombo: CustomCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.PaladinRoyalAuthorityCombo;
+		protected internal override CustomComboPreset Preset => CustomComboPreset.PldAny;
 		protected internal override uint[] ActionIDs { get; } = new[] { PLD.RageOfHalone, PLD.RoyalAuthority };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
@@ -86,7 +99,9 @@ namespace XIVComboVX.Combos {
 				if (level >= PLD.Levels.HolySpirit && IsEnabled(CustomComboPreset.PaladinRequiescatFeature) && SelfHasEffect(PLD.Buffs.Requiescat))
 					return PLD.HolySpirit;
 
-				if (comboTime > 0) {
+				bool doMainCombo = IsEnabled(CustomComboPreset.PaladinRoyalAuthorityCombo);
+
+				if (comboTime > 0 && doMainCombo) {
 
 					if (lastComboMove == PLD.RiotBlade && level >= PLD.Levels.RageOfHalone)
 						return OriginalHook(PLD.RageOfHalone);
@@ -99,7 +114,8 @@ namespace XIVComboVX.Combos {
 				if (level >= PLD.Levels.Atonement && IsEnabled(CustomComboPreset.PaladinAtonementFeature) && SelfHasEffect(PLD.Buffs.SwordOath))
 					return PLD.Atonement;
 
-				return PLD.FastBlade;
+				if (doMainCombo)
+					return PLD.FastBlade;
 			}
 
 			return actionID;
@@ -107,7 +123,7 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class PaladinProminenceCombo: CustomCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.PaladinProminenceCombo;
+		protected internal override CustomComboPreset Preset => CustomComboPreset.PldAny;
 		protected internal override uint[] ActionIDs { get; } = new[] { PLD.Prominence };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
@@ -116,9 +132,11 @@ namespace XIVComboVX.Combos {
 				if (level >= PLD.Levels.HolyCircle && IsEnabled(CustomComboPreset.PaladinRequiescatFeature) && SelfHasEffect(PLD.Buffs.Requiescat))
 					return PLD.HolyCircle;
 
-				return SimpleChainCombo(level, lastComboMove, comboTime, (PLD.Levels.TotalEclipse, PLD.TotalEclipse),
-					(PLD.Levels.Prominence, PLD.Prominence)
-				);
+				if (IsEnabled(CustomComboPreset.PaladinProminenceCombo))
+					return SimpleChainCombo(level, lastComboMove, comboTime, (PLD.Levels.TotalEclipse, PLD.TotalEclipse),
+						(PLD.Levels.Prominence, PLD.Prominence)
+					);
+
 			}
 
 			return actionID;
@@ -132,14 +150,18 @@ namespace XIVComboVX.Combos {
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			if (actionID is PLD.Requiescat) {
 
-				if (lastComboMove == PLD.BladeOfTruth && level >= PLD.Levels.BladeOfValor)
-					return PLD.BladeOfValor;
+				if (comboTime > 0) {
 
-				if (lastComboMove == PLD.BladeOfFaith && level >= PLD.Levels.BladeOfTruth)
-					return PLD.BladeOfTruth;
+					if (lastComboMove is PLD.BladeOfTruth && level >= PLD.Levels.BladeOfValor)
+						return PLD.BladeOfValor;
 
-				if (lastComboMove == PLD.Confiteor && level >= PLD.Levels.BladeOfFaith)
-					return PLD.BladeOfFaith;
+					if (lastComboMove is PLD.BladeOfFaith && level >= PLD.Levels.BladeOfTruth)
+						return PLD.BladeOfTruth;
+
+					if (lastComboMove is PLD.Confiteor && level >= PLD.Levels.BladeOfFaith)
+						return PLD.BladeOfFaith;
+
+				}
 
 				if (level >= PLD.Levels.Confiteor && SelfHasEffect(PLD.Buffs.Requiescat))
 					return PLD.Confiteor;

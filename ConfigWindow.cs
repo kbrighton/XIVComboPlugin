@@ -23,6 +23,7 @@ namespace XIVComboVX {
 
 			this.groupedPresets = Enum
 				.GetValues<CustomComboPreset>()
+				.Where(preset => (int)preset >= 100)
 				.Select(preset => (
 					preset,
 					info: preset.GetAttribute<CustomComboInfoAttribute>()

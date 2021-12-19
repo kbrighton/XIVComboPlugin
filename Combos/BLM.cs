@@ -88,7 +88,7 @@ namespace XIVComboVX.Combos {
 			if (actionID is BLM.Transpose) {
 				BLMGauge gauge = GetJobGauge<BLMGauge>();
 
-				if (level >= BLM.Levels.UmbralSoul && gauge.InUmbralIce && gauge.IsEnochianActive)
+				if (level >= BLM.Levels.UmbralSoul && gauge.IsEnochianActive && gauge.InUmbralIce)
 					return BLM.UmbralSoul;
 
 			}
@@ -102,12 +102,9 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { BLM.LeyLines };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is BLM.LeyLines) {
 
-				if (level >= BLM.Levels.BetweenTheLines && SelfHasEffect(BLM.Buffs.LeyLines))
-					return BLM.BetweenTheLines;
-
-			}
+			if (actionID is BLM.LeyLines && level >= BLM.Levels.BetweenTheLines && SelfHasEffect(BLM.Buffs.LeyLines))
+				return BLM.BetweenTheLines;
 
 			return actionID;
 		}
@@ -120,9 +117,8 @@ namespace XIVComboVX.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			if (actionID is BLM.Fire) {
-				BLMGauge gauge = GetJobGauge<BLMGauge>();
 
-				if (level >= BLM.Levels.Fire3 && (!gauge.InAstralFire || SelfHasEffect(BLM.Buffs.Firestarter)))
+				if (level >= BLM.Levels.Fire3 && (!GetJobGauge<BLMGauge>().InAstralFire || SelfHasEffect(BLM.Buffs.Firestarter)))
 					return BLM.Fire3;
 
 				return OriginalHook(BLM.Fire);
@@ -138,9 +134,8 @@ namespace XIVComboVX.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			if (actionID is BLM.Blizzard) {
-				BLMGauge gauge = GetJobGauge<BLMGauge>();
 
-				if (level >= BLM.Levels.Blizzard3 && !gauge.InUmbralIce)
+				if (level >= BLM.Levels.Blizzard3 && !GetJobGauge<BLMGauge>().InUmbralIce)
 					return BLM.Blizzard3;
 
 				return OriginalHook(BLM.Blizzard);
@@ -175,7 +170,7 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { BLM.Fire2, BLM.HighFire2 };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is BLM.Fire) {
+			if (actionID is BLM.Fire or BLM.HighFire2) {
 				BLMGauge gauge = GetJobGauge<BLMGauge>();
 
 				if (level >= BLM.Levels.Flare && gauge.InAstralFire && gauge.UmbralHearts <= 1)
@@ -193,9 +188,8 @@ namespace XIVComboVX.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			if (actionID is BLM.Blizzard2 or BLM.HighBlizzard2) {
-				BLMGauge gauge = GetJobGauge<BLMGauge>();
 
-				if (level >= BLM.Levels.Freeze && gauge.InUmbralIce)
+				if (level >= BLM.Levels.Freeze && GetJobGauge<BLMGauge>().InUmbralIce)
 					return BLM.Freeze;
 
 			}
@@ -209,14 +203,8 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { BLM.Scathe };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-
-			if (actionID is BLM.Scathe) {
-
-				BLMGauge gauge = GetJobGauge<BLMGauge>();
-				if (level >= BLM.Levels.Xenoglossy && gauge.PolyglotStacks > 0)
-					return BLM.Xenoglossy;
-
-			}
+			if (actionID is BLM.Scathe && level >= BLM.Levels.Xenoglossy && GetJobGauge<BLMGauge>().PolyglotStacks > 0)
+				return BLM.Xenoglossy;
 
 			return actionID;
 		}

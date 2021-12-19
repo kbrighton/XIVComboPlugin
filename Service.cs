@@ -1,6 +1,7 @@
 ﻿
 using Dalamud.Data;
 using Dalamud.Game.ClientState;
+using Dalamud.Game.ClientState.Buddy;
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.ClientState.JobGauge;
 using Dalamud.Game.ClientState.Objects;
@@ -19,6 +20,9 @@ namespace XIVComboVX {
 
 		[PluginService]
 		public static DalamudPluginInterface Interface { get; private set; } = null!;
+
+		[PluginService]
+		public static BuddyList BuddyList { get; private set; } = null!;
 
 		[PluginService]
 		public static ChatGui Chat { get; private set; } = null!;

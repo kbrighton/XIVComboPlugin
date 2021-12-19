@@ -36,6 +36,7 @@ namespace XIVComboVX.Combos {
 			public const byte
 				Benefic2 = 26,
 				Draw = 30,
+				Astrodyne = 50,
 				MinorArcana = 70,
 				CrownPlay = 70;
 		}
@@ -55,15 +56,18 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class AstrologianCardsOnDrawFeature: CustomCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.AstrologianCardsOnDrawFeature;
+		protected internal override CustomComboPreset Preset => CustomComboPreset.AstAny;
 		protected internal override uint[] ActionIDs { get; } = new[] { AST.Play };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
 			if (actionID is AST.Play) {
-
 				ASTGauge gauge = GetJobGauge<ASTGauge>();
-				if (level >= AST.Levels.Draw && gauge.DrawnCard is CardType.NONE)
+
+				if (level >= AST.Levels.Astrodyne && IsEnabled(CustomComboPreset.AstrologianAstrodynePlayFeature) && !gauge.ContainsSeal(SealType.NONE))
+					return AST.Astrodyne;
+
+				if (level >= AST.Levels.Draw && IsEnabled(CustomComboPreset.AstrologianDrawOnPlayFeature) && gauge.DrawnCard is CardType.NONE)
 					return AST.Draw;
 
 			}
@@ -80,8 +84,7 @@ namespace XIVComboVX.Combos {
 
 			if (actionID is AST.MinorArcana) {
 
-				ASTGauge gauge = GetJobGauge<ASTGauge>();
-				if (level >= AST.Levels.CrownPlay && gauge.DrawnCrownCard is not CardType.NONE)
+				if (level >= AST.Levels.CrownPlay && GetJobGauge<ASTGauge>().DrawnCrownCard is not CardType.NONE)
 					return OriginalHook(AST.CrownPlay);
 
 			}
