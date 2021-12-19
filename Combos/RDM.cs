@@ -259,7 +259,7 @@ namespace XIVComboVX.Combos {
 			if (actionID is RDM.Veraero2 or RDM.Verthunder2) {
 
 				if (CommonUtil.isFastcasting || SelfHasEffect(RDM.Buffs.Acceleration) || level < RDM.Levels.Verthunder2)
-					return RDM.Scatter;
+					return OriginalHook(RDM.Impact);
 
 				if (level < RDM.Levels.Veraero2)
 					return RDM.Verthunder2;
