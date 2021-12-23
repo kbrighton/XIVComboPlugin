@@ -278,8 +278,12 @@ namespace XIVComboVX {
 		[CustomComboInfo("Gauss Round / Ricochet Feature", "Replace Gauss Round and Ricochet with one or the other depending on which has less recharge time left.", MCH.JobID)]
 		MachinistGaussRoundRicochetFeature = 3104,
 
-		[CustomComboInfo("Hot Shot / Air Anchor / Drill / Chainsaw Feature", "Replace Hot Shot (Air Anchor), Drill, and Chainsaw with whichever is available.", MCH.JobID)]
+		[CustomComboInfo("Hot Shot / Air Anchor / Drill Feature", "Replace Hot Shot (Air Anchor) and Drill with whichever is available.", MCH.JobID)]
 		MachinistDrillAirAnchorFeature = 3105,
+
+		[ParentPreset(MachinistDrillAirAnchorFeature)]
+		[CustomComboInfo("HS/AA/D + Chain Saw Feature", "Also include Chain Saw in the above.", MCH.JobID)]
+		MachinistDrillAirAnchorPlusFeature = 3106,
 
 		#endregion
 		// ====================================================================================

@@ -156,16 +156,16 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { MCH.HotShot, MCH.AirAnchor, MCH.Drill, MCH.Chainsaw };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is MCH.HotShot or MCH.AirAnchor or MCH.Drill or MCH.Chainsaw) {
+			if (actionID is MCH.HotShot or MCH.AirAnchor or MCH.Drill || (actionID is MCH.Chainsaw && IsEnabled(CustomComboPreset.MachinistDrillAirAnchorPlusFeature))) {
 
-				if (level >= MCH.Levels.Chainsaw)
-					return PickByCooldown(actionID, MCH.Chainsaw, MCH.AirAnchor, MCH.Drill);
+				if (level >= MCH.Levels.Chainsaw && IsEnabled(CustomComboPreset.MachinistDrillAirAnchorPlusFeature))
+					return PickByCooldown(actionID, MCH.Chainsaw, MCH.Drill, MCH.AirAnchor);
 
 				if (level >= MCH.Levels.AirAnchor)
-					return PickByCooldown(actionID, MCH.AirAnchor, MCH.Drill);
+					return PickByCooldown(actionID, MCH.Drill, MCH.AirAnchor);
 
 				if (level >= MCH.Levels.Drill)
-					return PickByCooldown(actionID, MCH.Drill, MCH.HotShot);
+					return PickByCooldown(actionID, MCH.HotShot, MCH.Drill);
 
 				return MCH.HotShot;
 			}
