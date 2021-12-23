@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Reflection;
 
 using Dalamud.Game.Command;
 using Dalamud.Interface.Windowing;
@@ -24,8 +25,13 @@ namespace XIVComboVX {
 			Service.Address.Setup();
 
 #if DEBUG
-			if (!pluginInterface.IsDebugging)
+			try {
+				if (!pluginInterface.IsDebugging)
+					Service.Commands.ProcessCommand("/xldev");
+			}
+			catch (TargetInvocationException) { // this SEEMS to only happen occasionally and on initial load; reloading the plugin at the title screen works fine
 				Service.Commands.ProcessCommand("/xldev");
+			}
 #endif
 
 			if (!Service.Address.LoadSuccessful)
