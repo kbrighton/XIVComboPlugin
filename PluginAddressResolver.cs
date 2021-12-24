@@ -38,12 +38,8 @@ namespace XIVComboVX {
 			}
 			catch (Exception ex) {
 				this.LoadFailReason = ex;
-				bool die = Service.Configuration.FailFastOnError;
 				StringBuilder msg = new();
-				msg.Append("Address scanning failed, plugin cannot load.");
-				if (die)
-					msg.Append(" The game will now exit.");
-				msg.AppendLine();
+				msg.AppendLine("Address scanning failed, plugin cannot load.");
 				msg.AppendLine("Please present this error message to the developer.");
 				msg.AppendLine();
 				msg.Append("Signature scan failed for ");
@@ -58,8 +54,6 @@ namespace XIVComboVX {
 				msg.AppendLine(":");
 				msg.AppendLine(ex.ToString());
 				PluginLog.Fatal(msg.ToString());
-				if (die)
-					Dalamud.Utility.Util.Fatal(msg.ToString(), "XCVX Load/Init Failure");
 			}
 
 			PluginLog.Verbose("===== X C V X =====");
