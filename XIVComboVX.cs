@@ -29,7 +29,7 @@ namespace XIVComboVX {
 				if (!pluginInterface.IsDebugging)
 					Service.Commands.ProcessCommand("/xldev");
 			}
-			catch (TargetInvocationException) { // this SEEMS to only happen occasionally and on initial load; reloading the plugin at the title screen works fine
+			catch (Exception) { // this SEEMS to only happen occasionally and on initial load; reloading the plugin at the title screen works fine
 				Service.Commands.ProcessCommand("/xldev");
 			}
 #endif
