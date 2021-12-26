@@ -2,6 +2,8 @@ using System;
 
 using Dalamud.Utility;
 
+using XIVComboExpandedPlugin.Combos;
+
 using XIVComboVX.Attributes;
 using XIVComboVX.Combos;
 
@@ -72,7 +74,7 @@ namespace XIVComboVX {
 		// ====================================================================================
 		#region ASTROLOGIAN (33xx)
 
-		[CustomComboInfo("Swiftcast Ascend", "Ascend turns into Swiftcast when it's off cooldown.", AST.JobID)]
+		[CustomComboInfo("Swiftcast Ascend", "Ascend turns into Swiftcast when available and reasonable.", AST.JobID)]
 		AstrologianSwiftcastRaiserFeature = 3300,
 
 		[CustomComboInfo("Draw on Play", "Play turns into Draw when no card is drawn, as well as the usual Play behavior.", AST.JobID)]
@@ -387,7 +389,7 @@ namespace XIVComboVX {
 		// ====================================================================================
 		#region RED MAGE (35xx)
 
-		[CustomComboInfo("Swiftcast Verraise", "Verraise turns into Swiftcast when it's off cooldown and you don't have a cast speeder.", RDM.JobID)]
+		[CustomComboInfo("Swiftcast Verraise", "Verraise turns into Swiftcast when available and reasonable.", RDM.JobID)]
 		RedMageSwiftcastRaiserFeature = 3500,
 
 		[CustomComboInfo("Redoublement combo", "Replaces Redoublement with its combo chain, following enchantment rules.", RDM.JobID)]
@@ -435,48 +437,113 @@ namespace XIVComboVX {
 		#region REAPER (39xx)
 
 		[CustomComboInfo("Slice Combo", "Replace Infernal Slice with its combo chain.", RPR.JobID)]
-		ReaperSliceCombo = 3900,
+		ReaperSliceCombo = 3901,
+
+		[Conflicts(ReaperSliceGallowsFeature)]
+		[CustomComboInfo("Slice Gibbet Feature", "Replace Infernal Slice with Gibbet while Reaving or Enshrouded.", RPR.JobID)]
+		ReaperSliceGibbetFeature = 3903,
+
+		[Conflicts(ReaperSliceGibbetFeature)]
+		[CustomComboInfo("Slice Gallows Feature", "Replace Infernal Slice with Gallows while Reaving or Enshrouded.", RPR.JobID)]
+		ReaperSliceGallowsFeature = 3904,
+
+		[CustomComboInfo("Slice Enhanced Soul Reaver Feature", "Replace Infernal Slice with whichever of Gibbet or Gallows is currently enhanced while Reaving.", RPR.JobID)]
+		ReaperSliceEnhancedSoulReaverFeature = 3913,
+
+		[CustomComboInfo("Slice Enhanced Enshrouded Feature", "Replace Infernal Slice with whichever of Gibbet or Gallows is currently enhanced while Enshrouded.", RPR.JobID)]
+		ReaperSliceEnhancedEnshroudedFeature = 3914,
+
+		[CustomComboInfo("Slice Lemure's Feature", "Replace Infernal Slice with Lemure's Slice when two or more stacks of Void Shroud are active.", RPR.JobID)]
+		ReaperSliceLemuresFeature = 3919,
+
+		[CustomComboInfo("Slice Communio Feature", "Replace Infernal Slice with Communio when one stack of Shroud is left.", RPR.JobID)]
+		ReaperSliceCommunioFeature = 3920,
+
+		[Conflicts(ReaperShadowGibbetFeature)]
+		[CustomComboInfo("Shadow Gallows Feature", "Replace Shadow of Death with Gallows while Reaving or Enshrouded.", RPR.JobID)]
+		ReaperShadowGallowsFeature = 3905,
+
+		[Conflicts(ReaperShadowGallowsFeature)]
+		[CustomComboInfo("Shadow Gibbet Feature", "Replace Shadow of Death with Gibbet while Reaving or Enshrouded.", RPR.JobID)]
+		ReaperShadowGibbetFeature = 3906,
+
+		[CustomComboInfo("Shadow Lemure's Feature", "Replace Shadow of Death with Lemure's Slice when two or more stacks of Void Shroud are active.", RPR.JobID)]
+		ReaperShadowLemuresFeature = 3923,
+
+		[CustomComboInfo("Shadow Communio Feature", "Replace Shadow of Death with Communio when one stack of Shroud is left.", RPR.JobID)]
+		ReaperShadowCommunioFeature = 3924,
+
+		[Conflicts(ReaperSoulGibbetFeature)]
+		[CustomComboInfo("Soul Gallows Feature", "Replace Soul Slice with Gallows while Reaving or Enshrouded.", RPR.JobID)]
+		ReaperSoulGallowsFeature = 3925,
+
+		[Conflicts(ReaperSoulGallowsFeature)]
+		[CustomComboInfo("Soul Gibbet Feature", "Replace Soul Slice with Gibbet while Reaving or Enshrouded.", RPR.JobID)]
+		ReaperSoulGibbetFeature = 3926,
+
+		[CustomComboInfo("Soul Lemure's Feature", "Replace Soul Slice with Lemure's Slice when two or more stacks of Void Shroud are active.", RPR.JobID)]
+		ReaperSoulLemuresFeature = 3927,
+
+		[CustomComboInfo("Soul Communio Feature", "Replace Soul Slice with Communio when one stack of Shroud is left.", RPR.JobID)]
+		ReaperSoulCommunioFeature = 3928,
 
 		[CustomComboInfo("Scythe Combo", "Replace Nightmare Scythe with its combo chain.", RPR.JobID)]
-		ReaperScytheCombo = 3901,
+		ReaperScytheCombo = 3902,
 
-		[CustomComboInfo("Soul Reaver Gibbet Feature", "Replace Infernal Slice with Gibbet while Reaving or Enshrouded.", RPR.JobID)]
-		ReaperSoulReaverGibbetFeature = 3902,
+		[CustomComboInfo("Scythe Guillotine Feature", "Replace Nightmare Scythe with Guillotine while Reaving or Enshrouded.", RPR.JobID)]
+		ReaperScytheGuillotineFeature = 3907,
 
-		[ParentPreset(ReaperSoulReaverGibbetFeature)]
-		[CustomComboInfo("Soul Reaver Gibbet Option", "Replace Infernal Slice with Gallows instead while Reaving or Enshrouded.", RPR.JobID)]
-		ReaperSoulReaverGibbetOption = 3903,
+		[CustomComboInfo("Scythe Lemure's Feature", "Replace Nightmare Scythe with Lemure's Slice when two or more stacks of Void Shroud are active.", RPR.JobID)]
+		ReaperScytheLemuresFeature = 3921,
 
-		[CustomComboInfo("Soul Reaver Gallows Feature", "Replace Shadow of Death with Gallows while Reaving or Enshrouded.", RPR.JobID)]
-		ReaperSoulReaverGallowsFeature = 3904,
+		[CustomComboInfo("Scythe Communio Feature", "Replace Nightmare Scythe with Communio when one stack is left of Shroud.", RPR.JobID)]
+		ReaperScytheCommunioFeature = 3922,
 
-		[ParentPreset(ReaperSoulReaverGallowsFeature)]
-		[CustomComboInfo("Soul Reaver Gallows Option", "Replace Shadow of Death with Gibbet instead while Reaving or Enshrouded.", RPR.JobID)]
-		ReaperSoulReaverGallowsOption = 3905,
+		[CustomComboInfo("Enhanced Soul Reaver Feature", "Replace Gibbet and Gallows with whichever is currently enhanced while Reaving.", RPR.JobID)]
+		ReaperEnhancedSoulReaverFeature = 3917,
 
-		[CustomComboInfo("Soul Reaver Guillotine Option", "Replace Nightmare Scythe with Guillotine while Reaving or Enshrouded.", RPR.JobID)]
-		ReaperSoulReaverGuillotineFeature = 3906,
+		[CustomComboInfo("Enhanced Enshrouded Feature", "Replace Gibbet and Gallows with whichever is currently enhanced while Enshrouded.", RPR.JobID)]
+		ReaperEnhancedEnshroudedFeature = 3918,
 
-		[CustomComboInfo("Lemure's Soul Reaver Feature", "Replace Gibbet, Gallows, and Guillotine (and in other combos) with Lemure's Slice or Scythe when two or more stacks of Void Shroud are active.", RPR.JobID)]
-		ReaperLemuresSoulReaverFeature = 3910,
+		[CustomComboInfo("Lemure's Soul Reaver Feature", "Replace Gibbet, Gallows, and Guillotine with Lemure's Slice or Scythe when two or more stacks of Void Shroud are active.", RPR.JobID)]
+		ReaperLemuresSoulReaverFeature = 3911,
 
-		[CustomComboInfo("Communio Soul Reaver Feature", "Replace Gibbet, Gallows, and Guillotine (and in other combos) with Communio when one stack is left of Shroud.", RPR.JobID)]
-		ReaperCommunioSoulReaverFeature = 3911,
-
-		[CustomComboInfo("Arcane Harvest Feature", "Replace Arcane Circle with Plentiful Harvest when you have stacks of Immortal Sacrifice.", RPR.JobID)]
-		ReaperHarvestFeature = 3907,
+		[CustomComboInfo("Communio Soul Reaver Feature", "Replace Gibbet, Gallows, and Guillotine with Communio when one stack is left of Shroud.", RPR.JobID)]
+		ReaperCommunioSoulReaverFeature = 3912,
 
 		[CustomComboInfo("Enshroud Communio Feature", "Replace Enshroud with Communio when Enshrouded.", RPR.JobID)]
-		ReaperEnshroudCommunioFeature = 3908,
+		ReaperEnshroudCommunioFeature = 3909,
+
+		[CustomComboInfo("Arcane Harvest Feature", "Replace Arcane Circle with Plentiful Harvest when you have stacks of Immortal Sacrifice.", RPR.JobID)]
+		ReaperHarvestFeature = 3908,
 
 		[CustomComboInfo("Regress Feature", "Both Hell's Ingress and Egress turn into Regress when Threshold is active, instead of just the opposite of the one used.", RPR.JobID)]
-		ReaperRegressFeature = 3909,
+		ReaperRegressFeature = 3910,
 
 		#endregion
 		// ====================================================================================
 		#region SAGE (40xx)
 
-		// Nobody here but us chickens
+		[CustomComboInfo("Swiftcast Egeiro", "Egeiro turns into Swiftcast when available and reasonable.", SGE.JobID)]
+		SageSwiftcastRaiserFeature = 4000,
+
+		[CustomComboInfo("Taurochole Into Druochole Feature", "Replace Taurochole with Druochole when on cooldown", SGE.JobID)]
+		SageTaurocholeDruocholeFeature = 4001,
+
+		[CustomComboInfo("Taurochole Into Rhizomata Feature", "Replace Taurochole with Rhizomata when Addersgall is empty.", SGE.JobID)]
+		SageTaurocholeRhizomataFeature = 4002,
+
+		[CustomComboInfo("Druochole Into Rhizomata Feature", "Replace Druochole with Rhizomata when Addersgall is empty.", SGE.JobID)]
+		SageDruocholeRhizomataFeature = 4003,
+
+		[CustomComboInfo("Ixochole Into Rhizomata Feature", "Replace Ixochole with Rhizomata when Addersgall is empty.", SGE.JobID)]
+		SageIxocholeRhizomataFeature = 4004,
+
+		[CustomComboInfo("Kerachole Into Rhizomata Feature", "Replace Kerachole with Rhizomata when Addersgall is empty.", SGE.JobID)]
+		SageKeracholaRhizomataFeature = 4005,
+
+		[CustomComboInfo("Soteria Kardia Feature", "Replace Soteria with Kardia when off cooldown and missing Kardion.", SGE.JobID)]
+		SageSoteriaKardionFeature = 4006,
 
 		#endregion
 		// ====================================================================================
@@ -543,7 +610,7 @@ namespace XIVComboVX {
 		// ====================================================================================
 		#region SCHOLAR (28xx)
 
-		[CustomComboInfo("Swiftcast Resurrection", "Resurrection turns into Swiftcast when it's off cooldown.", SCH.JobID)]
+		[CustomComboInfo("Swiftcast Resurrection", "Resurrection turns into Swiftcast when available and reasonable.", SCH.JobID)]
 		ScholarSwiftcastRaiserFeature = 2800,
 
 		[CustomComboInfo("Seraph Fey Blessing/Consolation", "Change Fey Blessing into Consolation when Seraph is out.", SCH.JobID)]
@@ -556,7 +623,7 @@ namespace XIVComboVX {
 		// ====================================================================================
 		#region SUMMONER (27xx)
 
-		[CustomComboInfo("Swiftcast Resurrection", "Resurrection turns into Swiftcast when it's off cooldown.", SMN.JobID)]
+		[CustomComboInfo("Swiftcast Resurrection", "Resurrection turns into Swiftcast when available and reasonable.", SMN.JobID)]
 		SummonerSwiftcastRaiserFeature = 2700,
 
 		[CustomComboInfo("ED Fester", "Change Fester into Energy Drain when out of Aetherflow stacks.", SMN.JobID)]
@@ -633,7 +700,7 @@ namespace XIVComboVX {
 		// ====================================================================================
 		#region WHITE MAGE (24xx)
 
-		[CustomComboInfo("Swiftcast Raise", "Raise turns into Swiftcast when it's off cooldown.", WHM.JobID)]
+		[CustomComboInfo("Swiftcast Raise", "Raise turns into Swiftcast when available and reasonable.", WHM.JobID)]
 		WhiteMageSwiftcastRaiserFeature = 2400,
 
 		[CustomComboInfo("Afflatus Feature", "Changes Cure 2 into Afflatus Solace, and Medica into Afflatus Rapture, when lilies are up.", WHM.JobID)]

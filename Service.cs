@@ -1,5 +1,6 @@
 ﻿
 using Dalamud.Data;
+using Dalamud.Game;
 using Dalamud.Game.ClientState;
 using Dalamud.Game.ClientState.Buddy;
 using Dalamud.Game.ClientState.Conditions;
@@ -17,6 +18,8 @@ namespace XIVComboVX {
 		public static IconReplacer IconReplacer { get; set; } = null!;
 
 		public static PluginAddressResolver Address { get; set; } = null!;
+
+		public static ComboDataCache DataCache { get; set; } = null!;
 
 		[PluginService]
 		public static DalamudPluginInterface Interface { get; private set; } = null!;
@@ -37,7 +40,10 @@ namespace XIVComboVX {
 		public static Condition Conditions { get; private set; } = null!;
 
 		[PluginService]
-		public static DataManager Data { get; private set; } = null!;
+		public static DataManager GameData { get; private set; } = null!;
+
+		[PluginService]
+		public static Framework Framework { get; private set; } = null!;
 
 		[PluginService]
 		public static JobGauges JobGauge { get; private set; } = null!;

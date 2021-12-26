@@ -20,7 +20,6 @@ namespace XIVComboVX {
 		private readonly Hook<IsIconReplaceableDelegate> isIconReplaceableHook;
 		private readonly Hook<GetIconDelegate> getIconHook;
 
-		private readonly GetActionCooldownSlotDelegate getActionCooldownSlot;
 		private IntPtr actionManager = IntPtr.Zero;
 
 		private HashSet<uint> comboActionIDs = new();
@@ -29,14 +28,12 @@ namespace XIVComboVX {
 		public IconReplacer() {
 
 			this.customCombos = Assembly.GetAssembly(typeof(CustomCombo))!.GetTypes()
-				.Where(t => t.BaseType == typeof(CustomCombo))
+				.Where(t => !t.IsAbstract && (t.BaseType == typeof(CustomCombo) || t.BaseType?.BaseType == typeof(CustomCombo)))
 				.Select(t => Activator.CreateInstance(t))
 				.Cast<CustomCombo>()
 				.ToList();
 
 			this.UpdateEnabledActionIDs();
-
-			this.getActionCooldownSlot = Marshal.GetDelegateForFunctionPointer<GetActionCooldownSlotDelegate>(Service.Address.GetActionCooldown);
 
 			this.getIconHook = new Hook<GetIconDelegate>(Service.Address.GetAdjustedActionId, this.getIconDetour);
 			this.isIconReplaceableHook = new Hook<IsIconReplaceableDelegate>(Service.Address.IsActionIdReplaceable, this.isIconReplaceableDetour);
@@ -83,11 +80,12 @@ namespace XIVComboVX {
 		private uint getIconDetour(IntPtr actionManager, uint actionID) {
 			try {
 				this.actionManager = actionManager;
+				Service.DataCache.updateActionManager(actionManager);
 
 				if (LocalPlayer == null || !this.comboActionIDs.Contains(actionID))
 					return this.OriginalHook(actionID);
 
-				return this.GetNewAction(actionID, LastComboMove, ComboTime, LocalPlayer.Level);
+				return this.GetNewAction(actionID, LastComboMove, ComboTime, LocalPlayer?.Level ?? 0);
 			}
 			catch (Exception ex) {
 				PluginLog.Error(ex, "Don't crash the game");
@@ -109,33 +107,6 @@ namespace XIVComboVX {
 #pragma warning restore IDE1006 // Naming Styles
 		#endregion
 
-		#region Cooldowns
-
-		private readonly Dictionary<uint, byte> cooldownGroups = new();
-
-		private byte getCooldownGroup(uint actionID) {
-			if (this.cooldownGroups.TryGetValue(actionID, out byte cooldownGroup))
-				return cooldownGroup;
-
-			Lumina.Excel.ExcelSheet<Lumina.Excel.GeneratedSheets.Action> sheet = Service.Data.GetExcelSheet<Lumina.Excel.GeneratedSheets.Action>()!;
-			Lumina.Excel.GeneratedSheets.Action row = sheet.GetRow(actionID)!;
-
-			return this.cooldownGroups[actionID] = row.CooldownGroup;
-		}
-
-#pragma warning disable IDE1006 // Naming Styles
-
-		internal CooldownData GetCooldown(uint actionID) {
-			byte cooldownGroup = this.getCooldownGroup(actionID);
-			if (this.actionManager == IntPtr.Zero)
-				return new CooldownData() { ActionID = actionID };
-
-			IntPtr cooldownPtr = this.getActionCooldownSlot(this.actionManager, cooldownGroup - 1);
-			return Marshal.PtrToStructure<CooldownData>(cooldownPtr);
-		}
-
-#pragma warning restore IDE1006 // Naming Styles
-		#endregion
 	}
 
 	[StructLayout(LayoutKind.Explicit)]

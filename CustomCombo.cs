@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 using Dalamud.Game.ClientState.Conditions;
@@ -29,8 +28,6 @@ namespace XIVComboVX.Combos {
 			30 => 29,
 			_ => this.JobID,
 		};
-
-		private static readonly Dictionary<Type, JobGaugeBase> jobGauges = new();
 
 		protected CustomCombo() {
 			CustomComboInfoAttribute presetInfo = this.Preset.GetAttribute<CustomComboInfoAttribute>();
@@ -110,13 +107,13 @@ namespace XIVComboVX.Combos {
 
 		protected internal static bool HasPetPresent() => Service.BuddyList.PetBuddyPresent;
 
-		protected internal static CooldownData GetCooldown(uint actionID) => Service.IconReplacer.GetCooldown(actionID);
+		protected internal static CooldownData GetCooldown(uint actionID) => Service.DataCache.GetCooldown(actionID);
 
-		protected internal static T GetJobGauge<T>() where T : JobGaugeBase {
-			if (!jobGauges.TryGetValue(typeof(T), out JobGaugeBase? gauge))
-				gauge = jobGauges[typeof(T)] = Service.JobGauge.Get<T>();
-			return (T)gauge;
-		}
+		protected internal static bool IsOnCooldown(uint actionID) => GetCooldown(actionID).IsCooldown;
+
+		protected internal static bool IsOffCooldown(uint actionID) => !GetCooldown(actionID).IsCooldown;
+
+		protected internal static T GetJobGauge<T>() where T : JobGaugeBase => Service.DataCache.GetJobGauge<T>();
 
 		#endregion
 

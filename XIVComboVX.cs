@@ -37,7 +37,8 @@ namespace XIVComboVX {
 			if (!Service.Address.LoadSuccessful)
 				Service.Commands.ProcessCommand("/xllog");
 			else {
-				Service.IconReplacer = new IconReplacer();
+				Service.DataCache = new();
+				Service.IconReplacer = new();
 
 				this.configWindow = new();
 				this.windowSystem = new("XIVComboVX");
