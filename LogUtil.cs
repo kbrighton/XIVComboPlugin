@@ -16,19 +16,29 @@ namespace XIVComboVX {
 			Service.Framework.Update += this.onTick;
 		}
 
-		public void EnableNextTick() => this.EnabledNextTick = true;
+		public void EnableNextTick() {
+			this.EnabledNextTick = true;
+			PluginLog.Information("Enabled logging snapshot for next tick");
+		}
+
+		private void onTick(Framework framework) {
+			if (this.Enabled)
+				PluginLog.Information("Logging snapshot complete");
+			this.Enabled = this.EnabledNextTick;
+			this.EnabledNextTick = false;
+		}
 
 		internal void fatal(string msg, Exception? cause = null) {
 			if (this.Enabled)
-				PluginLog.Fatal(cause ?? new Exception(STACK_TRACE_MSG), msg);
+				PluginLog.Fatal($"{msg}\n{cause ?? new Exception(STACK_TRACE_MSG)}");
 		}
 		internal void error(string msg, Exception? cause = null) {
 			if (this.Enabled)
-				PluginLog.Error(cause ?? new Exception(STACK_TRACE_MSG), msg);
+				PluginLog.Error($"{msg}\n{cause ?? new Exception(STACK_TRACE_MSG)}");
 		}
 		internal void warning(string msg, Exception? cause = null) {
 			if (this.Enabled)
-				PluginLog.Warning(cause ?? new Exception(STACK_TRACE_MSG), msg);
+				PluginLog.Warning($"{msg}\n{cause ?? new Exception(STACK_TRACE_MSG)}");
 		}
 		[Conditional("DEBUG")]
 		internal void debug(string msg) {
@@ -38,17 +48,13 @@ namespace XIVComboVX {
 		[Conditional("DEBUG")]
 		internal void trace(string msg) {
 			if (this.Enabled)
-				PluginLog.Debug(
+				PluginLog.Information(
 #if TRACE
-					new Exception(STACK_TRACE_MSG),
-#endif
+					$"{msg}\n{new StackTrace(true)}"
+#else
 					msg
+#endif
 				);
-		}
-
-		private void onTick(Framework framework) {
-			this.Enabled = this.EnabledNextTick;
-			this.EnabledNextTick = false;
 		}
 
 		#region IDisposable

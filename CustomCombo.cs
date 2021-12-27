@@ -41,26 +41,26 @@ namespace XIVComboVX.Combos {
 			newActionID = 0;
 
 			if (LocalPlayer is null
-				|| !IsEnabled(this.Preset)
 				|| (this.JobID != LocalPlayer.ClassJob.Id && this.ClassID != LocalPlayer.ClassJob.Id)
 				|| (this.ActionIDs.Length > 0 && !this.ActionIDs.Contains(actionID))
+				|| !IsEnabled(this.Preset)
 			)
 				return false;
 
-			string funcName = $"{this.ModuleName}.Invoke({actionID}, {lastComboActionId}, {comboTime}, {level})";
+			Service.Logger.debug($"{this.ModuleName}.Invoke({actionID}, {lastComboActionId}, {comboTime}, {level})");
 			try {
 				uint resultingActionID = this.Invoke(actionID, lastComboActionId, comboTime, level);
 				if (resultingActionID == 0 || actionID == resultingActionID) {
-					Service.Logger.debug($"{funcName} - NO REPLACEMENT");
+					Service.Logger.debug("NO REPLACEMENT");
 					return false;
 				}
 
-				Service.Logger.debug($"{funcName} - became #{resultingActionID}");
+				Service.Logger.debug($"Became #{resultingActionID}");
 				newActionID = resultingActionID;
 				return true;
 			}
 			catch (Exception ex) {
-				Service.Logger.error($"Error in {funcName}", ex);
+				Service.Logger.error($"Error in {this.ModuleName}.Invoke({actionID}, {lastComboActionId}, {comboTime}, {level})", ex);
 				return false;
 			}
 		}
@@ -116,11 +116,12 @@ namespace XIVComboVX.Combos {
 
 		protected internal static bool IsEnabled(CustomComboPreset preset) {
 			if ((int)preset < 100) {
-				Service.Logger.trace($"Bypassing is-enabled check for preset #{(int)preset}");
+				Service.Logger.debug($"Bypassing is-enabled check for preset #{(int)preset}");
 				return true;
 			}
-			Service.Logger.trace($"Checking status of preset #{(int)preset}");
-			return Service.Configuration.IsEnabled(preset);
+			bool enabled = Service.Configuration.IsEnabled(preset);
+			Service.Logger.debug($"Checking status of preset #{(int)preset} - {enabled}");
+			return enabled;
 		}
 
 		protected internal static bool HasCondition(ConditionFlag flag) => Service.Conditions[flag];

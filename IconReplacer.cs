@@ -24,7 +24,7 @@ namespace XIVComboVX {
 		private readonly List<CustomCombo> customCombos;
 
 		public IconReplacer() {
-			PluginLog.Debug("Loading registered combos");
+			PluginLog.Information("Loading registered combos");
 			this.customCombos = Assembly.GetAssembly(this.GetType())!.GetTypes()
 				.Where(t => !t.IsAbstract && (t.BaseType == typeof(CustomCombo) || t.BaseType?.BaseType == typeof(CustomCombo)))
 				.Select(t => Activator.CreateInstance(t))
@@ -32,7 +32,7 @@ namespace XIVComboVX {
 				.ToList();
 			PluginLog.Information($"Loaded {this.customCombos.Count} replacers");
 #if DEBUG
-			PluginLog.Verbose(string.Join(", ", this.customCombos.Select(combo => combo.GetType().Name)));
+			PluginLog.Information(string.Join(", ", this.customCombos.Select(combo => combo.GetType().Name)));
 #endif
 
 			this.getIconHook = new Hook<GetIconDelegate>(Service.Address.GetAdjustedActionId, this.getIconDetour);
