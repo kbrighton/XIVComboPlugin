@@ -191,7 +191,6 @@ namespace XIVComboVX.Combos {
 					if (GetJobGauge<DRGGauge>().IsLOTDActive)
 						return PickByCooldown(actionID, DRG.SpineshatterDive, DRG.DragonfireDive, DRG.Stardiver);
 
-					return PickByCooldown(actionID, DRG.SpineshatterDive, DRG.DragonfireDive);
 				}
 
 				if (level >= DRG.Levels.DragonfireDive)

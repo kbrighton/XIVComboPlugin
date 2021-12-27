@@ -40,15 +40,15 @@ namespace XIVComboVX {
 			return (T)gauge;
 		}
 
-		public Status? GetStatus(uint statusID, GameObject? obj, uint? sourceID) {
-			(uint statusID, uint? ObjectId, uint? sourceID) key = (statusID, obj?.ObjectId, sourceID);
+		public Status? GetStatus(uint statusID, GameObject? actor, uint? sourceID) {
+			(uint statusID, uint? ObjectId, uint? sourceID) key = (statusID, actor?.ObjectId, sourceID);
 			if (this.statusCache.TryGetValue(key, out Status? found))
 				return found;
 
-			if (obj is null)
+			if (actor is null)
 				return this.statusCache[key] = null;
 
-			if (obj is not BattleChara chara)
+			if (actor is not BattleChara chara)
 				return this.statusCache[key] = null;
 
 			foreach (Status? status in chara.StatusList) {

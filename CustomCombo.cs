@@ -19,7 +19,7 @@ namespace XIVComboVX.Combos {
 		#endregion
 
 		protected internal abstract CustomComboPreset Preset { get; }
-		protected internal abstract uint[] ActionIDs { get; }
+		protected internal virtual uint[] ActionIDs { get; } = Array.Empty<uint>();
 
 		protected byte JobID { get; }
 		public byte ClassID => this.JobID switch {
@@ -40,7 +40,7 @@ namespace XIVComboVX.Combos {
 			if (LocalPlayer is null
 				|| !IsEnabled(this.Preset)
 				|| (this.JobID != LocalPlayer.ClassJob.Id && this.ClassID != LocalPlayer.ClassJob.Id)
-				|| !this.ActionIDs.Contains(actionID)
+				|| (this.ActionIDs.Length > 0 && !this.ActionIDs.Contains(actionID))
 			)
 				return false;
 

@@ -58,14 +58,6 @@ namespace XIVComboVX {
 				.ToHashSet();
 		}
 
-		public uint GetNewAction(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			foreach (CustomCombo combo in this.customCombos) {
-				if (combo.TryInvoke(actionID, lastComboMove, comboTime, level, out uint newActionID))
-					return newActionID;
-			}
-			return this.OriginalHook(actionID);
-		}
-
 		private ulong isIconReplaceableDetour(uint actionID) => 1;
 
 		/// <summary>
@@ -85,7 +77,16 @@ namespace XIVComboVX {
 				if (LocalPlayer == null || !this.comboActionIDs.Contains(actionID))
 					return this.OriginalHook(actionID);
 
-				return this.GetNewAction(actionID, LastComboMove, ComboTime, LocalPlayer?.Level ?? 0);
+				uint following = LastComboMove;
+				float time = ComboTime;
+				byte level = LocalPlayer?.Level ?? 0;
+
+				foreach (CustomCombo combo in this.customCombos) {
+					if (combo.TryInvoke(actionID, following, time, level, out uint newActionID))
+						return newActionID;
+				}
+
+				return this.OriginalHook(actionID);
 			}
 			catch (Exception ex) {
 				PluginLog.Error(ex, "Don't crash the game");

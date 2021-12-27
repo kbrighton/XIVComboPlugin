@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 
 using Dalamud.Game.ClientState.JobGauge.Types;
+using Dalamud.Game.ClientState.Statuses;
 
 /*
  * All credit to daemitus (this was literally edited only enough to compile because I don't play or understand monk and there's been too many changes)
@@ -82,7 +83,7 @@ namespace XIVComboVX.Combos {
 				if (IsEnabled(CustomComboPreset.MonkAoESolarFeature)) {
 					if (level >= MNK.Levels.PerfectBalance && SelfHasEffect(MNK.Buffs.PerfectBalance) && (!gauge.Nadi.HasFlag(Nadi.SOLAR) || gauge.Nadi == (Nadi.LUNAR | Nadi.SOLAR))) {
 						// Refresh Disciplined Fist if missing or about to expire
-						Dalamud.Game.ClientState.Statuses.Status? fist = SelfFindEffect(MNK.Buffs.DisciplinedFist);
+						Status? fist = SelfFindEffect(MNK.Buffs.DisciplinedFist);
 						if (level >= MNK.Levels.FourPointFury && !gauge.BeastChakra.Contains(BeastChakra.RAPTOR) && (fist == null || fist.RemainingTime < 3))
 							return MNK.FourPointFury;
 
