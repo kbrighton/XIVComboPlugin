@@ -1,9 +1,9 @@
 using System;
 using System.Linq;
-using System.Reflection;
 
 using Dalamud.Game.Command;
 using Dalamud.Interface.Windowing;
+using Dalamud.Logging;
 using Dalamud.Plugin;
 
 namespace XIVComboVX {
@@ -17,9 +17,9 @@ namespace XIVComboVX {
 
 		public XIVComboVX(DalamudPluginInterface pluginInterface) {
 			pluginInterface.Create<Service>();
+			Service.Logger = new();
 
 			Service.Configuration = pluginInterface.GetPluginConfig() as PluginConfiguration ?? new PluginConfiguration();
-			Service.Configuration.Upgrade();
 
 			Service.Address = new PluginAddressResolver();
 			Service.Address.Setup();
@@ -62,11 +62,16 @@ namespace XIVComboVX {
 				Service.Interface.UiBuilder.Draw -= this.windowSystem.Draw;
 
 			Service.IconReplacer.Dispose();
+			Service.Logger.Dispose();
 		}
 
 		private void toggleConfigUi() {
-			if (this.configWindow is not null)
+			if (this.configWindow is not null) {
 				this.configWindow.IsOpen = !this.configWindow.IsOpen;
+			}
+			else {
+				PluginLog.Error("Cannot toggle configuration window, reference does not exist");
+			}
 		}
 
 		private void onPluginCommand(string command, string arguments) {
@@ -78,6 +83,11 @@ namespace XIVComboVX {
 			string[] argumentsParts = arguments.Split();
 
 			switch (argumentsParts[0]) {
+				case "debug": {
+					Service.Logger.EnableNextTick();
+					Service.Chat.Print("Enabled debug message snapshot");
+				}
+				break;
 				case "reset": {
 					foreach (CustomComboPreset preset in Enum.GetValues(typeof(CustomComboPreset)).Cast<CustomComboPreset>())
 						Service.Configuration.EnabledActions.Remove(preset);

@@ -16,6 +16,8 @@ namespace XIVComboVX.Combos {
 
 		public const uint InvalidObjectID = 0xE000_0000;
 
+		public readonly string ModuleName;
+
 		#endregion
 
 		protected internal abstract CustomComboPreset Preset { get; }
@@ -32,6 +34,7 @@ namespace XIVComboVX.Combos {
 		protected CustomCombo() {
 			CustomComboInfoAttribute presetInfo = this.Preset.GetAttribute<CustomComboInfoAttribute>();
 			this.JobID = presetInfo.JobID;
+			this.ModuleName = this.GetType().Name;
 		}
 
 		public bool TryInvoke(uint actionID, uint lastComboActionId, float comboTime, byte level, out uint newActionID) {
@@ -44,12 +47,22 @@ namespace XIVComboVX.Combos {
 			)
 				return false;
 
-			uint resultingActionID = this.Invoke(actionID, lastComboActionId, comboTime, level);
-			if (resultingActionID == 0 || actionID == resultingActionID)
-				return false;
+			string funcName = $"{this.ModuleName}.Invoke({actionID}, {lastComboActionId}, {comboTime}, {level})";
+			try {
+				uint resultingActionID = this.Invoke(actionID, lastComboActionId, comboTime, level);
+				if (resultingActionID == 0 || actionID == resultingActionID) {
+					Service.Logger.debug($"{funcName} - NO REPLACEMENT");
+					return false;
+				}
 
-			newActionID = resultingActionID;
-			return true;
+				Service.Logger.debug($"{funcName} - became #{resultingActionID}");
+				newActionID = resultingActionID;
+				return true;
+			}
+			catch (Exception ex) {
+				Service.Logger.error($"Error in {funcName}", ex);
+				return false;
+			}
 		}
 
 		protected abstract uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level);
@@ -101,7 +114,14 @@ namespace XIVComboVX.Combos {
 
 		protected internal static GameObject? CurrentTarget => Service.Targets.Target;
 
-		protected internal static bool IsEnabled(CustomComboPreset preset) => (int)preset < 100 || Service.Configuration.IsEnabled(preset);
+		protected internal static bool IsEnabled(CustomComboPreset preset) {
+			if ((int)preset < 100) {
+				Service.Logger.trace($"Bypassing is-enabled check for preset #{(int)preset}");
+				return true;
+			}
+			Service.Logger.trace($"Checking status of preset #{(int)preset}");
+			return Service.Configuration.IsEnabled(preset);
+		}
 
 		protected internal static bool HasCondition(ConditionFlag flag) => Service.Conditions[flag];
 
@@ -121,48 +141,21 @@ namespace XIVComboVX.Combos {
 
 		protected internal static Status? SelfFindEffect(ushort effectId) => FindEffect(effectId, LocalPlayer, null);
 		protected internal static bool SelfHasEffect(ushort effectId) => SelfFindEffect(effectId) is not null;
-		protected internal static float SelfEffectDuration(ushort effectId) {
-			Status? eff = SelfFindEffect(effectId);
-			return eff?.RemainingTime ?? 0;
-		}
-		protected internal static float SelfEffectStacks(ushort effectId) {
-			Status? eff = SelfFindEffect(effectId);
-			return eff?.StackCount ?? 0;
-		}
+		protected internal static float SelfEffectDuration(ushort effectId) => SelfFindEffect(effectId)?.RemainingTime ?? 0;
+		protected internal static float SelfEffectStacks(ushort effectId) => SelfFindEffect(effectId)?.StackCount ?? 0;
 
 		protected internal static Status? TargetFindAnyEffect(ushort effectId) => FindEffect(effectId, CurrentTarget, null);
 		protected internal static bool TargetHasAnyEffect(ushort effectId) => TargetFindAnyEffect(effectId) is not null;
-		protected internal static float TargetAnyEffectDuration(ushort effectId) {
-			Status? eff = TargetFindAnyEffect(effectId);
-			return eff?.RemainingTime ?? 0;
-		}
-		protected internal static float TargetAnyEffectStacks(ushort effectId) {
-			Status? eff = TargetFindAnyEffect(effectId);
-			return eff?.StackCount ?? 0;
-		}
+		protected internal static float TargetAnyEffectDuration(ushort effectId) => TargetFindAnyEffect(effectId)?.RemainingTime ?? 0;
+		protected internal static float TargetAnyEffectStacks(ushort effectId) => TargetFindAnyEffect(effectId)?.StackCount ?? 0;
 
 		protected internal static Status? TargetFindOwnEffect(ushort effectId) => FindEffect(effectId, CurrentTarget, LocalPlayer?.ObjectId);
 		protected internal static bool TargetHasOwnEffect(ushort effectId) => TargetFindOwnEffect(effectId) is not null;
-		protected internal static float TargetOwnEffectDuration(ushort effectId) {
-			Status? eff = TargetFindOwnEffect(effectId);
-			return eff?.RemainingTime ?? 0;
-		}
-		protected internal static float TargetOwnEffectStacks(ushort effectId) {
-			Status? eff = TargetFindOwnEffect(effectId);
-			return eff?.StackCount ?? 0;
-		}
+		protected internal static float TargetOwnEffectDuration(ushort effectId) => TargetFindOwnEffect(effectId)?.RemainingTime ?? 0;
+		protected internal static float TargetOwnEffectStacks(ushort effectId) => TargetFindOwnEffect(effectId)?.StackCount ?? 0;
 
-		protected internal static Status? FindEffect(ushort effectId, GameObject? actor, uint? sourceId) {
-			if (actor is null)
-				return null;
-			if (actor is not BattleChara chara)
-				return null;
-			foreach (Status status in chara.StatusList) {
-				if (status.StatusId == effectId && (!sourceId.HasValue || status.SourceID == 0 || status.SourceID == InvalidObjectID || status.SourceID == sourceId))
-					return status;
-			}
-			return null;
-		}
+		protected internal static Status? FindEffect(ushort effectId, GameObject? actor, uint? sourceId)
+			=> Service.DataCache.GetStatus(effectId, actor, sourceId);
 
 		#endregion
 	}

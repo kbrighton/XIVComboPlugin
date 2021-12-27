@@ -77,7 +77,6 @@ namespace XIVComboVX {
 							else
 								Service.Configuration.EnabledActions.Remove(preset);
 
-							Service.IconReplacer.UpdateEnabledActionIDs();
 							Service.Configuration.Save();
 						}
 
@@ -122,7 +121,6 @@ namespace XIVComboVX {
 
 							if (changed) {
 								Service.Configuration.DancerDanceCompatActionIDs = actions.Cast<uint>().ToArray();
-								Service.IconReplacer.UpdateEnabledActionIDs();
 								Service.Configuration.Save();
 							}
 

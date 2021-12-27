@@ -28,12 +28,16 @@ namespace XIVComboVX {
 
 		protected override void Setup64Bit(SigScanner scanner) {
 			try {
+				Service.Logger.debug("Scanning for ComboTimer signature");
 				this.ComboTimer = scanner.GetStaticAddressFromSig("48 89 2D ?? ?? ?? ?? 85 C0 74 0F");
 
+				Service.Logger.debug("Scanning for GetAdjustedActionId signature");
 				this.GetAdjustedActionId = scanner.ScanText("E8 ?? ?? ?? ?? 8B F8 3B DF");  // Client::Game::ActionManager.GetAdjustedActionId
 
+				Service.Logger.debug("Scanning for IsActionIdReplaceable signature");
 				this.IsActionIdReplaceable = scanner.ScanText("81 F9 ?? ?? ?? ?? 7F 35");
 
+				Service.Logger.debug("Scanning for GetActionCooldown signature");
 				this.GetActionCooldown = scanner.ScanText("E8 ?? ?? ?? ?? 0F 57 FF 48 85 C0");
 			}
 			catch (Exception ex) {
@@ -52,11 +56,12 @@ namespace XIVComboVX {
 				else if (this.GetActionCooldown == IntPtr.Zero)
 					msg.Append("GetActionCooldown");
 				msg.AppendLine(":");
-				msg.AppendLine(ex.ToString());
+				msg.Append(ex.ToString());
 				PluginLog.Fatal(msg.ToString());
 			}
 
-			PluginLog.Verbose("===== X C V X =====");
+			Service.Logger.debug("Address resolution successful");
+
 			PluginLog.Verbose($"GetAdjustedActionId 0x{this.GetAdjustedActionIdAddr}");
 			PluginLog.Verbose($"IsIconReplaceable   0x{this.IsActionIdReplaceableAddr}");
 			PluginLog.Verbose($"ComboTimer          0x{this.ComboTimerAddr}");

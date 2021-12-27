@@ -21,6 +21,8 @@ namespace XIVComboVX {
 
 		public static ComboDataCache DataCache { get; set; } = null!;
 
+		public static LogUtil Logger { get; set; } = null!;
+
 		[PluginService]
 		public static DalamudPluginInterface Interface { get; private set; } = null!;
 

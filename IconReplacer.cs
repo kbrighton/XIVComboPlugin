@@ -4,7 +4,6 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-using Dalamud.Game.ClientState.Objects.SubKinds;
 using Dalamud.Hooking;
 using Dalamud.Logging;
 
@@ -22,18 +21,19 @@ namespace XIVComboVX {
 
 		private IntPtr actionManager = IntPtr.Zero;
 
-		private HashSet<uint> comboActionIDs = new();
 		private readonly List<CustomCombo> customCombos;
 
 		public IconReplacer() {
-
-			this.customCombos = Assembly.GetAssembly(typeof(CustomCombo))!.GetTypes()
+			PluginLog.Debug("Loading registered combos");
+			this.customCombos = Assembly.GetAssembly(this.GetType())!.GetTypes()
 				.Where(t => !t.IsAbstract && (t.BaseType == typeof(CustomCombo) || t.BaseType?.BaseType == typeof(CustomCombo)))
 				.Select(t => Activator.CreateInstance(t))
 				.Cast<CustomCombo>()
 				.ToList();
-
-			this.UpdateEnabledActionIDs();
+			PluginLog.Information($"Loaded {this.customCombos.Count} replacers");
+#if DEBUG
+			PluginLog.Verbose(string.Join(", ", this.customCombos.Select(combo => combo.GetType().Name)));
+#endif
 
 			this.getIconHook = new Hook<GetIconDelegate>(Service.Address.GetAdjustedActionId, this.getIconDetour);
 			this.isIconReplaceableHook = new Hook<IsIconReplaceableDelegate>(Service.Address.IsActionIdReplaceable, this.isIconReplaceableDetour);
@@ -44,18 +44,11 @@ namespace XIVComboVX {
 		}
 
 		public void Dispose() {
+			this.getIconHook?.Disable();
+			this.isIconReplaceableHook?.Disable();
+
 			this.getIconHook?.Dispose();
 			this.isIconReplaceableHook?.Dispose();
-		}
-
-		/// <summary>
-		/// Maps to <see cref="PluginConfiguration.EnabledActions"/>, these actions can potentially update their icon per the user configuration.
-		/// </summary>
-		public void UpdateEnabledActionIDs() {
-			this.comboActionIDs = this.customCombos
-				.Where(combo => Service.Configuration.EnabledActions.Contains(combo.Preset))
-				.SelectMany(combo => combo.ActionIDs)
-				.ToHashSet();
 		}
 
 		private ulong isIconReplaceableDetour(uint actionID) => 1;
@@ -69,17 +62,17 @@ namespace XIVComboVX {
 		/// For example, Souleater combo on DRK happens by dragging Souleater
 		/// onto your bar and mashing it.
 		/// </summary>
-		private uint getIconDetour(IntPtr actionManager, uint actionID) {
+		private unsafe uint getIconDetour(IntPtr actionManager, uint actionID) {
 			try {
 				this.actionManager = actionManager;
 				Service.DataCache.updateActionManager(actionManager);
 
-				if (LocalPlayer == null || !this.comboActionIDs.Contains(actionID))
+				if (Service.Client.LocalPlayer is null)
 					return this.OriginalHook(actionID);
 
-				uint following = LastComboMove;
-				float time = ComboTime;
-				byte level = LocalPlayer?.Level ?? 0;
+				uint following = *(uint*)Service.Address.LastComboMove;
+				float time = *(float*)Service.Address.ComboTimer;
+				byte level = Service.Client.LocalPlayer?.Level ?? 0;
 
 				foreach (CustomCombo combo in this.customCombos) {
 					if (combo.TryInvoke(actionID, following, time, level, out uint newActionID))
@@ -89,24 +82,13 @@ namespace XIVComboVX {
 				return this.OriginalHook(actionID);
 			}
 			catch (Exception ex) {
-				PluginLog.Error(ex, "Don't crash the game");
+				Service.Logger.error("Don't crash the game", ex);
 				return this.getIconHook.Original(actionManager, actionID);
 			}
 		}
 
-		#region Getters
-#pragma warning disable IDE1006 // Naming Styles
 
-		internal static PlayerCharacter LocalPlayer => Service.Client.LocalPlayer!;
-
-		internal static uint LastComboMove => (uint)Marshal.ReadInt32(Service.Address.LastComboMove);
-
-		internal static float ComboTime => Marshal.PtrToStructure<float>(Service.Address.ComboTimer);
-
-		internal uint OriginalHook(uint actionID) => this.getIconHook.Original(this.actionManager, actionID);
-
-#pragma warning restore IDE1006 // Naming Styles
-		#endregion
+		public uint OriginalHook(uint actionID) => this.getIconHook.Original(this.actionManager, actionID);
 
 	}
 
