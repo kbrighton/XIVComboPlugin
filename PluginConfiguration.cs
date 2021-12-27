@@ -18,11 +18,7 @@ namespace XIVComboVX {
 		[JsonProperty("EnabledActionsV5")]
 		public HashSet<CustomComboPreset> EnabledActions = new();
 
-		[JsonProperty("EnabledActionsV4")]
-		public HashSet<CustomComboPreset> EnabledActions4 = new();
-
-		public uint[] DancerDanceCompatActionIDs = new uint[]
-		{
+		public uint[] DancerDanceCompatActionIDs = new[] {
 			DNC.Cascade,
 			DNC.Flourish,
 			DNC.FanDance1,

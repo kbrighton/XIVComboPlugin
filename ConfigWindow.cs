@@ -9,6 +9,7 @@ using Dalamud.Utility;
 using ImGuiNET;
 
 using XIVComboVX.Attributes;
+using XIVComboVX.Combos;
 
 namespace XIVComboVX {
 	public class ConfigWindow: Window {
@@ -48,6 +49,22 @@ namespace XIVComboVX {
 
 		public override void Draw() {
 			ImGui.Text("This window allows you to enable and disable custom combos to your liking.");
+
+			if (ImGui.Button("Completely reset my configuration")) {
+				Service.Configuration.EnabledActions.Clear();
+				Service.Configuration.DancerDanceCompatActionIDs = new[] {
+					DNC.Cascade,
+					DNC.Flourish,
+					DNC.FanDance1,
+					DNC.FanDance2,
+				};
+				Service.Configuration.Save();
+			}
+			else if (ImGui.IsItemHovered()) {
+				ImGui.BeginTooltip();
+				ImGui.TextColored(warningColour, "THIS CANNOT BE UNDONE!");
+				ImGui.EndTooltip();
+			}
 
 			ImGui.BeginChild("scrolling", new Vector2(0, -1), true);
 
