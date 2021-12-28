@@ -28,11 +28,13 @@ while (defined(my $line = scanToLine $file, "[CustomComboInfo(")) {
 	while ($line =~ m/\+\s*$/) {
 		$line .= $file->getline;
 	}
+	next if $line =~ m{^\s*//};
 	$line =~ s/"\s*\+\s*"//g;
 	# $line will be the whole attribute line here
 	my $orig = $line;
 	my $name = substr scalar extract_quotelike($line, qr/\s*\[CustomComboInfo\(\s*/i), 1, -1;
 	my $desc = substr scalar extract_quotelike($line, qr/,\s*/), 1, -1;
+	next if $name =~ m/^any$/i || $desc =~ m/\bnot(?:\s+be)?\s+display/i;
 	unless ($name && $desc && $line =~ m/^,\s*(.{3})\.JobID/) {
 		warn "Can't extract full details from\n$orig\n";
 		exit 2;
