@@ -139,8 +139,8 @@ namespace XIVComboVX {
 		[CustomComboInfo("Quick Nock / Ladonsbite into Shadowbite", "Replaces Quick Nock and Ladonsbite with Shadowbite when available.", BRD.JobID)]
 		BardShadowbiteFeature = 2304,
 
-		[CustomComboInfo("Bloodletter Feature", "Replaces Bloodletter with Empyreal Arrow and Sidewinder depending on which is available.", BRD.JobID)]
-		BardBloodletterFeature = 2305,
+		//[CustomComboInfo("Bloodletter Feature", "Replaces Bloodletter with Empyreal Arrow and Sidewinder depending on which is available.", BRD.JobID)]
+		//BardBloodletterFeature = 2305,
 
 		[CustomComboInfo("Rain of Death Feature", "Replaces Rain of Death with Empyreal Arrow and Sidewinder depending on which is available.", BRD.JobID)]
 		BardRainOfDeathFeature = 2306,

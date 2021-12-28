@@ -190,7 +190,7 @@ namespace XIVComboVX.Combos {
 		}
 	}
 
-	internal class BardBloodletterFeature: CustomCombo {
+	/*internal class BardBloodletterFeature: CustomCombo {
 		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.BardBloodletterFeature;
 		protected internal override uint[] ActionIDs { get; } = new[] { BRD.Bloodletter };
 
@@ -207,7 +207,7 @@ namespace XIVComboVX.Combos {
 
 			return actionID;
 		}
-	}
+	}*/
 
 	internal class BardRainOfDeathFeature: CustomCombo {
 		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.BardRainOfDeathFeature;
