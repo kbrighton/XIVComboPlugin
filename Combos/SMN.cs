@@ -135,10 +135,10 @@ namespace XIVComboVX.Combos {
 				if (IsEnabled(CustomComboPreset.SummonerRuinTitansFavorFeature) && level >= SMN.Levels.ElementalMastery && SelfHasEffect(SMN.Buffs.TitansFavor))
 					return SMN.MountainBuster;
 
-				if (IsEnabled(CustomComboPreset.SummonerRuinFeature) && level >= SMN.Levels.Gemshine && (gauge.IsIfritAttuned || gauge.IsTitanAttuned || gauge.IsGarudaAttuned))
-					return OriginalHook(SMN.Gemshine);
+				if (IsEnabled(CustomComboPreset.SummonerOutburstFeature) && level >= SMN.Levels.PreciousBrilliance && (gauge.IsIfritAttuned || gauge.IsTitanAttuned || gauge.IsGarudaAttuned))
+					return OriginalHook(SMN.PreciousBrilliance);
 
-				if (IsEnabled(CustomComboPreset.SummonerFurtherRuinFeature) && level >= SMN.Levels.Ruin4 && gauge.SummonTimerRemaining == 0 && gauge.AttunmentTimerRemaining == 0 && SelfHasEffect(SMN.Buffs.FurtherRuin))
+				if (IsEnabled(CustomComboPreset.SummonerFurtherOutburstFeature) && level >= SMN.Levels.Ruin4 && gauge.SummonTimerRemaining == 0 && gauge.AttunmentTimerRemaining == 0 && SelfHasEffect(SMN.Buffs.FurtherRuin))
 					return SMN.Ruin4;
 
 			}
@@ -172,7 +172,7 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class SummonerDemiFeature: CustomCombo {
-		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.SmnAny;
+		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.SummonerDemiEnkindleFeature;
 
 		protected internal override uint[] ActionIDs { get; } = new[] { SMN.Aethercharge, SMN.DreadwyrmTrance, SMN.SummonBahamut };
 
@@ -180,7 +180,7 @@ namespace XIVComboVX.Combos {
 			if (actionID is SMN.Aethercharge or SMN.DreadwyrmTrance or SMN.SummonBahamut) {
 				SMNGauge gauge = GetJobGauge<SMNGauge>();
 
-				if (IsEnabled(CustomComboPreset.SummonerDemiEnkindleFeature) && level >= SMN.Levels.EnkindleBahamut && !gauge.IsIfritAttuned && !gauge.IsTitanAttuned && !gauge.IsGarudaAttuned && gauge.SummonTimerRemaining > 0)
+				if (level >= SMN.Levels.EnkindleBahamut && !gauge.IsIfritAttuned && !gauge.IsTitanAttuned && !gauge.IsGarudaAttuned && gauge.SummonTimerRemaining > 0)
 					return OriginalHook(SMN.EnkindleBahamut);
 
 			}
