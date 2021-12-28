@@ -520,6 +520,22 @@ namespace XIVComboVX {
 		[CustomComboInfo("Regress Feature", "Both Hell's Ingress and Egress turn into Regress when Threshold is active, instead of just the opposite of the one used.", RPR.JobID)]
 		ReaperRegressFeature = 3910,
 
+		[Experimental]
+		[CustomComboInfo("Gluttony on Blood Stalk", "Replaces Blood Stalk with Gluttony when off cooldown.", RPR.JobID)]
+		ReaperGluttonyOnBloodStalkFeature = 3929,
+
+		[Experimental]
+		[CustomComboInfo("Gluttony on Grim Swathe", "Replaces Grim Swathe with Gluttony when off cooldown.", RPR.JobID)]
+		ReaperGluttonyOnGrimSwatheFeature = 3930,
+
+		[Experimental]
+		[CustomComboInfo("Gluttony on Unveiled Gibbet", "Replaces Unveiled Gibbet with Gluttony when off cooldown.", RPR.JobID)]
+		ReaperGluttonyOnUnveiledGibbetFeature = 3931,
+
+		[Experimental]
+		[CustomComboInfo("Gluttony on Unveiled Gallows", "Replaces Unveiled Gallows with Gluttony when off cooldown.", RPR.JobID)]
+		ReaperGluttonyOnUnveiledGallowsFeature = 3932,
+
 		#endregion
 		// ====================================================================================
 		#region SAGE (40xx)

@@ -3,6 +3,8 @@
  * Original is on dae's repo at https://github.com/daemitus/XIVComboPlugin/blob/master/XIVComboExpanded/Combos/RPR.cs
  * 
  * Someday™ I'll write proper reaper combos for VX, but not today.
+ * 
+ * UPDATE: The Gluttony feature is mine, at the request of AwesomeJames2120 on github. The rest isn't.
  */
 
 using Dalamud.Game.ClientState.JobGauge.Types;
@@ -22,6 +24,8 @@ namespace XIVComboExpandedPlugin.Combos {
 			// AoE
 			SpinningScythe = 24376,
 			NightmareScythe = 24377,
+			GrimSwathe = 24392,
+			Gluttony = 24393,
 			// Soul Reaver
 			BloodStalk = 24389,
 			Gibbet = 24382,
@@ -73,8 +77,10 @@ namespace XIVComboExpandedPlugin.Combos {
 				SpinningScythe = 25,
 				InfernalSlice = 30,
 				NightmareScythe = 45,
+				GrimSwathe = 55,
 				SoulReaver = 70,
 				Regress = 74,
+				Gluttony = 76,
 				Enshroud = 80,
 				EnhancedShroud = 86,
 				LemuresScythe = 86,
@@ -85,6 +91,42 @@ namespace XIVComboExpandedPlugin.Combos {
 
 	internal abstract class ReaperCustomCombo: CustomCombo {
 		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.RprAny;
+	}
+
+	internal class ReaperGluttony: ReaperCustomCombo {
+		protected internal override uint[] ActionIDs { get; } = new[] { RPR.GrimSwathe, RPR.BloodStalk, RPR.UnveiledGallows, RPR.UnveiledGibbet };
+
+		protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
+
+			if (level >= RPR.Levels.Gluttony) {
+
+				if (actionID is RPR.GrimSwathe && IsEnabled(CustomComboPreset.ReaperGluttonyOnGrimSwatheFeature) && IsOffCooldown(RPR.Gluttony))
+					return RPR.Gluttony;
+
+				if (actionID is RPR.BloodStalk or RPR.UnveiledGallows or RPR.UnveiledGibbet) {
+
+					if (IsEnabled(CustomComboPreset.ReaperGluttonyOnUnveiledGallowsFeature)
+						&& SelfHasEffect(RPR.Buffs.EnhancedGallows)
+						&& IsOffCooldown(RPR.Gluttony))
+						return RPR.Gluttony;
+
+					if (IsEnabled(CustomComboPreset.ReaperGluttonyOnUnveiledGibbetFeature)
+						&& SelfHasEffect(RPR.Buffs.EnhancedGibbet)
+						&& IsOffCooldown(RPR.Gluttony))
+						return RPR.Gluttony;
+
+					if (IsEnabled(CustomComboPreset.ReaperGluttonyOnBloodStalkFeature)
+						&& !SelfHasEffect(RPR.Buffs.EnhancedGallows)
+						&& !SelfHasEffect(RPR.Buffs.EnhancedGibbet)
+						&& IsOffCooldown(RPR.Gluttony))
+						return RPR.Gluttony;
+
+				}
+
+			}
+
+			return actionID;
+		}
 	}
 
 	internal class ReaperSlice: ReaperCustomCombo {
