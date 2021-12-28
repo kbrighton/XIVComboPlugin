@@ -59,8 +59,8 @@ namespace XIVComboVX.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-			if (actionID is SGE.Egeiro && CommonUtil.shouldSwiftcast)
-				return CommonSkills.Swiftcast;
+			if (actionID is SGE.Egeiro && ShouldSwiftcast)
+				return Common.Swiftcast;
 
 			return actionID;
 		}

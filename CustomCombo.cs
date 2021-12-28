@@ -136,6 +136,19 @@ namespace XIVComboVX.Combos {
 
 		protected internal static T GetJobGauge<T>() where T : JobGaugeBase => Service.DataCache.GetJobGauge<T>();
 
+		protected internal static bool ShouldSwiftcast
+			=> IsOffCooldown(Common.Swiftcast)
+				&& !SelfHasEffect(Common.Buffs.LostChainspell)
+				&& !SelfHasEffect(RDM.Buffs.Dualcast);
+		protected internal static bool IsFastcasting
+			=> SelfHasEffect(Common.Buffs.Swiftcast1)
+				|| SelfHasEffect(Common.Buffs.Swiftcast2)
+				|| SelfHasEffect(Common.Buffs.Swiftcast3)
+				|| SelfHasEffect(RDM.Buffs.Dualcast)
+				|| SelfHasEffect(Common.Buffs.LostChainspell);
+		protected internal static bool CanInterrupt
+			=> Service.DataCache.CanInterruptTarget;
+
 		#endregion
 
 		#region Effects

@@ -74,8 +74,8 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { RDM.Verraise };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is RDM.Verraise && CommonUtil.shouldSwiftcast)
-				return CommonSkills.Swiftcast;
+			if (actionID is RDM.Verraise && ShouldSwiftcast)
+				return Common.Swiftcast;
 
 			return actionID;
 		}
@@ -94,7 +94,7 @@ namespace XIVComboVX.Combos {
 				if (lastComboMove is RDM.Verflare or RDM.Verholy && level >= RDM.Levels.Scorch)
 					return RDM.Scorch;
 
-				if (level >= RDM.Levels.Scatter && CommonUtil.isFastcasting)
+				if (level >= RDM.Levels.Scatter && IsFastcasting)
 					return OriginalHook(RDM.Scatter);
 
 			}
@@ -187,7 +187,7 @@ namespace XIVComboVX.Combos {
 
 					if (IsEnabled(CustomComboPreset.RedMageVerprocComboPlus)
 						&& level >= RDM.Levels.Veraero
-						&& (CommonUtil.isFastcasting || SelfHasEffect(RDM.Buffs.Acceleration))
+						&& (IsFastcasting || SelfHasEffect(RDM.Buffs.Acceleration))
 					)
 						return RDM.Veraero;
 
@@ -209,7 +209,7 @@ namespace XIVComboVX.Combos {
 
 					if (IsEnabled(CustomComboPreset.RedMageVerprocComboPlus)
 						&& level >= RDM.Levels.Verthunder
-						&& (CommonUtil.isFastcasting || SelfHasEffect(RDM.Buffs.Acceleration))
+						&& (IsFastcasting || SelfHasEffect(RDM.Buffs.Acceleration))
 					)
 						return RDM.Verthunder;
 
@@ -258,7 +258,7 @@ namespace XIVComboVX.Combos {
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			if (actionID is RDM.Veraero2 or RDM.Verthunder2) {
 
-				if (CommonUtil.isFastcasting || SelfHasEffect(RDM.Buffs.Acceleration) || level < RDM.Levels.Verthunder2)
+				if (IsFastcasting || SelfHasEffect(RDM.Buffs.Acceleration) || level < RDM.Levels.Verthunder2)
 					return OriginalHook(RDM.Impact);
 
 				if (level < RDM.Levels.Veraero2)
@@ -317,7 +317,7 @@ namespace XIVComboVX.Combos {
 
 				if (actionID is RDM.Verstone or RDM.Verfire) {
 
-					bool fastCasting = CommonUtil.isFastcasting;
+					bool fastCasting = IsFastcasting;
 					bool accelerated = SelfHasEffect(RDM.Buffs.Acceleration);
 					bool isFinishing1 = gauge.ManaStacks == 3;
 					bool isFinishing2 = comboTime > 0 && lastComboActionId is RDM.Verholy or RDM.Verflare;

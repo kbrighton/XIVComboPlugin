@@ -36,8 +36,8 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { WHM.Raise };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is WHM.Raise && CommonUtil.shouldSwiftcast)
-				return CommonSkills.Swiftcast;
+			if (actionID is WHM.Raise && ShouldSwiftcast)
+				return Common.Swiftcast;
 
 			return actionID;
 		}

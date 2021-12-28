@@ -48,8 +48,8 @@ namespace XIVComboVX.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-			if (actionID is AST.Ascend && CommonUtil.shouldSwiftcast)
-				return CommonSkills.Swiftcast;
+			if (actionID is AST.Ascend && ShouldSwiftcast)
+				return Common.Swiftcast;
 
 			return actionID;
 		}
