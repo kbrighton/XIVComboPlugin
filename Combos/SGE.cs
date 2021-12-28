@@ -12,6 +12,7 @@ namespace XIVComboVX.Combos {
 		public const byte JobID = 40;
 
 		public const uint
+			Egeiro = 24287,
 			Diagnosis = 24284,
 			Kardia = 24285,
 			Soteria = 24294,
@@ -50,6 +51,19 @@ namespace XIVComboVX.Combos {
 
 	internal abstract class SageCustomCombo: CustomCombo {
 		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.SgeAny;
+	}
+
+	internal class SageSwiftcastRaiserFeature: CustomCombo {
+		protected internal override CustomComboPreset Preset => CustomComboPreset.SageSwiftcastRaiserFeature;
+		protected internal override uint[] ActionIDs { get; } = new[] { SGE.Egeiro };
+
+		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+
+			if (actionID is SGE.Egeiro && CommonUtil.shouldSwiftcast)
+				return CommonSkills.Swiftcast;
+
+			return actionID;
+		}
 	}
 
 	internal class SageSoteria: SageCustomCombo {
