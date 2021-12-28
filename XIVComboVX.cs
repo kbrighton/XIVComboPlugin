@@ -6,6 +6,8 @@ using Dalamud.Interface.Windowing;
 using Dalamud.Logging;
 using Dalamud.Plugin;
 
+using XIVComboVX.Combos;
+
 namespace XIVComboVX {
 	public sealed class XIVComboVX: IDalamudPlugin {
 		public string Name => "XIV Combo Very Expanded Plugin";
@@ -89,10 +91,16 @@ namespace XIVComboVX {
 				}
 				break;
 				case "reset": {
-					foreach (CustomComboPreset preset in Enum.GetValues(typeof(CustomComboPreset)).Cast<CustomComboPreset>())
-						Service.Configuration.EnabledActions.Remove(preset);
+					Service.Configuration.EnabledActions.Clear();
+					Service.Configuration.DancerDanceCompatActionIDs = new[] {
+						DNC.Cascade,
+						DNC.Flourish,
+						DNC.FanDance1,
+						DNC.FanDance2,
+					};
+					Service.Configuration.Save();
 
-					Service.Chat.Print("Unset all combos");
+					Service.Chat.Print("Reset configuration");
 				}
 				break;
 				case "set": {
