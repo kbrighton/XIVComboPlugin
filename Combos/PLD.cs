@@ -56,6 +56,17 @@ namespace XIVComboVX.Combos {
 		}
 	}
 
+	internal class PaladinStunInterruptFeature: CustomCombo {
+		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.PaladinStunInterruptFeature;
+		protected internal override uint[] ActionIDs { get; } = new[] { Common.LowBlow, Common.Interject };
+
+		protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
+			return CanInterrupt && IsOffCooldown(Common.Interject)
+				? Common.Interject
+				: Common.LowBlow;
+		}
+	}
+
 	internal class PaladinGoringBladeCombo: CustomCombo {
 		protected internal override CustomComboPreset Preset => CustomComboPreset.PldAny;
 		protected internal override uint[] ActionIDs { get; } = new[] { PLD.GoringBlade };

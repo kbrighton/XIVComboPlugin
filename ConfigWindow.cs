@@ -74,6 +74,8 @@ namespace XIVComboVX {
 			foreach (string jobName in this.groupedPresets.Keys) {
 				if (ImGui.CollapsingHeader(jobName)) {
 
+					ImGui.PushID($"settings-{jobName}");
+
 					foreach ((CustomComboPreset preset, CustomComboInfoAttribute info) in this.groupedPresets[jobName]) {
 
 						bool enabled = Service.Configuration.IsEnabled(preset);
@@ -146,6 +148,8 @@ namespace XIVComboVX {
 
 						i++;
 					}
+
+					ImGui.PopID();
 
 				}
 				else

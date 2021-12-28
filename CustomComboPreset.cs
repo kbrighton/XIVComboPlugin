@@ -229,6 +229,9 @@ namespace XIVComboVX {
 		[CustomComboInfo("Salty Shadowbringer", "Replace Cave and Spit and Abyssal Drain with Salted Earth and Shadowbringer depending on cooldown.", DRK.JobID)]
 		DarkShadowbringerFeature = 3204,
 
+		[CustomComboInfo("Stun/Interrupt Feature", "Turn Low Blow and Interject into Interject when off CD and your target can be interrupted, Low Blow otherwise.", DRK.JobID)]
+		DarkStunInterruptFeature = 3205,
+
 		#endregion
 		// ====================================================================================
 		#region GUNBREAKER (37xx)
@@ -260,6 +263,9 @@ namespace XIVComboVX {
 
 		[CustomComboInfo("Double Down Feature", "Replace Burst Strike and Fated Circle with Double Down when available.", GNB.JobID)]
 		GunbreakerDoubleDownFeature = 3709,
+
+		[CustomComboInfo("Stun/Interrupt Feature", "Turn Low Blow and Interject into Interject when off CD and your target can be interrupted, Low Blow otherwise.", GNB.JobID)]
+		GunbreakerStunInterruptFeature = 3710,
 
 		#endregion
 		// ====================================================================================
@@ -384,6 +390,9 @@ namespace XIVComboVX {
 
 		[CustomComboInfo("Intervene Level Sync", "Replace Intervene with Shield Lob when under level.", PLD.JobID)]
 		PaladinInterveneSyncFeature = 1906,
+
+		[CustomComboInfo("Stun/Interrupt Feature", "Turn Low Blow and Interject into Interject when off CD and your target can be interrupted, Low Blow otherwise.", PLD.JobID)]
+		PaladinStunInterruptFeature = 1907,
 
 		#endregion
 		// ====================================================================================
@@ -711,6 +720,9 @@ namespace XIVComboVX {
 
 		[CustomComboInfo("Primal Release Feature", "Replace Inner Release with Primal Rend when available", WAR.JobID)]
 		WarriorPrimalReleaseFeature = 2108,
+
+		[CustomComboInfo("Stun/Interrupt Feature", "Turn Low Blow and Interject into Interject when off CD and your target can be interrupted, Low Blow otherwise.", WAR.JobID)]
+		WarriorStunInterruptFeature = 2109,
 
 		#endregion
 		// ====================================================================================

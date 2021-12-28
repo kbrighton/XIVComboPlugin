@@ -50,6 +50,17 @@ namespace XIVComboVX.Combos {
 		}
 	}
 
+	internal class WarriorStunInterruptFeature: CustomCombo {
+		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.WarriorStunInterruptFeature;
+		protected internal override uint[] ActionIDs { get; } = new[] { Common.LowBlow, Common.Interject };
+
+		protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
+			return CanInterrupt && IsOffCooldown(Common.Interject)
+				? Common.Interject
+				: Common.LowBlow;
+		}
+	}
+
 	internal class WarriorStormsPathCombo: CustomCombo {
 		protected internal override CustomComboPreset Preset => CustomComboPreset.WarriorStormsPathCombo;
 		protected internal override uint[] ActionIDs { get; } = new[] { WAR.StormsPath };

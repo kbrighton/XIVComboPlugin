@@ -14,10 +14,13 @@ namespace XIVComboVX {
 		// Invalidate these
 		private readonly Dictionary<(uint StatusID, uint? TargetID, uint? SourceID), Status?> statusCache = new();
 		private readonly Dictionary<uint, CooldownData> cooldownCache = new();
+		private bool? canInterruptTarget = null;
 
 		// Do not invalidate these
 		private readonly Dictionary<uint, byte> cooldownGroupCache = new();
 		private readonly Dictionary<Type, JobGaugeBase> jobGaugeCache = new();
+
+		#region Core/setup
 
 		private delegate IntPtr GetActionCooldownSlotDelegate(IntPtr actionManager, int cooldownGroup);
 		private readonly GetActionCooldownSlotDelegate getActionCooldownSlot;
@@ -32,6 +35,21 @@ namespace XIVComboVX {
 		public void Dispose() => Service.Framework.Update -= this.invalidateCache;
 
 		internal void updateActionManager(IntPtr address) => this.actionManager = address;
+
+		#endregion
+
+		public bool CanInterruptTarget {
+			get {
+				if (!this.canInterruptTarget.HasValue) {
+					GameObject? target = Service.Targets.Target;
+					this.canInterruptTarget = target is not null
+						&& target is BattleChara actor
+						&& actor.IsCasting
+						&& actor.IsCastInterruptible;
+				}
+				return this.canInterruptTarget.Value;
+			}
+		}
 
 		public T GetJobGauge<T>() where T : JobGaugeBase {
 			if (!this.jobGaugeCache.TryGetValue(typeof(T), out JobGaugeBase? gauge))
@@ -84,6 +102,7 @@ namespace XIVComboVX {
 		private unsafe void invalidateCache(Framework framework) {
 			this.statusCache.Clear();
 			this.cooldownCache.Clear();
+			this.canInterruptTarget = null;
 		}
 	}
 }
