@@ -112,13 +112,18 @@ namespace XIVComboVX.Combos {
 
 
 	internal class BlackFireFeature: CustomCombo {
-		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.BlackFireFeature;
+		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.BlackFireAstralFeature;
 		protected internal override uint[] ActionIDs { get; } = new[] { BLM.Fire };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			if (actionID is BLM.Fire) {
 
-				if (level >= BLM.Levels.Fire3 && (!GetJobGauge<BLMGauge>().InAstralFire || SelfHasEffect(BLM.Buffs.Firestarter)))
+				if (level >= BLM.Levels.Fire3
+					&& (
+						(IsEnabled(CustomComboPreset.BlackFireAstralFeature) && !GetJobGauge<BLMGauge>().InAstralFire)
+						|| (IsEnabled(CustomComboPreset.BlackFireProcFeature) && SelfHasEffect(BLM.Buffs.Firestarter))
+					)
+				)
 					return BLM.Fire3;
 
 				return OriginalHook(BLM.Fire);

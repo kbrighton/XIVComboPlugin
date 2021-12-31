@@ -102,8 +102,11 @@ namespace XIVComboVX {
 		[CustomComboInfo("(Between the) Ley Lines", "Change Ley Lines into BTL when Ley Lines is active.", BLM.JobID)]
 		BlackLeyLinesFeature = 2502,
 
-		[CustomComboInfo("Fire 1/3 Feature", "Fire 1 becomes Fire 3 outside of Astral Fire, and when Firestarter proc is up.", BLM.JobID)]
-		BlackFireFeature = 2503,
+		[CustomComboInfo("Fire 1/3 Astral Feature", "Fire 1 becomes Fire 3 outside of Astral Fire.", BLM.JobID)]
+		BlackFireAstralFeature = 2503,
+
+		[CustomComboInfo("Fire 1/3 Proc Feature", "Fire 1 becomes Fire 3 when Firestarter proc is up.", BLM.JobID)]
+		BlackFireProcFeature = 2509,
 
 		[CustomComboInfo("Blizzard 1/3 Feature", "Blizzard 1 becomes Blizzard 3 when out of Umbral Ice.", BLM.JobID)]
 		BlackBlizzardFeature = 2504,
