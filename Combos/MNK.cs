@@ -19,6 +19,7 @@ namespace XIVComboVX.Combos {
 		public const uint
 			Bootshine = 53,
 			DragonKick = 74,
+			TrueStrike = 54,
 			SnapPunch = 56,
 			TwinSnakes = 61,
 			ArmOfTheDestroyer = 62,
@@ -26,7 +27,6 @@ namespace XIVComboVX.Combos {
 			PerfectBalance = 69,
 			Rockbreaker = 70,
 			Meditation = 3546,
-			TrueStrike = 8781,
 			FourPointFury = 16473,
 			Enlightenment = 16474,
 			HowlingFist = 25763,
