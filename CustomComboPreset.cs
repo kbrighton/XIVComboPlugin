@@ -303,25 +303,31 @@ namespace XIVComboVX {
 		[CustomComboInfo("Monk AoE Combo", "Replaces Rockbreaker with the AoE combo chain.", MNK.JobID)]
 		MonkAoECombo = 2000,
 
-		// [CustomComboInfo("Monk Bootshine Feature", "Replaces Dragon Kick with Bootshine if both Opo-opo form and Leaden Fist are up.", MNK.JobID)]
-		// MonkBootshineFeature = 2001,
+		[CustomComboInfo("Dragon Kick to Bootshine Feature", "Replaces Dragon Kick with Bootshine if Leaden Fist is up.", MNK.JobID)]
+		MonkDragonBootshineFeature = 2001,
+
+		[CustomComboInfo("Twin Snakes to True Strike Feature", "Replaces Twin Snakes with True Strike if Disciplined Fist is up.", MNK.JobID)]
+		MonkTwinStrikeFeature = 2010,
+
+		[CustomComboInfo("Demolish to Snap Punch Feature", "Replaces Demolish with Snap Punch if target is under Demolish.", MNK.JobID)]
+		MonkDemolishSnapFeature = 2011,
 
 		[CustomComboInfo("Howling Fist / Meditation Feature", "Replaces Howling Fist with Meditation when the Fifth Chakra is not open.", MNK.JobID)]
 		MonkHowlingFistMeditationFeature = 2002,
 
-		[CustomComboInfo("Monk Disciplined AoE Feature", "Replace Rockbreaker with Four Point Fury while Formless Fist is active.", MNK.JobID)]
+		[CustomComboInfo("Disciplined AoE Feature", "Replace Rockbreaker with Four Point Fury while Formless Fist is active.", MNK.JobID)]
 		MonkAoEDisciplinedFeature = 2007,
 
-		[CustomComboInfo("Monk Lunar AoE Feature", "Replace Rockbreaker with Shadow of the Destroyer (or Rockbreaker depending on level) when Perfect Balance is active and the Lunar Nadi is missing.", MNK.JobID)]
+		[CustomComboInfo("Lunar AoE Feature", "Replace Rockbreaker with Shadow of the Destroyer (or Rockbreaker depending on level) when Perfect Balance is active and the Lunar Nadi is missing.", MNK.JobID)]
 		MonkAoELunarFeature = 2006,
 
-		[CustomComboInfo("Monk Solar AoE Feature", "Replace Rockbreaker with whatever is necessary to acquire missing Beast Chakra when Perfect Balance is active and the Solar Nadi is missing.", MNK.JobID)]
+		[CustomComboInfo("Solar AoE Feature", "Replace Rockbreaker with whatever is necessary to acquire missing Beast Chakra when Perfect Balance is active and the Solar Nadi is missing.", MNK.JobID)]
 		MonkAoESolarFeature = 2005,
 
-		[CustomComboInfo("Monk AoE Balance Feature", "Replaces Rockbreaker with Masterful Blitz if you have 3 Beast Chakra.", MNK.JobID)]
+		[CustomComboInfo("AoE Balance Feature", "Replaces Rockbreaker with Masterful Blitz if you have 3 Beast Chakra.", MNK.JobID)]
 		MonkAoEBalanceFeature = 2009,
 
-		[CustomComboInfo("Monk Four Point Fury AoE Feature", "Replace Four Point Fury with Shadow of the Destroyer (or Rockbreaker depending on level) when Perfect Balance is active.", MNK.JobID)]
+		[CustomComboInfo("Four Point Fury AoE Feature", "Replace Four Point Fury with Shadow of the Destroyer (or Rockbreaker depending on level) when Perfect Balance is active.", MNK.JobID)]
 		MonkAoEFpfFeature = 2008,
 
 		[CustomComboInfo("Perfect Balance Feature", "Replace Perfect Balance with Masterful Blitz when you have 3 Beast Chakra.", MNK.JobID)]

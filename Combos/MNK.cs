@@ -26,6 +26,7 @@ namespace XIVComboVX.Combos {
 			PerfectBalance = 69,
 			Rockbreaker = 70,
 			Meditation = 3546,
+			TrueStrike = 8781,
 			FourPointFury = 16473,
 			Enlightenment = 16474,
 			HowlingFist = 25763,
@@ -52,6 +53,7 @@ namespace XIVComboVX.Combos {
 		public static class Levels {
 			public const byte
 				Meditation = 15,
+				TwinSnakes = 18,
 				ArmOfTheDestroyer = 26,
 				Rockbreaker = 30,
 				Demolish = 30,
@@ -182,6 +184,45 @@ namespace XIVComboVX.Combos {
 			}
 
 			return actionID;
+		}
+	}
+
+	internal class MonkDragonBootshineFeature: CustomCombo {
+		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.MonkDragonBootshineFeature;
+		protected internal override uint[] ActionIDs { get; } = new[] { MNK.DragonKick };
+
+		protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
+
+			return level < MNK.Levels.DragonKick || SelfHasEffect(MNK.Buffs.LeadenFist)
+				? MNK.Bootshine
+				: actionID;
+
+		}
+	}
+
+	internal class MonkTwinStrikeFeature: CustomCombo {
+		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.MonkTwinStrikeFeature;
+		protected internal override uint[] ActionIDs { get; } = new[] { MNK.TwinSnakes };
+
+		protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
+
+			return level < MNK.Levels.TwinSnakes || SelfHasEffect(MNK.Buffs.DisciplinedFist)
+				? MNK.TrueStrike
+				: actionID;
+
+		}
+	}
+
+	internal class MonkDemolishSnapFeature: CustomCombo {
+		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.MonkDemolishSnapFeature;
+		protected internal override uint[] ActionIDs { get; } = new[] { MNK.Demolish };
+
+		protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
+
+			return level < MNK.Levels.Demolish || TargetHasOwnEffect(MNK.Debuffs.Demolish)
+				? MNK.SnapPunch
+				: actionID;
+
 		}
 	}
 
