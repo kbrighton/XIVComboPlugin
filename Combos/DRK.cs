@@ -123,10 +123,10 @@ namespace XIVComboVX.Combos {
 			if (actionID is DRK.CarveAndSpit or DRK.AbyssalDrain) {
 
 				if (level >= DRK.Levels.Shadowbringer)
-					return PickByCooldown(actionID, actionID, DRK.SaltedEarth, DRK.SaltAndDarkness, DRK.Shadowbringer);
+					return PickByCooldown(actionID, actionID, OriginalHook(DRK.SaltedEarth), DRK.Shadowbringer);
 
 				if (level >= DRK.Levels.SaltAndDarkness)
-					return PickByCooldown(actionID, actionID, DRK.SaltedEarth, DRK.SaltAndDarkness);
+					return PickByCooldown(actionID, actionID, OriginalHook(DRK.SaltedEarth));
 
 				if (level >= (actionID is DRK.CarveAndSpit ? DRK.Levels.CarveAndSpit : DRK.Levels.AbyssalDrain))
 					return PickByCooldown(actionID, actionID, DRK.SaltedEarth);
