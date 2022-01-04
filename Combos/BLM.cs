@@ -175,13 +175,10 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { BLM.Fire2, BLM.HighFire2 };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is BLM.Fire or BLM.HighFire2) {
-				BLMGauge gauge = GetJobGauge<BLMGauge>();
+			BLMGauge gauge = GetJobGauge<BLMGauge>();
 
-				if (level >= BLM.Levels.Flare && gauge.InAstralFire && gauge.UmbralHearts <= 1)
-					return BLM.Flare;
-
-			}
+			if (level >= BLM.Levels.Flare && gauge.InAstralFire && gauge.UmbralHearts <= 1)
+				return BLM.Flare;
 
 			return actionID;
 		}
