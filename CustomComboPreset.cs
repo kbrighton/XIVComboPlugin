@@ -706,17 +706,26 @@ namespace XIVComboVX {
 		// ====================================================================================
 		#region WARRIOR (21xx)
 
-		[CustomComboInfo("Storms Path Combo", "Replace Storms Path with its combo chain.", WAR.JobID)]
+		[CustomComboInfo("Storm's Path Combo", "Replace Storms Path with its combo chain.", WAR.JobID)]
 		WarriorStormsPathCombo = 2100,
 
-		[CustomComboInfo("Storms Eye Combo", "Replace Storms Eye with its combo chain.", WAR.JobID)]
+		[CustomComboInfo("Storm's Eye Combo", "Replace Storms Eye with its combo chain.", WAR.JobID)]
 		WarriorStormsEyeCombo = 2101,
 
 		[CustomComboInfo("Mythril Tempest Combo", "Replace Mythril Tempest with its combo chain.", WAR.JobID)]
 		WarriorMythrilTempestCombo = 2102,
 
-		[CustomComboInfo("Warrior Gauge Overcap Saver", "Replace Single-target or AoE combo with gauge spender if you are about to overcap and are before a step of a combo that would generate beast gauge.", WAR.JobID)]
-		WarriorGaugeOvercapFeature = 2103,
+		[ParentPreset(WarriorStormsPathCombo)]
+		[CustomComboInfo("Gauge Overcap Saver: Storm's Path", "Replace the Storm's Path combo with gauge spender if completing the combo would overcap you.", WAR.JobID)]
+		WarriorGaugeOvercapPathFeature = 2103,
+
+		[ParentPreset(WarriorStormsEyeCombo)]
+		[CustomComboInfo("Gauge Overcap Saver: Storm's Eye", "Replace the Storm's Eye combo with gauge spender if completing the combo would overcap you.", WAR.JobID)]
+		WarriorGaugeOvercapEyeFeature = 2110,
+
+		[ParentPreset(WarriorMythrilTempestCombo)]
+		[CustomComboInfo("Gauge Overcap Saver: Mythril Tempest", "Replace the Mythril Tempest combo with gauge spender if completing the combo would overcap you.", WAR.JobID)]
+		WarriorGaugeOvercapTempestFeature = 2111,
 
 		[CustomComboInfo("Inner Release Feature", "Replace Single-target and AoE combo with Fell Cleave/Decimate during Inner Release.", WAR.JobID)]
 		WarriorInnerReleaseFeature = 2104,

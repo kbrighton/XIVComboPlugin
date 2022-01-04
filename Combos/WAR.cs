@@ -72,7 +72,7 @@ namespace XIVComboVX.Combos {
 				if (IsEnabled(CustomComboPreset.WarriorInnerReleaseFeature) && level >= WAR.Levels.InnerBeast && SelfHasEffect(WAR.Buffs.InnerRelease))
 					return OriginalHook(WAR.FellCleave);
 
-				if (IsEnabled(CustomComboPreset.WarriorGaugeOvercapFeature) && level >= WAR.Levels.InnerBeast && GetJobGauge<WARGauge>().BeastGauge > 70)
+				if (IsEnabled(CustomComboPreset.WarriorGaugeOvercapPathFeature) && level >= WAR.Levels.InnerBeast && GetJobGauge<WARGauge>().BeastGauge > 70)
 					return OriginalHook(WAR.FellCleave);
 
 				return SimpleChainCombo(level, lastComboMove, comboTime, (1, WAR.HeavySwing),
@@ -95,7 +95,7 @@ namespace XIVComboVX.Combos {
 				if (IsEnabled(CustomComboPreset.WarriorInnerReleaseFeature) && level >= WAR.Levels.InnerBeast && SelfHasEffect(WAR.Buffs.InnerRelease))
 					return OriginalHook(WAR.FellCleave);
 
-				if (IsEnabled(CustomComboPreset.WarriorGaugeOvercapFeature) && level >= WAR.Levels.InnerBeast && GetJobGauge<WARGauge>().BeastGauge > 80)
+				if (IsEnabled(CustomComboPreset.WarriorGaugeOvercapEyeFeature) && level >= WAR.Levels.InnerBeast && GetJobGauge<WARGauge>().BeastGauge > 80)
 					return OriginalHook(WAR.FellCleave);
 
 				return SimpleChainCombo(level, lastComboMove, comboTime, (1, WAR.HeavySwing),
@@ -119,7 +119,7 @@ namespace XIVComboVX.Combos {
 				if (IsEnabled(CustomComboPreset.WarriorInnerReleaseFeature) && SelfHasEffect(WAR.Buffs.InnerRelease))
 					return OriginalHook(WAR.Decimate);
 
-				if (IsEnabled(CustomComboPreset.WarriorGaugeOvercapFeature) && level >= WAR.Levels.MythrilTempestTrait && GetJobGauge<WARGauge>().BeastGauge > 80)
+				if (IsEnabled(CustomComboPreset.WarriorGaugeOvercapTempestFeature) && level >= WAR.Levels.MythrilTempestTrait && GetJobGauge<WARGauge>().BeastGauge > 80)
 					return OriginalHook(WAR.Decimate);
 
 				if (comboTime > 0 && lastComboMove == WAR.Overpower && level >= WAR.Levels.MythrilTempest) {
