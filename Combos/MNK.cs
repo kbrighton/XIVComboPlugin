@@ -179,7 +179,7 @@ namespace XIVComboVX.Combos {
 			if (actionID == MNK.PerfectBalance) {
 				MyMNKGauge? gauge = new(GetJobGauge<MNKGauge>());
 
-				if (!gauge.BeastChakra.Contains(BeastChakra.NONE))
+				if (level >= MNK.Levels.MasterfulBlitz && (!gauge.BeastChakra.Contains(BeastChakra.NONE) || SelfHasEffect(MNK.Buffs.PerfectBalance)))
 					return OriginalHook(MNK.MasterfulBlitz);
 			}
 
