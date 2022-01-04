@@ -100,5 +100,7 @@ namespace XIVComboVX {
 		[FieldOffset(0xC)] public float CooldownTotal;
 
 		public float CooldownRemaining => this.IsCooldown ? this.CooldownTotal - this.CooldownElapsed : 0;
+
+		public string DebugLabel => $"{(this.IsCooldown ? "on" : "off")} cd, {this.CooldownElapsed}/{this.CooldownTotal} ({this.CooldownRemaining})";
 	}
 }

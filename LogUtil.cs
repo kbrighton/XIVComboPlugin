@@ -24,6 +24,8 @@ namespace XIVComboVX {
 		private void onTick(Framework framework) {
 			if (this.Enabled)
 				PluginLog.Information("Logging snapshot complete");
+			if (this.EnabledNextTick)
+				PluginLog.Information("Beginning logging snapshot");
 			this.Enabled = this.EnabledNextTick;
 			this.EnabledNextTick = false;
 		}

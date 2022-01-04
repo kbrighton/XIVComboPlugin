@@ -86,17 +86,19 @@ namespace XIVComboVX {
 				return this.cooldownCache[actionID] = new CooldownData() { ActionID = actionID };
 
 			IntPtr cooldownPtr = this.getActionCooldownSlot(this.actionManager, cooldownGroup - 1);
-			return this.cooldownCache[actionID] = *(CooldownData*)cooldownPtr;
+			CooldownData cd = this.cooldownCache[actionID] = *(CooldownData*)cooldownPtr;
+			Service.Logger.debug($"Retrieved cooldown data for action #{actionID}: {cd.DebugLabel}");
+			return cd;
 		}
 
 		private byte getCooldownGroup(uint actionID) {
 			if (this.cooldownGroupCache.TryGetValue(actionID, out byte cooldownGroup))
 				return cooldownGroup;
 
-			Lumina.Excel.ExcelSheet<Lumina.Excel.GeneratedSheets.Action>? sheet = Service.GameData.GetExcelSheet<Lumina.Excel.GeneratedSheets.Action>()!;
-			Lumina.Excel.GeneratedSheets.Action? row = sheet.GetRow(actionID);
+			Lumina.Excel.ExcelSheet<Lumina.Excel.GeneratedSheets.Action> sheet = Service.GameData.GetExcelSheet<Lumina.Excel.GeneratedSheets.Action>()!;
+			Lumina.Excel.GeneratedSheets.Action row = sheet.GetRow(actionID)!;
 
-			return this.cooldownGroupCache[actionID] = row!.CooldownGroup;
+			return this.cooldownGroupCache[actionID] = row.CooldownGroup;
 		}
 
 		private unsafe void invalidateCache(Framework framework) {

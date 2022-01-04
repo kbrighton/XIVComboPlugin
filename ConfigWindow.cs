@@ -50,7 +50,15 @@ namespace XIVComboVX {
 		public override void Draw() {
 			ImGui.Text("This window allows you to enable and disable custom combos to your liking.");
 
-			if (ImGui.Button("Completely reset my configuration")) {
+			ImGui.Spacing();
+
+			bool clickReset = ImGui.Button("Completely reset my configuration");
+			if (ImGui.IsItemHovered()) {
+				ImGui.BeginTooltip();
+				ImGui.TextColored(warningColour, "THIS CANNOT BE UNDONE!");
+				ImGui.EndTooltip();
+			}
+			if (clickReset) {
 				Service.Configuration.EnabledActions.Clear();
 				Service.Configuration.DancerDanceCompatActionIDs = new[] {
 					DNC.Cascade,
@@ -60,11 +68,20 @@ namespace XIVComboVX {
 				};
 				Service.Configuration.Save();
 			}
-			else if (ImGui.IsItemHovered()) {
+
+			bool clickDebug = ImGui.Button("Snapshot debug messages");
+			if (ImGui.IsItemHovered()) {
 				ImGui.BeginTooltip();
-				ImGui.TextColored(warningColour, "THIS CANNOT BE UNDONE!");
+				ImGui.Text("This enables a snapshot of debug messages in the dalamud log.");
+				ImGui.Text("They will appear in your log file and also in the /xllog window.");
+				ImGui.Text("This may be requested by the developer, but is otherwise not needed.");
 				ImGui.EndTooltip();
 			}
+			if (clickDebug) {
+				Service.Logger.EnableNextTick();
+			}
+
+			ImGui.Spacing();
 
 			ImGui.BeginChild("scrolling", new Vector2(0, -1), true);
 

@@ -68,27 +68,36 @@ namespace XIVComboVX.Combos {
 		protected abstract uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level);
 
 		protected static uint PickByCooldown(uint original, params uint[] actions) {
-			static (uint ActionID, CooldownData Data) Compare(uint original, (uint ActionID, CooldownData Data) a1, (uint ActionID, CooldownData Data) a2) {
-
-				// Neither on cooldown, return the original (or the last one provided)
-				if (!a1.Data.IsCooldown && !a2.Data.IsCooldown)
-					return original == a1.ActionID ? a1 : a2;
-
-				// Both on cooldown, return soonest available
-				if (a1.Data.IsCooldown && a2.Data.IsCooldown)
-					return a1.Data.CooldownRemaining < a2.Data.CooldownRemaining ? a1 : a2;
-
-				// Return whatever's not on cooldown
-				return a1.Data.IsCooldown ? a2 : a1;
-
-			}
 
 			static (uint ActionID, CooldownData Data) Selector(uint actionID) => (actionID, GetCooldown(actionID));
 
-			return actions
+			static (uint ActionID, CooldownData Data) Compare(uint original, (uint ActionID, CooldownData Data) a1, (uint ActionID, CooldownData Data) a2) {
+
+				// VS decided that the conditionals could be "simplified" to this.
+				// Someone should maybe teach VS what "simplified" actually means.
+				(uint ActionID, CooldownData Data) choice =
+					!a1.Data.IsCooldown && !a2.Data.IsCooldown
+						? original == a1.ActionID // both off CD, return the original if possible, else the LAST one in the original call
+							? a1
+							: a2
+						: a1.Data.IsCooldown && a2.Data.IsCooldown // one/both on CD
+							? a1.Data.CooldownRemaining < a2.Data.CooldownRemaining // both on CD, return the one with less time left
+								? a1
+								: a2
+							: a1.Data.IsCooldown // only one on CD, return the other
+								? a2
+								: a1;
+
+				Service.Logger.debug($"CDCMP: {a1.ActionID}, {a2.ActionID}: {choice.ActionID}\n{a1.Data.DebugLabel}\n{a2.Data.DebugLabel}");
+				return choice;
+			}
+
+			uint id = actions
 				.Select(Selector)
 				.Aggregate((a1, a2) => Compare(original, a1, a2))
 				.ActionID;
+			Service.Logger.debug($"Final selection: {id}");
+			return id;
 		}
 
 		protected static uint SimpleChainCombo(byte level, uint last, float time, params (byte lvl, uint id)[] sequence) {
