@@ -74,7 +74,7 @@ Now sorted by job and combo name!
 | DRG | Wheeling Thrust / Fang and Claw Option | When you have either Enhanced Fang and Claw or Wheeling Thrust, Chaos Thrust becomes Wheeling Thrust and Full Thrust becomes Fang and Claw. |
 | DRK | Dark Knight Gauge Overcap Saver | Replace AoE combo with gauge spender if you are about to overcap. |
 | DRK | Delirium Feature | Replace Souleater and Stalwart Soul with Bloodspiller and Quietus when Delirium is active. |
-| DRK | Salty Shadowbringer | Replace Carve and Spit and Abyssal Drain with Salted Earth and Shadowbringer depending on cooldown. |
+| DRK | Shadows Galore | Replace Flood and Edge of Darkness with Shadowbringer when under Darkside with less than 6000 MP left. |
 | DRK | Souleater Combo | Replace Souleater with its combo chain. |
 | DRK | Stalwart Soul Combo | Replace Stalwart Soul with its combo chain. |
 | DRK | Stun/Interrupt Feature | Turn Low Blow and Interject into Interject when off CD and your target can be interrupted, Low Blow otherwise. |
@@ -110,7 +110,6 @@ Now sorted by job and combo name!
 | NIN | Aeolian Edge Combo | Replace Aeolian Edge with its combo chain. |
 | NIN | Armor Crush / Raiju Feature | Replaces the Armor Crush combo with Forked and Fleeting Raiju when available. |
 | NIN | Armor Crush Combo | Replace Armor Crush with its combo chain. |
-| NIN | Bunshin / Kamaitachi Feature | Replaces Bunshin with Phantom Kamaitachi after usage. |
 | NIN | GCDs to Ninjutsu Feature | Every GCD combo becomes Ninjutsu while Mudras are being used. |
 | NIN | Hakke Mujinsatsu Combo | Replace Hakke Mujinsatsu with its combo chain. |
 | NIN | Huraijin / Raiju Feature | Replaces Huraijin with Forked and Fleeting Raiju when available. |
