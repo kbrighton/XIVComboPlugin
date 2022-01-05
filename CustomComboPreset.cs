@@ -601,9 +601,6 @@ namespace XIVComboVX {
 		[CustomComboInfo("Oka Combo", "Replace Oka with its combo chain.", SAM.JobID)]
 		SamuraiOkaCombo = 3404,
 
-		// [CustomComboInfo("Jinpu/Shifu Feature", "Replace Meikyo Shisui with Jinpu or Shifu depending on what is needed.", SAM.JobID)]
-		// SamuraiJinpuShifuFeature = 3406,
-
 		[Conflicts(SamuraiIaijutsuTsubameGaeshiFeature)]
 		[CustomComboInfo("Tsubame-gaeshi to Iaijutsu", "Replace Tsubame-gaeshi with Iaijutsu when Sen is empty.", SAM.JobID)]
 		SamuraiTsubameGaeshiIaijutsuFeature = 3407,
