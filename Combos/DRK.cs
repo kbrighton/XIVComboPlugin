@@ -117,22 +117,12 @@ namespace XIVComboVX.Combos {
 
 	internal class DarkShadowbringerFeature: CustomCombo {
 		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.DarkShadowbringerFeature;
-		protected internal override uint[] ActionIDs { get; } = new[] { DRK.CarveAndSpit, DRK.AbyssalDrain };
+		protected internal override uint[] ActionIDs { get; } = new[] { DRK.EdgeOfShadow, DRK.FloodOfShadow };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is DRK.CarveAndSpit or DRK.AbyssalDrain) {
 
-				if (level >= DRK.Levels.Shadowbringer)
-					return PickByCooldown(actionID, actionID, OriginalHook(DRK.SaltedEarth), DRK.Shadowbringer);
-
-				if (level >= DRK.Levels.SaltAndDarkness)
-					return PickByCooldown(actionID, actionID, OriginalHook(DRK.SaltedEarth));
-
-				if (level >= (actionID is DRK.CarveAndSpit ? DRK.Levels.CarveAndSpit : DRK.Levels.AbyssalDrain))
-					return PickByCooldown(actionID, actionID, DRK.SaltedEarth);
-
-				return DRK.SaltedEarth;
-			}
+			if (level >= DRK.Levels.Shadowbringer && SelfHasEffect(DRK.Buffs.Darkside) && LocalPlayer.CurrentMp < 6000)
+				return DRK.Shadowbringer;
 
 			return actionID;
 		}

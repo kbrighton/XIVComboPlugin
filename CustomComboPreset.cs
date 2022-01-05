@@ -229,7 +229,7 @@ namespace XIVComboVX {
 		DarkOvercapFeature = 3203,
 
 		[Experimental]
-		[CustomComboInfo("Salty Shadowbringer", "Replace Carve and Spit and Abyssal Drain with Salted Earth and Shadowbringer depending on cooldown.", DRK.JobID)]
+		[CustomComboInfo("Shadows Galore", "Replace Flood and Edge of Darkness with Shadowbringer when under Darkside with less than 6000 MP left.", DRK.JobID)]
 		DarkShadowbringerFeature = 3204,
 
 		[CustomComboInfo("Stun/Interrupt Feature", "Turn Low Blow and Interject into Interject when off CD and your target can be interrupted, Low Blow otherwise.", DRK.JobID)]

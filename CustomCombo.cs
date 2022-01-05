@@ -119,9 +119,9 @@ namespace XIVComboVX.Combos {
 
 		protected internal static uint OriginalHook(uint actionID) => Service.IconReplacer.OriginalHook(actionID);
 
-		protected internal static PlayerCharacter? LocalPlayer => Service.Client.LocalPlayer;
+		protected static PlayerCharacter LocalPlayer => Service.Client.LocalPlayer!;
 
-		protected internal static GameObject? CurrentTarget => Service.Targets.Target;
+		protected static GameObject CurrentTarget => Service.Targets.Target!;
 
 		protected internal static bool IsEnabled(CustomComboPreset preset) {
 			if ((int)preset < 100) {
