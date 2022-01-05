@@ -165,12 +165,6 @@ namespace XIVComboVX {
 		[CustomComboInfo("Dance Step Combo", "Change Standard Step and Technical Step into each dance step while dancing.", DNC.JobID)]
 		DancerDanceStepCombo = 3805,
 
-		[Conflicts(DancerDanceStepCombo)]
-		[CustomComboInfo("Dance Step Feature", "Change custom actions into dance steps while dancing." +
-			"\nThe defaults are Cascade, Flourish, Fan Dance and Fan Dance II. If set to 0, they will reset to these actions." +
-			"\nYou can get Action IDs with Garland Tools by searching for the action and clicking the cog.", DNC.JobID)]
-		DancerDanceComboCompatibility = 3806,
-
 		[CustomComboInfo("Devilment Feature", "Change Devilment into Starfall Dance after use.", DNC.JobID)]
 		DancerDevilmentFeature = 3807,
 
@@ -188,6 +182,12 @@ namespace XIVComboVX {
 
 		[CustomComboInfo("Fan Dance 2/4 Combo", "Change Fan Dance 2 into Fan Dance 4 when available.", DNC.JobID)]
 		DancerFanDance24Combo = 3809,
+
+		[Conflicts(DancerDanceStepCombo)]
+		[CustomComboInfo("Dance Step Feature", "Change custom actions into dance steps while dancing." +
+			"\nThe defaults are Cascade, Flourish, Fan Dance and Fan Dance II. If set to 0, they will reset to these actions." +
+			"\nYou can get Action IDs with Garland Tools by searching for the action and clicking the cog.", DNC.JobID)]
+		DancerDanceComboCompatibility = 3806,
 
 		#endregion
 		// ====================================================================================
