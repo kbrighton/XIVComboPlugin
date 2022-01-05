@@ -23,7 +23,7 @@ namespace XIVComboVX {
 
 		private const int minWidth = 900;
 
-		public ConfigWindow() : base("Custom Combo Setup") {
+		public ConfigWindow() : base("Custom Combo Setup", ImGuiWindowFlags.MenuBar) {
 			this.RespectCloseHotkey = true;
 
 			List<(CustomComboPreset preset, CustomComboInfoAttribute info)> realPresets = Enum
@@ -68,54 +68,75 @@ namespace XIVComboVX {
 		}
 
 		public override void Draw() {
-			ImGui.Text("This window allows you to enable and disable custom combos to your liking.");
-
-			ImGui.Spacing();
-
-			bool clickReset = ImGui.Button("Completely reset my configuration");
-			if (ImGui.IsItemHovered()) {
-				ImGui.BeginTooltip();
-				ImGui.TextColored(warningColour, "THIS CANNOT BE UNDONE!");
-				ImGui.EndTooltip();
-			}
-			if (clickReset) {
-				Service.Configuration.EnabledActions.Clear();
-				Service.Configuration.DancerDanceCompatActionIDs = new[] {
-					DNC.Cascade,
-					DNC.Flourish,
-					DNC.FanDance1,
-					DNC.FanDance2,
-				};
-				Service.Configuration.Save();
-			}
-
-#if DEBUG
-			bool clickDebug = ImGui.Button("Snapshot debug messages");
-			if (ImGui.IsItemHovered()) {
-				ImGui.BeginTooltip();
-				ImGui.Text("This enables a snapshot of debug messages in the dalamud log.");
-				ImGui.Text("They will appear in your log file and also in the /xllog window.");
-				ImGui.Text("This may be requested by the developer, but is otherwise not needed.");
-				ImGui.EndTooltip();
-			}
-			if (clickDebug) {
-				Service.Logger.EnableNextTick();
-			}
-#endif
-
-			ImGui.Spacing();
 
 			bool hideChildren = Service.Configuration.HideDisabledFeaturesChildren;
-			if (ImGui.Checkbox("Hide children of disabled features", ref hideChildren)) {
-				Service.Configuration.HideDisabledFeaturesChildren = hideChildren;
-				Service.Configuration.Save();
+
+			if (ImGui.BeginMenuBar()) {
+
+				if (ImGui.BeginMenu("Settings")) {
+
+					bool clickCollapse = ImGui.MenuItem("Collapse disabled features", "", ref hideChildren);
+					if (ImGui.IsItemHovered()) {
+						ImGui.BeginTooltip();
+						ImGui.Text("If enabled, children of disabled features will be hidden.");
+						ImGui.Text("A message will be shown under any disabled feature that");
+						ImGui.Text("has child features, so you can still tell that there are more");
+						ImGui.Text("features available dependent on the disabled one.");
+						ImGui.EndTooltip();
+					}
+					if (clickCollapse) {
+						Service.Configuration.HideDisabledFeaturesChildren = hideChildren;
+						Service.Configuration.Save();
+					}
+
+					ImGui.EndMenu();
+				}
+
+				if (ImGui.BeginMenu("Utilities")) {
+
+					bool clickReset = ImGui.MenuItem("Reset configuration");
+					if (ImGui.IsItemHovered()) {
+						ImGui.BeginTooltip();
+						ImGui.Text("This will clear ALL enabled action replacers, as well as");
+						ImGui.Text("resetting DNC's Dance Step Feature to the default actions.");
+						ImGui.TextColored(warningColour, "THIS CANNOT BE UNDONE!");
+						ImGui.EndTooltip();
+					}
+					if (clickReset) {
+						Service.Configuration.EnabledActions.Clear();
+						Service.Configuration.DancerDanceCompatActionIDs = new[] {
+							DNC.Cascade,
+							DNC.Flourish,
+							DNC.FanDance1,
+							DNC.FanDance2,
+						};
+						Service.Configuration.Save();
+					}
+
+					ImGui.EndMenu();
+				}
+
+#if DEBUG
+				if (ImGui.BeginMenu("Debugging")) {
+
+					bool clickDebug = ImGui.MenuItem("Snapshot debug messages");
+					if (ImGui.IsItemHovered()) {
+						ImGui.BeginTooltip();
+						ImGui.Text("This enables a snapshot of debug messages in the dalamud log.");
+						ImGui.Text("They will appear in your log file and also in the /xllog window.");
+						ImGui.Text("This may be requested by the developer, but is otherwise not needed.");
+						ImGui.EndTooltip();
+					}
+					if (clickDebug) {
+						Service.Logger.EnableNextTick();
+					}
+
+					ImGui.EndMenu();
+				}
+#endif
+
+				ImGui.EndMenuBar();
 			}
-
-			ImGui.Spacing();
-
-			ImGui.BeginChild("scrolling", new Vector2(0, -1), true);
-
-			//ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(0, 5));
 
 			int i = 1;
 			foreach (string jobName in this.groupedPresets.Keys) {
@@ -137,9 +158,6 @@ namespace XIVComboVX {
 					i += this.groupedPresets[jobName].Count;
 			}
 
-			//ImGui.PopStyleVar();
-
-			ImGui.EndChild();
 		}
 
 		private void drawPreset(CustomComboPreset preset, CustomComboInfoAttribute info, ref int i) {
