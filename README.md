@@ -43,7 +43,8 @@ Now sorted by job and combo name!
 | BLM | (Between the) Ley Lines | Change Ley Lines into BTL when Ley Lines is active. |
 | BLM | Blizzard 1/3 Feature | Blizzard 1 becomes Blizzard 3 when out of Umbral Ice. |
 | BLM | Enochian Feature | Change Fire 4 or Blizzard 4 to whichever action you can currently use. |
-| BLM | Fire 1/3 Feature | Fire 1 becomes Fire 3 outside of Astral Fire, and when Firestarter proc is up. |
+| BLM | Fire 1/3 Astral Feature | Fire 1 becomes Fire 3 outside of Astral Fire. |
+| BLM | Fire 1/3 Proc Feature | Fire 1 becomes Fire 3 when Firestarter proc is up. |
 | BLM | Fire 2 Feature | (High) Fire 2 becomes Flare in Astral Fire with 1 or fewer Umbral Hearts. |
 | BLM | Freeze/Flare Feature | Freeze and Flare become whichever action you can currently use. |
 | BLM | Ice 2 Feature | (High) Blizzard 2 becomes Freeze in Umbral Ice. |
@@ -73,9 +74,10 @@ Now sorted by job and combo name!
 | DRG | Wheeling Thrust / Fang and Claw Option | When you have either Enhanced Fang and Claw or Wheeling Thrust, Chaos Thrust becomes Wheeling Thrust and Full Thrust becomes Fang and Claw. |
 | DRK | Dark Knight Gauge Overcap Saver | Replace AoE combo with gauge spender if you are about to overcap. |
 | DRK | Delirium Feature | Replace Souleater and Stalwart Soul with Bloodspiller and Quietus when Delirium is active. |
-| DRK | Salty Shadowbringer | Replace Cave and Spit and Abyssal Drain with Salted Earth and Shadowbringer depending on cooldown. |
+| DRK | Salty Shadowbringer | Replace Carve and Spit and Abyssal Drain with Salted Earth and Shadowbringer depending on cooldown. |
 | DRK | Souleater Combo | Replace Souleater with its combo chain. |
 | DRK | Stalwart Soul Combo | Replace Stalwart Soul with its combo chain. |
+| DRK | Stun/Interrupt Feature | Turn Low Blow and Interject into Interject when off CD and your target can be interrupted, Low Blow otherwise. |
 | GNB | Bow Shock / Sonic Break Swap | Replace Bow Shock and Sonic Break with one or the other, depending on which is on cooldown. |
 | GNB | Burst Strike Continuation | Replace Burst Strike with Continuation moves when appropriate. |
 | GNB | Demon Slaughter Combo | Replace Demon Slaughter with its combo chain. |
@@ -85,6 +87,7 @@ Now sorted by job and combo name!
 | GNB | Gnashing Fang Continuation | Replace Gnashing Fang with Continuation moves when appropriate. |
 | GNB | No Mercy Feature | Replace No Mercy with Bow Shock, and then Sonic Break, while No Mercy is active. |
 | GNB | Solid Barrel Combo | Replace Solid Barrel with its combo chain. |
+| GNB | Stun/Interrupt Feature | Turn Low Blow and Interject into Interject when off CD and your target can be interrupted, Low Blow otherwise. |
 | MCH | (Heated) Shot Combo | Replace either form of Clean Shot with its combo chain. |
 | MCH | Gauss Round / Ricochet Feature | Replace Gauss Round and Ricochet with one or the other depending on which has less recharge time left. |
 | MCH | HS/AA/D + Chain Saw Feature | Also include Chain Saw in the above. |
@@ -92,14 +95,17 @@ Now sorted by job and combo name!
 | MCH | Hypercharge Feature | Replace Heat Blast and Auto Crossbow with Hypercharge when not overheated. |
 | MCH | Overdrive Feature | Replace Rook Autoturret and Automaton Queen with their respective Overdrive while active. |
 | MCH | Spread Shot Heat | Replace Spread Shot with Auto Crossbow when overheated. |
+| MNK | AoE Balance Feature | Replaces Rockbreaker with Masterful Blitz if you have 3 Beast Chakra. |
+| MNK | Demolish to Snap Punch Feature | Replaces Demolish with Snap Punch if target is under Demolish. |
+| MNK | Disciplined AoE Feature | Replace Rockbreaker with Four Point Fury while Formless Fist is active. |
+| MNK | Dragon Kick to Bootshine Feature | Replaces Dragon Kick with Bootshine if Leaden Fist is up. |
+| MNK | Four Point Fury AoE Feature | Replace Four Point Fury with Shadow of the Destroyer (or Rockbreaker depending on level) when Perfect Balance is active. |
 | MNK | Howling Fist / Meditation Feature | Replaces Howling Fist with Meditation when the Fifth Chakra is not open. |
-| MNK | Monk AoE Balance Feature | Replaces Rockbreaker with Masterful Blitz if you have 3 Beast Chakra. |
+| MNK | Lunar AoE Feature | Replace Rockbreaker with Shadow of the Destroyer (or Rockbreaker depending on level) when Perfect Balance is active and the Lunar Nadi is missing. |
 | MNK | Monk AoE Combo | Replaces Rockbreaker with the AoE combo chain. |
-| MNK | Monk Disciplined AoE Feature | Replace Rockbreaker with Four Point Fury while Formless Fist is active. |
-| MNK | Monk Four Point Fury AoE Feature | Replace Four Point Fury with Shadow of the Destroyer (or Rockbreaker depending on level) when Perfect Balance is active. |
-| MNK | Monk Lunar AoE Feature | Replace Rockbreaker with Shadow of the Destroyer (or Rockbreaker depending on level) when Perfect Balance is active and the Lunar Nadi is missing. |
-| MNK | Monk Solar AoE Feature | Replace Rockbreaker with whatever is necessary to acquire missing Beast Chakra when Perfect Balance is active and the Solar Nadi is missing. |
 | MNK | Perfect Balance Feature | Replace Perfect Balance with Masterful Blitz when you have 3 Beast Chakra. |
+| MNK | Solar AoE Feature | Replace Rockbreaker with whatever is necessary to acquire missing Beast Chakra when Perfect Balance is active and the Solar Nadi is missing. |
+| MNK | Twin Snakes to True Strike Feature | Replaces Twin Snakes with True Strike if Disciplined Fist is up. |
 | NIN | Aeolian Edge / Raiju Feature | Replaces the Aeolian Edge combo with Forked and Fleeting Raiju when available. |
 | NIN | Aeolian Edge Combo | Replace Aeolian Edge with its combo chain. |
 | NIN | Armor Crush / Raiju Feature | Replaces the Armor Crush combo with Forked and Fleeting Raiju when available. |
@@ -119,6 +125,7 @@ Now sorted by job and combo name!
 | PLD | Requiescat Confiteor | Replace Requiescat with Confiteor while under the effect of Requiescat. |
 | PLD | Requiescat Feature | Replace Royal Authority/Goring Blade with Holy Spirit, and Prominence with Holy Circle, while Requiescat is active. |
 | PLD | Royal Authority Combo | Replace Royal Authority/Rage of Halone with its combo chain. |
+| PLD | Stun/Interrupt Feature | Turn Low Blow and Interject into Interject when off CD and your target can be interrupted, Low Blow otherwise. |
 | RDM | Contre Sixte / Fleche Feature | Turns Contre Sixte and Fleche into whichever is available. |
 | RDM | Red Mage AoE Combo | Replaces Veraero/Verthunder 2 with Impact when under a cast speeder. |
 | RDM | Redoublement Combo Plus | Replaces Redoublement (and Moulinet) with Verflare/Verholy (and then Scorch and Resolution) after 3 mana stacks, whichever is more appropriate. |
@@ -135,6 +142,10 @@ Now sorted by job and combo name!
 | RPR | Enhanced Enshrouded Feature | Replace Gibbet and Gallows with whichever is currently enhanced while Enshrouded. |
 | RPR | Enhanced Soul Reaver Feature | Replace Gibbet and Gallows with whichever is currently enhanced while Reaving. |
 | RPR | Enshroud Communio Feature | Replace Enshroud with Communio when Enshrouded. |
+| RPR | Gluttony on Blood Stalk | Replaces Blood Stalk with Gluttony when off cooldown. |
+| RPR | Gluttony on Grim Swathe | Replaces Grim Swathe with Gluttony when off cooldown. |
+| RPR | Gluttony on Unveiled Gallows | Replaces Unveiled Gallows with Gluttony when off cooldown. |
+| RPR | Gluttony on Unveiled Gibbet | Replaces Unveiled Gibbet with Gluttony when off cooldown. |
 | RPR | Lemure's Soul Reaver Feature | Replace Gibbet, Gallows, and Guillotine with Lemure's Slice or Scythe when two or more stacks of Void Shroud are active. |
 | RPR | Regress Feature | Both Hell's Ingress and Egress turn into Regress when Threshold is active, instead of just the opposite of the one used. |
 | RPR | Scythe Combo | Replace Nightmare Scythe with its combo chain. |
@@ -197,14 +208,17 @@ Now sorted by job and combo name!
 | SMN | Swiftcast Resurrection | Resurrection turns into Swiftcast when available and reasonable. |
 | SMN | Titan's Favor Outburst Feature | Change Outburst into Mountain Buster (oGCD) when available. |
 | SMN | Titan's Favor Ruin Feature | Change Ruin into Mountain Buster (oGCD) when available. |
+| WAR | Gauge Overcap Saver: Mythril Tempest | Replace the Mythril Tempest combo with gauge spender if completing the combo would overcap you. |
+| WAR | Gauge Overcap Saver: Storm's Eye | Replace the Storm's Eye combo with gauge spender if completing the combo would overcap you. |
+| WAR | Gauge Overcap Saver: Storm's Path | Replace the Storm's Path combo with gauge spender if completing the combo would overcap you. |
 | WAR | Inner Release Feature | Replace Single-target and AoE combo with Fell Cleave/Decimate during Inner Release. |
 | WAR | Mythril Tempest Combo | Replace Mythril Tempest with its combo chain. |
 | WAR | Nascent Flash Feature | Replace Nascent Flash with Raw intuition when below level 76. |
 | WAR | Primal Beast Feature | Replace Inner Beast and Steel Cyclone with Primal Rend when available |
 | WAR | Primal Release Feature | Replace Inner Release with Primal Rend when available |
-| WAR | Storms Eye Combo | Replace Storms Eye with its combo chain. |
-| WAR | Storms Path Combo | Replace Storms Path with its combo chain. |
-| WAR | Warrior Gauge Overcap Saver | Replace Single-target or AoE combo with gauge spender if you are about to overcap and are before a step of a combo that would generate beast gauge. |
+| WAR | Storm's Eye Combo | Replace Storms Eye with its combo chain. |
+| WAR | Storm's Path Combo | Replace Storms Path with its combo chain. |
+| WAR | Stun/Interrupt Feature | Turn Low Blow and Interject into Interject when off CD and your target can be interrupted, Low Blow otherwise. |
 | WHM | Afflatus Feature | Changes Cure 2 into Afflatus Solace, and Medica into Afflatus Rapture, when lilies are up. |
 | WHM | Cure 2 to Cure Level Sync | Changes Cure 2 to Cure when below level 30 in synced content. |
 | WHM | Rapture into Misery | Replaces Afflatus Rapture with Afflatus Misery when Misery is ready to be used. |
