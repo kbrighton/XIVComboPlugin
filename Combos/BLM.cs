@@ -32,8 +32,7 @@ namespace XIVComboVX.Combos {
 			public const ushort
 				Thundercloud = 164,
 				LeyLines = 737,
-				Firestarter = 165,
-				EnhancedFlare = 2960;
+				Firestarter = 165;
 		}
 
 		public static class Debuffs {
@@ -178,7 +177,7 @@ namespace XIVComboVX.Combos {
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			BLMGauge gauge = GetJobGauge<BLMGauge>();
 
-			if (level >= BLM.Levels.Flare && ((gauge.InAstralFire && gauge.UmbralHearts <= 1) || SelfHasEffect(BLM.Buffs.EnhancedFlare)))
+			if (level >= BLM.Levels.Flare && gauge.InAstralFire && gauge.UmbralHearts <= 1)
 				return BLM.Flare;
 
 			return actionID;
