@@ -36,8 +36,7 @@ namespace XIVComboVX.Combos {
 				Suiton = 507,
 				Hidden = 614,
 				Bunshin = 1954,
-				ForkedRaijuReady = 2690,
-				FleetingRaijuReady = 2691;
+				RaijuReady = 2690;
 		}
 
 		public static class Debuffs {
@@ -76,11 +75,8 @@ namespace XIVComboVX.Combos {
 
 				if (IsEnabled(CustomComboPreset.NinjaArmorCrushRaijuFeature)) {
 
-					if (level >= NIN.Levels.ForkedRaiju && SelfHasEffect(NIN.Buffs.FleetingRaijuReady))
+					if (level >= NIN.Levels.ForkedRaiju && SelfHasEffect(NIN.Buffs.RaijuReady))
 						return NIN.FleetingRaiju;
-
-					if (level >= NIN.Levels.ForkedRaiju && SelfHasEffect(NIN.Buffs.ForkedRaijuReady))
-						return NIN.ForkedRaiju;
 
 				}
 
@@ -106,11 +102,8 @@ namespace XIVComboVX.Combos {
 
 				if (IsEnabled(CustomComboPreset.NinjaArmorCrushRaijuFeature)) {
 
-					if (level >= NIN.Levels.ForkedRaiju && SelfHasEffect(NIN.Buffs.FleetingRaijuReady))
+					if (level >= NIN.Levels.ForkedRaiju && SelfHasEffect(NIN.Buffs.RaijuReady))
 						return NIN.FleetingRaiju;
-
-					if (level >= NIN.Levels.ForkedRaiju && SelfHasEffect(NIN.Buffs.ForkedRaijuReady))
-						return NIN.ForkedRaiju;
 
 				}
 
@@ -206,31 +199,14 @@ namespace XIVComboVX.Combos {
 		}
 	}
 
-	internal class NinjaBunshinKamaitachiFeature: CustomCombo {
-		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.NinjaBunshinKamaitachiFeature;
-		protected internal override uint[] ActionIDs { get; } = new[] { NIN.Bunshin };
-
-		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is NIN.Bunshin && level >= NIN.Levels.PhantomKamaitachi && SelfHasEffect(NIN.Buffs.Bunshin))
-				return NIN.PhantomKamaitachi;
-
-			return actionID;
-		}
-	}
-
 	internal class NinjaHuraijinRaijuFeature: CustomCombo {
 		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.NinjaHuraijinRaijuFeature;
 		protected internal override uint[] ActionIDs { get; } = new[] { NIN.Huraijin };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is NIN.Huraijin && level >= NIN.Levels.ForkedRaiju) {
 
-				if (SelfHasEffect(NIN.Buffs.FleetingRaijuReady))
-					return NIN.FleetingRaiju;
-
-				if (SelfHasEffect(NIN.Buffs.ForkedRaijuReady))
-					return NIN.ForkedRaiju;
-			}
+			if (level >= NIN.Levels.ForkedRaiju && SelfHasEffect(NIN.Buffs.RaijuReady))
+				return NIN.ForkedRaiju;
 
 			return actionID;
 		}

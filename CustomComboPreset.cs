@@ -361,9 +361,6 @@ namespace XIVComboVX {
 		[CustomComboInfo("Kassatsu Chi/Jin Feature", "Replaces Chi with Jin while Kassatsu is up if you have Enhanced Kassatsu.", NIN.JobID)]
 		NinjaKassatsuChiJinFeature = 3008,
 
-		[CustomComboInfo("Bunshin / Kamaitachi Feature", "Replaces Bunshin with Phantom Kamaitachi after usage.", NIN.JobID)]
-		NinjaBunshinKamaitachiFeature = 3009,
-
 		[ParentPreset(NinjaArmorCrushCombo)]
 		[CustomComboInfo("Armor Crush / Raiju Feature", "Replaces the Armor Crush combo with Forked and Fleeting Raiju when available.", NIN.JobID)]
 		NinjaArmorCrushRaijuFeature = 3010,
