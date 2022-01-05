@@ -441,12 +441,10 @@ namespace XIVComboVX {
 		RedMageContreFlecheFeature = 3510,
 
 		[Conflicts(RedMageAoECombo)]
-		[Experimental]
 		[CustomComboInfo("Smartcast AoE", "Dynamically replaces Veraero/Verthunder 2 with the appropriate spell based on your job gauge.\nIncludes Impact/Scatter when fastcasting.", RDM.JobID)]
 		RedMageSmartcastAoEFeature = 3508,
 
 		[Conflicts(RedMageVerprocCombo)]
-		[Experimental]
 		[CustomComboInfo("Smartcast Single Target", "Dynamically replaces Verstone/Verfire with the appropriate spell based on your job gauge.\nVeraero and Verthunder are replaced with one or the other accordingly, for openers.", RDM.JobID)]
 		RedMageSmartcastSingleFeature = 3509,
 

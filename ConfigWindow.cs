@@ -15,21 +15,29 @@ namespace XIVComboVX {
 	public class ConfigWindow: Window {
 
 		private readonly Dictionary<string, List<(CustomComboPreset preset, CustomComboInfoAttribute info)>> groupedPresets;
+		private readonly Dictionary<CustomComboPreset, HashSet<(CustomComboPreset Preset, CustomComboInfoAttribute Info)>> parentToChildrenPresets = new();
+		private readonly Dictionary<CustomComboPreset, (CustomComboPreset Preset, CustomComboInfoAttribute Info)> childToParentPresets = new();
+
 		private static readonly Vector4 shadedColour = new(0.69f, 0.69f, 0.69f, 1.0f); // NICE (x3 COMBO)
 		private static readonly Vector4 warningColour = new(200f / 255f, 25f / 255f, 35f / 255f, 1f);
-		private const int minWidth = 800;
+
+		private const int minWidth = 900;
 
 		public ConfigWindow() : base("Custom Combo Setup") {
 			this.RespectCloseHotkey = true;
 
-			this.groupedPresets = Enum
+			List<(CustomComboPreset preset, CustomComboInfoAttribute info)> realPresets = Enum
 				.GetValues<CustomComboPreset>()
 				.Where(preset => (int)preset >= 100)
 				.Select(preset => (
 					preset,
 					info: preset.GetAttribute<CustomComboInfoAttribute>()
 				))
-				.Where(data => data.info is not null)
+				.Where(preset => preset.info is not null)
+				.OrderBy(preset => preset.info.Order)
+				.ToList();
+
+			this.groupedPresets = realPresets
 				.GroupBy(data => data.info.JobName)
 				.OrderBy(group => group.Key)
 				.ToDictionary(
@@ -39,10 +47,22 @@ namespace XIVComboVX {
 						.ToList()
 				);
 
+			foreach ((CustomComboPreset preset, CustomComboInfoAttribute info) in realPresets) {
+				CustomComboPreset? parent = preset.GetParent();
+				CustomComboInfoAttribute? parentInfo = parent?.GetAttribute<CustomComboInfoAttribute>();
+				if (parent is not null && parentInfo is not null) {
+					this.childToParentPresets.Add(preset, (parent.Value, parentInfo));
+					if (!this.parentToChildrenPresets.ContainsKey(parent.Value)) {
+						this.parentToChildrenPresets[parent.Value] = new();
+					}
+					this.parentToChildrenPresets[parent.Value].Add((preset, info));
+				}
+			}
+
 			this.SizeCondition = ImGuiCond.FirstUseEver;
-			this.Size = new(800, 800);
+			this.Size = new(minWidth, 800);
 			this.SizeConstraints = new() {
-				MinimumSize = new(800, 400),
+				MinimumSize = new(minWidth, 400),
 				MaximumSize = new(int.MaxValue, int.MaxValue),
 			};
 		}
@@ -69,6 +89,7 @@ namespace XIVComboVX {
 				Service.Configuration.Save();
 			}
 
+#if DEBUG
 			bool clickDebug = ImGui.Button("Snapshot debug messages");
 			if (ImGui.IsItemHovered()) {
 				ImGui.BeginTooltip();
@@ -80,12 +101,21 @@ namespace XIVComboVX {
 			if (clickDebug) {
 				Service.Logger.EnableNextTick();
 			}
+#endif
+
+			ImGui.Spacing();
+
+			bool hideChildren = Service.Configuration.HideDisabledFeaturesChildren;
+			if (ImGui.Checkbox("Hide children of disabled features", ref hideChildren)) {
+				Service.Configuration.HideDisabledFeaturesChildren = hideChildren;
+				Service.Configuration.Save();
+			}
 
 			ImGui.Spacing();
 
 			ImGui.BeginChild("scrolling", new Vector2(0, -1), true);
 
-			ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(0, 5));
+			//ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(0, 5));
 
 			int i = 1;
 			foreach (string jobName in this.groupedPresets.Keys) {
@@ -94,76 +124,10 @@ namespace XIVComboVX {
 					ImGui.PushID($"settings-{jobName}");
 
 					foreach ((CustomComboPreset preset, CustomComboInfoAttribute info) in this.groupedPresets[jobName]) {
+						if (this.childToParentPresets.ContainsKey(preset))
+							continue;
 
-						bool enabled = Service.Configuration.IsEnabled(preset);
-						CustomComboPreset[]? conflicts = preset.GetConflicts();
-						CustomComboPreset? parent = preset.GetParent();
-						bool dangerous = preset.GetAttribute<DangerousAttribute>() is not null;
-						bool experimental = preset.GetAttribute<ExperimentalAttribute>() is not null;
-
-						ImGui.PushItemWidth(200);
-
-						if (ImGui.Checkbox(info.FancyName, ref enabled)) {
-							if (enabled) {
-								Service.Configuration.EnabledActions.Add(preset);
-								foreach (CustomComboPreset conflict in conflicts) {
-									Service.Configuration.EnabledActions.Remove(conflict);
-								}
-							}
-							else
-								Service.Configuration.EnabledActions.Remove(preset);
-
-							Service.Configuration.Save();
-						}
-
-						ImGui.PopItemWidth();
-
-						string description = $"#{i}: {info.Description}";
-						if (parent is not null)
-							description += $"\nRequires {parent.GetAttribute<CustomComboInfoAttribute>().FancyName}";
-
-						if (dangerous)
-							ImGui.TextColored(warningColour, "UNSAFE - may potentially crash, use at your own risk!\n");
-						else if (experimental)
-							ImGui.TextColored(warningColour, "EXPERIMENTAL - not yet fully tested, may cause unwanted behaviour!");
-
-						ImGui.PushTextWrapPos((this.Size?.Y ?? minWidth) - 20);
-						ImGui.TextColored(shadedColour, description);
-						ImGui.PopTextWrapPos();
-						ImGui.Spacing();
-
-						if (conflicts.Length > 0) {
-							string? conflictText = conflicts
-								.Select(preset => $"\n - {preset.GetAttribute<CustomComboInfoAttribute>().FancyName}")
-								.Aggregate((t1, t2) => $"{t1}{t2}");
-
-							ImGui.TextColored(warningColour, $"Conflicts with:{conflictText}");
-							if (ImGui.IsItemHovered()) {
-								ImGui.BeginTooltip();
-								ImGui.TextUnformatted("All conflicting features will be automatically disabled if this one is turned on.");
-								ImGui.EndTooltip();
-							}
-							ImGui.Spacing();
-						}
-
-						if (preset == CustomComboPreset.DancerDanceComboCompatibility && enabled) {
-							int[] actions = Service.Configuration.DancerDanceCompatActionIDs.Cast<int>().ToArray();
-							bool changed = false;
-
-							changed |= ImGui.InputInt("Emboite (Red) ActionID", ref actions[0], 0);
-							changed |= ImGui.InputInt("Entrechat (Blue) ActionID", ref actions[1], 0);
-							changed |= ImGui.InputInt("Jete (Green) ActionID", ref actions[2], 0);
-							changed |= ImGui.InputInt("Pirouette (Yellow) ActionID", ref actions[3], 0);
-
-							if (changed) {
-								Service.Configuration.DancerDanceCompatActionIDs = actions.Cast<uint>().ToArray();
-								Service.Configuration.Save();
-							}
-
-							ImGui.Spacing();
-						}
-
-						i++;
+						this.drawPreset(preset, info, ref i);
 					}
 
 					ImGui.PopID();
@@ -173,9 +137,111 @@ namespace XIVComboVX {
 					i += this.groupedPresets[jobName].Count;
 			}
 
-			ImGui.PopStyleVar();
+			//ImGui.PopStyleVar();
 
 			ImGui.EndChild();
 		}
+
+		private void drawPreset(CustomComboPreset preset, CustomComboInfoAttribute info, ref int i) {
+
+			bool enabled = Service.Configuration.IsEnabled(preset);
+			CustomComboPreset[] conflicts = preset.GetConflicts();
+			CustomComboPreset? parent = preset.GetParent();
+			bool dangerous = preset.GetAttribute<DangerousAttribute>() is not null;
+			bool experimental = preset.GetAttribute<ExperimentalAttribute>() is not null;
+			bool hideChildren = Service.Configuration.HideDisabledFeaturesChildren;
+			bool hasChildren = this.parentToChildrenPresets.TryGetValue(preset, out HashSet<(CustomComboPreset Preset, CustomComboInfoAttribute Info)>? children)
+				&& children is not null;
+
+			ImGui.PushItemWidth(200);
+
+			if (ImGui.Checkbox(info.FancyName, ref enabled)) {
+				if (enabled) {
+
+					Service.Configuration.EnabledActions.Add(preset);
+					this.enableParentPresets(preset);
+
+					foreach (CustomComboPreset conflict in conflicts) {
+						Service.Configuration.EnabledActions.Remove(conflict);
+					}
+
+				}
+				else
+					Service.Configuration.EnabledActions.Remove(preset);
+
+				Service.Configuration.Save();
+			}
+
+			ImGui.PopItemWidth();
+
+			if (dangerous)
+				ImGui.TextColored(warningColour, "UNSAFE - may potentially crash, use at your own risk!\n");
+			else if (experimental)
+				ImGui.TextColored(warningColour, "EXPERIMENTAL - not yet fully tested, may cause unwanted behaviour!");
+
+			string description = $"#{i}: {info.Description}";
+
+			if (conflicts.Length > 0) {
+				string[] conflictNames = conflicts
+					.Select(p => p.GetAttribute<CustomComboInfoAttribute>().FancyName)
+					.ToArray();
+				description += $"\nConflicts with: {string.Join(", ", conflictNames)}";
+			}
+			if (hasChildren && hideChildren && !enabled)
+				description += "\nThis preset has one or more children.";
+
+			ImGui.PushTextWrapPos((this.Size?.Y ?? minWidth) - 20);
+			ImGui.TextColored(shadedColour, description);
+			ImGui.PopTextWrapPos();
+			ImGui.Spacing();
+
+			if (preset is CustomComboPreset.DancerDanceComboCompatibility && enabled) {
+				int[] actions = Service.Configuration.DancerDanceCompatActionIDs.Cast<int>().ToArray();
+				bool changed = false;
+
+				changed |= ImGui.InputInt("Emboite (Red) ActionID", ref actions[0], 0);
+				changed |= ImGui.InputInt("Entrechat (Blue) ActionID", ref actions[1], 0);
+				changed |= ImGui.InputInt("Jete (Green) ActionID", ref actions[2], 0);
+				changed |= ImGui.InputInt("Pirouette (Yellow) ActionID", ref actions[3], 0);
+
+				if (changed) {
+					Service.Configuration.DancerDanceCompatActionIDs = actions.Cast<uint>().ToArray();
+					Service.Configuration.Save();
+				}
+
+				ImGui.Spacing();
+			}
+
+			i++;
+
+			if (hasChildren && (!hideChildren || enabled)) {
+				ImGui.Indent();
+				ImGui.Indent();
+				foreach ((CustomComboPreset childPreset, CustomComboInfoAttribute childInfo) in children!) {
+					this.drawPreset(childPreset, childInfo, ref i);
+				}
+				ImGui.Unindent();
+				ImGui.Unindent();
+			}
+
+		}
+
+		private void enableParentPresets(CustomComboPreset original) {
+			CustomComboPreset preset = original;
+
+			while (this.childToParentPresets.TryGetValue(preset, out (CustomComboPreset Preset, CustomComboInfoAttribute Info) parent)) {
+
+				if (!Service.Configuration.EnabledActions.Contains(parent.Preset)) {
+					Service.Configuration.EnabledActions.Add(parent.Preset);
+
+					foreach (CustomComboPreset conflict in parent.Preset.GetConflicts()) {
+						Service.Configuration.EnabledActions.Remove(conflict);
+					}
+				}
+
+				preset = parent.Preset;
+			}
+		}
+
 	}
 }

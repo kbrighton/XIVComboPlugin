@@ -12,8 +12,8 @@ namespace XIVComboVX {
 	public class PluginConfiguration: IPluginConfiguration {
 		public int Version { get; set; } = 5;
 
-		[JsonProperty("CrashGameOnLoadError")]
-		public bool FailFastSetting = true;
+		[JsonProperty("HideDisabledFeaturesChildren")]
+		public bool HideDisabledFeaturesChildren { get; set; } = false;
 
 		[JsonProperty("EnabledActionsV5")]
 		public HashSet<CustomComboPreset> EnabledActions = new();
