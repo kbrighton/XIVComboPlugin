@@ -9,10 +9,13 @@ namespace XIVComboVX.Combos {
 			FeyBless = 16543,
 			Consolation = 16546,
 			EnergyDrain = 167,
-			Aetherflow = 166;
+			Aetherflow = 166,
+			Lustrate = 189,
+			Indomitability = 3583;
 
 		public static class Buffs {
-			// public const ushort placeholder = 0;
+			public const ushort
+				Recitation = 1896;
 		}
 
 		public static class Debuffs {
@@ -45,7 +48,7 @@ namespace XIVComboVX.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-			if (actionID is SCH.FeyBless && GetJobGauge<SCHGauge>().SeraphTimer > 0)
+			if (level >= SCH.Levels.Consolation && GetJobGauge<SCHGauge>().SeraphTimer > 0)
 				return SCH.Consolation;
 
 			return actionID;
@@ -58,10 +61,37 @@ namespace XIVComboVX.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-			if (actionID is SCH.EnergyDrain && GetJobGauge<SCHGauge>().Aetherflow == 0)
+			if (level >= SCH.Levels.Aetherflow && GetJobGauge<SCHGauge>().Aetherflow == 0)
 				return SCH.Aetherflow;
 
 			return actionID;
 		}
 	}
+
+	internal class ScholarLustrate: CustomCombo {
+		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.ScholarLustrateAetherflowFeature;
+		protected internal override uint[] ActionIDs { get; } = new[] { SCH.Lustrate };
+
+		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+
+			if (level >= SCH.Levels.Aetherflow && GetJobGauge<SCHGauge>().Aetherflow == 0)
+				return SCH.Aetherflow;
+
+			return actionID;
+		}
+	}
+
+	internal class ScholarIndomitability: CustomCombo {
+		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.ScholarIndomAetherflowFeature;
+		protected internal override uint[] ActionIDs { get; } = new[] { SCH.EnergyDrain };
+
+		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+
+			if (level >= SCH.Levels.Aetherflow && GetJobGauge<SCHGauge>().Aetherflow == 0 && !SelfHasEffect(SCH.Buffs.Recitation))
+				return SCH.Aetherflow;
+
+			return actionID;
+		}
+	}
+
 }

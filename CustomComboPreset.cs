@@ -645,6 +645,12 @@ namespace XIVComboVX {
 		[CustomComboInfo("ED Aetherflow", "Change Energy Drain into Aetherflow when you have no more Aetherflow stacks.", SCH.JobID)]
 		ScholarEnergyDrainFeature = 2802,
 
+		[CustomComboInfo("Lustrous Aetherflow", "Change Lustrate into Aetherflow when you have no more Aetherflow stacks.", SCH.JobID)]
+		ScholarLustrateAetherflowFeature = 2803,
+
+		[CustomComboInfo("Indomitable Aetherflow", "Change Indomitability into Aetherflow when you have no more Aetherflow stacks.", SCH.JobID)]
+		ScholarIndomAetherflowFeature = 2804,
+
 		#endregion
 		// ====================================================================================
 		#region SUMMONER (27xx)
