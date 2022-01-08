@@ -156,21 +156,23 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { MCH.HotShot, MCH.AirAnchor, MCH.Drill, MCH.Chainsaw };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is MCH.HotShot or MCH.AirAnchor or MCH.Drill || (actionID is MCH.Chainsaw && IsEnabled(CustomComboPreset.MachinistDrillAirAnchorPlusFeature))) {
+			if (actionID is MCH.Chainsaw && !IsEnabled(CustomComboPreset.MachinistDrillAirAnchorPlusFeature))
+				return actionID;
 
-				if (level >= MCH.Levels.Chainsaw && IsEnabled(CustomComboPreset.MachinistDrillAirAnchorPlusFeature))
-					return PickByCooldown(actionID, MCH.Chainsaw, MCH.Drill, MCH.AirAnchor);
+			if (level >= MCH.Levels.Chainsaw && IsEnabled(CustomComboPreset.MachinistDrillAirAnchorPlusFeature))
+				return GetJobGauge<MCHGauge>().Battery > 80
+					? PickByCooldown(actionID is MCH.Chainsaw ? MCH.Chainsaw : MCH.Drill, MCH.Chainsaw, MCH.AirAnchor, MCH.Drill)
+					: PickByCooldown(MCH.AirAnchor, MCH.Chainsaw, MCH.Drill, MCH.AirAnchor);
 
-				if (level >= MCH.Levels.AirAnchor)
-					return PickByCooldown(actionID, MCH.Drill, MCH.AirAnchor);
+			if (level >= MCH.Levels.AirAnchor)
+				return GetJobGauge<MCHGauge>().Battery > 80
+					? PickByCooldown(MCH.Drill, MCH.AirAnchor, MCH.Drill)
+					: PickByCooldown(MCH.AirAnchor, MCH.Drill, MCH.AirAnchor);
 
-				if (level >= MCH.Levels.Drill)
-					return PickByCooldown(actionID, MCH.HotShot, MCH.Drill);
+			if (level >= MCH.Levels.Drill)
+				return PickByCooldown(actionID, MCH.HotShot, MCH.Drill);
 
-				return MCH.HotShot;
-			}
-
-			return actionID;
+			return MCH.HotShot;
 		}
 	}
 }
