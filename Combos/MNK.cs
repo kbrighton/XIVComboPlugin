@@ -206,7 +206,7 @@ namespace XIVComboVX.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
 
-			return level < MNK.Levels.TwinSnakes || SelfHasEffect(MNK.Buffs.DisciplinedFist)
+			return level < MNK.Levels.TwinSnakes || SelfFindEffect(MNK.Buffs.DisciplinedFist)?.RemainingTime > 5
 				? MNK.TrueStrike
 				: actionID;
 
@@ -219,7 +219,7 @@ namespace XIVComboVX.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
 
-			return level < MNK.Levels.Demolish || TargetHasOwnEffect(MNK.Debuffs.Demolish)
+			return level < MNK.Levels.Demolish || TargetFindOwnEffect(MNK.Debuffs.Demolish)?.RemainingTime > 5
 				? MNK.SnapPunch
 				: actionID;
 
