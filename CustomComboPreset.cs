@@ -362,14 +362,14 @@ namespace XIVComboVX {
 		NinjaKassatsuChiJinFeature = 3008,
 
 		[ParentPreset(NinjaArmorCrushCombo)]
-		[CustomComboInfo("Armor Crush / Raiju Feature", "Replaces the Armor Crush combo with Forked and Fleeting Raiju when available.", NIN.JobID)]
+		[CustomComboInfo("Armor Crush / Raiju Feature", "Replaces the Armor Crush combo with Fleeting Raiju when available.", NIN.JobID)]
 		NinjaArmorCrushRaijuFeature = 3010,
 
 		[ParentPreset(NinjaAeolianEdgeCombo)]
-		[CustomComboInfo("Aeolian Edge / Raiju Feature", "Replaces the Aeolian Edge combo with Forked and Fleeting Raiju when available.", NIN.JobID)]
+		[CustomComboInfo("Aeolian Edge / Raiju Feature", "Replaces the Aeolian Edge combo with Fleeting Raiju when available.", NIN.JobID)]
 		NinjaAeolianEdgeRaijuFeature = 3011,
 
-		[CustomComboInfo("Huraijin / Raiju Feature", "Replaces Huraijin with Forked and Fleeting Raiju when available.", NIN.JobID)]
+		[CustomComboInfo("Huraijin / Raiju Feature", "Replaces Huraijin with Forked Raiju when available.", NIN.JobID)]
 		NinjaHuraijinRaijuFeature = 3012,
 
 		#endregion
