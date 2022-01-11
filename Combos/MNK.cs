@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 
 using Dalamud.Game.ClientState.JobGauge.Types;
-using Dalamud.Game.ClientState.Statuses;
 
 /*
  * All credit to daemitus (this was literally edited only enough to compile because I don't play or understand monk and there's been too many changes)
@@ -78,26 +77,21 @@ namespace XIVComboVX.Combos {
 				MyMNKGauge? gauge = new(GetJobGauge<MNKGauge>());
 
 				if (IsEnabled(CustomComboPreset.MonkAoEBalanceFeature)) {
-					if (!gauge.BeastChakra.Contains(BeastChakra.NONE))
+					if (level >= MNK.Levels.MasterfulBlitz && !gauge.BeastChakra.Contains(BeastChakra.NONE))
 						return OriginalHook(MNK.MasterfulBlitz);
 				}
 
 				if (IsEnabled(CustomComboPreset.MonkAoESolarFeature)) {
 					if (level >= MNK.Levels.PerfectBalance && SelfHasEffect(MNK.Buffs.PerfectBalance) && (!gauge.Nadi.HasFlag(Nadi.SOLAR) || gauge.Nadi == (Nadi.LUNAR | Nadi.SOLAR))) {
-						// Refresh Disciplined Fist if missing or about to expire
-						Status? fist = SelfFindEffect(MNK.Buffs.DisciplinedFist);
-						if (level >= MNK.Levels.FourPointFury && !gauge.BeastChakra.Contains(BeastChakra.RAPTOR) && (fist == null || fist.RemainingTime < 3))
+						if (level >= MNK.Levels.FourPointFury && !gauge.BeastChakra.Contains(BeastChakra.RAPTOR))
 							return MNK.FourPointFury;
-
-						if (level >= MNK.Levels.ArmOfTheDestroyer && !gauge.BeastChakra.Contains(BeastChakra.OPOOPO))
-							// Shadow of the Destroyer
-							return OriginalHook(MNK.ArmOfTheDestroyer);
 
 						if (level >= MNK.Levels.Rockbreaker && !gauge.BeastChakra.Contains(BeastChakra.COEURL))
 							return MNK.Rockbreaker;
 
-						if (level >= MNK.Levels.FourPointFury && !gauge.BeastChakra.Contains(BeastChakra.RAPTOR))
-							return MNK.FourPointFury;
+						if (level >= MNK.Levels.ArmOfTheDestroyer && !gauge.BeastChakra.Contains(BeastChakra.OPOOPO))
+							// Shadow of the Destroyer
+							return OriginalHook(MNK.ArmOfTheDestroyer);
 
 						return level >= MNK.Levels.ShadowOfTheDestroyer
 							? MNK.ShadowOfTheDestroyer
@@ -156,17 +150,13 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { MNK.HowlingFist, MNK.Enlightenment };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is MNK.HowlingFist or MNK.Enlightenment) {
-				MyMNKGauge? gauge = new(GetJobGauge<MNKGauge>());
+			MyMNKGauge? gauge = new(GetJobGauge<MNKGauge>());
 
-				if (level >= MNK.Levels.Meditation && gauge.Chakra < 5)
-					return MNK.Meditation;
+			if (level >= MNK.Levels.Meditation && gauge.Chakra < 5)
+				return MNK.Meditation;
 
-				// Enlightenment
-				return OriginalHook(MNK.HowlingFist);
-			}
-
-			return actionID;
+			// Enlightenment
+			return OriginalHook(MNK.HowlingFist);
 		}
 	}
 
@@ -176,12 +166,10 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { MNK.PerfectBalance };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID == MNK.PerfectBalance) {
-				MyMNKGauge? gauge = new(GetJobGauge<MNKGauge>());
+			MyMNKGauge? gauge = new(GetJobGauge<MNKGauge>());
 
-				if (level >= MNK.Levels.MasterfulBlitz && (!gauge.BeastChakra.Contains(BeastChakra.NONE) || SelfHasEffect(MNK.Buffs.PerfectBalance)))
-					return OriginalHook(MNK.MasterfulBlitz);
-			}
+			if (level >= MNK.Levels.MasterfulBlitz && (!gauge.BeastChakra.Contains(BeastChakra.NONE) || SelfHasEffect(MNK.Buffs.PerfectBalance)))
+				return OriginalHook(MNK.MasterfulBlitz);
 
 			return actionID;
 		}
