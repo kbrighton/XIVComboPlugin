@@ -69,16 +69,9 @@ namespace XIVComboVX.Combos {
 		}
 	}
 
-	internal class RedMageSwiftcastRaiserFeature: CustomCombo {
+	internal class RedMageSwiftcastRaiserFeature: SwiftRaiseCombo {
 		protected internal override CustomComboPreset Preset => CustomComboPreset.RedMageSwiftcastRaiserFeature;
 		protected internal override uint[] ActionIDs { get; } = new[] { RDM.Verraise };
-
-		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is RDM.Verraise && ShouldSwiftcast)
-				return Common.Swiftcast;
-
-			return actionID;
-		}
 	}
 
 	internal class RedMageAoECombo: CustomCombo {
@@ -86,18 +79,15 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { RDM.Veraero2, RDM.Verthunder2 };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is RDM.Veraero2 or RDM.Verthunder2) {
 
-				if (lastComboMove is RDM.Scorch && level >= RDM.Levels.Resolution)
-					return RDM.Resolution;
+			if (lastComboMove is RDM.Scorch && level >= RDM.Levels.Resolution)
+				return RDM.Resolution;
 
-				if (lastComboMove is RDM.Verflare or RDM.Verholy && level >= RDM.Levels.Scorch)
-					return RDM.Scorch;
+			if (lastComboMove is RDM.Verflare or RDM.Verholy && level >= RDM.Levels.Scorch)
+				return RDM.Scorch;
 
-				if (level >= RDM.Levels.Scatter && IsFastcasting)
-					return OriginalHook(RDM.Scatter);
-
-			}
+			if (level >= RDM.Levels.Scatter && IsFastcasting)
+				return OriginalHook(RDM.Scatter);
 
 			return actionID;
 		}
@@ -112,7 +102,7 @@ namespace XIVComboVX.Combos {
 				FINISHER_DELTA = 11,
 				IMBALANCE_DIFF_MAX = 30;
 
-			if (actionID is RDM.Redoublement or RDM.Moulinet) {
+			if (IsEnabled(CustomComboPreset.RedMageMeleeComboPlus)) {
 				RDMGauge gauge = GetJobGauge<RDMGauge>();
 				int black = gauge.BlackMana;
 				int white = gauge.WhiteMana;
@@ -126,40 +116,36 @@ namespace XIVComboVX.Combos {
 				bool verfireUp = SelfHasEffect(RDM.Buffs.VerfireReady);
 				bool verstoneUp = SelfHasEffect(RDM.Buffs.VerstoneReady);
 
-				if (IsEnabled(CustomComboPreset.RedMageMeleeComboPlus)) {
+				if (isFinishing3 && level >= RDM.Levels.Resolution)
+					return RDM.Resolution;
+				if (isFinishing2 && level >= RDM.Levels.Scorch)
+					return RDM.Scorch;
 
-					if (isFinishing3 && level >= RDM.Levels.Resolution)
-						return RDM.Resolution;
-					if (isFinishing2 && level >= RDM.Levels.Scorch)
-						return RDM.Scorch;
+				if (isFinishing1 && canFinishBlack) {
 
-					if (isFinishing1 && canFinishBlack) {
+					if (black >= white && canFinishWhite) {
 
-						if (black >= white && canFinishWhite) {
+						if (verstoneUp && !verfireUp && (black + FINISHER_DELTA <= blackThreshold))
+							return RDM.Verflare;
 
-							if (verstoneUp && !verfireUp && (black + FINISHER_DELTA <= blackThreshold))
-								return RDM.Verflare;
-
-							return RDM.Verholy;
-						}
-
-						if (verfireUp && !verstoneUp && canFinishWhite && (white + FINISHER_DELTA <= whiteThreshold))
-							return RDM.Verholy;
-
-						return RDM.Verflare;
+						return RDM.Verholy;
 					}
+
+					if (verfireUp && !verstoneUp && canFinishWhite && (white + FINISHER_DELTA <= whiteThreshold))
+						return RDM.Verholy;
+
+					return RDM.Verflare;
 				}
+			}
 
-				if (actionID is RDM.Redoublement) {
-					if (lastComboMove is RDM.Zwerchhau or RDM.EnchantedZwerchhau && level >= RDM.Levels.Redoublement)
-						return OriginalHook(RDM.Redoublement);
+			if (actionID is RDM.Redoublement) {
+				if (lastComboMove is RDM.Zwerchhau or RDM.EnchantedZwerchhau && level >= RDM.Levels.Redoublement)
+					return OriginalHook(RDM.Redoublement);
 
-					if (lastComboMove is RDM.Riposte or RDM.EnchantedRiposte && level >= RDM.Levels.Zwerchhau)
-						return OriginalHook(RDM.Zwerchhau);
+				if (lastComboMove is RDM.Riposte or RDM.EnchantedRiposte && level >= RDM.Levels.Zwerchhau)
+					return OriginalHook(RDM.Zwerchhau);
 
-					return OriginalHook(RDM.Riposte);
-				}
-
+				return OriginalHook(RDM.Riposte);
 			}
 
 			return actionID;
@@ -171,64 +157,60 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { RDM.Verstone, RDM.Verfire };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is RDM.Verstone or RDM.Verfire) {
 
-				if (lastComboMove == RDM.Scorch && level >= RDM.Levels.Resolution)
-					return RDM.Resolution;
-				if (lastComboMove is RDM.Verflare or RDM.Verholy && level >= RDM.Levels.Scorch)
-					return RDM.Scorch;
+			if (lastComboMove == RDM.Scorch && level >= RDM.Levels.Resolution)
+				return RDM.Resolution;
+			if (lastComboMove is RDM.Verflare or RDM.Verholy && level >= RDM.Levels.Scorch)
+				return RDM.Scorch;
 
-				RDMGauge gauge = GetJobGauge<RDMGauge>();
+			RDMGauge gauge = GetJobGauge<RDMGauge>();
 
-				if (actionID is RDM.Verstone) {
+			if (actionID is RDM.Verstone) {
 
-					if (gauge.ManaStacks == 3 && level >= RDM.Levels.Verholy)
-						return RDM.Verholy;
+				if (gauge.ManaStacks == 3 && level >= RDM.Levels.Verholy)
+					return RDM.Verholy;
 
-					if (IsEnabled(CustomComboPreset.RedMageVerprocComboPlus)
-						&& level >= RDM.Levels.Veraero
-						&& (IsFastcasting || SelfHasEffect(RDM.Buffs.Acceleration))
-					)
-						return RDM.Veraero;
+				if (IsEnabled(CustomComboPreset.RedMageVerprocComboPlus)
+					&& level >= RDM.Levels.Veraero
+					&& (IsFastcasting || SelfHasEffect(RDM.Buffs.Acceleration))
+				)
+					return RDM.Veraero;
 
-					if (IsEnabled(CustomComboPreset.RedMageVeraeroOpenerFeature)
-						&& level >= RDM.Levels.Veraero
-						&& !HasCondition(ConditionFlag.InCombat)
-						&& !SelfHasEffect(RDM.Buffs.VerstoneReady)
-					)
-						return RDM.Veraero;
+				if (IsEnabled(CustomComboPreset.RedMageVeraeroOpenerFeature)
+					&& level >= RDM.Levels.Veraero
+					&& !HasCondition(ConditionFlag.InCombat)
+					&& !SelfHasEffect(RDM.Buffs.VerstoneReady)
+				)
+					return RDM.Veraero;
 
-					if (SelfHasEffect(RDM.Buffs.VerstoneReady))
-						return RDM.Verstone;
+				if (SelfHasEffect(RDM.Buffs.VerstoneReady))
+					return RDM.Verstone;
 
-				}
-				else if (actionID is RDM.Verfire) {
+			}
+			else if (actionID is RDM.Verfire) {
 
-					if (gauge.ManaStacks == 3 && level >= RDM.Levels.Verflare)
-						return RDM.Verflare;
+				if (gauge.ManaStacks == 3 && level >= RDM.Levels.Verflare)
+					return RDM.Verflare;
 
-					if (IsEnabled(CustomComboPreset.RedMageVerprocComboPlus)
-						&& level >= RDM.Levels.Verthunder
-						&& (IsFastcasting || SelfHasEffect(RDM.Buffs.Acceleration))
-					)
-						return RDM.Verthunder;
+				if (IsEnabled(CustomComboPreset.RedMageVerprocComboPlus)
+					&& level >= RDM.Levels.Verthunder
+					&& (IsFastcasting || SelfHasEffect(RDM.Buffs.Acceleration))
+				)
+					return RDM.Verthunder;
 
-					if (IsEnabled(CustomComboPreset.RedMageVerthunderOpenerFeature)
-						&& level >= RDM.Levels.Verthunder
-						&& !HasCondition(ConditionFlag.InCombat)
-						&& !SelfHasEffect(RDM.Buffs.VerfireReady)
-					)
-						return RDM.Verthunder;
+				if (IsEnabled(CustomComboPreset.RedMageVerthunderOpenerFeature)
+					&& level >= RDM.Levels.Verthunder
+					&& !HasCondition(ConditionFlag.InCombat)
+					&& !SelfHasEffect(RDM.Buffs.VerfireReady)
+				)
+					return RDM.Verthunder;
 
-					if (SelfHasEffect(RDM.Buffs.VerfireReady))
-						return RDM.Verfire;
+				if (SelfHasEffect(RDM.Buffs.VerfireReady))
+					return RDM.Verfire;
 
-				}
-
-				return OriginalHook(RDM.Jolt2);
 			}
 
-			return actionID;
+			return OriginalHook(RDM.Jolt2);
 		}
 	}
 
@@ -237,15 +219,12 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { RDM.Fleche, RDM.ContreSixte };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is RDM.Fleche or RDM.ContreSixte) {
 
-				if (level >= RDM.Levels.ContreSixte)
-					return PickByCooldown(actionID, RDM.Fleche, RDM.ContreSixte);
+			if (level >= RDM.Levels.ContreSixte)
+				return PickByCooldown(actionID, RDM.Fleche, RDM.ContreSixte);
 
-				if (level >= RDM.Levels.Fleche)
-					return RDM.Fleche;
-
-			}
+			if (level >= RDM.Levels.Fleche)
+				return RDM.Fleche;
 
 			return actionID;
 		}
@@ -256,23 +235,20 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { RDM.Veraero2, RDM.Verthunder2 };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is RDM.Veraero2 or RDM.Verthunder2) {
 
-				if (IsFastcasting || SelfHasEffect(RDM.Buffs.Acceleration) || level < RDM.Levels.Verthunder2)
-					return OriginalHook(RDM.Impact);
+			if (IsFastcasting || SelfHasEffect(RDM.Buffs.Acceleration) || level < RDM.Levels.Verthunder2)
+				return OriginalHook(RDM.Impact);
 
-				if (level < RDM.Levels.Veraero2)
-					return RDM.Verthunder2;
+			if (level < RDM.Levels.Veraero2)
+				return RDM.Verthunder2;
 
-				RDMGauge gauge = GetJobGauge<RDMGauge>();
+			RDMGauge gauge = GetJobGauge<RDMGauge>();
 
-				if (gauge.BlackMana > gauge.WhiteMana)
-					return RDM.Veraero2;
+			if (gauge.BlackMana > gauge.WhiteMana)
+				return RDM.Veraero2;
 
-				if (gauge.WhiteMana > gauge.BlackMana)
-					return RDM.Verthunder2;
-
-			}
+			if (gauge.WhiteMana > gauge.BlackMana)
+				return RDM.Verthunder2;
 
 			return actionID;
 		}
@@ -289,132 +265,130 @@ namespace XIVComboVX.Combos {
 				FINISHER_DELTA = 11,
 				IMBALANCE_DIFF_MAX = 30;
 
-			if (actionID is RDM.Veraero or RDM.Verthunder or RDM.Verstone or RDM.Verfire) {
+			bool verfireUp = SelfHasEffect(RDM.Buffs.VerfireReady);
+			bool verstoneUp = SelfHasEffect(RDM.Buffs.VerstoneReady);
+			RDMGauge gauge = GetJobGauge<RDMGauge>();
+			int black = gauge.BlackMana;
+			int white = gauge.WhiteMana;
 
-				bool verfireUp = SelfHasEffect(RDM.Buffs.VerfireReady);
-				bool verstoneUp = SelfHasEffect(RDM.Buffs.VerstoneReady);
-				RDMGauge gauge = GetJobGauge<RDMGauge>();
-				int black = gauge.BlackMana;
-				int white = gauge.WhiteMana;
+			if (actionID is RDM.Veraero or RDM.Verthunder) {
 
-				if (actionID is RDM.Veraero or RDM.Verthunder) {
+				if (level < RDM.Levels.Verthunder)
+					return RDM.Jolt;
 
-					if (level < RDM.Levels.Verthunder)
-						return RDM.Jolt;
+				if (level is < RDM.Levels.Veraero and >= RDM.Levels.Verthunder)
+					return OriginalHook(RDM.Verthunder);
+
+				// This is for the long opener only, so we're not bothered about fast casting or finishers or anything like that
+				if (black < white)
+					return OriginalHook(RDM.Verthunder);
+
+				if (white < black)
+					return OriginalHook(RDM.Veraero);
+
+				return actionID;
+			}
+
+			if (actionID is RDM.Verstone or RDM.Verfire) {
+
+				bool fastCasting = IsFastcasting;
+				bool accelerated = SelfHasEffect(RDM.Buffs.Acceleration);
+				bool isFinishing1 = gauge.ManaStacks == 3;
+				bool isFinishing2 = comboTime > 0 && lastComboActionId is RDM.Verholy or RDM.Verflare;
+				bool isFinishing3 = comboTime > 0 && lastComboActionId is RDM.Scorch;
+				bool canFinishWhite = level >= RDM.Levels.Verholy;
+				bool canFinishBlack = level >= RDM.Levels.Verflare;
+				int blackThreshold = white + IMBALANCE_DIFF_MAX;
+				int whiteThreshold = black + IMBALANCE_DIFF_MAX;
+
+				// If we're ready to Scorch or Resolution, just do that. Nice and simple. Sadly, that's where the simple ends.
+				if (isFinishing3 && level >= RDM.Levels.Resolution)
+					return RDM.Resolution;
+				if (isFinishing2 && level >= RDM.Levels.Scorch)
+					return RDM.Scorch;
+
+				if (isFinishing1 && canFinishBlack) {
+
+					if (black >= white && canFinishWhite) {
+
+						// If we can already Verstone, but we can't Verfire, and Verflare WON'T imbalance us, use Verflare
+						if (verstoneUp && !verfireUp && (black + FINISHER_DELTA <= blackThreshold))
+							return RDM.Verflare;
+
+						return RDM.Verholy;
+					}
+
+					// If we can already Verfire, but we can't Verstone, and we can use Verholy, and it WON'T imbalance us, use Verholy
+					if (verfireUp && !verstoneUp && canFinishWhite && (white + FINISHER_DELTA <= whiteThreshold))
+						return RDM.Verholy;
+
+					return RDM.Verflare;
+				}
+
+				if (fastCasting || accelerated) {
 
 					if (level is < RDM.Levels.Veraero and >= RDM.Levels.Verthunder)
-						return OriginalHook(RDM.Verthunder);
+						return RDM.Verthunder;
 
-					// This is for the long opener only, so we're not bothered about fast casting or finishers or anything like that
-					if (black < white)
+					if (verfireUp == verstoneUp) {
+
+						// Either both procs are already up or neither is - use whatever gives us the mana we need
+						if (black < white)
+							return OriginalHook(RDM.Verthunder);
+
+						if (white < black)
+							return OriginalHook(RDM.Veraero);
+
+						// If mana levels are equal, prioritise the colour that the original button was
+						return actionID is RDM.Verstone
+							? OriginalHook(RDM.Veraero)
+							: OriginalHook(RDM.Verthunder);
+					}
+
+					if (verfireUp) {
+
+						// If Veraero is feasible, use it
+						if (white + LONG_DELTA <= whiteThreshold)
+							return OriginalHook(RDM.Veraero);
+
 						return OriginalHook(RDM.Verthunder);
+					}
+
+					if (verstoneUp) {
+
+						// If Verthunder is feasible, use it
+						if (black + LONG_DELTA <= blackThreshold)
+							return OriginalHook(RDM.Verthunder);
+
+						return OriginalHook(RDM.Veraero);
+					}
+				}
+
+				if (verfireUp && verstoneUp) {
+
+					// Decide by mana levels
+					if (black < white)
+						return RDM.Verfire;
 
 					if (white < black)
-						return OriginalHook(RDM.Veraero);
+						return RDM.Verstone;
 
+					// If mana levels are equal, prioritise the original button
 					return actionID;
 				}
 
-				if (actionID is RDM.Verstone or RDM.Verfire) {
+				// Only use Verfire if it won't imbalance us
+				if (verfireUp && black + PROC_DELTA <= blackThreshold)
+					return RDM.Verfire;
 
-					bool fastCasting = IsFastcasting;
-					bool accelerated = SelfHasEffect(RDM.Buffs.Acceleration);
-					bool isFinishing1 = gauge.ManaStacks == 3;
-					bool isFinishing2 = comboTime > 0 && lastComboActionId is RDM.Verholy or RDM.Verflare;
-					bool isFinishing3 = comboTime > 0 && lastComboActionId is RDM.Scorch;
-					bool canFinishWhite = level >= RDM.Levels.Verholy;
-					bool canFinishBlack = level >= RDM.Levels.Verflare;
-					int blackThreshold = white + IMBALANCE_DIFF_MAX;
-					int whiteThreshold = black + IMBALANCE_DIFF_MAX;
+				// Only use Verstone if it won't imbalance us
+				if (verstoneUp && white + PROC_DELTA <= whiteThreshold)
+					return RDM.Verstone;
 
-					// If we're ready to Scorch or Resolution, just do that. Nice and simple. Sadly, that's where the simple ends.
-					if (isFinishing3 && level >= RDM.Levels.Resolution)
-						return RDM.Resolution;
-					if (isFinishing2 && level >= RDM.Levels.Scorch)
-						return RDM.Scorch;
-
-					if (isFinishing1 && canFinishBlack) {
-
-						if (black >= white && canFinishWhite) {
-
-							// If we can already Verstone, but we can't Verfire, and Verflare WON'T imbalance us, use Verflare
-							if (verstoneUp && !verfireUp && (black + FINISHER_DELTA <= blackThreshold))
-								return RDM.Verflare;
-
-							return RDM.Verholy;
-						}
-
-						// If we can already Verfire, but we can't Verstone, and we can use Verholy, and it WON'T imbalance us, use Verholy
-						if (verfireUp && !verstoneUp && canFinishWhite && (white + FINISHER_DELTA <= whiteThreshold))
-							return RDM.Verholy;
-
-						return RDM.Verflare;
-					}
-
-					if (fastCasting || accelerated) {
-
-						if (level is < RDM.Levels.Veraero and >= RDM.Levels.Verthunder)
-							return RDM.Verthunder;
-
-						if (verfireUp == verstoneUp) {
-
-							// Either both procs are already up or neither is - use whatever gives us the mana we need
-							if (black < white)
-								return OriginalHook(RDM.Verthunder);
-
-							if (white < black)
-								return OriginalHook(RDM.Veraero);
-
-							// If mana levels are equal, prioritise the colour that the original button was
-							return actionID is RDM.Verstone
-								? OriginalHook(RDM.Veraero)
-								: OriginalHook(RDM.Verthunder);
-						}
-
-						if (verfireUp) {
-
-							// If Veraero is feasible, use it
-							if (white + LONG_DELTA <= whiteThreshold)
-								return OriginalHook(RDM.Veraero);
-
-							return OriginalHook(RDM.Verthunder);
-						}
-
-						if (verstoneUp) {
-
-							// If Verthunder is feasible, use it
-							if (black + LONG_DELTA <= blackThreshold)
-								return OriginalHook(RDM.Verthunder);
-
-							return OriginalHook(RDM.Veraero);
-						}
-					}
-
-					if (verfireUp && verstoneUp) {
-
-						// Decide by mana levels
-						if (black < white)
-							return RDM.Verfire;
-
-						if (white < black)
-							return RDM.Verstone;
-
-						// If mana levels are equal, prioritise the original button
-						return actionID;
-					}
-
-					// Only use Verfire if it won't imbalance us
-					if (verfireUp && black + PROC_DELTA <= blackThreshold)
-						return RDM.Verfire;
-
-					// Only use Verstone if it won't imbalance us
-					if (verstoneUp && white + PROC_DELTA <= whiteThreshold)
-						return RDM.Verstone;
-
-					// If neither's up or the one that is would imbalance us, just use Jolt
-					return OriginalHook(RDM.Jolt2);
-				}
+				// If neither's up or the one that is would imbalance us, just use Jolt
+				return OriginalHook(RDM.Jolt2);
 			}
+
 			return actionID;
 		}
 	}

@@ -68,24 +68,18 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { NIN.ArmorCrush };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is NIN.ArmorCrush) {
 
-				if (level >= NIN.Levels.Ninjitsu && IsEnabled(CustomComboPreset.NinjaGCDNinjutsuFeature) && SelfHasEffect(NIN.Buffs.Mudra))
-					return OriginalHook(NIN.Ninjutsu);
+			if (level >= NIN.Levels.Ninjitsu && IsEnabled(CustomComboPreset.NinjaGCDNinjutsuFeature) && SelfHasEffect(NIN.Buffs.Mudra))
+				return OriginalHook(NIN.Ninjutsu);
 
-				if (IsEnabled(CustomComboPreset.NinjaArmorCrushRaijuFeature)) {
+			if (level >= NIN.Levels.ForkedRaiju && IsEnabled(CustomComboPreset.NinjaArmorCrushRaijuFeature) && SelfHasEffect(NIN.Buffs.RaijuReady))
+				return NIN.FleetingRaiju;
 
-					if (level >= NIN.Levels.ForkedRaiju && SelfHasEffect(NIN.Buffs.RaijuReady))
-						return NIN.FleetingRaiju;
-
-				}
-
-				if (IsEnabled(CustomComboPreset.NinjaArmorCrushCombo))
-					return SimpleChainCombo(level, lastComboMove, comboTime, (1, NIN.SpinningEdge),
-						(NIN.Levels.GustSlash, NIN.GustSlash),
-						(NIN.Levels.ArmorCrush, NIN.ArmorCrush)
-					);
-			}
+			if (IsEnabled(CustomComboPreset.NinjaArmorCrushCombo))
+				return SimpleChainCombo(level, lastComboMove, comboTime, (1, NIN.SpinningEdge),
+					(NIN.Levels.GustSlash, NIN.GustSlash),
+					(NIN.Levels.ArmorCrush, NIN.ArmorCrush)
+				);
 
 			return actionID;
 		}
@@ -96,23 +90,18 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { NIN.AeolianEdge };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is NIN.AeolianEdge) {
-				if (level >= NIN.Levels.Ninjitsu && IsEnabled(CustomComboPreset.NinjaGCDNinjutsuFeature) && SelfHasEffect(NIN.Buffs.Mudra))
-					return OriginalHook(NIN.Ninjutsu);
 
-				if (IsEnabled(CustomComboPreset.NinjaArmorCrushRaijuFeature)) {
+			if (level >= NIN.Levels.Ninjitsu && IsEnabled(CustomComboPreset.NinjaGCDNinjutsuFeature) && SelfHasEffect(NIN.Buffs.Mudra))
+				return OriginalHook(NIN.Ninjutsu);
 
-					if (level >= NIN.Levels.ForkedRaiju && SelfHasEffect(NIN.Buffs.RaijuReady))
-						return NIN.FleetingRaiju;
+			if (level >= NIN.Levels.ForkedRaiju && IsEnabled(CustomComboPreset.NinjaArmorCrushRaijuFeature) && SelfHasEffect(NIN.Buffs.RaijuReady))
+				return NIN.FleetingRaiju;
 
-				}
-
-				if (IsEnabled(CustomComboPreset.NinjaAeolianEdgeCombo))
-					return SimpleChainCombo(level, lastComboMove, comboTime, (1, NIN.SpinningEdge),
-						(NIN.Levels.GustSlash, NIN.GustSlash),
-						(NIN.Levels.AeolianEdge, NIN.AeolianEdge)
-					);
-			}
+			if (IsEnabled(CustomComboPreset.NinjaAeolianEdgeCombo))
+				return SimpleChainCombo(level, lastComboMove, comboTime, (1, NIN.SpinningEdge),
+					(NIN.Levels.GustSlash, NIN.GustSlash),
+					(NIN.Levels.AeolianEdge, NIN.AeolianEdge)
+				);
 
 			return actionID;
 		}
@@ -123,17 +112,14 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { NIN.HakkeMujinsatsu };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is NIN.HakkeMujinsatsu) {
-				if (IsEnabled(CustomComboPreset.NinjaGCDNinjutsuFeature) && OriginalHook(NIN.JinNormal) == OriginalHook(NIN.Jin))
-					return OriginalHook(NIN.Ninjutsu);
 
-				if (level >= NIN.Levels.HakkeMujinsatsu && comboTime > 0 && lastComboMove == NIN.DeathBlossom)
-					return NIN.HakkeMujinsatsu;
+			if (IsEnabled(CustomComboPreset.NinjaGCDNinjutsuFeature) && OriginalHook(NIN.JinNormal) == OriginalHook(NIN.Jin))
+				return OriginalHook(NIN.Ninjutsu);
 
-				return NIN.DeathBlossom;
-			}
+			if (level >= NIN.Levels.HakkeMujinsatsu && comboTime > 0 && lastComboMove == NIN.DeathBlossom)
+				return NIN.HakkeMujinsatsu;
 
-			return actionID;
+			return NIN.DeathBlossom;
 		}
 	}
 
@@ -142,11 +128,10 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { NIN.Kassatsu };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is NIN.Kassatsu
-				&& (
-					(level >= NIN.Levels.Hide && SelfHasEffect(NIN.Buffs.Hidden))
-					|| (level >= NIN.Levels.Suiton && SelfHasEffect(NIN.Buffs.Suiton))
-				)
+
+			if (
+				(level >= NIN.Levels.Hide && SelfHasEffect(NIN.Buffs.Hidden))
+				|| (level >= NIN.Levels.Suiton && SelfHasEffect(NIN.Buffs.Suiton))
 			)
 				return NIN.TrickAttack;
 
@@ -159,17 +144,15 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { NIN.Hide };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is NIN.Hide) {
 
-				if (
-					(level >= NIN.Levels.Hide && SelfHasEffect(NIN.Buffs.Hidden))
-					|| (level >= NIN.Levels.Suiton && SelfHasEffect(NIN.Buffs.Suiton))
-				)
-					return NIN.TrickAttack;
+			if (
+				(level >= NIN.Levels.Hide && SelfHasEffect(NIN.Buffs.Hidden))
+				|| (level >= NIN.Levels.Suiton && SelfHasEffect(NIN.Buffs.Suiton))
+			)
+				return NIN.TrickAttack;
 
-				if (HasCondition(ConditionFlag.InCombat))
-					return NIN.Mug;
-			}
+			if (HasCondition(ConditionFlag.InCombat))
+				return NIN.Mug;
 
 			return actionID;
 		}
@@ -180,7 +163,8 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { NIN.Chi };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is NIN.Chi && level >= NIN.Levels.EnhancedKassatsu && SelfHasEffect(NIN.Buffs.Kassatsu))
+
+			if (level >= NIN.Levels.EnhancedKassatsu && SelfHasEffect(NIN.Buffs.Kassatsu))
 				return NIN.Jin;
 
 			return actionID;
@@ -192,7 +176,8 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { NIN.TenChiJin };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is NIN.TenChiJin && level >= NIN.Levels.Meisui && SelfHasEffect(NIN.Buffs.Suiton))
+
+			if (level >= NIN.Levels.Meisui && SelfHasEffect(NIN.Buffs.Suiton))
 				return NIN.Meisui;
 
 			return actionID;

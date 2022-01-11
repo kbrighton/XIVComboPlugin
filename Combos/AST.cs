@@ -42,17 +42,9 @@ namespace XIVComboVX.Combos {
 		}
 	}
 
-	internal class AstrologianSwiftcastRaiserFeature: CustomCombo {
+	internal class AstrologianSwiftcastRaiserFeature: SwiftRaiseCombo {
 		protected internal override CustomComboPreset Preset => CustomComboPreset.AstrologianSwiftcastRaiserFeature;
 		protected internal override uint[] ActionIDs { get; } = new[] { AST.Ascend };
-
-		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-
-			if (actionID is AST.Ascend && ShouldSwiftcast)
-				return Common.Swiftcast;
-
-			return actionID;
-		}
 	}
 
 	internal class AstrologianCardsOnDrawFeature: CustomCombo {
@@ -61,16 +53,13 @@ namespace XIVComboVX.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-			if (actionID is AST.Play) {
-				ASTGauge gauge = GetJobGauge<ASTGauge>();
+			ASTGauge gauge = GetJobGauge<ASTGauge>();
 
-				if (level >= AST.Levels.Astrodyne && IsEnabled(CustomComboPreset.AstrologianAstrodynePlayFeature) && !gauge.ContainsSeal(SealType.NONE))
-					return AST.Astrodyne;
+			if (level >= AST.Levels.Astrodyne && IsEnabled(CustomComboPreset.AstrologianAstrodynePlayFeature) && !gauge.ContainsSeal(SealType.NONE))
+				return AST.Astrodyne;
 
-				if (level >= AST.Levels.Draw && IsEnabled(CustomComboPreset.AstrologianDrawOnPlayFeature) && gauge.DrawnCard is CardType.NONE)
-					return AST.Draw;
-
-			}
+			if (level >= AST.Levels.Draw && IsEnabled(CustomComboPreset.AstrologianDrawOnPlayFeature) && gauge.DrawnCard is CardType.NONE)
+				return AST.Draw;
 
 			return actionID;
 		}
@@ -82,12 +71,8 @@ namespace XIVComboVX.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-			if (actionID is AST.MinorArcana) {
-
-				if (level >= AST.Levels.CrownPlay && GetJobGauge<ASTGauge>().DrawnCrownCard is not CardType.NONE)
-					return OriginalHook(AST.CrownPlay);
-
-			}
+			if (level >= AST.Levels.CrownPlay && GetJobGauge<ASTGauge>().DrawnCrownCard is not CardType.NONE)
+				return OriginalHook(AST.CrownPlay);
 
 			return actionID;
 		}
@@ -99,12 +84,8 @@ namespace XIVComboVX.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-			if (actionID is AST.Benefic2) {
-
-				if (level < AST.Levels.Benefic2)
-					return AST.Benefic;
-
-			}
+			if (level < AST.Levels.Benefic2)
+				return AST.Benefic;
 
 			return actionID;
 		}

@@ -29,17 +29,9 @@ namespace XIVComboVX.Combos {
 		}
 	}
 
-	internal class ScholarSwiftcastRaiserFeature: CustomCombo {
+	internal class ScholarSwiftcastRaiserFeature: SwiftRaiseCombo {
 		protected internal override CustomComboPreset Preset => CustomComboPreset.ScholarSwiftcastRaiserFeature;
 		protected internal override uint[] ActionIDs { get; } = new[] { SCH.Resurrection };
-
-		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-
-			if (actionID is SCH.Resurrection && ShouldSwiftcast)
-				return Common.Swiftcast;
-
-			return actionID;
-		}
 	}
 
 	internal class ScholarSeraphConsolationFeature: CustomCombo {

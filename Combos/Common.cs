@@ -15,4 +15,24 @@
 			LostChainspell = 2560;
 		}
 	}
+
+	internal abstract class SwiftRaiseCombo: CustomCombo {
+		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+
+			if (ShouldSwiftcast)
+				return Common.Swiftcast;
+
+			return actionID;
+		}
+	}
+
+	internal abstract class StunInterruptCombo: CustomCombo {
+		protected internal override uint[] ActionIDs { get; } = new[] { Common.LowBlow, Common.Interject };
+
+		protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
+			return CanInterrupt && IsOffCooldown(Common.Interject)
+				? Common.Interject
+				: Common.LowBlow;
+		}
+	}
 }

@@ -30,17 +30,9 @@ namespace XIVComboVX.Combos {
 		}
 	}
 
-	internal class WhiteMageSwiftcastRaiserFeature: CustomCombo {
+	internal class WhiteMageSwiftcastRaiserFeature: SwiftRaiseCombo {
 		protected internal override CustomComboPreset Preset => CustomComboPreset.WhiteMageSwiftcastRaiserFeature;
-
 		protected internal override uint[] ActionIDs { get; } = new[] { WHM.Raise };
-
-		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is WHM.Raise && ShouldSwiftcast)
-				return Common.Swiftcast;
-
-			return actionID;
-		}
 	}
 
 	internal class WhiteMageSolaceMiseryFeature: CustomCombo {
@@ -49,7 +41,7 @@ namespace XIVComboVX.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-			if (actionID is WHM.AfflatusSolace && level >= WHM.Levels.AfflatusMisery && GetJobGauge<WHMGauge>().BloodLily == 3)
+			if (level >= WHM.Levels.AfflatusMisery && GetJobGauge<WHMGauge>().BloodLily == 3)
 				return WHM.AfflatusMisery;
 
 			return actionID;
@@ -62,7 +54,7 @@ namespace XIVComboVX.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-			if (actionID is WHM.AfflatusRapture && level >= WHM.Levels.AfflatusMisery && GetJobGauge<WHMGauge>().BloodLily == 3)
+			if (level >= WHM.Levels.AfflatusMisery && GetJobGauge<WHMGauge>().BloodLily == 3)
 				return WHM.AfflatusMisery;
 
 			return actionID;
@@ -75,7 +67,7 @@ namespace XIVComboVX.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-			if (actionID is WHM.Cure2 && level < WHM.Levels.Cure2)
+			if (level < WHM.Levels.Cure2)
 				return WHM.Cure;
 
 			return actionID;

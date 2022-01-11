@@ -70,7 +70,7 @@ namespace XIVComboVX.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-			if (actionID is BRD.WanderersMinuet && level >= BRD.Levels.PitchPerfect && GetJobGauge<BRDGauge>().Song == Song.WANDERER)
+			if (level >= BRD.Levels.PitchPerfect && GetJobGauge<BRDGauge>().Song == Song.WANDERER)
 				return BRD.PitchPerfect;
 
 			return actionID;
@@ -82,24 +82,21 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { BRD.HeavyShot, BRD.BurstShot };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is BRD.HeavyShot or BRD.BurstShot) {
 
-				if (IsEnabled(CustomComboPreset.BardApexFeature)) {
+			if (IsEnabled(CustomComboPreset.BardApexFeature)) {
 
-					if (level >= BRD.Levels.ApexArrow && GetJobGauge<BRDGauge>().SoulVoice == 100)
-						return BRD.ApexArrow;
+				if (level >= BRD.Levels.ApexArrow && GetJobGauge<BRDGauge>().SoulVoice == 100)
+					return BRD.ApexArrow;
 
-					if (level >= BRD.Levels.BlastShot && SelfHasEffect(BRD.Buffs.BlastShotReady))
-						return BRD.BlastArrow;
+				if (level >= BRD.Levels.BlastShot && SelfHasEffect(BRD.Buffs.BlastShotReady))
+					return BRD.BlastArrow;
 
-				}
+			}
 
-				if (IsEnabled(CustomComboPreset.BardStraightShotUpgradeFeature)) {
+			if (IsEnabled(CustomComboPreset.BardStraightShotUpgradeFeature)) {
 
-					if (level >= BRD.Levels.StraightShot && SelfHasEffect(BRD.Buffs.StraightShotReady))
-						return OriginalHook(BRD.StraightShot);
-
-				}
+				if (level >= BRD.Levels.StraightShot && SelfHasEffect(BRD.Buffs.StraightShotReady))
+					return OriginalHook(BRD.StraightShot);
 
 			}
 
@@ -112,55 +109,51 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { BRD.IronJaws };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is BRD.IronJaws) {
 
-				if (level < BRD.Levels.Windbite)
+			if (level < BRD.Levels.Windbite)
+				return BRD.VenomousBite;
+
+			if (level < BRD.Levels.IronJaws) {
+
+				Status? venomous = TargetFindOwnEffect(BRD.Debuffs.VenomousBite);
+				Status? windbite = TargetFindOwnEffect(BRD.Debuffs.Windbite);
+
+				if (venomous is null)
 					return BRD.VenomousBite;
 
-				if (level < BRD.Levels.IronJaws) {
-
-					Status? venomous = TargetFindOwnEffect(BRD.Debuffs.VenomousBite);
-					Status? windbite = TargetFindOwnEffect(BRD.Debuffs.Windbite);
-
-					if (venomous is null)
-						return BRD.VenomousBite;
-
-					if (windbite is null)
-						return BRD.Windbite;
-
-					if (venomous.RemainingTime < windbite.RemainingTime)
-						return BRD.VenomousBite;
-
+				if (windbite is null)
 					return BRD.Windbite;
-				}
 
-				if (level < BRD.Levels.BiteUpgrade) {
+				if (venomous.RemainingTime < windbite.RemainingTime)
+					return BRD.VenomousBite;
 
-					bool venomous = TargetHasOwnEffect(BRD.Debuffs.VenomousBite);
-					bool windbite = TargetHasOwnEffect(BRD.Debuffs.Windbite);
-
-					if (venomous && windbite)
-						return BRD.IronJaws;
-
-					if (windbite)
-						return BRD.VenomousBite;
-
-					return BRD.Windbite;
-				}
-
-				bool caustic = TargetHasOwnEffect(BRD.Debuffs.CausticBite);
-				bool stormbite = TargetHasOwnEffect(BRD.Debuffs.Stormbite);
-
-				if (caustic && stormbite)
-					return BRD.IronJaws;
-
-				if (stormbite)
-					return BRD.CausticBite;
-
-				return BRD.Stormbite;
+				return BRD.Windbite;
 			}
 
-			return actionID;
+			if (level < BRD.Levels.BiteUpgrade) {
+
+				bool venomous = TargetHasOwnEffect(BRD.Debuffs.VenomousBite);
+				bool windbite = TargetHasOwnEffect(BRD.Debuffs.Windbite);
+
+				if (venomous && windbite)
+					return BRD.IronJaws;
+
+				if (windbite)
+					return BRD.VenomousBite;
+
+				return BRD.Windbite;
+			}
+
+			bool caustic = TargetHasOwnEffect(BRD.Debuffs.CausticBite);
+			bool stormbite = TargetHasOwnEffect(BRD.Debuffs.Stormbite);
+
+			if (caustic && stormbite)
+				return BRD.IronJaws;
+
+			if (stormbite)
+				return BRD.CausticBite;
+
+			return BRD.Stormbite;
 		}
 	}
 
@@ -169,22 +162,19 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { BRD.QuickNock, BRD.Ladonsbite };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is BRD.QuickNock or BRD.Ladonsbite) {
 
-				if (IsEnabled(CustomComboPreset.BardApexFeature)) {
+			if (IsEnabled(CustomComboPreset.BardApexFeature)) {
 
-					if (level >= BRD.Levels.ApexArrow && GetJobGauge<BRDGauge>().SoulVoice == 100)
-						return BRD.ApexArrow;
+				if (level >= BRD.Levels.ApexArrow && GetJobGauge<BRDGauge>().SoulVoice == 100)
+					return BRD.ApexArrow;
 
-					if (level >= BRD.Levels.BlastShot && SelfHasEffect(BRD.Buffs.BlastShotReady))
-						return BRD.BlastArrow;
-
-				}
-
-				if (IsEnabled(CustomComboPreset.BardShadowbiteFeature) && level >= BRD.Levels.Shadowbite && SelfHasEffect(BRD.Buffs.ShadowbiteReady))
-					return BRD.Shadowbite;
+				if (level >= BRD.Levels.BlastShot && SelfHasEffect(BRD.Buffs.BlastShotReady))
+					return BRD.BlastArrow;
 
 			}
+
+			if (IsEnabled(CustomComboPreset.BardShadowbiteFeature) && level >= BRD.Levels.Shadowbite && SelfHasEffect(BRD.Buffs.ShadowbiteReady))
+				return BRD.Shadowbite;
 
 			return actionID;
 		}
@@ -195,15 +185,12 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { BRD.Bloodletter };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is BRD.Bloodletter) {
 
-				if (level >= BRD.Levels.Sidewinder)
-					return PickByCooldown(actionID, BRD.Bloodletter, BRD.EmpyrealArrow, BRD.Sidewinder);
+			if (level >= BRD.Levels.Sidewinder)
+				return PickByCooldown(actionID, BRD.Bloodletter, BRD.EmpyrealArrow, BRD.Sidewinder);
 
-				if (level >= BRD.Levels.EmpyrealArrow)
-					return PickByCooldown(actionID, BRD.Bloodletter, BRD.EmpyrealArrow);
-
-			}
+			if (level >= BRD.Levels.EmpyrealArrow)
+				return PickByCooldown(actionID, BRD.Bloodletter, BRD.EmpyrealArrow);
 
 			return actionID;
 		}
@@ -215,15 +202,11 @@ namespace XIVComboVX.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-			if (actionID is BRD.RainOfDeath) {
+			if (level >= BRD.Levels.Sidewinder)
+				return PickByCooldown(actionID, BRD.RainOfDeath, BRD.EmpyrealArrow, BRD.Sidewinder);
 
-				if (level >= BRD.Levels.Sidewinder)
-					return PickByCooldown(actionID, BRD.RainOfDeath, BRD.EmpyrealArrow, BRD.Sidewinder);
-
-				if (level >= BRD.Levels.EmpyrealArrow)
-					return PickByCooldown(actionID, BRD.RainOfDeath, BRD.EmpyrealArrow);
-
-			}
+			if (level >= BRD.Levels.EmpyrealArrow)
+				return PickByCooldown(actionID, BRD.RainOfDeath, BRD.EmpyrealArrow);
 
 			return actionID;
 		}

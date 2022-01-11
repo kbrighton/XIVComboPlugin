@@ -49,112 +49,80 @@ namespace XIVComboVX.Combos {
 		}
 	}
 
-	internal abstract class SageCustomCombo: CustomCombo {
-		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.SgeAny;
-	}
-
-	internal class SageSwiftcastRaiserFeature: CustomCombo {
+	internal class SageSwiftcastRaiserFeature: SwiftRaiseCombo {
 		protected internal override CustomComboPreset Preset => CustomComboPreset.SageSwiftcastRaiserFeature;
 		protected internal override uint[] ActionIDs { get; } = new[] { SGE.Egeiro };
-
-		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-
-			if (actionID is SGE.Egeiro && ShouldSwiftcast)
-				return Common.Swiftcast;
-
-			return actionID;
-		}
 	}
 
-	internal class SageSoteria: SageCustomCombo {
+	internal class SageSoteria: CustomCombo {
+		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.SageSoteriaKardionFeature;
 		protected internal override uint[] ActionIDs { get; } = new[] { SGE.Soteria };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is SGE.Soteria) {
-				if (IsEnabled(CustomComboPreset.SageSoteriaKardionFeature)) {
 
-					if (SelfHasEffect(SGE.Buffs.Kardion) && IsOffCooldown(SGE.Soteria))
-						return SGE.Soteria;
+			if (SelfHasEffect(SGE.Buffs.Kardion) && IsOffCooldown(SGE.Soteria))
+				return SGE.Soteria;
 
-					return SGE.Kardia;
-				}
-			}
-
-			return actionID;
+			return SGE.Kardia;
 		}
 	}
 
-	internal class SageTaurochole: SageCustomCombo {
+	internal class SageTaurochole: CustomCombo {
+		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.SgeAny;
 		protected internal override uint[] ActionIDs { get; } = new[] { SGE.Taurochole };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is SGE.Taurochole) {
-				SGEGauge gauge = GetJobGauge<SGEGauge>();
 
-				if (IsEnabled(CustomComboPreset.SageTaurocholeRhizomataFeature)) {
-					if (level >= SGE.Levels.Rhizomata && gauge.Addersgall == 0)
-						return SGE.Rhizomata;
-				}
+			if (IsEnabled(CustomComboPreset.SageTaurocholeRhizomataFeature)) {
+				if (level >= SGE.Levels.Rhizomata && GetJobGauge<SGEGauge>().Addersgall == 0)
+					return SGE.Rhizomata;
+			}
 
-				if (IsEnabled(CustomComboPreset.SageTaurocholeDruocholeFeature)) {
-					if (level >= SGE.Levels.Taurochole && IsOffCooldown(SGE.Taurochole))
-						return SGE.Taurochole;
+			if (IsEnabled(CustomComboPreset.SageTaurocholeDruocholeFeature)) {
+				if (level >= SGE.Levels.Taurochole && IsOffCooldown(SGE.Taurochole))
+					return SGE.Taurochole;
 
-					return SGE.Druochole;
-				}
+				return SGE.Druochole;
 			}
 
 			return actionID;
 		}
 	}
 
-	internal class SageDruochole: SageCustomCombo {
+	internal class SageDruochole: CustomCombo {
+		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.SageDruocholeRhizomataFeature;
 		protected internal override uint[] ActionIDs { get; } = new[] { SGE.Druochole };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is SGE.Druochole) {
-				SGEGauge? gauge = GetJobGauge<SGEGauge>();
 
-				if (IsEnabled(CustomComboPreset.SageDruocholeRhizomataFeature)) {
-					if (level >= SGE.Levels.Rhizomata && gauge.Addersgall == 0)
-						return SGE.Rhizomata;
-
-				}
-			}
+			if (level >= SGE.Levels.Rhizomata && GetJobGauge<SGEGauge>().Addersgall == 0)
+				return SGE.Rhizomata;
 
 			return actionID;
 		}
 	}
 
-	internal class SageIxochole: SageCustomCombo {
+	internal class SageIxochole: CustomCombo {
+		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.SageIxocholeRhizomataFeature;
 		protected internal override uint[] ActionIDs { get; } = new[] { SGE.Ixochole };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is SGE.Ixochole) {
-				SGEGauge? gauge = GetJobGauge<SGEGauge>();
 
-				if (IsEnabled(CustomComboPreset.SageIxocholeRhizomataFeature)) {
-					if (level >= SGE.Levels.Rhizomata && gauge.Addersgall == 0)
-						return SGE.Rhizomata;
-				}
-			}
+			if (level >= SGE.Levels.Rhizomata && GetJobGauge<SGEGauge>().Addersgall == 0)
+				return SGE.Rhizomata;
 
 			return actionID;
 		}
 	}
 
-	internal class SageKerachole: SageCustomCombo {
+	internal class SageKerachole: CustomCombo {
+		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.SageKeracholaRhizomataFeature;
 		protected internal override uint[] ActionIDs { get; } = new[] { SGE.Kerachole };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID == SGE.Kerachole) {
-				SGEGauge? gauge = GetJobGauge<SGEGauge>();
 
-				if (IsEnabled(CustomComboPreset.SageKeracholaRhizomataFeature)) {
-					if (level >= SGE.Levels.Rhizomata && gauge.Addersgall == 0)
-						return SGE.Rhizomata;
-				}
-			}
+			if (level >= SGE.Levels.Rhizomata && GetJobGauge<SGEGauge>().Addersgall == 0)
+				return SGE.Rhizomata;
 
 			return actionID;
 		}

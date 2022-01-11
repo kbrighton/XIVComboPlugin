@@ -98,23 +98,20 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { DNC.FanDance1, DNC.FanDance2 };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is DNC.FanDance1 or DNC.FanDance2) {
-				bool can4 = level >= DNC.Levels.FanDance4 && SelfHasEffect(DNC.Buffs.FourfoldFanDance);
-				bool can3 = level >= DNC.Levels.FanDance3 && SelfHasEffect(DNC.Buffs.ThreefoldFanDance);
+			bool can4 = level >= DNC.Levels.FanDance4 && SelfHasEffect(DNC.Buffs.FourfoldFanDance);
+			bool can3 = level >= DNC.Levels.FanDance3 && SelfHasEffect(DNC.Buffs.ThreefoldFanDance);
 
-				if (actionID is DNC.FanDance1) {
-					if (IsEnabled(CustomComboPreset.DancerFanDance14Combo) && can4)
-						return DNC.FanDance4;
-					if (IsEnabled(CustomComboPreset.DancerFanDance13Combo) && can3)
-						return DNC.FanDance3;
-				}
-				else if (actionID is DNC.FanDance2) {
-					if (IsEnabled(CustomComboPreset.DancerFanDance24Combo) && can4)
-						return DNC.FanDance4;
-					if (IsEnabled(CustomComboPreset.DancerFanDance23Combo) && can3)
-						return DNC.FanDance3;
-				}
-
+			if (actionID is DNC.FanDance1) {
+				if (IsEnabled(CustomComboPreset.DancerFanDance14Combo) && can4)
+					return DNC.FanDance4;
+				if (IsEnabled(CustomComboPreset.DancerFanDance13Combo) && can3)
+					return DNC.FanDance3;
+			}
+			else if (actionID is DNC.FanDance2) {
+				if (IsEnabled(CustomComboPreset.DancerFanDance24Combo) && can4)
+					return DNC.FanDance4;
+				if (IsEnabled(CustomComboPreset.DancerFanDance23Combo) && can3)
+					return DNC.FanDance3;
 			}
 
 			return actionID;
@@ -126,7 +123,7 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { DNC.StandardStep, DNC.TechnicalStep };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is DNC.StandardStep or DNC.TechnicalStep && level >= DNC.Levels.StandardStep) {
+			if (level >= DNC.Levels.StandardStep) {
 				DNCGauge gauge = GetJobGauge<DNCGauge>();
 				int steps = actionID is DNC.StandardStep ? 2 : 4;
 
@@ -148,21 +145,18 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { DNC.Flourish };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is DNC.Flourish) {
 
-				if (level >= DNC.Levels.Fountainfall && SelfHasEffect(DNC.Buffs.FlourishingFlow))
-					return DNC.Fountainfall;
+			if (level >= DNC.Levels.Fountainfall && SelfHasEffect(DNC.Buffs.FlourishingFlow))
+				return DNC.Fountainfall;
 
-				if (level >= DNC.Levels.FanDance4 && SelfHasEffect(DNC.Buffs.FourfoldFanDance))
-					return DNC.FanDance4;
+			if (level >= DNC.Levels.FanDance4 && SelfHasEffect(DNC.Buffs.FourfoldFanDance))
+				return DNC.FanDance4;
 
-				if (level >= DNC.Levels.ReverseCascade && SelfHasEffect(DNC.Buffs.FlourishingSymmetry))
-					return DNC.ReverseCascade;
+			if (level >= DNC.Levels.ReverseCascade && SelfHasEffect(DNC.Buffs.FlourishingSymmetry))
+				return DNC.ReverseCascade;
 
-				if (level >= DNC.Levels.FanDance3 && SelfHasEffect(DNC.Buffs.ThreefoldFanDance))
-					return DNC.FanDance3;
-
-			}
+			if (level >= DNC.Levels.FanDance3 && SelfHasEffect(DNC.Buffs.ThreefoldFanDance))
+				return DNC.FanDance3;
 
 			return actionID;
 		}
@@ -173,18 +167,15 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { DNC.Cascade };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is DNC.Cascade) {
 
-				if (level >= DNC.Levels.ReverseCascade && SelfHasEffect(DNC.Buffs.FlourishingSymmetry))
-					return DNC.ReverseCascade;
+			if (level >= DNC.Levels.Fountainfall && SelfHasEffect(DNC.Buffs.FlourishingFlow))
+				return DNC.Fountainfall;
 
-				if (level >= DNC.Levels.Fountainfall && SelfHasEffect(DNC.Buffs.FlourishingFlow))
-					return DNC.Fountainfall;
+			if (level >= DNC.Levels.ReverseCascade && SelfHasEffect(DNC.Buffs.FlourishingSymmetry))
+				return DNC.ReverseCascade;
 
-				if (lastComboMove == DNC.Cascade && level >= DNC.Levels.Fountain)
-					return DNC.Fountain;
-
-			}
+			if (lastComboMove is DNC.Cascade && level >= DNC.Levels.Fountain)
+				return DNC.Fountain;
 
 			return actionID;
 		}
@@ -195,18 +186,15 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { DNC.Windmill };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is DNC.Windmill) {
 
-				if (level >= DNC.Levels.RisingWindmill && SelfHasEffect(DNC.Buffs.FlourishingSymmetry))
-					return DNC.RisingWindmill;
+			if (level >= DNC.Levels.Bloodshower && SelfHasEffect(DNC.Buffs.FlourishingFlow))
+				return DNC.Bloodshower;
 
-				if (level >= DNC.Levels.Bloodshower && SelfHasEffect(DNC.Buffs.FlourishingFlow))
-					return DNC.Bloodshower;
+			if (level >= DNC.Levels.RisingWindmill && SelfHasEffect(DNC.Buffs.FlourishingSymmetry))
+				return DNC.RisingWindmill;
 
-				if (lastComboMove == DNC.Windmill && level >= DNC.Levels.Bladeshower)
-					return DNC.Bladeshower;
-
-			}
+			if (lastComboMove is DNC.Windmill && level >= DNC.Levels.Bladeshower)
+				return DNC.Bladeshower;
 
 			return actionID;
 		}
@@ -218,7 +206,7 @@ namespace XIVComboVX.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-			if (actionID is DNC.Devilment && level >= DNC.Levels.StarfallDance && SelfHasEffect(DNC.Buffs.FlourishingStarfall))
+			if (level >= DNC.Levels.StarfallDance && SelfHasEffect(DNC.Buffs.FlourishingStarfall))
 				return DNC.StarfallDance;
 
 			return actionID;

@@ -51,15 +51,8 @@ namespace XIVComboVX.Combos {
 		}
 	}
 
-	internal class DarkStunInterruptFeature: CustomCombo {
+	internal class DarkStunInterruptFeature: StunInterruptCombo {
 		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.DarkStunInterruptFeature;
-		protected internal override uint[] ActionIDs { get; } = new[] { Common.LowBlow, Common.Interject };
-
-		protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
-			return CanInterrupt && IsOffCooldown(Common.Interject)
-				? Common.Interject
-				: Common.LowBlow;
-		}
 	}
 
 	internal class DarkSouleaterCombo: CustomCombo {

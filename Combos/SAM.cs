@@ -75,17 +75,13 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { SAM.Yukikaze };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is SAM.Yukikaze) {
 
-				if ((level >= SAM.Levels.MeikyoShisui && SelfHasEffect(SAM.Buffs.MeikyoShisui))
-					|| (comboTime > 0 && lastComboMove == SAM.Hakaze && level >= SAM.Levels.Yukikaze)
-				)
-					return SAM.Yukikaze;
+			if ((level >= SAM.Levels.MeikyoShisui && SelfHasEffect(SAM.Buffs.MeikyoShisui))
+				|| (comboTime > 0 && lastComboMove == SAM.Hakaze && level >= SAM.Levels.Yukikaze)
+			)
+				return SAM.Yukikaze;
 
-				return SAM.Hakaze;
-			}
-
-			return actionID;
+			return SAM.Hakaze;
 		}
 	}
 
@@ -94,27 +90,23 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { SAM.Gekko };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is SAM.Gekko) {
 
-				if (level >= SAM.Levels.MeikyoShisui && SelfHasEffect(SAM.Buffs.MeikyoShisui))
+			if (level >= SAM.Levels.MeikyoShisui && SelfHasEffect(SAM.Buffs.MeikyoShisui))
+				return SAM.Gekko;
+
+			if (comboTime > 0) {
+
+				if (lastComboMove == SAM.Hakaze && level >= SAM.Levels.Jinpu)
+					return SAM.Jinpu;
+
+				if (lastComboMove == SAM.Jinpu && level >= SAM.Levels.Gekko)
 					return SAM.Gekko;
 
-				if (comboTime > 0) {
-
-					if (lastComboMove == SAM.Hakaze && level >= SAM.Levels.Jinpu)
-						return SAM.Jinpu;
-
-					if (lastComboMove == SAM.Jinpu && level >= SAM.Levels.Gekko)
-						return SAM.Gekko;
-
-				}
-
-				return IsEnabled(CustomComboPreset.SamuraiGekkoOption)
-					? SAM.Jinpu
-					: SAM.Hakaze;
 			}
 
-			return actionID;
+			return IsEnabled(CustomComboPreset.SamuraiGekkoOption)
+				? SAM.Jinpu
+				: SAM.Hakaze;
 		}
 	}
 
@@ -123,25 +115,21 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { SAM.Kasha };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is SAM.Kasha) {
 
-				if (level >= SAM.Levels.MeikyoShisui && SelfHasEffect(SAM.Buffs.MeikyoShisui))
+			if (level >= SAM.Levels.MeikyoShisui && SelfHasEffect(SAM.Buffs.MeikyoShisui))
+				return SAM.Kasha;
+
+			if (comboTime > 0) {
+				if (lastComboMove == SAM.Hakaze && level >= SAM.Levels.Shifu)
+					return SAM.Shifu;
+
+				if (lastComboMove == SAM.Shifu && level >= SAM.Levels.Kasha)
 					return SAM.Kasha;
-
-				if (comboTime > 0) {
-					if (lastComboMove == SAM.Hakaze && level >= SAM.Levels.Shifu)
-						return SAM.Shifu;
-
-					if (lastComboMove == SAM.Shifu && level >= SAM.Levels.Kasha)
-						return SAM.Kasha;
-				}
-
-				return IsEnabled(CustomComboPreset.SamuraiKashaOption)
-					? SAM.Shifu
-					: SAM.Hakaze;
 			}
 
-			return actionID;
+			return IsEnabled(CustomComboPreset.SamuraiKashaOption)
+				? SAM.Shifu
+				: SAM.Hakaze;
 		}
 	}
 
@@ -150,18 +138,14 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { SAM.Mangetsu };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is SAM.Mangetsu) {
 
-				if (
-					(level >= SAM.Levels.MeikyoShisui && SelfHasEffect(SAM.Buffs.MeikyoShisui))
-					|| (comboTime > 0 && lastComboMove is SAM.Fuga or SAM.Fuko && level >= SAM.Levels.Mangetsu)
-				)
-					return SAM.Mangetsu;
+			if (
+				(level >= SAM.Levels.MeikyoShisui && SelfHasEffect(SAM.Buffs.MeikyoShisui))
+				|| (comboTime > 0 && lastComboMove is SAM.Fuga or SAM.Fuko && level >= SAM.Levels.Mangetsu)
+			)
+				return SAM.Mangetsu;
 
-				return OriginalHook(SAM.Fuga);
-			}
-
-			return actionID;
+			return OriginalHook(SAM.Fuga);
 		}
 	}
 
@@ -170,18 +154,14 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { SAM.Oka };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is SAM.Oka) {
 
-				if (
-					(level >= SAM.Levels.MeikyoShisui && SelfHasEffect(SAM.Buffs.MeikyoShisui))
-					|| (comboTime > 0 && lastComboMove is SAM.Fuga or SAM.Fuko && level >= SAM.Levels.Oka)
-				)
-					return SAM.Oka;
+			if (
+				(level >= SAM.Levels.MeikyoShisui && SelfHasEffect(SAM.Buffs.MeikyoShisui))
+				|| (comboTime > 0 && lastComboMove is SAM.Fuga or SAM.Fuko && level >= SAM.Levels.Oka)
+			)
+				return SAM.Oka;
 
-				return OriginalHook(SAM.Fuga);
-			}
-
-			return actionID;
+			return OriginalHook(SAM.Fuga);
 		}
 	}
 
@@ -190,18 +170,15 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { SAM.TsubameGaeshi };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is SAM.TsubameGaeshi) {
 
-				if (level >= SAM.Levels.Shoha && IsEnabled(CustomComboPreset.SamuraiTsubameGaeshiShohaFeature) && GetJobGauge<SAMGauge>().MeditationStacks >= 3)
-					return SAM.Shoha;
+			if (level >= SAM.Levels.Shoha && IsEnabled(CustomComboPreset.SamuraiTsubameGaeshiShohaFeature) && GetJobGauge<SAMGauge>().MeditationStacks >= 3)
+				return SAM.Shoha;
 
-				if (IsEnabled(CustomComboPreset.SamuraiTsubameGaeshiIaijutsuFeature)) {
-					if (level >= SAM.Levels.TsubameGaeshi && GetJobGauge<SAMGauge>().Sen == Sen.NONE)
-						return OriginalHook(SAM.TsubameGaeshi);
+			if (IsEnabled(CustomComboPreset.SamuraiTsubameGaeshiIaijutsuFeature)) {
+				if (level >= SAM.Levels.TsubameGaeshi && GetJobGauge<SAMGauge>().Sen == Sen.NONE)
+					return OriginalHook(SAM.TsubameGaeshi);
 
-					return OriginalHook(SAM.Iaijutsu);
-				}
-
+				return OriginalHook(SAM.Iaijutsu);
 			}
 
 			return actionID;
@@ -213,18 +190,15 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { SAM.Iaijutsu };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is SAM.Iaijutsu) {
 
-				if (level >= SAM.Levels.Shoha && IsEnabled(CustomComboPreset.SamuraiIaijutsuShohaFeature) && GetJobGauge<SAMGauge>().MeditationStacks >= 3)
-					return SAM.Shoha;
+			if (level >= SAM.Levels.Shoha && IsEnabled(CustomComboPreset.SamuraiIaijutsuShohaFeature) && GetJobGauge<SAMGauge>().MeditationStacks >= 3)
+				return SAM.Shoha;
 
-				if (IsEnabled(CustomComboPreset.SamuraiIaijutsuTsubameGaeshiFeature)) {
-					if (level >= SAM.Levels.TsubameGaeshi && GetJobGauge<SAMGauge>().Sen == Sen.NONE)
-						return OriginalHook(SAM.TsubameGaeshi);
+			if (IsEnabled(CustomComboPreset.SamuraiIaijutsuTsubameGaeshiFeature)) {
+				if (level >= SAM.Levels.TsubameGaeshi && GetJobGauge<SAMGauge>().Sen == Sen.NONE)
+					return OriginalHook(SAM.TsubameGaeshi);
 
-					return OriginalHook(SAM.Iaijutsu);
-				}
-
+				return OriginalHook(SAM.Iaijutsu);
 			}
 
 			return actionID;
@@ -237,16 +211,14 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { SAM.HissatsuShinten };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID == SAM.HissatsuShinten) {
 
-				if (IsEnabled(CustomComboPreset.SamuraiShintenShohaFeature) && level >= SAM.Levels.Shoha && GetJobGauge<SAMGauge>().MeditationStacks >= 3)
-					return SAM.Shoha;
+			if (IsEnabled(CustomComboPreset.SamuraiShintenShohaFeature) && level >= SAM.Levels.Shoha && GetJobGauge<SAMGauge>().MeditationStacks >= 3)
+				return SAM.Shoha;
 
-				if (IsEnabled(CustomComboPreset.SamuraiShintenSeneiFeature)
-					&& level >= SAM.Levels.HissatsuSenei
-					&& GetCooldown(SAM.HissatsuSenei).CooldownRemaining == 0)
-					return SAM.HissatsuSenei;
-			}
+			if (IsEnabled(CustomComboPreset.SamuraiShintenSeneiFeature)
+				&& level >= SAM.Levels.HissatsuSenei
+				&& GetCooldown(SAM.HissatsuSenei).CooldownRemaining == 0)
+				return SAM.HissatsuSenei;
 
 			return actionID;
 		}
@@ -258,16 +230,14 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { SAM.HissatsuKyuten };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID == SAM.HissatsuKyuten) {
 
-				if (IsEnabled(CustomComboPreset.SamuraiKyutenShoha2Feature) && level >= SAM.Levels.Shoha2 && GetJobGauge<SAMGauge>().MeditationStacks >= 3)
-					return SAM.Shoha2;
+			if (IsEnabled(CustomComboPreset.SamuraiKyutenShoha2Feature) && level >= SAM.Levels.Shoha2 && GetJobGauge<SAMGauge>().MeditationStacks >= 3)
+				return SAM.Shoha2;
 
-				if (IsEnabled(CustomComboPreset.SamuraiKyutenGurenFeature)
-					&& level >= SAM.Levels.HissatsuGuren
-					&& GetCooldown(SAM.HissatsuGuren).CooldownRemaining == 0)
-					return SAM.HissatsuGuren;
-			}
+			if (IsEnabled(CustomComboPreset.SamuraiKyutenGurenFeature)
+				&& level >= SAM.Levels.HissatsuGuren
+				&& GetCooldown(SAM.HissatsuGuren).CooldownRemaining == 0)
+				return SAM.HissatsuGuren;
 
 			return actionID;
 		}
@@ -279,19 +249,18 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { SAM.Ikishoten };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID == SAM.Ikishoten) {
-				if (level >= SAM.Levels.OgiNamikiri) {
-					SAMGauge gauge = GetJobGauge<SAMGauge>();
 
-					if (level >= SAM.Levels.Shoha && gauge.MeditationStacks >= 3)
-						return SAM.Shoha;
+			if (level >= SAM.Levels.OgiNamikiri) {
+				SAMGauge gauge = GetJobGauge<SAMGauge>();
 
-					if (gauge.Kaeshi == Kaeshi.NAMIKIRI)
-						return SAM.KaeshiNamikiri;
+				if (level >= SAM.Levels.Shoha && gauge.MeditationStacks >= 3)
+					return SAM.Shoha;
 
-					if (SelfHasEffect(SAM.Buffs.OgiNamikiriReady))
-						return SAM.OgiNamikiri;
-				}
+				if (gauge.Kaeshi == Kaeshi.NAMIKIRI)
+					return SAM.KaeshiNamikiri;
+
+				if (SelfHasEffect(SAM.Buffs.OgiNamikiriReady))
+					return SAM.OgiNamikiri;
 			}
 
 			return actionID;

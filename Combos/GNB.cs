@@ -55,15 +55,8 @@ namespace XIVComboVX.Combos {
 		}
 	}
 
-	internal class GunbreakerStunInterruptFeature: CustomCombo {
+	internal class GunbreakerStunInterruptFeature: StunInterruptCombo {
 		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.GunbreakerStunInterruptFeature;
-		protected internal override uint[] ActionIDs { get; } = new[] { Common.LowBlow, Common.Interject };
-
-		protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
-			return CanInterrupt && IsOffCooldown(Common.Interject)
-				? Common.Interject
-				: Common.LowBlow;
-		}
 	}
 
 	internal class GunbreakerSolidBarrelCombo: CustomCombo {
@@ -72,13 +65,10 @@ namespace XIVComboVX.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-			if (actionID is GNB.SolidBarrel)
-				return SimpleChainCombo(level, lastComboMove, comboTime, (1, GNB.KeenEdge),
-					(GNB.Levels.BrutalShell, GNB.BrutalShell),
-					(GNB.Levels.SolidBarrel, GNB.SolidBarrel)
-				);
-
-			return actionID;
+			return SimpleChainCombo(level, lastComboMove, comboTime, (1, GNB.KeenEdge),
+				(GNB.Levels.BrutalShell, GNB.BrutalShell),
+				(GNB.Levels.SolidBarrel, GNB.SolidBarrel)
+			);
 		}
 	}
 
@@ -87,23 +77,19 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { GNB.GnashingFang };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is GNB.GnashingFang) {
 
-				if (level >= GNB.Levels.Continuation) {
-					if (SelfHasEffect(GNB.Buffs.ReadyToGouge))
-						return GNB.EyeGouge;
+			if (level >= GNB.Levels.Continuation) {
+				if (SelfHasEffect(GNB.Buffs.ReadyToGouge))
+					return GNB.EyeGouge;
 
-					if (SelfHasEffect(GNB.Buffs.ReadyToTear))
-						return GNB.AbdomenTear;
+				if (SelfHasEffect(GNB.Buffs.ReadyToTear))
+					return GNB.AbdomenTear;
 
-					if (SelfHasEffect(GNB.Buffs.ReadyToRip))
-						return GNB.JugularRip;
-				}
-
-				return OriginalHook(GNB.GnashingFang);
+				if (SelfHasEffect(GNB.Buffs.ReadyToRip))
+					return GNB.JugularRip;
 			}
 
-			return actionID;
+			return OriginalHook(GNB.GnashingFang);
 		}
 	}
 
@@ -118,20 +104,18 @@ namespace XIVComboVX.Combos {
 					return GNB.Hypervelocity;
 			}
 
-			if (actionID is GNB.BurstStrike or GNB.FatedCircle) {
-				GNBGauge gauge = GetJobGauge<GNBGauge>();
+			GNBGauge gauge = GetJobGauge<GNBGauge>();
 
-				if (IsEnabled(CustomComboPreset.GunbreakerDoubleDownFeature) && level >= GNB.Levels.DoubleDown && gauge.Ammo >= 2) {
-					CooldownData doubleDown = GetCooldown(GNB.DoubleDown);
+			if (IsEnabled(CustomComboPreset.GunbreakerDoubleDownFeature) && level >= GNB.Levels.DoubleDown && gauge.Ammo >= 2) {
+				CooldownData doubleDown = GetCooldown(GNB.DoubleDown);
 
-					if (!doubleDown.IsCooldown)
-						return GNB.DoubleDown;
+				if (!doubleDown.IsCooldown)
+					return GNB.DoubleDown;
 
-				}
-
-				if (IsEnabled(CustomComboPreset.GunbreakerEmptyBloodfestFeature) && level >= GNB.Levels.Bloodfest && gauge.Ammo == 0)
-					return GNB.Bloodfest;
 			}
+
+			if (IsEnabled(CustomComboPreset.GunbreakerEmptyBloodfestFeature) && level >= GNB.Levels.Bloodfest && gauge.Ammo == 0)
+				return GNB.Bloodfest;
 
 			return actionID;
 		}
@@ -143,7 +127,7 @@ namespace XIVComboVX.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-			if (actionID is GNB.BowShock or GNB.SonicBreak && level >= GNB.Levels.BowShock)
+			if (level >= GNB.Levels.BowShock)
 				return PickByCooldown(actionID, GNB.BowShock, GNB.SonicBreak);
 
 			return actionID;
@@ -155,26 +139,22 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { GNB.DemonSlaughter };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is GNB.DemonSlaughter) {
 
-				if (level >= GNB.Levels.DemonSlaughter && comboTime > 0 && lastComboMove == GNB.DemonSlice) {
+			if (level >= GNB.Levels.DemonSlaughter && comboTime > 0 && lastComboMove == GNB.DemonSlice) {
 
-					if (level >= GNB.Levels.FatedCircle && IsEnabled(CustomComboPreset.GunbreakerFatedCircleFeature)) {
-						GNBGauge gauge = GetJobGauge<GNBGauge>();
-						int maxAmmo = level >= GNB.Levels.CartridgeCharge2 ? 3 : 2;
+				if (level >= GNB.Levels.FatedCircle && IsEnabled(CustomComboPreset.GunbreakerFatedCircleFeature)) {
+					GNBGauge gauge = GetJobGauge<GNBGauge>();
+					int maxAmmo = level >= GNB.Levels.CartridgeCharge2 ? 3 : 2;
 
-						if (gauge.Ammo == maxAmmo)
-							return GNB.FatedCircle;
+					if (gauge.Ammo == maxAmmo)
+						return GNB.FatedCircle;
 
-					}
-
-					return GNB.DemonSlaughter;
 				}
 
-				return GNB.DemonSlice;
+				return GNB.DemonSlaughter;
 			}
 
-			return actionID;
+			return GNB.DemonSlice;
 		}
 	}
 
@@ -183,17 +163,15 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { GNB.NoMercy };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is GNB.NoMercy) {
 
-				if (level >= GNB.Levels.NoMercy && SelfHasEffect(GNB.Buffs.NoMercy)) {
+			if (level >= GNB.Levels.NoMercy && SelfHasEffect(GNB.Buffs.NoMercy)) {
 
-					if (level >= GNB.Levels.BowShock)
-						return PickByCooldown(GNB.SonicBreak, GNB.SonicBreak, GNB.BowShock);
+				if (level >= GNB.Levels.BowShock)
+					return PickByCooldown(GNB.SonicBreak, GNB.SonicBreak, GNB.BowShock);
 
-					if (level >= GNB.Levels.SonicBreak)
-						return GNB.SonicBreak;
+				if (level >= GNB.Levels.SonicBreak)
+					return GNB.SonicBreak;
 
-				}
 			}
 
 			return actionID;
