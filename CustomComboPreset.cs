@@ -372,6 +372,9 @@ namespace XIVComboVX {
 		[CustomComboInfo("Huraijin / Raiju Feature", "Replaces Huraijin with Forked Raiju when available.", NIN.JobID)]
 		NinjaHuraijinRaijuFeature = 3012,
 
+		[CustomComboInfo("Huraijin / Crush Feature", "Replaces Huraijin with Armor Crush during the 1-2-3 combo.", NIN.JobID)]
+		NinjaHuraijinCrushFeature = 3013,
+
 		#endregion
 		// ====================================================================================
 		#region PALADIN (19xx)

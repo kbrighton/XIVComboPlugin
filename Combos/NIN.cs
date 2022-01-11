@@ -184,13 +184,16 @@ namespace XIVComboVX.Combos {
 		}
 	}
 
-	internal class NinjaHuraijinRaijuFeature: CustomCombo {
-		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.NinjaHuraijinRaijuFeature;
+	internal class NinjaHuraijinFeatures: CustomCombo {
+		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.NinAny;
 		protected internal override uint[] ActionIDs { get; } = new[] { NIN.Huraijin };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-			if (level >= NIN.Levels.ForkedRaiju && SelfHasEffect(NIN.Buffs.RaijuReady))
+			if (level >= NIN.Levels.ArmorCrush && IsEnabled(CustomComboPreset.NinjaHuraijinCrushFeature) && comboTime > 0 && lastComboMove is NIN.GustSlash)
+				return NIN.ArmorCrush;
+
+			if (level >= NIN.Levels.ForkedRaiju && IsEnabled(CustomComboPreset.NinjaHuraijinRaijuFeature) && SelfHasEffect(NIN.Buffs.RaijuReady))
 				return NIN.ForkedRaiju;
 
 			return actionID;
