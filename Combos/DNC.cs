@@ -123,17 +123,23 @@ namespace XIVComboVX.Combos {
 		protected internal override uint[] ActionIDs { get; } = new[] { DNC.StandardStep, DNC.TechnicalStep };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+
 			if (level >= DNC.Levels.StandardStep) {
 				DNCGauge gauge = GetJobGauge<DNCGauge>();
-				int steps = actionID is DNC.StandardStep ? 2 : 4;
 
 				if (gauge.IsDancing) {
-					if (gauge.CompletedSteps < steps)
-						return gauge.NextStep;
+					bool fast = SelfHasEffect(DNC.Buffs.StandardStep);
+					int max = fast ? 2 : 4;
+					byte done = gauge.CompletedSteps;
 
-					return OriginalHook(actionID);
+					if (gauge.CompletedSteps >= max) {
+						Service.Logger.debug($"No further dance steps (finished {done})");
+						return OriginalHook(fast ? DNC.StandardStep : DNC.TechnicalStep);
+					}
+
+					Service.Logger.debug($"Next dance step ({done + 1}) is #{gauge.NextStep}");
+					return gauge.NextStep;
 				}
-
 			}
 
 			return actionID;
