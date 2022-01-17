@@ -40,6 +40,15 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <None Remove="bump" />
+	  <None Remove="gencombotable" />
+	  <None Remove="Header.frag" />
+	  <None Remove="LICENSE" />
+	  <None Remove="README.md" />
+	  <None Remove="Table.frag" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="DalamudPackager" Version="2.1.5" />
 		<Reference Include="Newtonsoft.Json">
 			<HintPath>$(DalamudLibPath)Newtonsoft.Json.dll</HintPath>
