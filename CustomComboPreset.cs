@@ -635,6 +635,9 @@ namespace XIVComboVX {
 		[CustomComboInfo("Ikishoten Namikiri Feature", "Replace Ikishoten with Shoha, Kaeshi Namikiri, and then Ogi Namikiri when available.", SAM.JobID)]
 		SamuraiIkishotenNamikiriFeature = 3411,
 
+		[CustomComboInfo("Hissatsu Senei/Guren Sync Feature", "Replace Hissatsu Senei with Hissatsu Guren when underlevel.", SAM.JobID)]
+		SamuraiGurenSeneiLevelSyncFeature = 3418,
+
 		#endregion
 		// ====================================================================================
 		#region SCHOLAR (28xx)

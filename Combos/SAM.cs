@@ -70,6 +70,14 @@ namespace XIVComboVX.Combos {
 		}
 	}
 
+	internal class SamuraiGurenSeneiLevelSyncFeature: CustomCombo {
+		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.SamuraiGurenSeneiLevelSyncFeature;
+		protected internal override uint[] ActionIDs { get; } = new[] { SAM.HissatsuSenei };
+
+		protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level)
+			=> level >= SAM.Levels.HissatsuSenei ? SAM.HissatsuSenei : SAM.HissatsuGuren;
+	}
+
 	internal class SamuraiYukikazeCombo: CustomCombo {
 		protected internal override CustomComboPreset Preset => CustomComboPreset.SamuraiYukikazeCombo;
 		protected internal override uint[] ActionIDs { get; } = new[] { SAM.Yukikaze };
