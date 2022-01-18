@@ -199,8 +199,16 @@ namespace XIVComboVX {
 		[CustomComboInfo("Chaos Thrust Combo", "Replace Chaos Thrust with its combo chain.", DRG.JobID)]
 		DragoonChaosThrustCombo = 2201,
 
+		[ParentPreset(DragoonChaosThrustCombo)]
+		[CustomComboInfo("Chaos Thrust from Disembowl", "Start the Chaos Thrust combo chain with Disembowl instead of True Thrust.", DRG.JobID)]
+		DragoonChaosThrustLateOption = 2207,
+
 		[CustomComboInfo("Full Thrust Combo", "Replace Full Thrust with its combo chain.", DRG.JobID)]
 		DragoonFullThrustCombo = 2202,
+
+		[ParentPreset(DragoonFullThrustCombo)]
+		[CustomComboInfo("Full Thrust from Vorpal", "Start the Full Thrust combo chain with Vorpal Thrust instead of True Thrust.", DRG.JobID)]
+		DragoonFullThrustLateOption = 2208,
 
 		[CustomComboInfo("Jump + Mirage Dive", "Replace (High) Jump with Mirage Dive when Dive Ready.", DRG.JobID)]
 		DragoonJumpFeature = 2203,

@@ -127,7 +127,9 @@ namespace XIVComboVX.Combos {
 
 				}
 
-				return OriginalHook(DRG.TrueThrust);
+				return IsEnabled(CustomComboPreset.DragoonChaosThrustLateOption)
+					? DRG.Disembowel
+					: OriginalHook(DRG.TrueThrust);
 			}
 
 			return actionID;
@@ -164,7 +166,9 @@ namespace XIVComboVX.Combos {
 
 				}
 
-				return OriginalHook(DRG.TrueThrust);
+				return IsEnabled(CustomComboPreset.DragoonFullThrustLateOption)
+					? DRG.VorpalThrust
+					: OriginalHook(DRG.TrueThrust);
 			}
 
 			return actionID;
