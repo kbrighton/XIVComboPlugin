@@ -95,8 +95,4 @@
 	<Target Name="PackagePlugin" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
 		<DalamudPackager ProjectDir="$(ProjectDir)" OutputPath="$(OutputPath)..\$(Configuration).ILMerge" AssemblyName="$(AssemblyName)" MakeZip="true" />
 	</Target>
-	<Target Name="PackagePlugin" AfterTargets="CleanOutDir" Condition=" '$(Configuration)' == 'Release' ">
-		<Message Text="Starting DalamudPackager" Importance="high" />
-		<DalamudPackager ProjectDir="$(ProjectDir)" OutputPath="$(OutputPath)" AssemblyName="$(AssemblyName)" VersionComponents="3" MakeZip="true" />
-	</Target>
 </Project>
