@@ -1,4 +1,5 @@
 using Dalamud.Game.ClientState.Conditions;
+using Dalamud.Game.ClientState.JobGauge.Types;
 
 namespace XIVComboVX.Combos {
 	internal static class NIN {
@@ -72,8 +73,12 @@ namespace XIVComboVX.Combos {
 			if (level >= NIN.Levels.Ninjitsu && IsEnabled(CustomComboPreset.NinjaGCDNinjutsuFeature) && SelfHasEffect(NIN.Buffs.Mudra))
 				return OriginalHook(NIN.Ninjutsu);
 
-			if (level >= NIN.Levels.ForkedRaiju && IsEnabled(CustomComboPreset.NinjaArmorCrushRaijuFeature) && SelfHasEffect(NIN.Buffs.RaijuReady))
-				return NIN.FleetingRaiju;
+			if (level >= NIN.Levels.ForkedRaiju && SelfHasEffect(NIN.Buffs.RaijuReady)) {
+				if (IsEnabled(CustomComboPreset.NinjaArmorCrushFleetingRaijuFeature))
+					return NIN.FleetingRaiju;
+				if (IsEnabled(CustomComboPreset.NinjaArmorCrushForkedRaijuFeature))
+					return NIN.ForkedRaiju;
+			}
 
 			if (IsEnabled(CustomComboPreset.NinjaArmorCrushCombo))
 				return SimpleChainCombo(level, lastComboMove, comboTime, (1, NIN.SpinningEdge),
@@ -91,11 +96,25 @@ namespace XIVComboVX.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-			if (level >= NIN.Levels.Ninjitsu && IsEnabled(CustomComboPreset.NinjaGCDNinjutsuFeature) && SelfHasEffect(NIN.Buffs.Mudra))
+			if (IsEnabled(CustomComboPreset.NinjaGCDNinjutsuFeature) && level >= NIN.Levels.Ninjitsu && SelfHasEffect(NIN.Buffs.Mudra))
 				return OriginalHook(NIN.Ninjutsu);
 
-			if (level >= NIN.Levels.ForkedRaiju && IsEnabled(CustomComboPreset.NinjaArmorCrushRaijuFeature) && SelfHasEffect(NIN.Buffs.RaijuReady))
-				return NIN.FleetingRaiju;
+			if (level >= NIN.Levels.ForkedRaiju && SelfHasEffect(NIN.Buffs.RaijuReady)) {
+				if (IsEnabled(CustomComboPreset.NinjaAeolianEdgeFleetingRaijuFeature))
+					return NIN.FleetingRaiju;
+				if (IsEnabled(CustomComboPreset.NinjaAeolianEdgeForkedRaijuFeature))
+					return NIN.ForkedRaiju;
+			}
+
+			if (IsEnabled(CustomComboPreset.NinjaAeolianEdgeHutonFeature)) {
+				NINGauge gauge = GetJobGauge<NINGauge>();
+
+				if (level >= NIN.Levels.Huraijin && gauge.HutonTimer <= 0)
+					return NIN.Huraijin;
+
+				if (level >= NIN.Levels.ArmorCrush && comboTime > 0 && lastComboMove is NIN.GustSlash && gauge.HutonTimer <= 30_000)
+					return NIN.ArmorCrush;
+			}
 
 			if (IsEnabled(CustomComboPreset.NinjaAeolianEdgeCombo))
 				return SimpleChainCombo(level, lastComboMove, comboTime, (1, NIN.SpinningEdge),
@@ -116,7 +135,7 @@ namespace XIVComboVX.Combos {
 			if (IsEnabled(CustomComboPreset.NinjaGCDNinjutsuFeature) && OriginalHook(NIN.JinNormal) == OriginalHook(NIN.Jin))
 				return OriginalHook(NIN.Ninjutsu);
 
-			if (level >= NIN.Levels.HakkeMujinsatsu && comboTime > 0 && lastComboMove == NIN.DeathBlossom)
+			if (level >= NIN.Levels.HakkeMujinsatsu && comboTime > 0 && lastComboMove is NIN.DeathBlossom)
 				return NIN.HakkeMujinsatsu;
 
 			return NIN.DeathBlossom;
@@ -193,8 +212,12 @@ namespace XIVComboVX.Combos {
 			if (level >= NIN.Levels.ArmorCrush && IsEnabled(CustomComboPreset.NinjaHuraijinCrushFeature) && comboTime > 0 && lastComboMove is NIN.GustSlash)
 				return NIN.ArmorCrush;
 
-			if (level >= NIN.Levels.ForkedRaiju && IsEnabled(CustomComboPreset.NinjaHuraijinRaijuFeature) && SelfHasEffect(NIN.Buffs.RaijuReady))
-				return NIN.ForkedRaiju;
+			if (level >= NIN.Levels.ForkedRaiju && SelfHasEffect(NIN.Buffs.RaijuReady)) {
+				if (IsEnabled(CustomComboPreset.NinjaHuraijinForkedRaijuFeature))
+					return NIN.ForkedRaiju;
+				if (IsEnabled(CustomComboPreset.NinjaHuraijinFleetingRaijuFeature))
+					return NIN.FleetingRaiju;
+			}
 
 			return actionID;
 		}

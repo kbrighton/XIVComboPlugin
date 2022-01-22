@@ -11,7 +11,7 @@ on:
 env:
   SOLUTION_NAME: XIVComboVX
   INTERNAL_NAME: XIVComboVX
-  RELEASE_DIR: bin\Release\XIVComboVX
+  RELEASE_DIR: bin.ILMerge\Release\XIVComboVX
   PERSONAL_PLUGIN_REPO: PrincessRTFM/MyDalamudPlugins
 
 jobs:

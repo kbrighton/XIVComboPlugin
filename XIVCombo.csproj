@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<Authors>attick, daemitus, VariableVixen</Authors>
 		<Company>-</Company>
-		<Version>3.23.0</Version>
+		<Version>3.24.0</Version>
 		<Description>This plugin condenses combos and mutually exclusive abilities onto a single button.</Description>
 		<Copyright>Copyleft attick 2020 baybeeee</Copyright>
 		<PackageProjectUrl>https://github.com/PrincessRTFM/XIVComboPlugin</PackageProjectUrl>
@@ -22,6 +22,7 @@
 		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 		<DalamudLibPath>$(appdata)\XIVLauncher\addon\Hooks\dev\</DalamudLibPath>
+		<RootNamespace>XIVComboVX</RootNamespace>
 	</PropertyGroup>
 
 	<PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -40,16 +41,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Remove="bump" />
-	  <None Remove="gencombotable" />
-	  <None Remove="Header.frag" />
-	  <None Remove="LICENSE" />
-	  <None Remove="README.md" />
-	  <None Remove="Table.frag" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<PackageReference Include="DalamudPackager" Version="2.1.5" />
+		<PackageReference Include="ILRepack" Version="2.0.18" />
+		<Reference Include="FFXIVClientStructs">
+			<HintPath>$(SolutionDir)lib\FFXIVClientStructs\bin\$(ConfigurationName)\FFXIVClientStructs.dll</HintPath>
+			<Private>true</Private>
+		</Reference>
 		<Reference Include="Newtonsoft.Json">
 			<HintPath>$(DalamudLibPath)Newtonsoft.Json.dll</HintPath>
 			<Private>False</Private>
@@ -76,8 +73,30 @@
 		</Reference>
 	</ItemGroup>
 
+	<ItemGroup>
+		<Compile Remove="lib\**" />
+		<EmbeddedResource Remove="lib\**" />
+		<None Remove="lib\**" />
+		<None Remove="bump" />
+		<None Remove="gencombotable" />
+		<None Remove="Header.frag" />
+		<None Remove="LICENSE" />
+		<None Remove="README.md" />
+		<None Remove="Table.frag" />
+	</ItemGroup>
+
+	<Target Name="ILRepack" AfterTargets="PostBuildEvent">
+		<ItemGroup>
+			<InputAssemblies Include="$(TargetPath)" />
+			<InputAssemblies Include="$(TargetDir)*.dll" Exclude="$(TargetPath)" />
+		</ItemGroup>
+		<Exec Command="$(PkgILRepack)\tools\ILRepack.exe /lib:$(DalamudLibPath) /out:$(TargetDir)..\$(Configuration).ILMerge\$(TargetFileName) @(InputAssemblies, ' ')" />
+	</Target>
+	<Target Name="PackagePlugin" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
+		<DalamudPackager ProjectDir="$(ProjectDir)" OutputPath="$(OutputPath)..\$(Configuration).ILMerge" AssemblyName="$(AssemblyName)" MakeZip="true" />
+	</Target>
 	<Target Name="PackagePlugin" AfterTargets="CleanOutDir" Condition=" '$(Configuration)' == 'Release' ">
 		<Message Text="Starting DalamudPackager" Importance="high" />
-		<DalamudPackager ProjectDir="$(ProjectDir)" OutputPath="$(OutputPath)" AssemblyName="$(AssemblyName)" VersionComponents="4" MakeZip="true" />
+		<DalamudPackager ProjectDir="$(ProjectDir)" OutputPath="$(OutputPath)" AssemblyName="$(AssemblyName)" VersionComponents="3" MakeZip="true" />
 	</Target>
 </Project>

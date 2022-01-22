@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 
 using Dalamud.Game;
 using Dalamud.Game.ClientState.JobGauge.Types;
+using Dalamud.Game.ClientState.Objects.SubKinds;
 using Dalamud.Game.ClientState.Objects.Types;
 using Dalamud.Game.ClientState.Statuses;
 
@@ -19,6 +20,7 @@ namespace XIVComboVX {
 		// Do not invalidate these
 		private readonly Dictionary<uint, byte> cooldownGroupCache = new();
 		private readonly Dictionary<Type, JobGaugeBase> jobGaugeCache = new();
+		private readonly Dictionary<(uint ActionID, uint ClassJobID, byte Level), (ushort CurrentMax, ushort Max)> chargesCache = new();
 
 		#region Core/setup
 
@@ -81,14 +83,37 @@ namespace XIVComboVX {
 			if (this.cooldownCache.TryGetValue(actionID, out CooldownData found))
 				return found;
 
-			byte cooldownGroup = this.getCooldownGroup(actionID);
-			if (this.actionManager == IntPtr.Zero)
-				return this.cooldownCache[actionID] = new CooldownData() { ActionID = actionID };
+			FFXIVClientStructs.FFXIV.Client.Game.ActionManager* actionManager = FFXIVClientStructs.FFXIV.Client.Game.ActionManager.Instance();
+			if (actionManager is null)
+				return this.cooldownCache[actionID] = default;
 
-			IntPtr cooldownPtr = this.getActionCooldownSlot(this.actionManager, cooldownGroup - 1);
+			byte cooldownGroup = this.getCooldownGroup(actionID);
+
+			FFXIVClientStructs.FFXIV.Client.Game.RecastDetail* cooldownPtr = actionManager->GetRecastGroupDetail(cooldownGroup - 1);
+			cooldownPtr->ActionID = actionID;
+
 			CooldownData cd = this.cooldownCache[actionID] = *(CooldownData*)cooldownPtr;
 			Service.Logger.debug($"Retrieved cooldown data for action #{actionID}: {cd.DebugLabel}");
 			return cd;
+		}
+
+		public unsafe (ushort Current, ushort Max) GetMaxCharges(uint actionID) {
+			PlayerCharacter player = Service.Client.LocalPlayer!;
+			if (player == null)
+				return (0, 0);
+
+			uint job = player.ClassJob.Id;
+			byte level = player.Level;
+			if (job == 0 || level == 0)
+				return (0, 0);
+
+			(uint actionID, uint job, byte level) key = (actionID, job, level);
+			if (this.chargesCache.TryGetValue(key, out (ushort CurrentMax, ushort Max) found))
+				return found;
+
+			ushort cur = FFXIVClientStructs.FFXIV.Client.Game.ActionManager.GetMaxCharges(actionID, 0);
+			ushort max = FFXIVClientStructs.FFXIV.Client.Game.ActionManager.GetMaxCharges(actionID, 90);
+			return this.chargesCache[key] = (cur, max);
 		}
 
 		private byte getCooldownGroup(uint actionID) {

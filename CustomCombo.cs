@@ -8,6 +8,8 @@ using Dalamud.Game.ClientState.Objects.Types;
 using Dalamud.Game.ClientState.Statuses;
 using Dalamud.Utility;
 
+using XIVCombo.Combos;
+
 using XIVComboVX.Attributes;
 
 namespace XIVComboVX.Combos {
@@ -39,11 +41,17 @@ namespace XIVComboVX.Combos {
 
 		public bool TryInvoke(uint actionID, uint lastComboActionId, float comboTime, byte level, out uint newActionID) {
 			newActionID = 0;
+			uint classJobID = LocalPlayer!.ClassJob.Id;
 
-			if (LocalPlayer is null
-				|| (this.JobID != LocalPlayer.ClassJob.Id && this.ClassID != LocalPlayer.ClassJob.Id)
+			if (classJobID is >= 8 and <= 15)
+				classJobID = DOH.JobID;
+
+			if (classJobID is >= 16 and <= 18)
+				classJobID = DOL.JobID;
+
+			if (!IsEnabled(this.Preset)
+				|| (this.JobID != classJobID && this.ClassID != classJobID)
 				|| (this.ActionIDs.Length > 0 && !this.ActionIDs.Contains(actionID))
-				|| !IsEnabled(this.Preset)
 			)
 				return false;
 
@@ -71,24 +79,50 @@ namespace XIVComboVX.Combos {
 
 			static (uint ActionID, CooldownData Data) Selector(uint actionID) => (actionID, GetCooldown(actionID));
 
-			static (uint ActionID, CooldownData Data) Compare(uint original, (uint ActionID, CooldownData Data) a1, (uint ActionID, CooldownData Data) a2) {
+			static (uint ActionID, CooldownData Data) Compare(uint original, (uint ActionID, CooldownData Data) a, (uint ActionID, CooldownData Data) b) {
 
 				// VS decided that the conditionals could be "simplified" to this.
 				// Someone should maybe teach VS what "simplified" actually means.
-				(uint ActionID, CooldownData Data) choice =
-					!a1.Data.IsCooldown && !a2.Data.IsCooldown
-						? original == a1.ActionID // both off CD, return the original if possible, else the LAST one in the original call
-							? a1
-							: a2
-						: a1.Data.IsCooldown && a2.Data.IsCooldown // one/both on CD
-							? a1.Data.CooldownRemaining < a2.Data.CooldownRemaining // both on CD, return the one with less time left
-								? a1
-								: a2
-							: a1.Data.IsCooldown // only one on CD, return the other
-								? a2
-								: a1;
+				(uint ActionID, CooldownData Data) choice = // it begins ("it" = suffering)
+					!a.Data.IsCooldown && !b.Data.IsCooldown // welcome to hell, population: anyone trying to maintain this
+						? original == a.ActionID // both off CD
+							? a // return the original if it's the first one
+							: b // or else the second, no matter what
+						: a.Data.IsCooldown && b.Data.IsCooldown // one/both are on CD
+							? a.Data.HasCharges && b.Data.HasCharges // both on CD
+								? a.Data.RemainingCharges == b.Data.RemainingCharges // both have charges
+									? a.Data.ChargeCooldownRemaining < b.Data.ChargeCooldownRemaining // both have the same number of charges left
+										? a // a will get a charge back before b
+										: b // b will get a charge back before a
+									: a.Data.RemainingCharges > b.Data.RemainingCharges // one has more charges than the other
+										? a // a has more charges
+										: b // b has more charges
+								: a.Data.HasCharges // only one has charges or neither does
+									? a.Data.RemainingCharges > 0 // only a has charges
+										? a // and there are charges remaining
+										: a.Data.ChargeCooldownRemaining < b.Data.CooldownRemaining // but there aren't any available
+											? a // a will recover a charge before b comes off cooldown
+											: b // b will come off cooldown before a recovers a charge
+									: b.Data.HasCharges // a does not have charges
+										? b.Data.RemainingCharges > 0 // but b does
+											? b // and it has at least one available
+											: b.Data.ChargeCooldownRemaining < a.Data.CooldownRemaining // but there are no charges available
+												? b // b will recover a charge before a comes off cooldown
+												: a // a will come off cooldown before b recovers a charge
+										: a.Data.CooldownRemaining < b.Data.CooldownRemaining // neither action has charges
+											? a // a has less cooldown time left
+											: b // b has less cooldown time left
+							: a.Data.IsCooldown // only one on CD
+								? b // b is off cooldown
+								: a; // a is off cooldown
+				// You know that one scene in Doctor Who on the really long spaceship that's being sucked into a black hole?
+				// And time's dilated at one end but not the other?
+				// And there's that hospital in the end by the black hole?
+				// And there's that one patient that's just constantly hitting the "pain" button?
+				// And they've got a TTS-style voice just constantly repeating "PAIN. PAIN. PAIN. PAIN. PAIN." from it?
+				// Yeah.
 
-				Service.Logger.debug($"CDCMP: {a1.ActionID}, {a2.ActionID}: {choice.ActionID}\n{a1.Data.DebugLabel}\n{a2.Data.DebugLabel}");
+				Service.Logger.debug($"CDCMP: {a.ActionID}, {b.ActionID}: {choice.ActionID}\n{a.Data.DebugLabel}\n{b.Data.DebugLabel}");
 				return choice;
 			}
 

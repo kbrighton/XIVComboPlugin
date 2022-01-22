@@ -91,16 +91,4 @@ namespace XIVComboVX {
 		public uint OriginalHook(uint actionID) => this.getIconHook.Original(this.actionManager, actionID);
 
 	}
-
-	[StructLayout(LayoutKind.Explicit)]
-	internal struct CooldownData {
-		[FieldOffset(0x0)] public bool IsCooldown;
-		[FieldOffset(0x4)] public uint ActionID;
-		[FieldOffset(0x8)] public float CooldownElapsed;
-		[FieldOffset(0xC)] public float CooldownTotal;
-
-		public float CooldownRemaining => this.IsCooldown ? this.CooldownTotal - this.CooldownElapsed : 0;
-
-		public string DebugLabel => $"{(this.IsCooldown ? "on" : "off")} cd, {this.CooldownElapsed}/{this.CooldownTotal} ({this.CooldownRemaining})";
-	}
 }

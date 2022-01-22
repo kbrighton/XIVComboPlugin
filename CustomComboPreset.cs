@@ -2,6 +2,8 @@ using System;
 
 using Dalamud.Utility;
 
+using XIVCombo.Combos;
+
 using XIVComboExpandedPlugin.Combos;
 
 using XIVComboVX.Attributes;
@@ -348,8 +350,31 @@ namespace XIVComboVX {
 		[CustomComboInfo("Armor Crush Combo", "Replace Armor Crush with its combo chain.", NIN.JobID)]
 		NinjaArmorCrushCombo = 3000,
 
+		[ParentPreset(NinjaArmorCrushCombo)]
+		[Conflicts(NinjaArmorCrushForkedRaijuFeature)]
+		[CustomComboInfo("Fleeting Crush Feature", "Replaces the Armor Crush combo with Fleeting Raiju when available.", NIN.JobID)]
+		NinjaArmorCrushFleetingRaijuFeature = 3010,
+
+		[ParentPreset(NinjaArmorCrushCombo)]
+		[Conflicts(NinjaArmorCrushFleetingRaijuFeature)]
+		[CustomComboInfo("Forked Crush Feature", "Replaces the Armor Crush combo with Forked Raiju when available.", NIN.JobID)]
+		NinjaArmorCrushForkedRaijuFeature = 3017,
+
 		[CustomComboInfo("Aeolian Edge Combo", "Replace Aeolian Edge with its combo chain.", NIN.JobID)]
 		NinjaAeolianEdgeCombo = 3001,
+
+		[ParentPreset(NinjaAeolianEdgeCombo)]
+		[Conflicts(NinjaAeolianEdgeForkedRaijuFeature)]
+		[CustomComboInfo("Fleeting Edge Feature", "Replaces the Aeolian Edge combo with Fleeting Raiju when available.", NIN.JobID)]
+		NinjaAeolianEdgeFleetingRaijuFeature = 3011,
+
+		[ParentPreset(NinjaArmorCrushCombo)]
+		[Conflicts(NinjaAeolianEdgeFleetingRaijuFeature)]
+		[CustomComboInfo("Forked Edge Feature", "Replaces the Aeolian Edge combo with Forked Raiju when available.", NIN.JobID)]
+		NinjaAeolianEdgeForkedRaijuFeature = 3016,
+
+		[CustomComboInfo("Aeolian Edge / Huton Feature", "Replaces Aeolian Edge with Armor Crush when Huton has less than 30 seconds remaining and Huraijin when missing.", NIN.JobID)]
+		NinjaAeolianEdgeHutonFeature = 3014,
 
 		[CustomComboInfo("Hakke Mujinsatsu Combo", "Replace Hakke Mujinsatsu with its combo chain.", NIN.JobID)]
 		NinjaHakkeMujinsatsuCombo = 3002,
@@ -369,18 +394,15 @@ namespace XIVComboVX {
 		[CustomComboInfo("Kassatsu Chi/Jin Feature", "Replaces Chi with Jin while Kassatsu is up if you have Enhanced Kassatsu.", NIN.JobID)]
 		NinjaKassatsuChiJinFeature = 3008,
 
-		[ParentPreset(NinjaArmorCrushCombo)]
-		[CustomComboInfo("Armor Crush / Raiju Feature", "Replaces the Armor Crush combo with Fleeting Raiju when available.", NIN.JobID)]
-		NinjaArmorCrushRaijuFeature = 3010,
+		[Conflicts(NinjaHuraijinFleetingRaijuFeature)]
+		[CustomComboInfo("Forked Huraijin Feature", "Replaces Huraijin with Forked Raiju when available.", NIN.JobID)]
+		NinjaHuraijinForkedRaijuFeature = 3012,
 
-		[ParentPreset(NinjaAeolianEdgeCombo)]
-		[CustomComboInfo("Aeolian Edge / Raiju Feature", "Replaces the Aeolian Edge combo with Fleeting Raiju when available.", NIN.JobID)]
-		NinjaAeolianEdgeRaijuFeature = 3011,
+		[Conflicts(NinjaHuraijinForkedRaijuFeature)]
+		[CustomComboInfo("Fleeting Huraijin Feature", "Replaces Huraijin with Fleeting Raiju when available.", NIN.JobID)]
+		NinjaHuraijinFleetingRaijuFeature = 3015,
 
-		[CustomComboInfo("Huraijin / Raiju Feature", "Replaces Huraijin with Forked Raiju when available.", NIN.JobID)]
-		NinjaHuraijinRaijuFeature = 3012,
-
-		[CustomComboInfo("Huraijin / Crush Feature", "Replaces Huraijin with Armor Crush during the 1-2-3 combo.", NIN.JobID)]
+		[CustomComboInfo("Huraijin / Crush Feature", "Replaces Huraijin with Armor Crush after Gust Slash.", NIN.JobID)]
 		NinjaHuraijinCrushFeature = 3013,
 
 		#endregion
@@ -774,6 +796,23 @@ namespace XIVComboVX {
 
 		[CustomComboInfo("Cure 2 to Cure Level Sync", "Changes Cure 2 to Cure when below level 30 in synced content.", WHM.JobID)]
 		WhiteMageCureFeature = 2403,
+
+		#endregion
+		// ====================================================================================
+		#region DoH (98xx)
+
+		// [CustomComboInfo("Placeholder", "Placeholder.", DOH.JobID)]
+		// DohPlaceholder = 9801,
+
+		#endregion
+		// ====================================================================================
+		#region DoL (99xx)
+
+		[CustomComboInfo("Eureka Feature", "Replace Ageless Words and Solid Reason with Wise to the World when available.", DOL.JobID)]
+		DolEurekaFeature = 9900,
+
+		[CustomComboInfo("Cast / Hook Feature", "Replace Cast with Hook when fishing.", DOL.JobID)]
+		DolCastHookFeature = 9901,
 
 		#endregion
 		// ====================================================================================
