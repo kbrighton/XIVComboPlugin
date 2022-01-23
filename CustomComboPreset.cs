@@ -316,6 +316,9 @@ namespace XIVComboVX {
 		[CustomComboInfo("Dragon Kick to Bootshine Feature", "Replaces Dragon Kick with Bootshine if Leaden Fist is up.", MNK.JobID)]
 		MonkDragonBootshineFeature = 2001,
 
+		[CustomComboInfo("Dragon Kick to Masterful Blitz Feature", "Replaces Dragon Kick with Masterful Blitz if you have three Beast Chakra.", MNK.JobID)]
+		MonkDragonBlitzFeature = 2012,
+
 		[CustomComboInfo("Twin Snakes to True Strike Feature", "Replaces Twin Snakes with True Strike if Disciplined Fist is up.", MNK.JobID)]
 		MonkTwinStrikeFeature = 2010,
 
@@ -342,6 +345,12 @@ namespace XIVComboVX {
 
 		[CustomComboInfo("Perfect Balance Feature", "Replace Perfect Balance with Masterful Blitz when you have 3 Beast Chakra.", MNK.JobID)]
 		MonkPerfectBalanceFeature = 2004,
+
+		[CustomComboInfo("Riddle of Brotherly Fire", "Replace Riddle of Fire with Brotherhood if the former is on CD and the latter isn't.", MNK.JobID)]
+		MonkBrotherlyFireFeature = 2013,
+
+		[CustomComboInfo("Riddle of Fire and Wind", "Replace Riddle of Fire with Riddle of Wind if the former is on CD and the latter isn't.", MNK.JobID)]
+		MonkFireWindFeature = 2014,
 
 		#endregion
 		// ====================================================================================

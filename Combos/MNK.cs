@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Dalamud.Game.ClientState.JobGauge.Types;
@@ -26,10 +27,13 @@ namespace XIVComboVX.Combos {
 			PerfectBalance = 69,
 			Rockbreaker = 70,
 			Meditation = 3546,
+			RiddleOfFire = 7395,
+			Brotherhood = 7396,
 			FourPointFury = 16473,
 			Enlightenment = 16474,
 			HowlingFist = 25763,
 			MasterfulBlitz = 25764,
+			RiddleOfWind = 25766,
 			ShadowOfTheDestroyer = 25767;
 
 		public static class Buffs {
@@ -62,7 +66,10 @@ namespace XIVComboVX.Combos {
 				PerfectBalance = 50,
 				FormShift = 52,
 				MasterfulBlitz = 60,
+				RiddleOfFire = 68,
 				Enlightenment = 70,
+				Brotherhood = 70,
+				RiddleOfWind = 72,
 				ShadowOfTheDestroyer = 82;
 		}
 	}
@@ -175,16 +182,20 @@ namespace XIVComboVX.Combos {
 		}
 	}
 
-	internal class MonkDragonBootshineFeature: CustomCombo {
-		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.MonkDragonBootshineFeature;
+	internal class MonkDragonKickFeature: CustomCombo {
+		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.MnkAny;
 		protected internal override uint[] ActionIDs { get; } = new[] { MNK.DragonKick };
 
 		protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
+			MyMNKGauge? gauge = new(GetJobGauge<MNKGauge>());
 
-			return level < MNK.Levels.DragonKick || SelfHasEffect(MNK.Buffs.LeadenFist)
-				? MNK.Bootshine
-				: actionID;
+			if (IsEnabled(CustomComboPreset.MonkDragonBlitzFeature) && level >= MNK.Levels.MasterfulBlitz && !gauge.BeastChakra.Contains(BeastChakra.NONE))
+				return MNK.MasterfulBlitz;
 
+			if (IsEnabled(CustomComboPreset.MonkDragonBootshineFeature) && (level < MNK.Levels.DragonKick || SelfHasEffect(MNK.Buffs.LeadenFist)))
+				return MNK.Bootshine;
+
+			return actionID;
 		}
 	}
 
@@ -211,6 +222,28 @@ namespace XIVComboVX.Combos {
 				? MNK.SnapPunch
 				: actionID;
 
+		}
+	}
+
+	internal class MonkRiddleOfFireFeature: CustomCombo {
+		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.MnkAny;
+		protected internal override uint[] ActionIDs { get; } = new[] { MNK.RiddleOfFire };
+
+		protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
+
+			List<uint> options = new();
+
+			if (IsEnabled(CustomComboPreset.MonkFireWindFeature) && level > MNK.Levels.RiddleOfWind)
+				options.Add(MNK.RiddleOfWind);
+
+			if (IsEnabled(CustomComboPreset.MonkBrotherlyFireFeature) && level >= MNK.Levels.Brotherhood)
+				options.Add(MNK.Brotherhood);
+
+			options.Add(MNK.RiddleOfFire);
+
+			return options.Count == 1
+				? options[0]
+				: PickByCooldown(actionID, options.ToArray());
 		}
 	}
 
