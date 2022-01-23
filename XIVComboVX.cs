@@ -18,6 +18,7 @@ namespace XIVComboVX {
 		private readonly ConfigWindow? configWindow;
 
 		public XIVComboVX(DalamudPluginInterface pluginInterface) {
+			FFXIVClientStructs.Resolver.Initialize();
 			pluginInterface.Create<Service>();
 			Service.Logger = new();
 
