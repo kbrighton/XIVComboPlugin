@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 
+using XIVCombo.Combos;
+
 namespace XIVComboVX.Attributes {
 	[AttributeUsage(AttributeTargets.Field)]
 	internal class CustomComboInfoAttribute: Attribute {
@@ -59,6 +61,8 @@ namespace XIVComboVX.Attributes {
 				38 => "Dancer",
 				39 => "Reaper",
 				40 => "Sage",
+				DOL.JobID => "Disciple of the Land",
+				DOH.JobID => "Disciple of the Hand",
 				_ => "Unknown",
 			};
 		}
