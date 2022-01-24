@@ -163,6 +163,16 @@ namespace XIVComboVX {
 		[CustomComboInfo("Flourish Proc Saver", "Change Flourish into any available procs before using.", DNC.JobID)]
 		DancerFlourishFeature = 3804,
 
+		[ParentPreset(DancerFlourishFeature)]
+		[Conflicts(DancerFlourishCooldownFeature)]
+		[CustomComboInfo("Only for Fan Dance 4", "Only change Flourish into Fan Dance 4, not the other procs.", DNC.JobID)]
+		DancerFlourishLimitedFeature = 3810,
+
+		[ParentPreset(DancerFlourishFeature)]
+		[Conflicts(DancerFlourishLimitedFeature)]
+		[CustomComboInfo("Only when off CD", "Only change Flourish into procs (other than Fan Dance 4) when Flourish is off CD.", DNC.JobID)]
+		DancerFlourishCooldownFeature = 3811,
+
 		[Conflicts(DancerDanceComboCompatibility)]
 		[CustomComboInfo("Dance Step Combo", "Change Standard Step and Technical Step into each dance step while dancing.", DNC.JobID)]
 		DancerDanceStepCombo = 3805,

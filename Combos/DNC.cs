@@ -152,11 +152,16 @@ namespace XIVComboVX.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-			if (level >= DNC.Levels.Fountainfall && SelfHasEffect(DNC.Buffs.FlourishingFlow))
-				return DNC.Fountainfall;
-
 			if (level >= DNC.Levels.FanDance4 && SelfHasEffect(DNC.Buffs.FourfoldFanDance))
 				return DNC.FanDance4;
+
+			if (IsEnabled(CustomComboPreset.DancerFlourishLimitedFeature)
+				|| (IsEnabled(CustomComboPreset.DancerFlourishCooldownFeature) && IsOnCooldown(actionID))
+			)
+				return actionID;
+
+			if (level >= DNC.Levels.Fountainfall && SelfHasEffect(DNC.Buffs.FlourishingFlow))
+				return DNC.Fountainfall;
 
 			if (level >= DNC.Levels.ReverseCascade && SelfHasEffect(DNC.Buffs.FlourishingSymmetry))
 				return DNC.ReverseCascade;
