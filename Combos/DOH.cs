@@ -1,6 +1,6 @@
 ﻿namespace XIVCombo.Combos {
 	internal static class DOH {
-		public const byte JobID = 50;
+		public const byte JobID = 98;
 
         public const uint
             Placeholder = 0;

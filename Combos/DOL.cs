@@ -6,7 +6,7 @@ using XIVComboVX.Combos;
 
 namespace XIVCombo.Combos {
 	internal static class DOL {
-		public const byte JobID = 51;
+		public const byte JobID = 99;
 
 		public const uint
 			AgelessWords = 215,
