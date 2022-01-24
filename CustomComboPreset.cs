@@ -706,6 +706,9 @@ namespace XIVComboVX {
 		[CustomComboInfo("Indomitable Aetherflow", "Change Indomitability into Aetherflow when you have no more Aetherflow stacks.", SCH.JobID)]
 		ScholarIndomAetherflowFeature = 2804,
 
+		[CustomComboInfo("Excog / Lustrate", "Change Excogitation into Lustrate when on CD or under level.", SCH.JobID)]
+		ScholarExcogFallbackFeature = 2805,
+
 		#endregion
 		// ====================================================================================
 		#region SUMMONER (27xx)

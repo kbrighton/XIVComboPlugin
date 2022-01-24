@@ -11,7 +11,8 @@ namespace XIVComboVX.Combos {
 			EnergyDrain = 167,
 			Aetherflow = 166,
 			Lustrate = 189,
-			Indomitability = 3583;
+			Indomitability = 3583,
+			Excogitation = 7434;
 
 		public static class Buffs {
 			public const ushort
@@ -25,6 +26,8 @@ namespace XIVComboVX.Combos {
 		public static class Levels {
 			public const byte
 				Aetherflow = 45,
+				Lustrate = 45,
+				Excogitation = 62,
 				Consolation = 80;
 		}
 	}
@@ -32,6 +35,19 @@ namespace XIVComboVX.Combos {
 	internal class ScholarSwiftcastRaiserFeature: SwiftRaiseCombo {
 		protected internal override CustomComboPreset Preset => CustomComboPreset.ScholarSwiftcastRaiserFeature;
 		protected internal override uint[] ActionIDs { get; } = new[] { SCH.Resurrection };
+	}
+
+	internal class ScholarExcogFallbackFeature: CustomCombo {
+		protected internal override CustomComboPreset Preset => CustomComboPreset.ScholarExcogFallbackFeature;
+		protected internal override uint[] ActionIDs { get; } = new[] { SCH.Excogitation };
+
+		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+
+			if (level < SCH.Levels.Excogitation || IsOnCooldown(SCH.Excogitation))
+				return SCH.Lustrate;
+
+			return actionID;
+		}
 	}
 
 	internal class ScholarSeraphConsolationFeature: CustomCombo {
