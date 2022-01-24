@@ -1,4 +1,6 @@
 
+using System;
+
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.ClientState.JobGauge.Types;
 
@@ -280,10 +282,12 @@ namespace XIVComboVX.Combos {
 					return OriginalHook(RDM.Verthunder);
 
 				// This is for the long opener only, so we're not bothered about fast casting or finishers or anything like that
-				if (black < white)
+				// However, we DO want to prevent the mana levels from being perfectly even, cause that fucks up Manafication into melee as an opener
+
+				if (black < white || Math.Min(100, white + LONG_DELTA) == black)
 					return OriginalHook(RDM.Verthunder);
 
-				if (white < black)
+				if (white < black || Math.Min(100, black + LONG_DELTA) == white)
 					return OriginalHook(RDM.Veraero);
 
 				return actionID;
