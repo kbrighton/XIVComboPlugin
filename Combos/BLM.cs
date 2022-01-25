@@ -61,8 +61,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class BlackEnochianFeature: CustomCombo {
-		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.BlackEnochianFeature;
-		protected internal override uint[] ActionIDs { get; } = new[] { BLM.Fire4, BLM.Blizzard4 };
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.BlackEnochianFeature;
+		public override uint[] ActionIDs { get; } = new[] { BLM.Fire4, BLM.Blizzard4 };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			BLMGauge gauge = GetJobGauge<BLMGauge>();
@@ -78,8 +78,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class BlackManaFeature: CustomCombo {
-		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.BlackManaFeature;
-		protected internal override uint[] ActionIDs { get; } = new[] { BLM.Transpose };
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.BlackManaFeature;
+		public override uint[] ActionIDs { get; } = new[] { BLM.Transpose };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			BLMGauge gauge = GetJobGauge<BLMGauge>();
@@ -92,8 +92,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class BlackLeyLinesFeature: CustomCombo {
-		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.BlackLeyLinesFeature;
-		protected internal override uint[] ActionIDs { get; } = new[] { BLM.LeyLines };
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.BlackLeyLinesFeature;
+		public override uint[] ActionIDs { get; } = new[] { BLM.LeyLines };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -106,8 +106,8 @@ namespace XIVComboVX.Combos {
 
 
 	internal class BlackFireFeature: CustomCombo {
-		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.BlmAny;
-		protected internal override uint[] ActionIDs { get; } = new[] { BLM.Fire };
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.BlmAny;
+		public override uint[] ActionIDs { get; } = new[] { BLM.Fire };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -124,8 +124,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class BlackBlizzardFeature: CustomCombo {
-		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.BlackBlizzardFeature;
-		protected internal override uint[] ActionIDs { get; } = new[] { BLM.Blizzard };
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.BlackBlizzardFeature;
+		public override uint[] ActionIDs { get; } = new[] { BLM.Blizzard };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -137,8 +137,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class BlackFreezeFlareFeature: CustomCombo {
-		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.BlackFreezeFlareFeature;
-		protected internal override uint[] ActionIDs { get; } = new[] { BLM.Freeze, BLM.Flare };
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.BlackFreezeFlareFeature;
+		public override uint[] ActionIDs { get; } = new[] { BLM.Freeze, BLM.Flare };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			BLMGauge gauge = GetJobGauge < BLMGauge >();
@@ -153,8 +153,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class BlackFire2Feature: CustomCombo {
-		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.BlackFire2Feature;
-		protected internal override uint[] ActionIDs { get; } = new[] { BLM.Fire2, BLM.HighFire2 };
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.BlackFire2Feature;
+		public override uint[] ActionIDs { get; } = new[] { BLM.Fire2, BLM.HighFire2 };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			BLMGauge gauge = GetJobGauge<BLMGauge>();
@@ -167,8 +167,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class BlackBlizzard2Feature: CustomCombo {
-		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.BlackBlizzard2Feature;
-		protected internal override uint[] ActionIDs { get; } = new[] { BLM.Blizzard2, BLM.HighBlizzard2 };
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.BlackBlizzard2Feature;
+		public override uint[] ActionIDs { get; } = new[] { BLM.Blizzard2, BLM.HighBlizzard2 };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -180,8 +180,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class BlackScatheFeature: CustomCombo {
-		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.BlackScatheFeature;
-		protected internal override uint[] ActionIDs { get; } = new[] { BLM.Scathe };
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.BlackScatheFeature;
+		public override uint[] ActionIDs { get; } = new[] { BLM.Scathe };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 

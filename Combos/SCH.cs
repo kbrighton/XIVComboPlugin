@@ -33,13 +33,13 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class ScholarSwiftcastRaiserFeature: SwiftRaiseCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.ScholarSwiftcastRaiserFeature;
-		protected internal override uint[] ActionIDs { get; } = new[] { SCH.Resurrection };
+		public override CustomComboPreset Preset => CustomComboPreset.ScholarSwiftcastRaiserFeature;
+		public override uint[] ActionIDs { get; } = new[] { SCH.Resurrection };
 	}
 
 	internal class ScholarExcogFallbackFeature: CustomCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.ScholarExcogFallbackFeature;
-		protected internal override uint[] ActionIDs { get; } = new[] { SCH.Excogitation };
+		public override CustomComboPreset Preset => CustomComboPreset.ScholarExcogFallbackFeature;
+		public override uint[] ActionIDs { get; } = new[] { SCH.Excogitation };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -51,8 +51,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class ScholarSeraphConsolationFeature: CustomCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.ScholarSeraphConsolationFeature;
-		protected internal override uint[] ActionIDs { get; } = new[] { SCH.FeyBless };
+		public override CustomComboPreset Preset => CustomComboPreset.ScholarSeraphConsolationFeature;
+		public override uint[] ActionIDs { get; } = new[] { SCH.FeyBless };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -64,8 +64,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class ScholarEnergyDrainFeature: CustomCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.ScholarEnergyDrainFeature;
-		protected internal override uint[] ActionIDs { get; } = new[] { SCH.EnergyDrain };
+		public override CustomComboPreset Preset => CustomComboPreset.ScholarEnergyDrainFeature;
+		public override uint[] ActionIDs { get; } = new[] { SCH.EnergyDrain };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -77,8 +77,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class ScholarLustrate: CustomCombo {
-		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.ScholarLustrateAetherflowFeature;
-		protected internal override uint[] ActionIDs { get; } = new[] { SCH.Lustrate };
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.ScholarLustrateAetherflowFeature;
+		public override uint[] ActionIDs { get; } = new[] { SCH.Lustrate };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -90,8 +90,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class ScholarIndomitability: CustomCombo {
-		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.ScholarIndomAetherflowFeature;
-		protected internal override uint[] ActionIDs { get; } = new[] { SCH.EnergyDrain };
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.ScholarIndomAetherflowFeature;
+		public override uint[] ActionIDs { get; } = new[] { SCH.EnergyDrain };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 

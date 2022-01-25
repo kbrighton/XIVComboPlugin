@@ -57,12 +57,12 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class PaladinStunInterruptFeature: StunInterruptCombo {
-		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.PaladinStunInterruptFeature;
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.PaladinStunInterruptFeature;
 	}
 
 	internal class PaladinGoringBladeCombo: CustomCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.PldAny;
-		protected internal override uint[] ActionIDs { get; } = new[] { PLD.GoringBlade };
+		public override CustomComboPreset Preset => CustomComboPreset.PldAny;
+		public override uint[] ActionIDs { get; } = new[] { PLD.GoringBlade };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -92,8 +92,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class PaladinRoyalAuthorityCombo: CustomCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.PldAny;
-		protected internal override uint[] ActionIDs { get; } = new[] { PLD.RageOfHalone, PLD.RoyalAuthority };
+		public override CustomComboPreset Preset => CustomComboPreset.PldAny;
+		public override uint[] ActionIDs { get; } = new[] { PLD.RageOfHalone, PLD.RoyalAuthority };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -123,8 +123,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class PaladinProminenceCombo: CustomCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.PldAny;
-		protected internal override uint[] ActionIDs { get; } = new[] { PLD.Prominence };
+		public override CustomComboPreset Preset => CustomComboPreset.PldAny;
+		public override uint[] ActionIDs { get; } = new[] { PLD.Prominence };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -141,8 +141,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class PaladinRequiescatCombo: CustomCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.PaladinRequiescatConfiteorCombo;
-		protected internal override uint[] ActionIDs { get; } = new[] { PLD.Requiescat };
+		public override CustomComboPreset Preset => CustomComboPreset.PaladinRequiescatConfiteorCombo;
+		public override uint[] ActionIDs { get; } = new[] { PLD.Requiescat };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -167,8 +167,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class PaladinInterveneSyncFeature: CustomCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.PaladinInterveneSyncFeature;
-		protected internal override uint[] ActionIDs { get; } = new[] { PLD.Intervene };
+		public override CustomComboPreset Preset => CustomComboPreset.PaladinInterveneSyncFeature;
+		public override uint[] ActionIDs { get; } = new[] { PLD.Intervene };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 

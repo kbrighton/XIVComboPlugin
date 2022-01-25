@@ -68,8 +68,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class DancerDanceComboCompatibility: CustomCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.DancerDanceComboCompatibility;
-		protected internal override uint[] ActionIDs => Service.Configuration.DancerDanceCompatActionIDs;
+		public override CustomComboPreset Preset => CustomComboPreset.DancerDanceComboCompatibility;
+		public override uint[] ActionIDs => Service.Configuration.DancerDanceCompatActionIDs;
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			if (level >= DNC.Levels.StandardStep && GetJobGauge<DNCGauge>().IsDancing) {
@@ -94,8 +94,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class DancerFanDanceCombos: CustomCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.DncAny;
-		protected internal override uint[] ActionIDs { get; } = new[] { DNC.FanDance1, DNC.FanDance2 };
+		public override CustomComboPreset Preset => CustomComboPreset.DncAny;
+		public override uint[] ActionIDs { get; } = new[] { DNC.FanDance1, DNC.FanDance2 };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			bool can4 = level >= DNC.Levels.FanDance4 && SelfHasEffect(DNC.Buffs.FourfoldFanDance);
@@ -119,8 +119,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class DancerDanceStepCombo: CustomCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.DancerDanceStepCombo;
-		protected internal override uint[] ActionIDs { get; } = new[] { DNC.StandardStep, DNC.TechnicalStep };
+		public override CustomComboPreset Preset => CustomComboPreset.DancerDanceStepCombo;
+		public override uint[] ActionIDs { get; } = new[] { DNC.StandardStep, DNC.TechnicalStep };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -147,8 +147,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class DancerFlourishFeature: CustomCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.DancerFlourishFeature;
-		protected internal override uint[] ActionIDs { get; } = new[] { DNC.Flourish };
+		public override CustomComboPreset Preset => CustomComboPreset.DancerFlourishFeature;
+		public override uint[] ActionIDs { get; } = new[] { DNC.Flourish };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -174,8 +174,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class DancerSingleTargetMultibutton: CustomCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.DancerSingleTargetMultibutton;
-		protected internal override uint[] ActionIDs { get; } = new[] { DNC.Cascade };
+		public override CustomComboPreset Preset => CustomComboPreset.DancerSingleTargetMultibutton;
+		public override uint[] ActionIDs { get; } = new[] { DNC.Cascade };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -193,8 +193,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class DancerAoeMultibutton: CustomCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.DancerAoeMultibutton;
-		protected internal override uint[] ActionIDs { get; } = new[] { DNC.Windmill };
+		public override CustomComboPreset Preset => CustomComboPreset.DancerAoeMultibutton;
+		public override uint[] ActionIDs { get; } = new[] { DNC.Windmill };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -212,8 +212,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class DancerDevilmentFeature: CustomCombo {
-		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.DancerDevilmentFeature;
-		protected internal override uint[] ActionIDs { get; } = new[] { DNC.Devilment };
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.DancerDevilmentFeature;
+		public override uint[] ActionIDs { get; } = new[] { DNC.Devilment };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 

@@ -43,13 +43,13 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class AstrologianSwiftcastRaiserFeature: SwiftRaiseCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.AstrologianSwiftcastRaiserFeature;
-		protected internal override uint[] ActionIDs { get; } = new[] { AST.Ascend };
+		public override CustomComboPreset Preset => CustomComboPreset.AstrologianSwiftcastRaiserFeature;
+		public override uint[] ActionIDs { get; } = new[] { AST.Ascend };
 	}
 
 	internal class AstrologianCardsOnDrawFeature: CustomCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.AstAny;
-		protected internal override uint[] ActionIDs { get; } = new[] { AST.Play };
+		public override CustomComboPreset Preset => CustomComboPreset.AstAny;
+		public override uint[] ActionIDs { get; } = new[] { AST.Play };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -66,8 +66,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class AstrologianMinorArcanaPlayFeature: CustomCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.AstrologianMinorArcanaPlayFeature;
-		protected internal override uint[] ActionIDs { get; } = new[] { AST.MinorArcana };
+		public override CustomComboPreset Preset => CustomComboPreset.AstrologianMinorArcanaPlayFeature;
+		public override uint[] ActionIDs { get; } = new[] { AST.MinorArcana };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -79,8 +79,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class AstrologianBeneficFeature: CustomCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.AstrologianBeneficFeature;
-		protected internal override uint[] ActionIDs { get; } = new[] { AST.Benefic2 };
+		public override CustomComboPreset Preset => CustomComboPreset.AstrologianBeneficFeature;
+		public override uint[] ActionIDs { get; } = new[] { AST.Benefic2 };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 

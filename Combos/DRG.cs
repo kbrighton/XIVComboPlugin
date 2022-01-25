@@ -65,8 +65,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class DragoonJumpFeature: CustomCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.DragoonJumpFeature;
-		protected internal override uint[] ActionIDs { get; } = new[] { DRG.Jump, DRG.HighJump };
+		public override CustomComboPreset Preset => CustomComboPreset.DragoonJumpFeature;
+		public override uint[] ActionIDs { get; } = new[] { DRG.Jump, DRG.HighJump };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -78,8 +78,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class DragoonCoerthanTormentCombo: CustomCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.DragoonCoerthanTormentCombo;
-		protected internal override uint[] ActionIDs { get; } = new[] { DRG.CoerthanTorment };
+		public override CustomComboPreset Preset => CustomComboPreset.DragoonCoerthanTormentCombo;
+		public override uint[] ActionIDs { get; } = new[] { DRG.CoerthanTorment };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -98,8 +98,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class DragoonChaosThrustCombo: CustomCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.DrgAny;
-		protected internal override uint[] ActionIDs { get; } = new[] { DRG.ChaosThrust, DRG.ChaoticSpring };
+		public override CustomComboPreset Preset => CustomComboPreset.DrgAny;
+		public override uint[] ActionIDs { get; } = new[] { DRG.ChaosThrust, DRG.ChaoticSpring };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -137,8 +137,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class DragoonFullThrustCombo: CustomCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.DrgAny;
-		protected internal override uint[] ActionIDs { get; } = new[] { DRG.FullThrust, DRG.HeavensThrust };
+		public override CustomComboPreset Preset => CustomComboPreset.DrgAny;
+		public override uint[] ActionIDs { get; } = new[] { DRG.FullThrust, DRG.HeavensThrust };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -176,8 +176,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class DragoonDiveFeature: CustomCombo {
-		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.DragoonDiveFeature;
-		protected internal override uint[] ActionIDs { get; } = new[] { DRG.SpineshatterDive, DRG.DragonfireDive, DRG.Stardiver };
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.DragoonDiveFeature;
+		public override uint[] ActionIDs { get; } = new[] { DRG.SpineshatterDive, DRG.DragonfireDive, DRG.Stardiver };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 

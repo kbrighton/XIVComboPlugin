@@ -52,12 +52,12 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class DarkStunInterruptFeature: StunInterruptCombo {
-		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.DarkStunInterruptFeature;
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.DarkStunInterruptFeature;
 	}
 
 	internal class DarkSouleaterCombo: CustomCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.DrkAny;
-		protected internal override uint[] ActionIDs { get; } = new[] { DRK.Souleater };
+		public override CustomComboPreset Preset => CustomComboPreset.DrkAny;
+		public override uint[] ActionIDs { get; } = new[] { DRK.Souleater };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			if (actionID is DRK.Souleater) {
@@ -83,8 +83,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class DarkAoECombo: CustomCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.DrkAny;
-		protected internal override uint[] ActionIDs { get; } = new[] { DRK.StalwartSoul };
+		public override CustomComboPreset Preset => CustomComboPreset.DrkAny;
+		public override uint[] ActionIDs { get; } = new[] { DRK.StalwartSoul };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			if (actionID is DRK.StalwartSoul) {
@@ -109,8 +109,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class DarkShadowbringerFeature: CustomCombo {
-		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.DarkShadowbringerFeature;
-		protected internal override uint[] ActionIDs { get; } = new[] { DRK.EdgeOfShadow, DRK.FloodOfShadow };
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.DarkShadowbringerFeature;
+		public override uint[] ActionIDs { get; } = new[] { DRK.EdgeOfShadow, DRK.FloodOfShadow };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 

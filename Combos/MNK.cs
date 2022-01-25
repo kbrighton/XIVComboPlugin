@@ -75,9 +75,9 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class MonkAoECombo: CustomCombo {
-		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.MnkAny;
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.MnkAny;
 
-		protected internal override uint[] ActionIDs { get; } = new[] { MNK.Rockbreaker, MNK.FourPointFury };
+		public override uint[] ActionIDs { get; } = new[] { MNK.Rockbreaker, MNK.FourPointFury };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			if (actionID == MNK.Rockbreaker) {
@@ -152,9 +152,9 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class MonkHowlingFistMeditationFeature: CustomCombo {
-		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.MonkHowlingFistMeditationFeature;
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.MonkHowlingFistMeditationFeature;
 
-		protected internal override uint[] ActionIDs { get; } = new[] { MNK.HowlingFist, MNK.Enlightenment };
+		public override uint[] ActionIDs { get; } = new[] { MNK.HowlingFist, MNK.Enlightenment };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			MyMNKGauge? gauge = new(GetJobGauge<MNKGauge>());
@@ -168,9 +168,9 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class MonkPerfectBalanceFeature: CustomCombo {
-		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.MonkPerfectBalanceFeature;
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.MonkPerfectBalanceFeature;
 
-		protected internal override uint[] ActionIDs { get; } = new[] { MNK.PerfectBalance };
+		public override uint[] ActionIDs { get; } = new[] { MNK.PerfectBalance };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			MyMNKGauge? gauge = new(GetJobGauge<MNKGauge>());
@@ -183,8 +183,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class MonkDragonKickFeature: CustomCombo {
-		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.MnkAny;
-		protected internal override uint[] ActionIDs { get; } = new[] { MNK.DragonKick };
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.MnkAny;
+		public override uint[] ActionIDs { get; } = new[] { MNK.DragonKick };
 
 		protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
 			MyMNKGauge? gauge = new(GetJobGauge<MNKGauge>());
@@ -200,8 +200,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class MonkTwinStrikeFeature: CustomCombo {
-		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.MonkTwinStrikeFeature;
-		protected internal override uint[] ActionIDs { get; } = new[] { MNK.TwinSnakes };
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.MonkTwinStrikeFeature;
+		public override uint[] ActionIDs { get; } = new[] { MNK.TwinSnakes };
 
 		protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
 
@@ -213,8 +213,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class MonkDemolishSnapFeature: CustomCombo {
-		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.MonkDemolishSnapFeature;
-		protected internal override uint[] ActionIDs { get; } = new[] { MNK.Demolish };
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.MonkDemolishSnapFeature;
+		public override uint[] ActionIDs { get; } = new[] { MNK.Demolish };
 
 		protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
 
@@ -226,8 +226,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class MonkRiddleOfFireFeature: CustomCombo {
-		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.MnkAny;
-		protected internal override uint[] ActionIDs { get; } = new[] { MNK.RiddleOfFire };
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.MnkAny;
+		public override uint[] ActionIDs { get; } = new[] { MNK.RiddleOfFire };
 
 		protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
 

@@ -72,6 +72,12 @@ namespace XIVComboVX {
 
 		[CustomComboInfo("Any", "This should not be displayed. This always returns true when used with IsEnabled.", WHM.JobID)]
 		WhmAny = AdvAny + WHM.JobID,
+
+		[CustomComboInfo("Any", "This should not be displayed. This always returns true when used with IsEnabled.", DOH.JobID)]
+		DohAny = AdvAny + DOH.JobID,
+
+		[CustomComboInfo("Any", "This should not be displayed. This always returns true when used with IsEnabled.", DOL.JobID)]
+		DolAny = AdvAny + DOL.JobID,
 		#endregion
 		// ====================================================================================
 		#region ASTROLOGIAN (33xx)
@@ -831,10 +837,31 @@ namespace XIVComboVX {
 		#region DoL (99xx)
 
 		[CustomComboInfo("Eureka Feature", "Replace Ageless Words and Solid Reason with Wise to the World when available.", DOL.JobID)]
-		DolEurekaFeature = 9900,
+		GatherEurekaFeature = 9900,
 
 		[CustomComboInfo("Cast / Hook Feature", "Replace Cast with Hook when fishing.", DOL.JobID)]
-		DolCastHookFeature = 9901,
+		FisherCastHookFeature = 9901,
+
+		[CustomComboInfo("Cast / Gig Feature", "Replace Cast with Gig when swimming.", DOL.JobID)]
+		FisherCastGigFeature = 9902,
+
+		[CustomComboInfo("Surface Slap / Veteran Trade Feature", "Replace Surface Slap with Veteran Trade when swimming.", DOL.JobID)]
+		FisherSurfaceTradeFeature = 9903,
+
+		[CustomComboInfo("Prize Catch / Nature's Bounty Feature", "Replace Prize Catch with Nature's Bounty when swimming.", DOL.JobID)]
+		FisherPrizeBountyFeature = 9904,
+
+		[CustomComboInfo("Snagging / Salvage Feature", "Replace Snagging with Salvage when swimming.", DOL.JobID)]
+		FisherSnaggingSalvageFeature = 9905,
+
+		[CustomComboInfo("Identical Cast / Vital Sight Feature", "Replace Identical Cast with Vital Sight when swimming.", DOL.JobID)]
+		FisherIdenticalSightFeature = 9906,
+
+		[CustomComboInfo("Makeshift Bait / Baited Breath Feature", "Replace Makeshift Bait with Baited Breath when swimming.", DOL.JobID)]
+		FisherMakeshiftBreathFeature = 9907,
+
+		[CustomComboInfo("Chum / Electric Current Feature", "Replace Chum with Electric Current when swimming.", DOL.JobID)]
+		FisherElectricChumFeature = 9908,
 
 		#endregion
 		// ====================================================================================

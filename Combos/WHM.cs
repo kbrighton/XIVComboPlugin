@@ -31,13 +31,13 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class WhiteMageSwiftcastRaiserFeature: SwiftRaiseCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.WhiteMageSwiftcastRaiserFeature;
-		protected internal override uint[] ActionIDs { get; } = new[] { WHM.Raise };
+		public override CustomComboPreset Preset => CustomComboPreset.WhiteMageSwiftcastRaiserFeature;
+		public override uint[] ActionIDs { get; } = new[] { WHM.Raise };
 	}
 
 	internal class WhiteMageSolaceMiseryFeature: CustomCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.WhiteMageSolaceMiseryFeature;
-		protected internal override uint[] ActionIDs { get; } = new[] { WHM.AfflatusSolace };
+		public override CustomComboPreset Preset => CustomComboPreset.WhiteMageSolaceMiseryFeature;
+		public override uint[] ActionIDs { get; } = new[] { WHM.AfflatusSolace };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -49,8 +49,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class WhiteMageRaptureMiseryFeature: CustomCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.WhiteMageRaptureMiseryFeature;
-		protected internal override uint[] ActionIDs { get; } = new[] { WHM.AfflatusRapture };
+		public override CustomComboPreset Preset => CustomComboPreset.WhiteMageRaptureMiseryFeature;
+		public override uint[] ActionIDs { get; } = new[] { WHM.AfflatusRapture };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -62,8 +62,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class WhiteMageCureFeature: CustomCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.WhiteMageCureFeature;
-		protected internal override uint[] ActionIDs { get; } = new[] { WHM.Cure2 };
+		public override CustomComboPreset Preset => CustomComboPreset.WhiteMageCureFeature;
+		public override uint[] ActionIDs { get; } = new[] { WHM.Cure2 };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -75,8 +75,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class WhiteMageAfflatusFeature: CustomCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.WhmAny;
-		protected internal override uint[] ActionIDs { get; } = new[] { WHM.Cure2, WHM.Medica };
+		public override CustomComboPreset Preset => CustomComboPreset.WhmAny;
+		public override uint[] ActionIDs { get; } = new[] { WHM.Cure2, WHM.Medica };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 

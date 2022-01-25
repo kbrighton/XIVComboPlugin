@@ -65,8 +65,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class BardWanderersPitchPerfectFeature: CustomCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.BardWanderersPitchPerfectFeature;
-		protected internal override uint[] ActionIDs { get; } = new[] { BRD.WanderersMinuet };
+		public override CustomComboPreset Preset => CustomComboPreset.BardWanderersPitchPerfectFeature;
+		public override uint[] ActionIDs { get; } = new[] { BRD.WanderersMinuet };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -78,8 +78,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class BardStraightShotUpgradeFeature: CustomCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.BrdAny;
-		protected internal override uint[] ActionIDs { get; } = new[] { BRD.HeavyShot, BRD.BurstShot };
+		public override CustomComboPreset Preset => CustomComboPreset.BrdAny;
+		public override uint[] ActionIDs { get; } = new[] { BRD.HeavyShot, BRD.BurstShot };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -105,8 +105,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class BardIronJawsFeature: CustomCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.BardIronJawsFeature;
-		protected internal override uint[] ActionIDs { get; } = new[] { BRD.IronJaws };
+		public override CustomComboPreset Preset => CustomComboPreset.BardIronJawsFeature;
+		public override uint[] ActionIDs { get; } = new[] { BRD.IronJaws };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -158,8 +158,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class BardShadowbiteFeature: CustomCombo {
-		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.BrdAny;
-		protected internal override uint[] ActionIDs { get; } = new[] { BRD.QuickNock, BRD.Ladonsbite };
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.BrdAny;
+		public override uint[] ActionIDs { get; } = new[] { BRD.QuickNock, BRD.Ladonsbite };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -181,8 +181,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class BardBloodletterFeature: CustomCombo {
-		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.BardBloodletterFeature;
-		protected internal override uint[] ActionIDs { get; } = new[] { BRD.Bloodletter };
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.BardBloodletterFeature;
+		public override uint[] ActionIDs { get; } = new[] { BRD.Bloodletter };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -197,8 +197,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class BardRainOfDeathFeature: CustomCombo {
-		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.BardRainOfDeathFeature;
-		protected internal override uint[] ActionIDs { get; } = new[] { BRD.RainOfDeath };
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.BardRainOfDeathFeature;
+		public override uint[] ActionIDs { get; } = new[] { BRD.RainOfDeath };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 

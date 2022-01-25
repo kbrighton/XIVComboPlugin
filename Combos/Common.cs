@@ -27,7 +27,7 @@
 	}
 
 	internal abstract class StunInterruptCombo: CustomCombo {
-		protected internal override uint[] ActionIDs { get; } = new[] { Common.LowBlow, Common.Interject };
+		public override uint[] ActionIDs { get; } = new[] { Common.LowBlow, Common.Interject };
 
 		protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
 			return CanInterrupt && IsOffCooldown(Common.Interject)

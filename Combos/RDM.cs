@@ -72,13 +72,13 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class RedMageSwiftcastRaiserFeature: SwiftRaiseCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.RedMageSwiftcastRaiserFeature;
-		protected internal override uint[] ActionIDs { get; } = new[] { RDM.Verraise };
+		public override CustomComboPreset Preset => CustomComboPreset.RedMageSwiftcastRaiserFeature;
+		public override uint[] ActionIDs { get; } = new[] { RDM.Verraise };
 	}
 
 	internal class RedMageAoECombo: CustomCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.RedMageAoECombo;
-		protected internal override uint[] ActionIDs { get; } = new[] { RDM.Veraero2, RDM.Verthunder2 };
+		public override CustomComboPreset Preset => CustomComboPreset.RedMageAoECombo;
+		public override uint[] ActionIDs { get; } = new[] { RDM.Veraero2, RDM.Verthunder2 };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -96,8 +96,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class RedMageMeleeCombo: CustomCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.RedMageMeleeCombo;
-		protected internal override uint[] ActionIDs { get; } = new[] { RDM.Redoublement, RDM.Moulinet };
+		public override CustomComboPreset Preset => CustomComboPreset.RedMageMeleeCombo;
+		public override uint[] ActionIDs { get; } = new[] { RDM.Redoublement, RDM.Moulinet };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			const int
@@ -155,8 +155,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class RedMageVerprocCombo: CustomCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.RedMageVerprocCombo;
-		protected internal override uint[] ActionIDs { get; } = new[] { RDM.Verstone, RDM.Verfire };
+		public override CustomComboPreset Preset => CustomComboPreset.RedMageVerprocCombo;
+		public override uint[] ActionIDs { get; } = new[] { RDM.Verstone, RDM.Verfire };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -217,8 +217,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class RedMageContreFlecheFeature: CustomCombo {
-		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.RedMageContreFlecheFeature;
-		protected internal override uint[] ActionIDs { get; } = new[] { RDM.Fleche, RDM.ContreSixte };
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.RedMageContreFlecheFeature;
+		public override uint[] ActionIDs { get; } = new[] { RDM.Fleche, RDM.ContreSixte };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -233,8 +233,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class RedMageSmartcastAoECombo: CustomCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.RedMageSmartcastAoEFeature;
-		protected internal override uint[] ActionIDs { get; } = new[] { RDM.Veraero2, RDM.Verthunder2 };
+		public override CustomComboPreset Preset => CustomComboPreset.RedMageSmartcastAoEFeature;
+		public override uint[] ActionIDs { get; } = new[] { RDM.Veraero2, RDM.Verthunder2 };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -257,8 +257,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class RedmageSmartcastSingleCombo: CustomCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.RedMageSmartcastSingleFeature;
-		protected internal override uint[] ActionIDs { get; } = new[] { RDM.Veraero, RDM.Verthunder, RDM.Verstone, RDM.Verfire };
+		public override CustomComboPreset Preset => CustomComboPreset.RedMageSmartcastSingleFeature;
+		public override uint[] ActionIDs { get; } = new[] { RDM.Veraero, RDM.Verthunder, RDM.Verstone, RDM.Verfire };
 
 		protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
 			const int

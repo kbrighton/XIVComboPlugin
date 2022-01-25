@@ -56,12 +56,12 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class GunbreakerStunInterruptFeature: StunInterruptCombo {
-		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.GunbreakerStunInterruptFeature;
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.GunbreakerStunInterruptFeature;
 	}
 
 	internal class GunbreakerSolidBarrelCombo: CustomCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.GunbreakerSolidBarrelCombo;
-		protected internal override uint[] ActionIDs { get; } = new[] { GNB.SolidBarrel };
+		public override CustomComboPreset Preset => CustomComboPreset.GunbreakerSolidBarrelCombo;
+		public override uint[] ActionIDs { get; } = new[] { GNB.SolidBarrel };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -73,8 +73,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class GunbreakerGnashingFangContinuation: CustomCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.GunbreakerGnashingFangCont;
-		protected internal override uint[] ActionIDs { get; } = new[] { GNB.GnashingFang };
+		public override CustomComboPreset Preset => CustomComboPreset.GunbreakerGnashingFangCont;
+		public override uint[] ActionIDs { get; } = new[] { GNB.GnashingFang };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -94,8 +94,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class GunbreakerBurstStrikeFatedCircle: CustomCombo {
-		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.GnbAny;
-		protected internal override uint[] ActionIDs { get; } = new[] { GNB.BurstStrike, GNB.FatedCircle };
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.GnbAny;
+		public override uint[] ActionIDs { get; } = new[] { GNB.BurstStrike, GNB.FatedCircle };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -122,8 +122,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class GunbreakerBowShockSonicBreakFeature: CustomCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.GunbreakerBowShockSonicBreakFeature;
-		protected internal override uint[] ActionIDs { get; } = new[] { GNB.BowShock, GNB.SonicBreak };
+		public override CustomComboPreset Preset => CustomComboPreset.GunbreakerBowShockSonicBreakFeature;
+		public override uint[] ActionIDs { get; } = new[] { GNB.BowShock, GNB.SonicBreak };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -135,8 +135,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class GunbreakerDemonSlaughterCombo: CustomCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.GunbreakerDemonSlaughterCombo;
-		protected internal override uint[] ActionIDs { get; } = new[] { GNB.DemonSlaughter };
+		public override CustomComboPreset Preset => CustomComboPreset.GunbreakerDemonSlaughterCombo;
+		public override uint[] ActionIDs { get; } = new[] { GNB.DemonSlaughter };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -159,8 +159,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class GunbreakerNoMercyFeature: CustomCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.GunbreakerNoMercyFeature;
-		protected internal override uint[] ActionIDs { get; } = new[] { GNB.NoMercy };
+		public override CustomComboPreset Preset => CustomComboPreset.GunbreakerNoMercyFeature;
+		public override uint[] ActionIDs { get; } = new[] { GNB.NoMercy };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 

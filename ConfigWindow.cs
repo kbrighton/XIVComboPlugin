@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 
+using Dalamud.Game.ClientState.Objects.SubKinds;
 using Dalamud.Interface.Windowing;
 using Dalamud.Utility;
 
@@ -124,11 +125,18 @@ namespace XIVComboVX {
 						ImGui.BeginTooltip();
 						ImGui.Text("This enables a snapshot of debug messages in the dalamud log.");
 						ImGui.Text("They will appear in your log file and also in the /xllog window.");
-						ImGui.Text("This may be requested by the developer, but is otherwise not needed.");
 						ImGui.EndTooltip();
 					}
 					if (clickDebug) {
 						Service.Logger.EnableNextTick();
+					}
+
+					PlayerCharacter? player = Service.Client.LocalPlayer;
+					if (player is null) {
+						ImGui.MenuItem("Not logged in", false);
+					}
+					else {
+						ImGui.MenuItem($"{player.Name}: {player.ClassJob.GameData!.Abbreviation.ToString().ToUpper()} ({player.ClassJob.Id})", false);
 					}
 
 					ImGui.EndMenu();

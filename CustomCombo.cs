@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Dalamud.Game.ClientState.Conditions;
@@ -22,10 +23,11 @@ namespace XIVComboVX.Combos {
 
 		#endregion
 
-		protected internal abstract CustomComboPreset Preset { get; }
-		protected internal virtual uint[] ActionIDs { get; } = Array.Empty<uint>();
+		public abstract CustomComboPreset Preset { get; }
+		public virtual uint[] ActionIDs { get; } = Array.Empty<uint>();
+		public readonly HashSet<uint> AffectedIDs;
 
-		protected byte JobID { get; }
+		public byte JobID { get; }
 		public byte ClassID => this.JobID switch {
 			>= 19 and <= 25 => (byte)(this.JobID - 18),
 			27 or 28 => 26,
@@ -37,6 +39,7 @@ namespace XIVComboVX.Combos {
 			CustomComboInfoAttribute presetInfo = this.Preset.GetAttribute<CustomComboInfoAttribute>();
 			this.JobID = presetInfo.JobID;
 			this.ModuleName = this.GetType().Name;
+			this.AffectedIDs = new(this.ActionIDs);
 		}
 
 		public bool TryInvoke(uint actionID, uint lastComboActionId, float comboTime, byte level, out uint newActionID) {
@@ -49,11 +52,18 @@ namespace XIVComboVX.Combos {
 			if (classJobID is >= 16 and <= 18)
 				classJobID = DOL.JobID;
 
-			if (!IsEnabled(this.Preset)
-				|| (this.JobID != classJobID && this.ClassID != classJobID)
-				|| (this.ActionIDs.Length > 0 && !this.ActionIDs.Contains(actionID))
-			)
+			if (this.JobID != classJobID && this.ClassID != classJobID) {
+				//Service.Logger.debug($"{this.ModuleName} not applied: class/job ID mismatch ({this.ClassID}/{this.JobID} != {classJobID})");
 				return false;
+			}
+			if (this.AffectedIDs.Count > 0 && !this.AffectedIDs.Contains(actionID)) {
+				//Service.Logger.debug($"{this.ModuleName} not applied: action ID ({actionID}) not affected");
+				return false;
+			}
+			if (!IsEnabled(this.Preset)) {
+				//Service.Logger.debug($"{this.ModuleName} not applied: preset not enabled");
+				return false;
+			}
 
 			Service.Logger.debug($"{this.ModuleName}.Invoke({actionID}, {lastComboActionId}, {comboTime}, {level})");
 			try {
@@ -72,8 +82,9 @@ namespace XIVComboVX.Combos {
 				return false;
 			}
 		}
-
 		protected abstract uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level);
+
+		#region Common calculations
 
 		protected static uint PickByCooldown(uint original, params uint[] actions) {
 
@@ -115,6 +126,7 @@ namespace XIVComboVX.Combos {
 							: a.Data.IsCooldown // only one on CD
 								? b // b is off cooldown
 								: a; // a is off cooldown
+
 				// You know that one scene in Doctor Who on the really long spaceship that's being sucked into a black hole?
 				// And time's dilated at one end but not the other?
 				// And there's that hospital in the end by the black hole?
@@ -149,11 +161,25 @@ namespace XIVComboVX.Combos {
 			return sequence[0].id;
 		}
 
+		#endregion
+
 		#region Utility/convenience getters
 
 		protected internal static uint OriginalHook(uint actionID) => Service.IconReplacer.OriginalHook(actionID);
 
 		protected static PlayerCharacter LocalPlayer => Service.Client.LocalPlayer!;
+
+		protected static bool IsJob(params uint[] jobs) {
+			PlayerCharacter? p = Service.Client.LocalPlayer;
+			if (p is null)
+				return false;
+			uint current = p.ClassJob.Id;
+			foreach (byte job in jobs) {
+				if (current == job)
+					return true;
+			}
+			return false;
+		}
 
 		protected static GameObject CurrentTarget => Service.Targets.Target!;
 

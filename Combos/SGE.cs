@@ -50,13 +50,13 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class SageSwiftcastRaiserFeature: SwiftRaiseCombo {
-		protected internal override CustomComboPreset Preset => CustomComboPreset.SageSwiftcastRaiserFeature;
-		protected internal override uint[] ActionIDs { get; } = new[] { SGE.Egeiro };
+		public override CustomComboPreset Preset => CustomComboPreset.SageSwiftcastRaiserFeature;
+		public override uint[] ActionIDs { get; } = new[] { SGE.Egeiro };
 	}
 
 	internal class SageSoteria: CustomCombo {
-		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.SageSoteriaKardionFeature;
-		protected internal override uint[] ActionIDs { get; } = new[] { SGE.Soteria };
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.SageSoteriaKardionFeature;
+		public override uint[] ActionIDs { get; } = new[] { SGE.Soteria };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -68,8 +68,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class SageTaurochole: CustomCombo {
-		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.SgeAny;
-		protected internal override uint[] ActionIDs { get; } = new[] { SGE.Taurochole };
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.SgeAny;
+		public override uint[] ActionIDs { get; } = new[] { SGE.Taurochole };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -90,8 +90,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class SageDruochole: CustomCombo {
-		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.SageDruocholeRhizomataFeature;
-		protected internal override uint[] ActionIDs { get; } = new[] { SGE.Druochole };
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.SageDruocholeRhizomataFeature;
+		public override uint[] ActionIDs { get; } = new[] { SGE.Druochole };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -103,8 +103,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class SageIxochole: CustomCombo {
-		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.SageIxocholeRhizomataFeature;
-		protected internal override uint[] ActionIDs { get; } = new[] { SGE.Ixochole };
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.SageIxocholeRhizomataFeature;
+		public override uint[] ActionIDs { get; } = new[] { SGE.Ixochole };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -116,8 +116,8 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class SageKerachole: CustomCombo {
-		protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.SageKeracholaRhizomataFeature;
-		protected internal override uint[] ActionIDs { get; } = new[] { SGE.Kerachole };
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.SageKeracholaRhizomataFeature;
+		public override uint[] ActionIDs { get; } = new[] { SGE.Kerachole };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
