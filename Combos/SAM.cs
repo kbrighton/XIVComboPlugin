@@ -7,25 +7,25 @@ namespace XIVComboVX.Combos {
 		public const byte JobID = 34;
 
 		public const uint
-            // Single target
-            Hakaze = 7477,
+			// Single target
+			Hakaze = 7477,
 			Jinpu = 7478,
 			Shifu = 7479,
 			Yukikaze = 7480,
 			Gekko = 7481,
 			Kasha = 7482,
-            // AoE
-            Fuga = 7483,
+			// AoE
+			Fuga = 7483,
 			Mangetsu = 7484,
 			Oka = 7485,
 			Fuko = 25780,
-            // Iaijutsu and Tsubame
-            Iaijutsu = 7867,
+			// Iaijutsu and Tsubame
+			Iaijutsu = 7867,
 			TsubameGaeshi = 16483,
 			KaeshiHiganbana = 16484,
 			Shoha = 16487,
-            // Misc
-            HissatsuShinten = 7490,
+			// Misc
+			HissatsuShinten = 7490,
 			HissatsuKyuten = 7491,
 			HissatsuSenei = 16481,
 			HissatsuGuren = 7496,

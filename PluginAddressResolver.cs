@@ -28,16 +28,16 @@ namespace XIVComboVX {
 
 		protected override void Setup64Bit(SigScanner scanner) {
 			try {
-				Service.Logger.debug("Scanning for ComboTimer signature");
+				PluginLog.Debug("Scanning for ComboTimer signature");
 				this.ComboTimer = scanner.GetStaticAddressFromSig("48 89 2D ?? ?? ?? ?? 85 C0 74 0F");
 
-				Service.Logger.debug("Scanning for GetAdjustedActionId signature");
+				PluginLog.Debug("Scanning for GetAdjustedActionId signature");
 				this.GetAdjustedActionId = scanner.ScanText("E8 ?? ?? ?? ?? 8B F8 3B DF");  // Client::Game::ActionManager.GetAdjustedActionId
 
-				Service.Logger.debug("Scanning for IsActionIdReplaceable signature");
+				PluginLog.Debug("Scanning for IsActionIdReplaceable signature");
 				this.IsActionIdReplaceable = scanner.ScanText("81 F9 ?? ?? ?? ?? 7F 35");
 
-				Service.Logger.debug("Scanning for GetActionCooldown signature");
+				PluginLog.Debug("Scanning for GetActionCooldown signature");
 				this.GetActionCooldown = scanner.ScanText("E8 ?? ?? ?? ?? 0F 57 FF 48 85 C0");
 			}
 			catch (Exception ex) {
