@@ -764,6 +764,9 @@ namespace XIVComboVX {
 		[CustomComboInfo("Searing Carbuncle Feature", "Change Searing Light into Summon Carbuncle when no pet has been summoned.", SMN.JobID)]
 		SummonerSearingCarbuncleFeature = 2717,
 
+		[CustomComboInfo("Slipstream / Swiftcast Feature", "Change Slipstream into Swiftcast when Swiftcast is available.", SMN.JobID)]
+		SummonerSlipcastFeature = 2718,
+
 		#endregion
 		// ====================================================================================
 		#region WARRIOR (21xx)

@@ -192,4 +192,17 @@ namespace XIVComboVX.Combos {
 			return actionID;
 		}
 	}
+
+	internal class SummonerSlipcastFeature: CustomCombo {
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.SummonerSlipcastFeature;
+		public override uint[] ActionIDs { get; } = new[] { SMN.AstralFlow, SMN.Slipstream };
+
+		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+
+			if (SelfHasEffect(SMN.Buffs.GarudasFavor) && IsOffCooldown(Common.Swiftcast))
+				return Common.Swiftcast;
+
+			return OriginalHook(actionID);
+		}
+	}
 }
