@@ -106,9 +106,8 @@ namespace XIVComboVX.Combos {
 			if (IsEnabled(CustomComboPreset.WarriorGaugeOvercapTempestFeature) && level >= WAR.Levels.MythrilTempestTrait && GetJobGauge<WARGauge>().BeastGauge > 80)
 				return OriginalHook(WAR.Decimate);
 
-			if (comboTime > 0 && lastComboMove == WAR.Overpower && level >= WAR.Levels.MythrilTempest) {
+			if (comboTime > 0 && lastComboMove == WAR.Overpower && level >= WAR.Levels.MythrilTempest)
 				return WAR.MythrilTempest;
-			}
 
 			return WAR.Overpower;
 		}

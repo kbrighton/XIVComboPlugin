@@ -88,7 +88,9 @@ namespace XIVComboVX.Combos {
 
 		protected static uint PickByCooldown(uint original, params uint[] actions) {
 
-			static (uint ActionID, CooldownData Data) Selector(uint actionID) => (actionID, GetCooldown(actionID));
+			static (uint ActionID, CooldownData Data) Selector(uint actionID) {
+				return (actionID, GetCooldown(actionID));
+			}
 
 			static (uint ActionID, CooldownData Data) Compare(uint original, (uint ActionID, CooldownData Data) a, (uint ActionID, CooldownData Data) b) {
 

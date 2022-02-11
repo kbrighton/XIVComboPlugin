@@ -162,8 +162,9 @@ namespace XIVComboVX {
 					ImGui.PopID();
 
 				}
-				else
+				else {
 					i += this.groupedPresets[jobName].Count;
+				}
 			}
 
 		}
@@ -192,8 +193,9 @@ namespace XIVComboVX {
 					}
 
 				}
-				else
+				else {
 					Service.Configuration.EnabledActions.Remove(preset);
+				}
 
 				Service.Configuration.Save();
 			}

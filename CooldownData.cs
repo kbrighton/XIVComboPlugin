@@ -11,10 +11,9 @@ namespace XIVComboVX {
 		public bool IsCooldown {
 			get {
 				(ushort cur, ushort max) = Service.DataCache.GetMaxCharges(this.ActionID);
-				if (cur == max)
-					return this.isCooldown;
-
-				return this.cooldownElapsed < this.CooldownTotal;
+				return cur == max
+					? this.isCooldown
+					: this.cooldownElapsed < this.CooldownTotal;
 			}
 		}
 
@@ -23,17 +22,11 @@ namespace XIVComboVX {
 		/// <summary>
 		/// Elapsed time on the cooldown, covering only the number of max charges available at current level (if applicable)
 		/// </summary>
-		public float CooldownElapsed {
-			get {
-				if (this.cooldownElapsed == 0)
-					return 0;
-
-				if (this.cooldownElapsed > this.CooldownTotal)
-					return 0;
-
-				return this.cooldownElapsed;
-			}
-		}
+		public float CooldownElapsed => this.cooldownElapsed == 0
+			? 0
+			: this.cooldownElapsed > this.CooldownTotal
+				? 0
+				: this.cooldownElapsed;
 
 		/// <summary>
 		/// Total cooldown time, covering only the number of max charges available at current level (if applicable)
@@ -49,10 +42,9 @@ namespace XIVComboVX {
 
 				float total = this.cooldownTotal / max * cur;
 
-				if (this.cooldownElapsed > total)
-					return 0;
-
-				return total;
+				return this.cooldownElapsed > total
+					? 0
+					: total;
 			}
 		}
 
@@ -78,10 +70,9 @@ namespace XIVComboVX {
 			get {
 				(ushort cur, ushort _) = Service.DataCache.GetMaxCharges(this.ActionID);
 
-				if (!this.IsCooldown)
-					return cur;
-
-				return (ushort)(this.CooldownElapsed / (this.CooldownTotal / this.MaxCharges));
+				return !this.IsCooldown
+					? cur
+					: (ushort)(this.CooldownElapsed / (this.CooldownTotal / this.MaxCharges));
 			}
 		}
 

@@ -106,8 +106,9 @@ namespace XIVComboVX.Combos {
 			if (IsEnabled(CustomComboPreset.DragoonFangThrustFeature)
 				&& level >= DRG.Levels.FangAndClaw
 				&& (SelfHasEffect(DRG.Buffs.SharperFangAndClaw) || SelfHasEffect(DRG.Buffs.EnhancedWheelingThrust))
-			)
+			) {
 				return DRG.WheelingThrust;
+			}
 
 			if (IsEnabled(CustomComboPreset.DragoonChaosThrustCombo)) {
 
@@ -145,8 +146,9 @@ namespace XIVComboVX.Combos {
 			if (IsEnabled(CustomComboPreset.DragoonFangThrustFeature)
 				&& level >= DRG.Levels.FangAndClaw
 				&& (SelfHasEffect(DRG.Buffs.SharperFangAndClaw) || SelfHasEffect(DRG.Buffs.EnhancedWheelingThrust))
-			)
+			) {
 				return DRG.FangAndClaw;
+			}
 
 			if (IsEnabled(CustomComboPreset.DragoonFullThrustCombo)) {
 

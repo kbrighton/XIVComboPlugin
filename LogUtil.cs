@@ -49,7 +49,7 @@ namespace XIVComboVX {
 		}
 		[Conditional("DEBUG")]
 		internal void trace(string msg) {
-			if (this.Enabled)
+			if (this.Enabled) {
 				PluginLog.Information(
 #if TRACE
 					$"{msg}\n{new StackTrace(true)}"
@@ -57,6 +57,7 @@ namespace XIVComboVX {
 					msg
 #endif
 				);
+			}
 		}
 
 		#region IDisposable

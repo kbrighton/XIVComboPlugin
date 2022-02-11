@@ -107,20 +107,22 @@ namespace XIVComboExpandedPlugin.Combos {
 
 					if (IsEnabled(CustomComboPreset.ReaperGluttonyOnUnveiledGallowsFeature)
 						&& SelfHasEffect(RPR.Buffs.EnhancedGallows)
-						&& IsOffCooldown(RPR.Gluttony))
+						&& IsOffCooldown(RPR.Gluttony)) {
 						return RPR.Gluttony;
+					}
 
 					if (IsEnabled(CustomComboPreset.ReaperGluttonyOnUnveiledGibbetFeature)
 						&& SelfHasEffect(RPR.Buffs.EnhancedGibbet)
-						&& IsOffCooldown(RPR.Gluttony))
+						&& IsOffCooldown(RPR.Gluttony)) {
 						return RPR.Gluttony;
+					}
 
 					if (IsEnabled(CustomComboPreset.ReaperGluttonyOnBloodStalkFeature)
 						&& !SelfHasEffect(RPR.Buffs.EnhancedGallows)
 						&& !SelfHasEffect(RPR.Buffs.EnhancedGibbet)
-						&& IsOffCooldown(RPR.Gluttony))
+						&& IsOffCooldown(RPR.Gluttony)) {
 						return RPR.Gluttony;
-
+					}
 				}
 
 			}
@@ -215,9 +217,10 @@ namespace XIVComboExpandedPlugin.Combos {
 
 				if (IsEnabled(CustomComboPreset.ReaperScytheGuillotineFeature)) {
 					if ((level >= RPR.Levels.SoulReaver && SelfHasEffect(RPR.Buffs.SoulReaver)) ||
-						(level >= RPR.Levels.Enshroud && gauge.EnshroudedTimeRemaining > 0))
+						(level >= RPR.Levels.Enshroud && gauge.EnshroudedTimeRemaining > 0)) {
 						// Grim Reaping
 						return OriginalHook(RPR.Guillotine);
+					}
 				}
 
 				if (IsEnabled(CustomComboPreset.ReaperScytheCombo)) {

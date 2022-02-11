@@ -175,15 +175,17 @@ namespace XIVComboVX.Combos {
 				if (IsEnabled(CustomComboPreset.RedMageVerprocComboPlus)
 					&& level >= RDM.Levels.Veraero
 					&& (IsFastcasting || SelfHasEffect(RDM.Buffs.Acceleration))
-				)
+				) {
 					return RDM.Veraero;
+				}
 
 				if (IsEnabled(CustomComboPreset.RedMageVeraeroOpenerFeature)
 					&& level >= RDM.Levels.Veraero
 					&& !HasCondition(ConditionFlag.InCombat)
 					&& !SelfHasEffect(RDM.Buffs.VerstoneReady)
-				)
+				) {
 					return RDM.Veraero;
+				}
 
 				if (SelfHasEffect(RDM.Buffs.VerstoneReady))
 					return RDM.Verstone;
@@ -197,15 +199,17 @@ namespace XIVComboVX.Combos {
 				if (IsEnabled(CustomComboPreset.RedMageVerprocComboPlus)
 					&& level >= RDM.Levels.Verthunder
 					&& (IsFastcasting || SelfHasEffect(RDM.Buffs.Acceleration))
-				)
+				) {
 					return RDM.Verthunder;
+				}
 
 				if (IsEnabled(CustomComboPreset.RedMageVerthunderOpenerFeature)
 					&& level >= RDM.Levels.Verthunder
 					&& !HasCondition(ConditionFlag.InCombat)
 					&& !SelfHasEffect(RDM.Buffs.VerfireReady)
-				)
+				) {
 					return RDM.Verthunder;
+				}
 
 				if (SelfHasEffect(RDM.Buffs.VerfireReady))
 					return RDM.Verfire;

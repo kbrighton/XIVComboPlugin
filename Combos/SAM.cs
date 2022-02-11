@@ -86,8 +86,9 @@ namespace XIVComboVX.Combos {
 
 			if ((level >= SAM.Levels.MeikyoShisui && SelfHasEffect(SAM.Buffs.MeikyoShisui))
 				|| (comboTime > 0 && lastComboMove == SAM.Hakaze && level >= SAM.Levels.Yukikaze)
-			)
+			) {
 				return SAM.Yukikaze;
+			}
 
 			return SAM.Hakaze;
 		}
@@ -150,8 +151,9 @@ namespace XIVComboVX.Combos {
 			if (
 				(level >= SAM.Levels.MeikyoShisui && SelfHasEffect(SAM.Buffs.MeikyoShisui))
 				|| (comboTime > 0 && lastComboMove is SAM.Fuga or SAM.Fuko && level >= SAM.Levels.Mangetsu)
-			)
+			) {
 				return SAM.Mangetsu;
+			}
 
 			return OriginalHook(SAM.Fuga);
 		}
@@ -166,8 +168,9 @@ namespace XIVComboVX.Combos {
 			if (
 				(level >= SAM.Levels.MeikyoShisui && SelfHasEffect(SAM.Buffs.MeikyoShisui))
 				|| (comboTime > 0 && lastComboMove is SAM.Fuga or SAM.Fuko && level >= SAM.Levels.Oka)
-			)
+			) {
 				return SAM.Oka;
+			}
 
 			return OriginalHook(SAM.Fuga);
 		}
@@ -225,8 +228,9 @@ namespace XIVComboVX.Combos {
 
 			if (IsEnabled(CustomComboPreset.SamuraiShintenSeneiFeature)
 				&& level >= SAM.Levels.HissatsuSenei
-				&& GetCooldown(SAM.HissatsuSenei).CooldownRemaining == 0)
+				&& GetCooldown(SAM.HissatsuSenei).CooldownRemaining == 0) {
 				return SAM.HissatsuSenei;
+			}
 
 			return actionID;
 		}
@@ -244,8 +248,9 @@ namespace XIVComboVX.Combos {
 
 			if (IsEnabled(CustomComboPreset.SamuraiKyutenGurenFeature)
 				&& level >= SAM.Levels.HissatsuGuren
-				&& GetCooldown(SAM.HissatsuGuren).CooldownRemaining == 0)
+				&& GetCooldown(SAM.HissatsuGuren).CooldownRemaining == 0) {
 				return SAM.HissatsuGuren;
+			}
 
 			return actionID;
 		}

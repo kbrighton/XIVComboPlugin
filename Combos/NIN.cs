@@ -80,11 +80,12 @@ namespace XIVComboVX.Combos {
 					return NIN.ForkedRaiju;
 			}
 
-			if (IsEnabled(CustomComboPreset.NinjaArmorCrushCombo))
+			if (IsEnabled(CustomComboPreset.NinjaArmorCrushCombo)) {
 				return SimpleChainCombo(level, lastComboMove, comboTime, (1, NIN.SpinningEdge),
 					(NIN.Levels.GustSlash, NIN.GustSlash),
 					(NIN.Levels.ArmorCrush, NIN.ArmorCrush)
 				);
+			}
 
 			return actionID;
 		}
@@ -116,11 +117,12 @@ namespace XIVComboVX.Combos {
 					return NIN.ArmorCrush;
 			}
 
-			if (IsEnabled(CustomComboPreset.NinjaAeolianEdgeCombo))
+			if (IsEnabled(CustomComboPreset.NinjaAeolianEdgeCombo)) {
 				return SimpleChainCombo(level, lastComboMove, comboTime, (1, NIN.SpinningEdge),
 					(NIN.Levels.GustSlash, NIN.GustSlash),
 					(NIN.Levels.AeolianEdge, NIN.AeolianEdge)
 				);
+			}
 
 			return actionID;
 		}
@@ -151,8 +153,9 @@ namespace XIVComboVX.Combos {
 			if (
 				(level >= NIN.Levels.Hide && SelfHasEffect(NIN.Buffs.Hidden))
 				|| (level >= NIN.Levels.Suiton && SelfHasEffect(NIN.Buffs.Suiton))
-			)
+			) {
 				return NIN.TrickAttack;
+			}
 
 			return actionID;
 		}
@@ -167,8 +170,9 @@ namespace XIVComboVX.Combos {
 			if (
 				(level >= NIN.Levels.Hide && SelfHasEffect(NIN.Buffs.Hidden))
 				|| (level >= NIN.Levels.Suiton && SelfHasEffect(NIN.Buffs.Suiton))
-			)
+			) {
 				return NIN.TrickAttack;
+			}
 
 			if (HasCondition(ConditionFlag.InCombat))
 				return NIN.Mug;

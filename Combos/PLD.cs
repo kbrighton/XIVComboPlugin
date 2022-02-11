@@ -131,10 +131,11 @@ namespace XIVComboVX.Combos {
 			if (level >= PLD.Levels.HolyCircle && IsEnabled(CustomComboPreset.PaladinRequiescatFeature) && SelfHasEffect(PLD.Buffs.Requiescat))
 				return PLD.HolyCircle;
 
-			if (IsEnabled(CustomComboPreset.PaladinProminenceCombo))
+			if (IsEnabled(CustomComboPreset.PaladinProminenceCombo)) {
 				return SimpleChainCombo(level, lastComboMove, comboTime, (PLD.Levels.TotalEclipse, PLD.TotalEclipse),
 					(PLD.Levels.Prominence, PLD.Prominence)
 				);
+			}
 
 			return actionID;
 		}

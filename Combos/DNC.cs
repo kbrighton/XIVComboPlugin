@@ -157,8 +157,9 @@ namespace XIVComboVX.Combos {
 
 			if (IsEnabled(CustomComboPreset.DancerFlourishLimitedFeature)
 				|| (IsEnabled(CustomComboPreset.DancerFlourishCooldownFeature) && IsOnCooldown(actionID))
-			)
+			) {
 				return actionID;
+			}
 
 			if (level >= DNC.Levels.Fountainfall && SelfHasEffect(DNC.Buffs.FlourishingFlow))
 				return DNC.Fountainfall;

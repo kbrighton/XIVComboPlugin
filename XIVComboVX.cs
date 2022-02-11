@@ -37,8 +37,9 @@ namespace XIVComboVX {
 			}
 #endif
 
-			if (!Service.Address.LoadSuccessful)
+			if (!Service.Address.LoadSuccessful) {
 				Service.Commands.ProcessCommand("/xllog");
+			}
 			else {
 				Service.DataCache = new();
 				Service.IconReplacer = new();
@@ -87,80 +88,80 @@ namespace XIVComboVX {
 
 			switch (argumentsParts[0]) {
 				case "debug": {
-					Service.Logger.EnableNextTick();
-					Service.Chat.Print("Enabled debug message snapshot");
-				}
-				break;
+						Service.Logger.EnableNextTick();
+						Service.Chat.Print("Enabled debug message snapshot");
+					}
+					break;
 				case "reset": {
-					Service.Configuration.EnabledActions.Clear();
-					Service.Configuration.DancerDanceCompatActionIDs = new[] {
+						Service.Configuration.EnabledActions.Clear();
+						Service.Configuration.DancerDanceCompatActionIDs = new[] {
 						DNC.Cascade,
 						DNC.Flourish,
 						DNC.FanDance1,
 						DNC.FanDance2,
 					};
-					Service.Configuration.Save();
+						Service.Configuration.Save();
 
-					Service.Chat.Print("Reset configuration");
-				}
-				break;
-				case "set": {
-					string targetPreset = argumentsParts[1].ToLower();
-					foreach (CustomComboPreset preset in Enum.GetValues(typeof(CustomComboPreset)).Cast<CustomComboPreset>()) {
-						if (preset.ToString().ToLower() != targetPreset)
-							continue;
-
-						Service.Configuration.EnabledActions.Add(preset);
-						Service.Chat.Print($"{preset} SET");
+						Service.Chat.Print("Reset configuration");
 					}
-				}
-				break;
-				case "toggle": {
-					string targetPreset = argumentsParts[1].ToLower();
-					foreach (CustomComboPreset preset in Enum.GetValues(typeof(CustomComboPreset)).Cast<CustomComboPreset>()) {
-						if (preset.ToString().ToLower() != targetPreset)
-							continue;
+					break;
+				case "set": {
+						string targetPreset = argumentsParts[1].ToLower();
+						foreach (CustomComboPreset preset in Enum.GetValues(typeof(CustomComboPreset)).Cast<CustomComboPreset>()) {
+							if (preset.ToString().ToLower() != targetPreset)
+								continue;
 
-						if (Service.Configuration.EnabledActions.Contains(preset)) {
-							Service.Configuration.EnabledActions.Remove(preset);
-							Service.Chat.Print($"{preset} UNSET");
-						}
-						else {
 							Service.Configuration.EnabledActions.Add(preset);
 							Service.Chat.Print($"{preset} SET");
 						}
 					}
-				}
-				break;
+					break;
+				case "toggle": {
+						string targetPreset = argumentsParts[1].ToLower();
+						foreach (CustomComboPreset preset in Enum.GetValues(typeof(CustomComboPreset)).Cast<CustomComboPreset>()) {
+							if (preset.ToString().ToLower() != targetPreset)
+								continue;
+
+							if (Service.Configuration.EnabledActions.Contains(preset)) {
+								Service.Configuration.EnabledActions.Remove(preset);
+								Service.Chat.Print($"{preset} UNSET");
+							}
+							else {
+								Service.Configuration.EnabledActions.Add(preset);
+								Service.Chat.Print($"{preset} SET");
+							}
+						}
+					}
+					break;
 				case "unset": {
-					string targetPreset = argumentsParts[1].ToLower();
-					foreach (CustomComboPreset preset in Enum.GetValues(typeof(CustomComboPreset)).Cast<CustomComboPreset>()) {
-						if (preset.ToString().ToLower() != targetPreset)
-							continue;
+						string targetPreset = argumentsParts[1].ToLower();
+						foreach (CustomComboPreset preset in Enum.GetValues(typeof(CustomComboPreset)).Cast<CustomComboPreset>()) {
+							if (preset.ToString().ToLower() != targetPreset)
+								continue;
 
-						Service.Configuration.EnabledActions.Remove(preset);
-						Service.Chat.Print($"{preset} UNSET");
+							Service.Configuration.EnabledActions.Remove(preset);
+							Service.Chat.Print($"{preset} UNSET");
+						}
 					}
-				}
-				break;
+					break;
 				case "list": {
-					string filter = argumentsParts.Length == 1 ? "all" : argumentsParts[1].ToLower();
+						string filter = argumentsParts.Length == 1 ? "all" : argumentsParts[1].ToLower();
 
-					foreach (CustomComboPreset preset in Enum.GetValues(typeof(CustomComboPreset)).Cast<CustomComboPreset>()) {
-						if (filter == "set") {
-							if (Service.Configuration.EnabledActions.Contains(preset))
+						foreach (CustomComboPreset preset in Enum.GetValues(typeof(CustomComboPreset)).Cast<CustomComboPreset>()) {
+							if (filter == "set") {
+								if (Service.Configuration.EnabledActions.Contains(preset))
+									Service.Chat.Print(preset.ToString());
+							}
+							else if (filter == "unset") {
+								if (!Service.Configuration.EnabledActions.Contains(preset))
+									Service.Chat.Print(preset.ToString());
+							}
+							else if (filter == "all") {
 								Service.Chat.Print(preset.ToString());
-						}
-						else if (filter == "unset") {
-							if (!Service.Configuration.EnabledActions.Contains(preset))
-								Service.Chat.Print(preset.ToString());
-						}
-						else if (filter == "all") {
-							Service.Chat.Print(preset.ToString());
+							}
 						}
 					}
-				}
-				break;
+					break;
 				default:
 					this.toggleConfigUi();
 					break;

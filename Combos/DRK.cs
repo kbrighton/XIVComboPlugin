@@ -71,11 +71,12 @@ namespace XIVComboVX.Combos {
 				if (level >= DRK.Levels.Delirium && IsEnabled(CustomComboPreset.DarkDeliriumFeature) && SelfHasEffect(DRK.Buffs.Delirium))
 					return DRK.Bloodspiller;
 
-				if (IsEnabled(CustomComboPreset.DarkSouleaterCombo))
+				if (IsEnabled(CustomComboPreset.DarkSouleaterCombo)) {
 					return SimpleChainCombo(level, lastComboMove, comboTime, (1, DRK.HardSlash),
 						(DRK.Levels.SyphonStrike, DRK.SyphonStrike),
 						(DRK.Levels.Souleater, DRK.Souleater)
 					);
+				}
 			}
 
 			return actionID;

@@ -63,10 +63,11 @@ namespace XIVCombo.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-			if (level >= DOL.Levels.WiseToTheWorld && SelfHasEffect(DOL.Buffs.EurekaMoment))
+			if (level >= DOL.Levels.WiseToTheWorld && SelfHasEffect(DOL.Buffs.EurekaMoment)) {
 				return IsJob(DOL.MinID)
 					? DOL.MinWiseToTheWorld
 					: DOL.BtnWiseToTheWorld;
+			}
 
 			return actionID;
 		}
@@ -117,8 +118,9 @@ namespace XIVCombo.Combos {
 					return DOL.ElectricCurrent;
 
 			}
-			else
+			else {
 				Service.Logger.debug("Neither fishing nor diving");
+			}
 
 			return actionID;
 		}

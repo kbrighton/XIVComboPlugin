@@ -205,7 +205,7 @@ namespace XIVComboVX.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
 
-			return level < MNK.Levels.TwinSnakes || SelfFindEffect(MNK.Buffs.DisciplinedFist)?.RemainingTime > 5
+			return level < MNK.Levels.TwinSnakes || SelfEffectDuration(MNK.Buffs.DisciplinedFist) > 5
 				? MNK.TrueStrike
 				: actionID;
 

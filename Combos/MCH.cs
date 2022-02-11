@@ -143,15 +143,17 @@ namespace XIVComboVX.Combos {
 			if (actionID is MCH.Chainsaw && !IsEnabled(CustomComboPreset.MachinistDrillAirAnchorPlusFeature))
 				return actionID;
 
-			if (level >= MCH.Levels.Chainsaw && IsEnabled(CustomComboPreset.MachinistDrillAirAnchorPlusFeature))
+			if (level >= MCH.Levels.Chainsaw && IsEnabled(CustomComboPreset.MachinistDrillAirAnchorPlusFeature)) {
 				return GetJobGauge<MCHGauge>().Battery > 80
 					? PickByCooldown(actionID is MCH.Chainsaw ? MCH.Chainsaw : MCH.Drill, MCH.Chainsaw, MCH.AirAnchor, MCH.Drill)
 					: PickByCooldown(MCH.AirAnchor, MCH.Chainsaw, MCH.Drill, MCH.AirAnchor);
+			}
 
-			if (level >= MCH.Levels.AirAnchor)
+			if (level >= MCH.Levels.AirAnchor) {
 				return GetJobGauge<MCHGauge>().Battery > 80
 					? PickByCooldown(MCH.Drill, MCH.AirAnchor, MCH.Drill)
 					: PickByCooldown(MCH.AirAnchor, MCH.Drill, MCH.AirAnchor);
+			}
 
 			if (level >= MCH.Levels.Drill)
 				return PickByCooldown(actionID, MCH.HotShot, MCH.Drill);

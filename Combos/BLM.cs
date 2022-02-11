@@ -116,8 +116,9 @@ namespace XIVComboVX.Combos {
 					(IsEnabled(CustomComboPreset.BlackFireAstralFeature) && GetJobGauge<BLMGauge>().AstralFireStacks <= 1)
 					|| (IsEnabled(CustomComboPreset.BlackFireProcFeature) && SelfHasEffect(BLM.Buffs.Firestarter))
 				)
-			)
+			) {
 				return BLM.Fire3;
+			}
 
 			return OriginalHook(BLM.Fire);
 		}
@@ -141,7 +142,7 @@ namespace XIVComboVX.Combos {
 		public override uint[] ActionIDs { get; } = new[] { BLM.Freeze, BLM.Flare };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			BLMGauge gauge = GetJobGauge < BLMGauge >();
+			BLMGauge gauge = GetJobGauge<BLMGauge>();
 
 			if (level >= BLM.Levels.Freeze && gauge.InUmbralIce)
 				return BLM.Freeze;
