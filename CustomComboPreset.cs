@@ -771,10 +771,14 @@ namespace XIVComboVX {
 		// ====================================================================================
 		#region WARRIOR (21xx)
 
-		[CustomComboInfo("Storm's Path Combo", "Replace Storms Path with its combo chain.", WAR.JobID)]
+		[CustomComboInfo("Storm's Path Combo", "Replace Storm's Path with its combo chain.", WAR.JobID)]
 		WarriorStormsPathCombo = 2100,
 
-		[CustomComboInfo("Storm's Eye Combo", "Replace Storms Eye with its combo chain.", WAR.JobID)]
+		[ParentPreset(WarriorStormsPathCombo)]
+		[CustomComboInfo("Storm's Path Double Combo", "Replace the Storm's Path combo chain with Storm's Eye if Surging Tempest has less than 7 seconds left.", WAR.JobID)]
+		WarriorSmartStormCombo = 2112,
+
+		[CustomComboInfo("Storm's Eye Combo", "Replace Storm's Eye with its combo chain.", WAR.JobID)]
 		WarriorStormsEyeCombo = 2101,
 
 		[CustomComboInfo("Mythril Tempest Combo", "Replace Mythril Tempest with its combo chain.", WAR.JobID)]
@@ -792,10 +796,10 @@ namespace XIVComboVX {
 		[CustomComboInfo("Gauge Overcap Saver: Mythril Tempest", "Replace the Mythril Tempest combo with gauge spender if completing the combo would overcap you.", WAR.JobID)]
 		WarriorGaugeOvercapTempestFeature = 2111,
 
-		[CustomComboInfo("Inner Release Feature", "Replace Single-target and AoE combo with Fell Cleave/Decimate during Inner Release.", WAR.JobID)]
+		[CustomComboInfo("Inner Release Feature", "Replace single-target and AoE combo with Fell Cleave/Decimate during Inner Release.", WAR.JobID)]
 		WarriorInnerReleaseFeature = 2104,
 
-		[CustomComboInfo("Nascent Flash Feature", "Replace Nascent Flash with Raw intuition when below level 76.", WAR.JobID)]
+		[CustomComboInfo("Nascent Flash Feature", "Replace Nascent Flash with Raw Intuition when below level 76.", WAR.JobID)]
 		WarriorNascentFlashFeature = 2105,
 
 		[CustomComboInfo("Primal Beast Feature", "Replace Inner Beast and Steel Cyclone with Primal Rend when available", WAR.JobID)]

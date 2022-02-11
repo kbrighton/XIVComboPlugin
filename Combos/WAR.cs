@@ -28,7 +28,8 @@ namespace XIVComboVX.Combos {
 			public const ushort
 				InnerRelease = 1177,
 				NascentChaos = 1897,
-				PrimalRendReady = 2624;
+				PrimalRendReady = 2624,
+				SurgingTempest = 2677;
 		}
 
 		public static class Debuffs {
@@ -66,6 +67,13 @@ namespace XIVComboVX.Combos {
 
 			if (IsEnabled(CustomComboPreset.WarriorGaugeOvercapPathFeature) && level >= WAR.Levels.InnerRelease && GetJobGauge<WARGauge>().BeastGauge > 70)
 				return OriginalHook(WAR.FellCleave);
+
+			if (IsEnabled(CustomComboPreset.WarriorSmartStormCombo) && level >= WAR.Levels.StormsEye && SelfEffectDuration(WAR.Buffs.SurgingTempest) < 7) {
+				return SimpleChainCombo(level, lastComboMove, comboTime, (1, WAR.HeavySwing),
+					(WAR.Levels.Maim, WAR.Maim),
+					(WAR.Levels.StormsEye, WAR.StormsEye)
+				);
+			}
 
 			return SimpleChainCombo(level, lastComboMove, comboTime, (1, WAR.HeavySwing),
 				(WAR.Levels.Maim, WAR.Maim),
