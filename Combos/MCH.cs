@@ -136,16 +136,13 @@ namespace XIVComboVX.Combos {
 
 	internal class MachinistDrillAirAnchorFeature: CustomCombo {
 		public override CustomComboPreset Preset => CustomComboPreset.MachinistDrillAirAnchorFeature;
-		public override uint[] ActionIDs { get; } = new[] { MCH.HotShot, MCH.AirAnchor, MCH.Drill, MCH.Chainsaw };
+		public override uint[] ActionIDs { get; } = new[] { MCH.HotShot, MCH.AirAnchor, MCH.Drill };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-			if (actionID is MCH.Chainsaw && !IsEnabled(CustomComboPreset.MachinistDrillAirAnchorPlusFeature))
-				return actionID;
-
 			if (level >= MCH.Levels.Chainsaw && IsEnabled(CustomComboPreset.MachinistDrillAirAnchorPlusFeature)) {
 				return GetJobGauge<MCHGauge>().Battery > 80
-					? PickByCooldown(actionID is MCH.Chainsaw ? MCH.Chainsaw : MCH.Drill, MCH.Chainsaw, MCH.AirAnchor, MCH.Drill)
+					? PickByCooldown(MCH.Drill, MCH.Chainsaw, MCH.AirAnchor, MCH.Drill)
 					: PickByCooldown(MCH.AirAnchor, MCH.Chainsaw, MCH.Drill, MCH.AirAnchor);
 			}
 

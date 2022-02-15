@@ -319,7 +319,7 @@ namespace XIVComboVX {
 		MachinistDrillAirAnchorFeature = 3105,
 
 		[ParentPreset(MachinistDrillAirAnchorFeature)]
-		[CustomComboInfo("HS/AA/D + Chain Saw Feature", "Also include Chain Saw in the above.", MCH.JobID)]
+		[CustomComboInfo("HS/AA/D + Chain Saw Feature", "Also allow the above to become Chain Saw.\nChain Saw itself will not change.", MCH.JobID)]
 		MachinistDrillAirAnchorPlusFeature = 3106,
 
 		#endregion
