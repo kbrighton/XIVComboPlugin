@@ -183,7 +183,9 @@ namespace XIVComboVX.Combos {
 			return false;
 		}
 
-		protected static GameObject CurrentTarget => Service.Targets.Target!;
+		protected static bool HasTarget => Service.Targets.Target is not null;
+
+		protected static GameObject? CurrentTarget => Service.Targets.Target;
 
 		protected internal static bool IsEnabled(CustomComboPreset preset) {
 			if ((int)preset < 100) {

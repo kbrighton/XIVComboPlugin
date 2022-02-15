@@ -114,19 +114,27 @@ namespace XIVComboVX {
 		[CustomComboInfo("Enochian Feature", "Change Fire 4 or Blizzard 4 to whichever action you can currently use.", BLM.JobID)]
 		BlackEnochianFeature = 2500,
 
+		[ParentPreset(BlackEnochianFeature)]
+		[CustomComboInfo("Enochian Despair Feature", "Change Fire 4 or Blizzard 4 to Despair when in Astral Fire with less than 2400 mana.", BLM.JobID)]
+		BlackEnochianDespairFeature = 2510,
+
+		[ParentPreset(BlackEnochianFeature)]
+		[CustomComboInfo("Enochian No Sync Feature", "Fire 4 and Blizzard 4 will not sync to Fire 1 and Blizzard 1.", BLM.JobID)]
+		BlackEnochianNoSyncFeature = 2518,
+
 		[CustomComboInfo("Umbral Soul/Transpose Switcher", "Change Transpose into Umbral Soul when Umbral Soul is usable.", BLM.JobID)]
 		BlackManaFeature = 2501,
 
 		[CustomComboInfo("(Between the) Ley Lines", "Change Ley Lines into BTL when Ley Lines is active.", BLM.JobID)]
 		BlackLeyLinesFeature = 2502,
 
-		[CustomComboInfo("Fire 1/3 Astral Feature", "Fire 1 becomes Fire 3 outside of Astral Fire.", BLM.JobID)]
+		[CustomComboInfo("Fire 1/3 Astral Feature", "Fire 1 becomes Fire 3 with 1 or fewer stacks of Astral Fire.", BLM.JobID)]
 		BlackFireAstralFeature = 2503,
 
 		[CustomComboInfo("Fire 1/3 Proc Feature", "Fire 1 becomes Fire 3 when Firestarter proc is up.", BLM.JobID)]
 		BlackFireProcFeature = 2509,
 
-		[CustomComboInfo("Blizzard 1/3 Feature", "Blizzard 1 becomes Blizzard 3 when out of Umbral Ice.", BLM.JobID)]
+		[CustomComboInfo("Blizzard 1/3 Feature", "Replace Blizzard 1 with Blizzard 3 when unlocked.", BLM.JobID)]
 		BlackBlizzardFeature = 2504,
 
 		[CustomComboInfo("Freeze/Flare Feature", "Freeze and Flare become whichever action you can currently use.", BLM.JobID)]
@@ -137,6 +145,12 @@ namespace XIVComboVX {
 
 		[CustomComboInfo("Ice 2 Feature", "(High) Blizzard 2 becomes Freeze in Umbral Ice.", BLM.JobID)]
 		BlackBlizzard2Feature = 2508,
+
+		[CustomComboInfo("Fire 2/Ice 2 Option", "Fire 2 and Blizzard 2 will not change unless you're at max Astral Fire or Umbral Ice.", BLM.JobID)]
+		BlackFireBlizzard2Option = 2514,
+
+		[CustomComboInfo("Umbral Soul Feature", "Replace your ice spells with Umbral Soul, while in Umbral Ice and having no target.", BLM.JobID)]
+		BlackUmbralSoulFeature = 2517,
 
 		[CustomComboInfo("Scathe/Xenoglossy Feature", "Scathe becomes Xenoglossy when available.", BLM.JobID)]
 		BlackScatheFeature = 2506,
