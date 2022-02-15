@@ -7,23 +7,40 @@ namespace XIVComboVX.Combos {
 
 		public const uint
 			Ascend = 3603,
-			Benefic = 3594,
-			Benefic2 = 3610,
 			Draw = 3590,
+			Benefic = 3594,
+			Malefic = 3596,
+			Malefic2 = 3598,
+			Lightspeed = 3606,
+			Benefic2 = 3610,
+			Synastry = 3612,
+			CollectiveUnconscious = 3613,
+			Gravity = 3615,
 			Balance = 4401,
 			Bole = 4404,
 			Arrow = 4402,
 			Spear = 4403,
 			Ewer = 4405,
 			Spire = 4406,
+			EarthlyStar = 7439,
+			Malefic3 = 7442,
 			MinorArcana = 7443,
+			SleeveDraw = 7448,
+			Divination = 16552,
+			CelestialOpposition = 16553,
+			Malefic4 = 16555,
+			Horoscope = 16557,
+			NeutralSect = 16559,
 			Play = 17055,
 			CrownPlay = 25869,
-			Astrodyne = 25870;
+			Astrodyne = 25870,
+			FallMalefic = 25871,
+			Gravity2 = 25872,
+			Exaltation = 25873,
+			Macrocosmos = 25874;
 
 		public static class Buffs {
 			public const ushort
-				LostChainspell = 2560,
 				LordOfCrownsDrawn = 2054,
 				LadyOfCrownsDrawn = 2055;
 		}
@@ -47,7 +64,7 @@ namespace XIVComboVX.Combos {
 		public override uint[] ActionIDs { get; } = new[] { AST.Ascend };
 	}
 
-	internal class AstrologianCardsOnDrawFeature: CustomCombo {
+	internal class AstrologianPlay: CustomCombo {
 		public override CustomComboPreset Preset => CustomComboPreset.AstAny;
 		public override uint[] ActionIDs { get; } = new[] { AST.Play };
 
@@ -55,24 +72,63 @@ namespace XIVComboVX.Combos {
 
 			ASTGauge gauge = GetJobGauge<ASTGauge>();
 
-			if (level >= AST.Levels.Astrodyne && IsEnabled(CustomComboPreset.AstrologianAstrodynePlayFeature) && !gauge.ContainsSeal(SealType.NONE))
+			if (level >= AST.Levels.Astrodyne && IsEnabled(CustomComboPreset.AstrologianPlayAstrodyneFeature) && !gauge.ContainsSeal(SealType.NONE))
 				return AST.Astrodyne;
 
-			if (level >= AST.Levels.Draw && IsEnabled(CustomComboPreset.AstrologianDrawOnPlayFeature) && gauge.DrawnCard is CardType.NONE)
-				return AST.Draw;
+			if (IsEnabled(CustomComboPreset.AstrologianPlayDrawFeature)) {
+
+				if (IsEnabled(CustomComboPreset.AstrologianPlayDrawAstrodyneFeature)) {
+					CooldownData draw = GetCooldown(AST.Draw);
+
+					if (level >= AST.Levels.Astrodyne && !gauge.ContainsSeal(SealType.NONE) && draw.RemainingCharges == 0)
+						return AST.Astrodyne;
+				}
+
+				if (level >= AST.Levels.Draw && gauge.DrawnCard is CardType.NONE)
+					return AST.Draw;
+			}
 
 			return actionID;
 		}
 	}
 
-	internal class AstrologianMinorArcanaPlayFeature: CustomCombo {
-		public override CustomComboPreset Preset => CustomComboPreset.AstrologianMinorArcanaPlayFeature;
+	internal class AstrologianDraw: CustomCombo {
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.AstrologianDrawLockoutFeature;
+		public override uint[] ActionIDs { get; } = new[] { AST.Draw };
+
+		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+
+			ASTGauge gauge = GetJobGauge<ASTGauge>();
+
+			if (gauge.DrawnCard is not CardType.NONE)
+				return OriginalHook(AST.Malefic);
+
+			return actionID;
+		}
+	}
+
+	internal class AstrologianMinorArcana: CustomCombo {
+		public override CustomComboPreset Preset => CustomComboPreset.AstrologianMinorArcanaCrownPlayFeature;
 		public override uint[] ActionIDs { get; } = new[] { AST.MinorArcana };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
 			if (level >= AST.Levels.CrownPlay && GetJobGauge<ASTGauge>().DrawnCrownCard is not CardType.NONE)
 				return OriginalHook(AST.CrownPlay);
+
+			return actionID;
+		}
+	}
+
+	internal class AstrologianCrownPlay: CustomCombo {
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.AstrologianCrownPlayMinorArcanaFeature;
+		public override uint[] ActionIDs { get; } = new[] { AST.CrownPlay };
+
+		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+			ASTGauge gauge = GetJobGauge<ASTGauge>();
+
+			if (level >= AST.Levels.MinorArcana && gauge.DrawnCrownCard is CardType.NONE)
+				return AST.MinorArcana;
 
 			return actionID;
 		}

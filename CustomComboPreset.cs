@@ -85,14 +85,24 @@ namespace XIVComboVX {
 		[CustomComboInfo("Swiftcast Ascend", "Ascend turns into Swiftcast when available and reasonable.", AST.JobID)]
 		AstrologianSwiftcastRaiserFeature = 3300,
 
-		[CustomComboInfo("Draw on Play", "Play turns into Draw when no card is drawn, as well as the usual Play behavior.", AST.JobID)]
-		AstrologianDrawOnPlayFeature = 3301,
+		[CustomComboInfo("Play to Draw", "Replace Play with Draw when no card is drawn and a card is available.", AST.JobID)]
+		AstrologianPlayDrawFeature = 3301,
 
-		[CustomComboInfo("Astrodyne on Play", "Play turns into Astrodyne when seals are full.", AST.JobID)]
-		AstrologianAstrodynePlayFeature = 3304,
+		[ParentPreset(AstrologianPlayDrawFeature)]
+		[CustomComboInfo("Play to Draw to Astrodyne", "Replace Play with Astrodyne when seals are full and Draw is on Cooldown.", AST.JobID)]
+		AstrologianPlayDrawAstrodyneFeature = 3307,
 
-		[CustomComboInfo("Minor Arcana Play Feature", "Changes Minor Arcana to Crown Play when a card drawn.", AST.JobID)]
-		AstrologianMinorArcanaPlayFeature = 3302,
+		[CustomComboInfo("Play to Astrodyne", "Replace Play with Astrodyne when seals are full.", AST.JobID)]
+		AstrologianPlayAstrodyneFeature = 3304,
+
+		[CustomComboInfo("Draw Lockout", "Replace Draw (not Play to Draw) with Malefic when a card is drawn.", AST.JobID)]
+		AstrologianDrawLockoutFeature = 3306,
+
+		[CustomComboInfo("Minor Arcana to Crown Play Feature", "Replace Minor Arcana with Crown Play when a card drawn.", AST.JobID)]
+		AstrologianMinorArcanaCrownPlayFeature = 3302,
+
+		[CustomComboInfo("Crown Play to Minor Arcana Feature", "Replace Crown Play with Minor Arcana when no card is drawn.", AST.JobID)]
+		AstrologianCrownPlayMinorArcanaFeature = 3308,
 
 		[CustomComboInfo("Benefic 2 to Benefic Level Sync", "Changes Benefic 2 to Benefic when below level 26.", AST.JobID)]
 		AstrologianBeneficFeature = 3303,
