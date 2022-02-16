@@ -177,8 +177,24 @@ namespace XIVComboVX {
 		[CustomComboInfo("Bloodletter Feature", "Replaces Bloodletter with Empyreal Arrow and Sidewinder depending on which is available.", BRD.JobID)]
 		BardBloodletterFeature = 2305,
 
+		[Conflicts(BardBloodletterFeature)]
+		[CustomComboInfo("Bloodletter to Rain of Death", "Replace Bloodletter with Rain of Death if there are no self-applied DoTs on your target.", BRD.JobID)]
+		BardBloodRainFeature = 2313,
+
 		[CustomComboInfo("Rain of Death Feature", "Replaces Rain of Death with Empyreal Arrow and Sidewinder depending on which is available.", BRD.JobID)]
 		BardRainOfDeathFeature = 2306,
+
+		[CustomComboInfo("Sidewinder Feature", "Replace Sidewinder with Empyreal Arrow depending on which is available.", BRD.JobID)]
+		BardSidewinderFeature = 2309,
+
+		[CustomComboInfo("Radiant Voice Feature", "Replace Radiant Finale with Battle Voice if Battle Voice is available.", BRD.JobID)]
+		BardRadiantVoiceFeature = 2310,
+
+		[CustomComboInfo("Radiant Strikes Feature", "Replace Radiant Finale with Raging Strikes if Raging Strikes is available.\nThis takes priority over Battle Voice if Radiant Voice is enabled.", BRD.JobID)]
+		BardRadiantStrikesFeature = 2311,
+
+		[CustomComboInfo("Barrage Feature", "Replace Barrage with Straight Shot if you have Straight Shot Ready (unless Shadowbite is ready).", BRD.JobID)]
+		BardBarrageFeature = 2312,
 
 		#endregion
 		// ====================================================================================

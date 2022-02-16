@@ -10,10 +10,13 @@ namespace XIVComboVX.Combos {
 			HeavyShot = 97,
 			StraightShot = 98,
 			VenomousBite = 100,
+			RagingStrikes = 101,
 			QuickNock = 106,
+			Barrage = 107,
 			Bloodletter = 110,
 			Windbite = 113,
 			RainOfDeath = 117,
+			BattleVoice = 118,
 			EmpyrealArrow = 3558,
 			WanderersMinuet = 3559,
 			IronJaws = 3560,
@@ -26,7 +29,8 @@ namespace XIVComboVX.Combos {
 			ApexArrow = 16496,
 			Shadowbite = 16494,
 			Ladonsbite = 25783,
-			BlastArrow = 25784;
+			BlastArrow = 25784,
+			RadiantFinale = 25785;
 
 		public static class Buffs {
 			public const ushort
@@ -46,10 +50,12 @@ namespace XIVComboVX.Combos {
 		public static class Levels {
 			public const byte
 				StraightShot = 2,
+				RagingStrikes = 4,
 				VenomousBite = 6,
 				Bloodletter = 12,
 				Windbite = 30,
 				RainOfDeath = 45,
+				BattleVoice = 50,
 				PitchPerfect = 52,
 				EmpyrealArrow = 54,
 				IronJaws = 56,
@@ -60,7 +66,8 @@ namespace XIVComboVX.Combos {
 				BurstShot = 76,
 				ApexArrow = 80,
 				Ladonsbite = 82,
-				BlastShot = 86;
+				BlastShot = 86,
+				RadiantFinale = 90;
 		}
 	}
 
@@ -85,11 +92,11 @@ namespace XIVComboVX.Combos {
 
 			if (IsEnabled(CustomComboPreset.BardApexFeature)) {
 
-				if (level >= BRD.Levels.ApexArrow && GetJobGauge<BRDGauge>().SoulVoice == 100)
-					return BRD.ApexArrow;
-
 				if (level >= BRD.Levels.BlastShot && SelfHasEffect(BRD.Buffs.BlastShotReady))
 					return BRD.BlastArrow;
+
+				if (level >= BRD.Levels.ApexArrow && GetJobGauge<BRDGauge>().SoulVoice == 100)
+					return BRD.ApexArrow;
 
 			}
 
@@ -186,11 +193,25 @@ namespace XIVComboVX.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-			if (level >= BRD.Levels.Sidewinder)
-				return PickByCooldown(actionID, BRD.Bloodletter, BRD.EmpyrealArrow, BRD.Sidewinder);
+			if (IsEnabled(CustomComboPreset.BardBloodletterFeature)) {
 
-			if (level >= BRD.Levels.EmpyrealArrow)
-				return PickByCooldown(actionID, BRD.Bloodletter, BRD.EmpyrealArrow);
+				if (level >= BRD.Levels.Sidewinder)
+					return PickByCooldown(actionID, BRD.Bloodletter, BRD.EmpyrealArrow, BRD.Sidewinder);
+
+				if (level >= BRD.Levels.EmpyrealArrow)
+					return PickByCooldown(actionID, BRD.Bloodletter, BRD.EmpyrealArrow);
+
+			}
+
+			if (IsEnabled(CustomComboPreset.BardBloodRainFeature)
+				&& level >= BRD.Levels.RainOfDeath
+				&& !TargetHasOwnEffect(BRD.Debuffs.CausticBite)
+				&& !TargetHasOwnEffect(BRD.Debuffs.Stormbite)
+				&& !TargetHasOwnEffect(BRD.Debuffs.Windbite)
+				&& !TargetHasOwnEffect(BRD.Debuffs.VenomousBite)
+			) {
+				return BRD.RainOfDeath;
+			}
 
 			return actionID;
 		}
@@ -207,6 +228,62 @@ namespace XIVComboVX.Combos {
 
 			if (level >= BRD.Levels.EmpyrealArrow)
 				return PickByCooldown(actionID, BRD.RainOfDeath, BRD.EmpyrealArrow);
+
+			return actionID;
+		}
+	}
+
+	internal class BardSidewinder: CustomCombo {
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.BardSidewinderFeature;
+		public override uint[] ActionIDs { get; } = new[] { BRD.Sidewinder };
+
+		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+
+			if (level >= BRD.Levels.Sidewinder)
+				return PickByCooldown(actionID, BRD.EmpyrealArrow, BRD.Sidewinder);
+
+			return actionID;
+		}
+	}
+
+	internal class BardBarrage: CustomCombo {
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.BardBarrageFeature;
+		public override uint[] ActionIDs { get; } = new[] { BRD.Barrage };
+
+		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+
+			if (level >= BRD.Levels.StraightShot && SelfHasEffect(BRD.Buffs.StraightShotReady) && !SelfHasEffect(BRD.Buffs.ShadowbiteReady))
+				return OriginalHook(BRD.StraightShot);
+
+			return actionID;
+		}
+	}
+
+	internal class BardRadiantFinale: CustomCombo {
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.BrdAny;
+		public override uint[] ActionIDs { get; } = new[] { BRD.RadiantFinale };
+
+		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+
+			if (IsEnabled(CustomComboPreset.BardRadiantStrikesFeature)) {
+				if (level >= BRD.Levels.RagingStrikes && IsOffCooldown(BRD.RagingStrikes))
+					return BRD.RagingStrikes;
+			}
+
+			if (IsEnabled(CustomComboPreset.BardRadiantVoiceFeature)) {
+				if (level >= BRD.Levels.BattleVoice && IsOffCooldown(BRD.BattleVoice))
+					return BRD.BattleVoice;
+			}
+
+			if (IsEnabled(CustomComboPreset.BardRadiantStrikesFeature)) {
+				if (level < BRD.Levels.RadiantFinale)
+					return BRD.RagingStrikes;
+			}
+
+			if (IsEnabled(CustomComboPreset.BardRadiantVoiceFeature)) {
+				if (level < BRD.Levels.RadiantFinale)
+					return BRD.BattleVoice;
+			}
 
 			return actionID;
 		}
