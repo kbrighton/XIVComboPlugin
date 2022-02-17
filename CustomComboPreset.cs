@@ -625,6 +625,9 @@ namespace XIVComboVX {
 		[CustomComboInfo("Slice Communio Feature", "Replace Infernal Slice with Communio when one stack of Shroud is left.", RPR.JobID)]
 		ReaperSliceCommunioFeature = 3920,
 
+		[CustomComboInfo("Slice Soulsow Feature", "Replace Infernal Slice with Soulsow when out of combat and not active.", RPR.JobID)]
+		ReaperSliceSoulsowFeature = 3930,
+
 		[Conflicts(ReaperShadowGibbetFeature)]
 		[CustomComboInfo("Shadow Gallows Feature", "Replace Shadow of Death with Gallows while Reaving or Enshrouded.", RPR.JobID)]
 		ReaperShadowGallowsFeature = 3905,
@@ -638,6 +641,9 @@ namespace XIVComboVX {
 
 		[CustomComboInfo("Shadow Communio Feature", "Replace Shadow of Death with Communio when one stack of Shroud is left.", RPR.JobID)]
 		ReaperShadowCommunioFeature = 3924,
+
+		[CustomComboInfo("Shadow Soulsow Feature", "Replace Shadow of Death with Soulsow when out of combat, not active, and you have no target.", RPR.JobID)]
+		ReaperShadowSoulsowFeature = 3929,
 
 		[Conflicts(ReaperSoulGibbetFeature)]
 		[CustomComboInfo("Soul Gallows Feature", "Replace Soul Slice with Gallows while Reaving or Enshrouded.", RPR.JobID)]
@@ -653,6 +659,12 @@ namespace XIVComboVX {
 		[CustomComboInfo("Soul Communio Feature", "Replace Soul Slice with Communio when one stack of Shroud is left.", RPR.JobID)]
 		ReaperSoulCommunioFeature = 3928,
 
+		[CustomComboInfo("Soul Overcap Feature", "Replace Soul Slice with Blood Stalk not Enshrouded and greater-than 50 Soul Gauge is present.", RPR.JobID)]
+		ReaperSoulOvercapFeature = 3934,
+
+		[CustomComboInfo("Soul (Scythe) Overcap Feature", "Replace Soul Scythe with Grim Swathe when not Enshrouded and greater-than 50 Soul Gauge is present.", RPR.JobID)]
+		ReaperSoulScytheOvercapFeature = 3935,
+
 		[CustomComboInfo("Scythe Combo", "Replace Nightmare Scythe with its combo chain.", RPR.JobID)]
 		ReaperScytheCombo = 3902,
 
@@ -664,6 +676,12 @@ namespace XIVComboVX {
 
 		[CustomComboInfo("Scythe Communio Feature", "Replace Nightmare Scythe with Communio when one stack is left of Shroud.", RPR.JobID)]
 		ReaperScytheCommunioFeature = 3922,
+
+		[CustomComboInfo("Scythe Soulsow Feature", "Replace Nightmare Scythe with Soulsow when out of combat and not active.", RPR.JobID)]
+		ReaperScytheSoulsowFeature = 3931,
+
+		[CustomComboInfo("Scythe Harvest Moon Feature", "Replace Nightmare Scythe with Harvest Moon when Soulsow is active and you have a target.", RPR.JobID)]
+		ReaperScytheHarvestMoonFeature = 3932,
 
 		[CustomComboInfo("Enhanced Soul Reaver Feature", "Replace Gibbet and Gallows with whichever is currently enhanced while Reaving.", RPR.JobID)]
 		ReaperEnhancedSoulReaverFeature = 3917,
@@ -680,27 +698,35 @@ namespace XIVComboVX {
 		[CustomComboInfo("Enshroud Communio Feature", "Replace Enshroud with Communio when Enshrouded.", RPR.JobID)]
 		ReaperEnshroudCommunioFeature = 3909,
 
+		[CustomComboInfo("Blood Stalk Gluttony Feature", "Replace Blood Stalk with Gluttony when available and greater-than-or-equal-to 50 Soul Gauge is present.", RPR.JobID)]
+		ReaperBloodStalkGluttonyFeature = 3915,
+
+		[CustomComboInfo("Grim Swathe Gluttony Feature", "Replace Grim Swathe with Gluttony when available and greater-than-or-equal-to 50 Soul Gauge is present.", RPR.JobID)]
+		ReaperGrimSwatheGluttonyFeature = 3916,
+
 		[CustomComboInfo("Arcane Harvest Feature", "Replace Arcane Circle with Plentiful Harvest when you have stacks of Immortal Sacrifice.", RPR.JobID)]
 		ReaperHarvestFeature = 3908,
 
-		[CustomComboInfo("Regress Feature", "Both Hell's Ingress and Egress turn into Regress when Threshold is active, instead of just the opposite of the one used.", RPR.JobID)]
+		[CustomComboInfo("Regress Feature", "Replace Hell's Ingress and Egress turn with Regress when Threshold is active, instead of just the opposite of the one used.", RPR.JobID)]
 		ReaperRegressFeature = 3910,
 
-		[Experimental]
-		[CustomComboInfo("Gluttony on Blood Stalk", "Replaces Blood Stalk with Gluttony when off cooldown.", RPR.JobID)]
-		ReaperGluttonyOnBloodStalkFeature = 3929,
+		[ParentPreset(ReaperRegressFeature)]
+		[CustomComboInfo("Delayed Regress Option", "Replace the action used with Regress only after 1.5 seconds have elapsed on Threshold.", RPR.JobID)]
+		ReaperRegressDelayed = 3933,
 
-		[Experimental]
-		[CustomComboInfo("Gluttony on Grim Swathe", "Replaces Grim Swathe with Gluttony when off cooldown.", RPR.JobID)]
-		ReaperGluttonyOnGrimSwatheFeature = 3930,
+		[CustomComboInfo("Harpe Soulsow Feature", "Replace Harpe with Soulsow when not active and out of combat or you have no target.", RPR.JobID)]
+		ReaperHarpeHarvestSoulsowFeature = 3936,
 
-		[Experimental]
-		[CustomComboInfo("Gluttony on Unveiled Gibbet", "Replaces Unveiled Gibbet with Gluttony when off cooldown.", RPR.JobID)]
-		ReaperGluttonyOnUnveiledGibbetFeature = 3931,
+		[CustomComboInfo("Harpe Harvest Moon Feature", "Replace Harpe with Harvest Moon when Soulsow is active and you are in combat.", RPR.JobID)]
+		ReaperHarpeHarvestMoonFeature = 3937,
 
-		[Experimental]
-		[CustomComboInfo("Gluttony on Unveiled Gallows", "Replaces Unveiled Gallows with Gluttony when off cooldown.", RPR.JobID)]
-		ReaperGluttonyOnUnveiledGallowsFeature = 3932,
+		[ParentPreset(ReaperHarpeHarvestMoonFeature)]
+		[CustomComboInfo("Enhanced Harpe Option", "Prevent replacing Harpe with Harvest Moon when Enhanced Harpe is active.", RPR.JobID)]
+		ReaperHarpeHarvestMoonEnhancedFeature = 3939,
+
+		[ParentPreset(ReaperHarpeHarvestMoonFeature)]
+		[CustomComboInfo("Combat Option", "Prevent replacing Harpe with Harvest Moon when not in combat.", RPR.JobID)]
+		ReaperHarpeHarvestMoonCombatFeature = 3938,
 
 		#endregion
 		// ====================================================================================
