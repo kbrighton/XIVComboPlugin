@@ -181,12 +181,13 @@ namespace XIVComboVX.Combos {
 		public override uint[] ActionIDs { get; } = new[] { SAM.TsubameGaeshi };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+			SAMGauge gauge = GetJobGauge<SAMGauge>();
 
-			if (level >= SAM.Levels.Shoha && IsEnabled(CustomComboPreset.SamuraiTsubameGaeshiShohaFeature) && GetJobGauge<SAMGauge>().MeditationStacks >= 3)
+			if (level >= SAM.Levels.Shoha && IsEnabled(CustomComboPreset.SamuraiTsubameGaeshiShohaFeature) && gauge.MeditationStacks >= 3)
 				return SAM.Shoha;
 
 			if (IsEnabled(CustomComboPreset.SamuraiTsubameGaeshiIaijutsuFeature)) {
-				if (level >= SAM.Levels.TsubameGaeshi && GetJobGauge<SAMGauge>().Sen == Sen.NONE)
+				if (level >= SAM.Levels.TsubameGaeshi && gauge.Sen == Sen.NONE)
 					return OriginalHook(SAM.TsubameGaeshi);
 
 				return OriginalHook(SAM.Iaijutsu);
@@ -197,16 +198,17 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class SamuraiIaijutsuFeature: CustomCombo {
-		public override CustomComboPreset Preset => CustomComboPreset.SamuraiIaijutsuShohaFeature;
+		public override CustomComboPreset Preset => CustomComboPreset.SamAny;
 		public override uint[] ActionIDs { get; } = new[] { SAM.Iaijutsu };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+			SAMGauge gauge = GetJobGauge<SAMGauge>();
 
-			if (level >= SAM.Levels.Shoha && IsEnabled(CustomComboPreset.SamuraiIaijutsuShohaFeature) && GetJobGauge<SAMGauge>().MeditationStacks >= 3)
+			if (level >= SAM.Levels.Shoha && IsEnabled(CustomComboPreset.SamuraiIaijutsuShohaFeature) && gauge.MeditationStacks >= 3)
 				return SAM.Shoha;
 
 			if (IsEnabled(CustomComboPreset.SamuraiIaijutsuTsubameGaeshiFeature)) {
-				if (level >= SAM.Levels.TsubameGaeshi && GetJobGauge<SAMGauge>().Sen == Sen.NONE)
+				if (level >= SAM.Levels.TsubameGaeshi && gauge.Sen == Sen.NONE)
 					return OriginalHook(SAM.TsubameGaeshi);
 
 				return OriginalHook(SAM.Iaijutsu);
@@ -218,7 +220,6 @@ namespace XIVComboVX.Combos {
 
 	internal class SamuraiShinten: CustomCombo {
 		public override CustomComboPreset Preset { get; } = CustomComboPreset.SamAny;
-
 		public override uint[] ActionIDs { get; } = new[] { SAM.HissatsuShinten };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
@@ -226,10 +227,32 @@ namespace XIVComboVX.Combos {
 			if (IsEnabled(CustomComboPreset.SamuraiShintenShohaFeature) && level >= SAM.Levels.Shoha && GetJobGauge<SAMGauge>().MeditationStacks >= 3)
 				return SAM.Shoha;
 
-			if (IsEnabled(CustomComboPreset.SamuraiShintenSeneiFeature)
-				&& level >= SAM.Levels.HissatsuSenei
-				&& GetCooldown(SAM.HissatsuSenei).CooldownRemaining == 0) {
-				return SAM.HissatsuSenei;
+			if (IsEnabled(CustomComboPreset.SamuraiShintenSeneiFeature)) {
+
+				if (level >= SAM.Levels.HissatsuSenei && IsOffCooldown(SAM.HissatsuSenei)) {
+					return SAM.HissatsuSenei;
+				}
+
+				if (IsEnabled(CustomComboPreset.SamuraiSeneiGurenFeature)) {
+					if (level is >= SAM.Levels.HissatsuGuren and < SAM.Levels.HissatsuSenei && IsOffCooldown(SAM.HissatsuGuren))
+						return SAM.HissatsuGuren;
+				}
+
+			}
+
+			return actionID;
+		}
+	}
+
+	internal class SamuraiSenei: CustomCombo {
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.SamAny;
+		public override uint[] ActionIDs { get; } = new[] { SAM.HissatsuSenei };
+
+		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+
+			if (IsEnabled(CustomComboPreset.SamuraiSeneiGurenFeature)) {
+				if (level is >= SAM.Levels.HissatsuGuren and < SAM.Levels.HissatsuSenei)
+					return SAM.HissatsuGuren;
 			}
 
 			return actionID;
@@ -238,7 +261,6 @@ namespace XIVComboVX.Combos {
 
 	internal class SamuraiKyuten: CustomCombo {
 		public override CustomComboPreset Preset { get; } = CustomComboPreset.SamAny;
-
 		public override uint[] ActionIDs { get; } = new[] { SAM.HissatsuKyuten };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
@@ -248,7 +270,8 @@ namespace XIVComboVX.Combos {
 
 			if (IsEnabled(CustomComboPreset.SamuraiKyutenGurenFeature)
 				&& level >= SAM.Levels.HissatsuGuren
-				&& GetCooldown(SAM.HissatsuGuren).CooldownRemaining == 0) {
+				&& IsOffCooldown(SAM.HissatsuGuren)
+			) {
 				return SAM.HissatsuGuren;
 			}
 

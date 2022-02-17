@@ -730,31 +730,6 @@ namespace XIVComboVX {
 
 		#endregion
 		// ====================================================================================
-		#region SAGE (40xx)
-
-		[CustomComboInfo("Swiftcast Egeiro", "Egeiro turns into Swiftcast when available and reasonable.", SGE.JobID)]
-		SageSwiftcastRaiserFeature = 4000,
-
-		[CustomComboInfo("Taurochole Into Druochole Feature", "Replace Taurochole with Druochole when on cooldown", SGE.JobID)]
-		SageTaurocholeDruocholeFeature = 4001,
-
-		[CustomComboInfo("Taurochole Into Rhizomata Feature", "Replace Taurochole with Rhizomata when Addersgall is empty.", SGE.JobID)]
-		SageTaurocholeRhizomataFeature = 4002,
-
-		[CustomComboInfo("Druochole Into Rhizomata Feature", "Replace Druochole with Rhizomata when Addersgall is empty.", SGE.JobID)]
-		SageDruocholeRhizomataFeature = 4003,
-
-		[CustomComboInfo("Ixochole Into Rhizomata Feature", "Replace Ixochole with Rhizomata when Addersgall is empty.", SGE.JobID)]
-		SageIxocholeRhizomataFeature = 4004,
-
-		[CustomComboInfo("Kerachole Into Rhizomata Feature", "Replace Kerachole with Rhizomata when Addersgall is empty.", SGE.JobID)]
-		SageKeracholaRhizomataFeature = 4005,
-
-		[CustomComboInfo("Soteria Kardia Feature", "Replace Soteria with Kardia when off cooldown and missing Kardion.", SGE.JobID)]
-		SageSoteriaKardionFeature = 4006,
-
-		#endregion
-		// ====================================================================================
 		#region SAMURAI (34xx)
 
 		[CustomComboInfo("Yukikaze Combo", "Replace Yukikaze with its combo chain.", SAM.JobID)]
@@ -799,6 +774,9 @@ namespace XIVComboVX {
 		[CustomComboInfo("Shinten to Senei", "Replace Hissatsu: Shinten with Senei when available.", SAM.JobID)]
 		SamuraiShintenSeneiFeature = 3414,
 
+		[CustomComboInfo("Senei to Guren Level Sync", "Replace Hissatsu: Senei with Guren when level synced below 72.", SAM.JobID)]
+		SamuraiSeneiGurenFeature = 3419,
+
 		[CustomComboInfo("Shinten to Shoha", "Replace Hissatsu: Shinten with Shoha when Meditation is full.", SAM.JobID)]
 		SamuraiShintenShohaFeature = 3413,
 
@@ -835,6 +813,31 @@ namespace XIVComboVX {
 
 		[CustomComboInfo("Excog / Lustrate", "Change Excogitation into Lustrate when on CD or under level.", SCH.JobID)]
 		ScholarExcogFallbackFeature = 2805,
+
+		#endregion
+		// ====================================================================================
+		#region SAGE (40xx)
+
+		[CustomComboInfo("Swiftcast Egeiro", "Egeiro turns into Swiftcast when available and reasonable.", SGE.JobID)]
+		SageSwiftcastRaiserFeature = 4000,
+
+		[CustomComboInfo("Taurochole Into Druochole Feature", "Replace Taurochole with Druochole when on cooldown", SGE.JobID)]
+		SageTaurocholeDruocholeFeature = 4001,
+
+		[CustomComboInfo("Taurochole Into Rhizomata Feature", "Replace Taurochole with Rhizomata when Addersgall is empty.", SGE.JobID)]
+		SageTaurocholeRhizomataFeature = 4002,
+
+		[CustomComboInfo("Druochole Into Rhizomata Feature", "Replace Druochole with Rhizomata when Addersgall is empty.", SGE.JobID)]
+		SageDruocholeRhizomataFeature = 4003,
+
+		[CustomComboInfo("Ixochole Into Rhizomata Feature", "Replace Ixochole with Rhizomata when Addersgall is empty.", SGE.JobID)]
+		SageIxocholeRhizomataFeature = 4004,
+
+		[CustomComboInfo("Kerachole Into Rhizomata Feature", "Replace Kerachole with Rhizomata when Addersgall is empty.", SGE.JobID)]
+		SageKeracholaRhizomataFeature = 4005,
+
+		[CustomComboInfo("Soteria Kardia Feature", "Replace Soteria with Kardia when off cooldown and missing Kardion.", SGE.JobID)]
+		SageSoteriaKardionFeature = 4006,
 
 		#endregion
 		// ====================================================================================
