@@ -521,6 +521,10 @@ namespace XIVComboVX {
 		[CustomComboInfo("Royal Authority Combo", "Replace Royal Authority/Rage of Halone with its combo chain.", PLD.JobID)]
 		PaladinRoyalAuthorityCombo = 1901,
 
+		[ParentPreset(PaladinRoyalAuthorityCombo)]
+		[CustomComboInfo("Royal Authority DoT Saver", "The  RA/RoH combo chain becomes Goring Blade at the end, if your current target has less than seven seconds on the GB DoT.\nThis includes when your target doesn't have the DoT.", PLD.JobID)]
+		PaladinRoyalAuthorityDoTSaver = 1909,
+
 		[CustomComboInfo("Atonement Feature", "Replace Royal Authority and Goring Blade with Atonement when under the effect of Sword Oath.", PLD.JobID)]
 		PaladinAtonementFeature = 1902,
 
@@ -532,6 +536,9 @@ namespace XIVComboVX {
 
 		[CustomComboInfo("Requiescat Feature", "Replace Royal Authority/Goring Blade with Holy Spirit, and Prominence with Holy Circle, while Requiescat is active.", PLD.JobID)]
 		PaladinRequiescatFeature = 1905,
+
+		[CustomComboInfo("Confiteor Feature", "Replace Holy Spirit/Circle with Confiteor (and then its combos) when Requiescat is up and MP is under 2000 or only one stack remains.\nAlso changes the RA/GB/Prominence into HS/HC combos into Confiteor, though NOT into its subsequent combos.", PLD.JobID)]
+		PaladinConfiteorFeature = 1908,
 
 		[CustomComboInfo("Intervene Level Sync", "Replace Intervene with Shield Lob when under level.", PLD.JobID)]
 		PaladinInterveneSyncFeature = 1906,

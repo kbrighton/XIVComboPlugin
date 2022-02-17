@@ -148,18 +148,26 @@ namespace XIVComboVX.Combos {
 			return id;
 		}
 
-		protected static uint SimpleChainCombo(byte level, uint last, float time, params (byte lvl, uint id)[] sequence) {
-			if (time > 0) {
-				// Work backwards, find the latest item in the chain that can be used (level >= lvl) and is ready to be used (last == prev.id)
-				for (int i = sequence.Length - 1; i > 0; --i) {
-					(byte lvl, uint id) = sequence[i];
-					uint prev = sequence[i - 1].id;
-					if (level >= lvl && prev == last)
-						return id;
+		protected static bool PartialChainCombo(byte level, uint last, out uint next, params (byte lvl, uint id)[] sequence) {
+			next = 0;
+
+			// Work backwards, find the latest item in the chain that can be used (level >= lvl) and is ready to be used (last == prev.id)
+			for (int i = sequence.Length - 1; i > 0; --i) {
+				(byte lvl, uint id) = sequence[i];
+				uint prev = sequence[i - 1].id;
+				if (level >= lvl && prev == last) {
+					next = id;
+					return true;
 				}
 			}
 
-			// If nothing is found or we're not in a combo, then use the first item in the chain
+			// If nothing is found, then return 0 to indicate that this case doesn't apply
+			return false;
+		}
+
+		protected static uint SimpleChainCombo(byte level, uint last, float time, params (byte lvl, uint id)[] sequence) {
+			if (time > 0 && PartialChainCombo(level, last, out uint next, sequence))
+				return next;
 			return sequence[0].id;
 		}
 

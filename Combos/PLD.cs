@@ -1,3 +1,5 @@
+using Dalamud.Game.ClientState.Statuses;
+
 namespace XIVComboVX.Combos {
 	internal static class PLD {
 		public const byte JobID = 19;
@@ -31,7 +33,8 @@ namespace XIVComboVX.Combos {
 		}
 
 		public static class Debuffs {
-			// public const ushort placeholder = 0;
+			public const ushort
+				GoringBlade = 725;
 		}
 
 		public static class Levels {
@@ -60,7 +63,7 @@ namespace XIVComboVX.Combos {
 		public override CustomComboPreset Preset { get; } = CustomComboPreset.PaladinStunInterruptFeature;
 	}
 
-	internal class PaladinGoringBladeCombo: CustomCombo {
+	internal class PaladinGoringBlade: CustomCombo {
 		public override CustomComboPreset Preset => CustomComboPreset.PldAny;
 		public override uint[] ActionIDs { get; } = new[] { PLD.GoringBlade };
 
@@ -97,12 +100,24 @@ namespace XIVComboVX.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-			if (level >= PLD.Levels.HolySpirit && IsEnabled(CustomComboPreset.PaladinRequiescatFeature) && SelfHasEffect(PLD.Buffs.Requiescat))
+			if (level >= PLD.Levels.HolySpirit && IsEnabled(CustomComboPreset.PaladinRequiescatFeature)) {
+				Status? requiescat = SelfFindEffect(PLD.Buffs.Requiescat);
+
+				if (level >= PLD.Levels.Confiteor && IsEnabled(CustomComboPreset.PaladinConfiteorFeature) && (requiescat?.StackCount == 1 || LocalPlayer?.CurrentMp < 2000))
+					return PLD.Confiteor;
+
 				return PLD.HolySpirit;
+			}
 
 			bool doMainCombo = IsEnabled(CustomComboPreset.PaladinRoyalAuthorityCombo);
 
 			if (comboTime > 0 && doMainCombo) {
+
+				if (IsEnabled(CustomComboPreset.PaladinRoyalAuthorityDoTSaver)) {
+					Status? gbDot = TargetFindOwnEffect(PLD.Debuffs.GoringBlade);
+					if (gbDot is null || gbDot.RemainingTime < 7)
+						return PLD.GoringBlade;
+				}
 
 				if (lastComboMove == PLD.RiotBlade && level >= PLD.Levels.RageOfHalone)
 					return OriginalHook(PLD.RageOfHalone);
@@ -128,8 +143,14 @@ namespace XIVComboVX.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-			if (level >= PLD.Levels.HolyCircle && IsEnabled(CustomComboPreset.PaladinRequiescatFeature) && SelfHasEffect(PLD.Buffs.Requiescat))
+			if (level >= PLD.Levels.HolyCircle && IsEnabled(CustomComboPreset.PaladinRequiescatFeature)) {
+				Status? requiescat = SelfFindEffect(PLD.Buffs.Requiescat);
+
+				if (level >= PLD.Levels.Confiteor && IsEnabled(CustomComboPreset.PaladinConfiteorFeature) && (requiescat?.StackCount == 1 || LocalPlayer?.CurrentMp < 2000))
+					return PLD.Confiteor;
+
 				return PLD.HolyCircle;
+			}
 
 			if (IsEnabled(CustomComboPreset.PaladinProminenceCombo)) {
 				return SimpleChainCombo(level, lastComboMove, comboTime, (PLD.Levels.TotalEclipse, PLD.TotalEclipse),
@@ -141,23 +162,37 @@ namespace XIVComboVX.Combos {
 		}
 	}
 
+	internal class PaladinHolySpiritHolyCircle: CustomCombo {
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.PaladinConfiteorFeature;
+		public override uint[] ActionIDs { get; } = new[] { PLD.HolySpirit, PLD.HolyCircle };
+
+		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+
+			if (comboTime > 0 && PartialChainCombo(level, lastComboMove, out uint move, (PLD.Levels.BladeOfFaith, PLD.BladeOfFaith),
+				(PLD.Levels.BladeOfTruth, PLD.BladeOfTruth),
+				(PLD.Levels.BladeOfValor, PLD.BladeOfValor)
+			)) {
+				return move;
+			}
+
+			if (level >= PLD.Levels.Confiteor && (SelfFindEffect(PLD.Buffs.Requiescat)?.StackCount == 1 || LocalPlayer?.CurrentMp < 2000))
+				return PLD.Confiteor;
+
+			return actionID;
+		}
+	}
+
 	internal class PaladinRequiescatCombo: CustomCombo {
 		public override CustomComboPreset Preset => CustomComboPreset.PaladinRequiescatConfiteorCombo;
 		public override uint[] ActionIDs { get; } = new[] { PLD.Requiescat };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-			if (comboTime > 0) {
-
-				if (lastComboMove is PLD.BladeOfTruth && level >= PLD.Levels.BladeOfValor)
-					return PLD.BladeOfValor;
-
-				if (lastComboMove is PLD.BladeOfFaith && level >= PLD.Levels.BladeOfTruth)
-					return PLD.BladeOfTruth;
-
-				if (lastComboMove is PLD.Confiteor && level >= PLD.Levels.BladeOfFaith)
-					return PLD.BladeOfFaith;
-
+			if (comboTime > 0 && PartialChainCombo(level, lastComboMove, out uint move, (PLD.Levels.BladeOfFaith, PLD.BladeOfFaith),
+				(PLD.Levels.BladeOfTruth, PLD.BladeOfTruth),
+				(PLD.Levels.BladeOfValor, PLD.BladeOfValor)
+			)) {
+				return move;
 			}
 
 			if (level >= PLD.Levels.Confiteor && SelfHasEffect(PLD.Buffs.Requiescat))
