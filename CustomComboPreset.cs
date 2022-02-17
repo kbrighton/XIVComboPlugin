@@ -830,9 +830,6 @@ namespace XIVComboVX {
 		// ====================================================================================
 		#region SAGE (40xx)
 
-		[CustomComboInfo("Swiftcast Egeiro", "Egeiro turns into Swiftcast when available and reasonable.", SGE.JobID)]
-		SageSwiftcastRaiserFeature = 4000,
-
 		[CustomComboInfo("Taurochole Into Druochole Feature", "Replace Taurochole with Druochole when on cooldown", SGE.JobID)]
 		SageTaurocholeDruocholeFeature = 4001,
 
@@ -850,6 +847,12 @@ namespace XIVComboVX {
 
 		[CustomComboInfo("Soteria Kardia Feature", "Replace Soteria with Kardia when off cooldown and missing Kardion.", SGE.JobID)]
 		SageSoteriaKardionFeature = 4006,
+
+		[CustomComboInfo("Phlegma into Toxikon", "Replace Phlegma with Toxikon when no charges rmemain and have Addersting.\nThis takes priority over Phlegma into Dyskrasia.", SGE.JobID)]
+		SagePhlegmaToxicon = 4007,
+
+		[CustomComboInfo("Phlegma into Dyskrasia", "Replace Phlegma with Dyskrasia when no charges remain or have no target.", SGE.JobID)]
+		SagePhlegmaDyskrasia = 4008,
 
 		#endregion
 		// ====================================================================================
