@@ -557,6 +557,14 @@ namespace XIVComboVX {
 		[CustomComboInfo("Redoublement Combo Plus", "Replaces Redoublement (and Moulinet) with Verflare/Verholy (and then Scorch and Resolution) after 3 mana stacks, whichever is more appropriate.", RDM.JobID)]
 		RedMageMeleeComboPlus = 3503,
 
+		[Conflicts(RedMageAoECombo)]
+		[CustomComboInfo("Smartcast AoE", "Dynamically replaces Veraero/Verthunder 2 with the appropriate spell based on your job gauge.\nIncludes Impact/Scatter when fastcasting.", RDM.JobID)]
+		RedMageSmartcastAoEFeature = 3508,
+
+		[Conflicts(RedMageVerprocCombo)]
+		[CustomComboInfo("Smartcast Single Target", "Dynamically replaces Verstone/Verfire with the appropriate spell based on your job gauge.\nVeraero and Verthunder are replaced with one or the other accordingly, for openers.", RDM.JobID)]
+		RedMageSmartcastSingleFeature = 3509,
+
 		[Conflicts(RedMageSmartcastAoEFeature)]
 		[CustomComboInfo("Red Mage AoE Combo", "Replaces Veraero/Verthunder 2 with Impact when under a cast speeder.", RDM.JobID)]
 		RedMageAoECombo = 3501,
@@ -580,13 +588,15 @@ namespace XIVComboVX {
 		[CustomComboInfo("Contre Sixte / Fleche Feature", "Turns Contre Sixte and Fleche into whichever is available.", RDM.JobID)]
 		RedMageContreFlecheFeature = 3510,
 
-		[Conflicts(RedMageAoECombo)]
-		[CustomComboInfo("Smartcast AoE", "Dynamically replaces Veraero/Verthunder 2 with the appropriate spell based on your job gauge.\nIncludes Impact/Scatter when fastcasting.", RDM.JobID)]
-		RedMageSmartcastAoEFeature = 3508,
+		[CustomComboInfo("Acceleration into Swiftcast", "Replace Acceleration with Swiftcast when on cooldown or synced.", RDM.JobID)]
+		RedMageAccelerationSwiftcastFeature = 3511,
 
-		[Conflicts(RedMageVerprocCombo)]
-		[CustomComboInfo("Smartcast Single Target", "Dynamically replaces Verstone/Verfire with the appropriate spell based on your job gauge.\nVeraero and Verthunder are replaced with one or the other accordingly, for openers.", RDM.JobID)]
-		RedMageSmartcastSingleFeature = 3509,
+		[ParentPreset(RedMageAccelerationSwiftcastFeature)]
+		[CustomComboInfo("Acceleration with Swiftcast first", "Replace Acceleration with Swiftcast when neither are on cooldown.", RDM.JobID)]
+		RedMageAccelerationSwiftcastOption = 3512,
+
+		[CustomComboInfo("Embolden to Manaification", "Replace Embolden with Manafication if the former is on cooldown and the latter is not.", RDM.JobID)]
+		RedMageEmboldenFeature = 3513,
 
 		#endregion
 		// ====================================================================================

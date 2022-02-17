@@ -10,28 +10,31 @@ namespace XIVComboVX.Combos {
 
 		public const uint
 			Verraise = 7523,
-			Jolt = 7503,
-			Jolt2 = 7524,
 			Verthunder = 7505,
-			Verthunder2 = 16524,
-			Verfire = 7510,
-			Verflare = 7525,
 			Veraero = 7507,
-			Veraero2 = 16525,
-			Verstone = 7511,
-			Verholy = 7526,
-			Impact = 16526,
 			Scatter = 7509,
+			Veraero2 = 16525,
+			Verthunder2 = 16524,
+			Impact = 16526,
+			Embolden = 7520,
+			Manafication = 7521,
 			Redoublement = 7516,
 			EnchantedRedoublement = 7529,
 			Zwerchhau = 7512,
 			EnchantedZwerchhau = 7528,
 			Riposte = 7504,
 			EnchantedRiposte = 7527,
+			Jolt = 7503,
+			Verstone = 7511,
+			Verfire = 7510,
 			Moulinet = 7513,
-			EnchantedMoulinet = 7530,
 			Fleche = 7517,
+			Acceleration = 7518,
 			ContreSixte = 7519,
+			Jolt2 = 7524,
+			Verholy = 7526,
+			Verflare = 7525,
+			Swiftcast = 7561,
 			Scorch = 16530,
 			Resolution = 25858;
 
@@ -40,8 +43,7 @@ namespace XIVComboVX.Combos {
 				VerfireReady = 1234,
 				VerstoneReady = 1235,
 				Acceleration = 1238,
-				Dualcast = 1249,
-				LostChainspell = 2560;
+				Dualcast = 1249;
 		}
 
 		public static class Debuffs {
@@ -54,13 +56,17 @@ namespace XIVComboVX.Combos {
 				Verthunder = 4,
 				Veraero = 10,
 				Scatter = 15,
+				Swiftcast = 18,
 				Verthunder2 = 18,
 				Veraero2 = 22,
 				Zwerchhau = 35,
 				Fleche = 45,
 				Redoublement = 50,
+				Acceleration = 50,
 				Vercure = 54,
 				ContreSixte = 56,
+				Embolden = 58,
+				Manafication = 60,
 				Jolt2 = 62,
 				Verraise = 64,
 				Impact = 66,
@@ -88,7 +94,7 @@ namespace XIVComboVX.Combos {
 			if (lastComboMove is RDM.Verflare or RDM.Verholy && level >= RDM.Levels.Scorch)
 				return RDM.Scorch;
 
-			if (level >= RDM.Levels.Scatter && IsFastcasting)
+			if (level >= RDM.Levels.Scatter && (IsFastcasting || SelfHasEffect(RDM.Buffs.Acceleration)))
 				return OriginalHook(RDM.Scatter);
 
 			return actionID;
@@ -141,6 +147,7 @@ namespace XIVComboVX.Combos {
 			}
 
 			if (actionID is RDM.Redoublement) {
+
 				if (lastComboMove is RDM.Zwerchhau or RDM.EnchantedZwerchhau && level >= RDM.Levels.Redoublement)
 					return OriginalHook(RDM.Redoublement);
 
@@ -150,7 +157,7 @@ namespace XIVComboVX.Combos {
 				return OriginalHook(RDM.Riposte);
 			}
 
-			return actionID;
+			return OriginalHook(actionID);
 		}
 	}
 
@@ -162,6 +169,7 @@ namespace XIVComboVX.Combos {
 
 			if (lastComboMove == RDM.Scorch && level >= RDM.Levels.Resolution)
 				return RDM.Resolution;
+
 			if (lastComboMove is RDM.Verflare or RDM.Verholy && level >= RDM.Levels.Scorch)
 				return RDM.Scorch;
 
@@ -176,7 +184,7 @@ namespace XIVComboVX.Combos {
 					&& level >= RDM.Levels.Veraero
 					&& (IsFastcasting || SelfHasEffect(RDM.Buffs.Acceleration))
 				) {
-					return RDM.Veraero;
+					return OriginalHook(RDM.Veraero);
 				}
 
 				if (IsEnabled(CustomComboPreset.RedMageVeraeroOpenerFeature)
@@ -184,7 +192,7 @@ namespace XIVComboVX.Combos {
 					&& !HasCondition(ConditionFlag.InCombat)
 					&& !SelfHasEffect(RDM.Buffs.VerstoneReady)
 				) {
-					return RDM.Veraero;
+					return OriginalHook(RDM.Veraero);
 				}
 
 				if (SelfHasEffect(RDM.Buffs.VerstoneReady))
@@ -200,7 +208,7 @@ namespace XIVComboVX.Combos {
 					&& level >= RDM.Levels.Verthunder
 					&& (IsFastcasting || SelfHasEffect(RDM.Buffs.Acceleration))
 				) {
-					return RDM.Verthunder;
+					return OriginalHook(RDM.Verthunder);
 				}
 
 				if (IsEnabled(CustomComboPreset.RedMageVerthunderOpenerFeature)
@@ -208,7 +216,7 @@ namespace XIVComboVX.Combos {
 					&& !HasCondition(ConditionFlag.InCombat)
 					&& !SelfHasEffect(RDM.Buffs.VerfireReady)
 				) {
-					return RDM.Verthunder;
+					return OriginalHook(RDM.Verthunder);
 				}
 
 				if (SelfHasEffect(RDM.Buffs.VerfireReady))
@@ -241,6 +249,7 @@ namespace XIVComboVX.Combos {
 		public override uint[] ActionIDs { get; } = new[] { RDM.Veraero2, RDM.Verthunder2 };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+			const int DELTA = 7;
 
 			if (IsFastcasting || SelfHasEffect(RDM.Buffs.Acceleration) || level < RDM.Levels.Verthunder2)
 				return OriginalHook(RDM.Impact);
@@ -249,11 +258,13 @@ namespace XIVComboVX.Combos {
 				return RDM.Verthunder2;
 
 			RDMGauge gauge = GetJobGauge<RDMGauge>();
+			int black = gauge.BlackMana;
+			int white = gauge.WhiteMana;
 
-			if (gauge.BlackMana > gauge.WhiteMana)
+			if (white < black || Math.Min(100, black + DELTA) == white)
 				return RDM.Veraero2;
 
-			if (gauge.WhiteMana > gauge.BlackMana)
+			if (black < white || Math.Min(100, white + DELTA) == black)
 				return RDM.Verthunder2;
 
 			return actionID;
@@ -276,6 +287,20 @@ namespace XIVComboVX.Combos {
 			RDMGauge gauge = GetJobGauge<RDMGauge>();
 			int black = gauge.BlackMana;
 			int white = gauge.WhiteMana;
+			bool isFinishing1 = gauge.ManaStacks == 3;
+			bool isFinishing2 = comboTime > 0 && lastComboActionId is RDM.Verholy or RDM.Verflare;
+			bool isFinishing3 = comboTime > 0 && lastComboActionId is RDM.Scorch;
+			bool canFinishWhite = level >= RDM.Levels.Verholy;
+			bool canFinishBlack = level >= RDM.Levels.Verflare;
+			int blackThreshold = white + IMBALANCE_DIFF_MAX;
+			int whiteThreshold = black + IMBALANCE_DIFF_MAX;
+
+			// No matter what this is (opener or combat), follow the finisher combo chains.
+			// There is never a reason to NOT use the finishers when you have them.
+			if (isFinishing3 && level >= RDM.Levels.Resolution)
+				return RDM.Resolution;
+			if (isFinishing2 && level >= RDM.Levels.Scorch)
+				return RDM.Scorch;
 
 			if (actionID is RDM.Veraero or RDM.Verthunder) {
 
@@ -298,22 +323,8 @@ namespace XIVComboVX.Combos {
 			}
 
 			if (actionID is RDM.Verstone or RDM.Verfire) {
-
 				bool fastCasting = IsFastcasting;
 				bool accelerated = SelfHasEffect(RDM.Buffs.Acceleration);
-				bool isFinishing1 = gauge.ManaStacks == 3;
-				bool isFinishing2 = comboTime > 0 && lastComboActionId is RDM.Verholy or RDM.Verflare;
-				bool isFinishing3 = comboTime > 0 && lastComboActionId is RDM.Scorch;
-				bool canFinishWhite = level >= RDM.Levels.Verholy;
-				bool canFinishBlack = level >= RDM.Levels.Verflare;
-				int blackThreshold = white + IMBALANCE_DIFF_MAX;
-				int whiteThreshold = black + IMBALANCE_DIFF_MAX;
-
-				// If we're ready to Scorch or Resolution, just do that. Nice and simple. Sadly, that's where the simple ends.
-				if (isFinishing3 && level >= RDM.Levels.Resolution)
-					return RDM.Resolution;
-				if (isFinishing2 && level >= RDM.Levels.Scorch)
-					return RDM.Scorch;
 
 				if (isFinishing1 && canFinishBlack) {
 
@@ -396,6 +407,43 @@ namespace XIVComboVX.Combos {
 				// If neither's up or the one that is would imbalance us, just use Jolt
 				return OriginalHook(RDM.Jolt2);
 			}
+
+			return actionID;
+		}
+	}
+
+	internal class RedMageAcceleration: CustomCombo {
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.RedMageAccelerationSwiftcastFeature;
+		public override uint[] ActionIDs => new[] { RDM.Acceleration };
+
+		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+
+			if (level >= RDM.Levels.Acceleration) {
+
+				if (IsEnabled(CustomComboPreset.RedMageAccelerationSwiftcastOption) && IsOffCooldown(RDM.Acceleration) && IsOffCooldown(RDM.Swiftcast))
+					return RDM.Swiftcast;
+
+				if (IsOffCooldown(RDM.Acceleration))
+					return RDM.Acceleration;
+
+				if (IsOffCooldown(RDM.Swiftcast))
+					return RDM.Swiftcast;
+
+				return RDM.Acceleration;
+			}
+
+			return RDM.Swiftcast;
+		}
+	}
+
+	internal class RedMageEmbolden: CustomCombo {
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.RedMageEmboldenFeature;
+		public override uint[] ActionIDs => new[] { RDM.Embolden };
+
+		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+
+			if (level >= RDM.Levels.Manafication && IsOffCooldown(RDM.Manafication) && IsOnCooldown(RDM.Embolden))
+				return RDM.Manafication;
 
 			return actionID;
 		}
