@@ -89,6 +89,9 @@ namespace XIVComboVX.Combos {
 			if (level >= SMN.Levels.EnergySyphon && !GetJobGauge<SMNGauge>().HasAetherflowStacks)
 				return SMN.EnergySyphon;
 
+			if (level < SMN.Levels.Painflare)
+				return SMN.EnergyDrain;
+
 			return actionID;
 		}
 	}
@@ -120,7 +123,7 @@ namespace XIVComboVX.Combos {
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			SMNGauge gauge = GetJobGauge<SMNGauge>();
 
-			if (IsEnabled(CustomComboPreset.SummonerRuinTitansFavorFeature) && level >= SMN.Levels.ElementalMastery && SelfHasEffect(SMN.Buffs.TitansFavor))
+			if (IsEnabled(CustomComboPreset.SummonerOutburstTitansFavorFeature) && level >= SMN.Levels.ElementalMastery && SelfHasEffect(SMN.Buffs.TitansFavor))
 				return SMN.MountainBuster;
 
 			if (IsEnabled(CustomComboPreset.SummonerOutburstFeature) && level >= SMN.Levels.PreciousBrilliance && (gauge.IsIfritAttuned || gauge.IsTitanAttuned || gauge.IsGarudaAttuned))
