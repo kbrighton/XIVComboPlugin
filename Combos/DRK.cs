@@ -9,6 +9,7 @@ namespace XIVComboVX.Combos {
 			Unleash = 3621,
 			SyphonStrike = 3623,
 			Souleater = 3632,
+			BloodWeapon = 3625,
 			SaltedEarth = 3639,
 			AbyssalDrain = 3641,
 			CarveAndSpit = 3643,
@@ -19,6 +20,7 @@ namespace XIVComboVX.Combos {
 			StalwartSoul = 16468,
 			FloodOfShadow = 16469,
 			EdgeOfShadow = 16470,
+			LivingShadow = 16472,
 			SaltAndDarkness = 25755,
 			Shadowbringer = 25757;
 
@@ -37,15 +39,17 @@ namespace XIVComboVX.Combos {
 				SyphonStrike = 2,
 				Souleater = 26,
 				FloodOfDarkness = 30,
+				BloodWeapon = 35,
 				EdgeOfDarkness = 40,
 				SaltedEarth = 52,
 				AbyssalDrain = 56,
 				CarveAndSpit = 60,
-				Bloodpiller = 62,
+				Bloodspiller = 62,
 				Quietus = 64,
 				Delirium = 68,
 				StalwartSoul = 72,
 				Shadow = 74,
+				LivingShadow = 80,
 				SaltAndDarkness = 86,
 				Shadowbringer = 90;
 		}
@@ -55,54 +59,53 @@ namespace XIVComboVX.Combos {
 		public override CustomComboPreset Preset { get; } = CustomComboPreset.DarkStunInterruptFeature;
 	}
 
-	internal class DarkSouleaterCombo: CustomCombo {
+	internal class DarkSouleater: CustomCombo {
 		public override CustomComboPreset Preset => CustomComboPreset.DrkAny;
 		public override uint[] ActionIDs { get; } = new[] { DRK.Souleater };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is DRK.Souleater) {
 
-				if (IsEnabled(CustomComboPreset.DarkOvercapFeature)) {
-					DRKGauge gauge = GetJobGauge<DRKGauge>();
-					if (gauge.Blood > 80 || (gauge.Blood > 70 && SelfHasEffect(DRK.Buffs.BloodWeapon)))
-						return DRK.Bloodspiller;
-				}
+			if (IsEnabled(CustomComboPreset.DarkSouleaterOvercapFeature)) {
+				DRKGauge gauge = GetJobGauge<DRKGauge>();
 
-				if (level >= DRK.Levels.Delirium && IsEnabled(CustomComboPreset.DarkDeliriumFeature) && SelfHasEffect(DRK.Buffs.Delirium))
+				if (level >= DRK.Levels.Bloodspiller && (gauge.Blood > 80 || (gauge.Blood > 70 && SelfHasEffect(DRK.Buffs.BloodWeapon))))
 					return DRK.Bloodspiller;
+			}
 
-				if (IsEnabled(CustomComboPreset.DarkSouleaterCombo)) {
-					return SimpleChainCombo(level, lastComboMove, comboTime, (1, DRK.HardSlash),
-						(DRK.Levels.SyphonStrike, DRK.SyphonStrike),
-						(DRK.Levels.Souleater, DRK.Souleater)
-					);
-				}
+			if (level >= DRK.Levels.Delirium && IsEnabled(CustomComboPreset.DarkDeliriumFeature) && SelfHasEffect(DRK.Buffs.Delirium))
+				return DRK.Bloodspiller;
+
+			if (IsEnabled(CustomComboPreset.DarkSouleaterCombo)) {
+				return SimpleChainCombo(level, lastComboMove, comboTime, (1, DRK.HardSlash),
+					(DRK.Levels.SyphonStrike, DRK.SyphonStrike),
+					(DRK.Levels.Souleater, DRK.Souleater)
+				);
 			}
 
 			return actionID;
 		}
 	}
 
-	internal class DarkAoECombo: CustomCombo {
+	internal class DarkStalwartSoul: CustomCombo {
 		public override CustomComboPreset Preset => CustomComboPreset.DrkAny;
 		public override uint[] ActionIDs { get; } = new[] { DRK.StalwartSoul };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-			if (actionID is DRK.StalwartSoul) {
 
-				if (IsEnabled(CustomComboPreset.DarkOvercapFeature)) {
-					DRKGauge gauge = GetJobGauge<DRKGauge>();
-					if (gauge.Blood > 80 || (gauge.Blood > 70 && SelfHasEffect(DRK.Buffs.BloodWeapon)))
-						return DRK.Quietus;
-				}
+			if (IsEnabled(CustomComboPreset.DarkStalwartSoulOvercapFeature)) {
+				DRKGauge gauge = GetJobGauge<DRKGauge>();
 
-				if (level >= DRK.Levels.Delirium && IsEnabled(CustomComboPreset.DarkDeliriumFeature) && SelfHasEffect(DRK.Buffs.Delirium))
+				if (level >= DRK.Levels.Quietus && (gauge.Blood > 80 || (gauge.Blood > 70 && SelfHasEffect(DRK.Buffs.BloodWeapon))))
 					return DRK.Quietus;
+			}
 
-				if (level >= DRK.Levels.StalwartSoul && comboTime > 0 && lastComboMove == DRK.Unleash)
-					return DRK.StalwartSoul;
+			if (level >= DRK.Levels.Delirium && IsEnabled(CustomComboPreset.DarkDeliriumFeature) && SelfHasEffect(DRK.Buffs.Delirium))
+				return DRK.Quietus;
 
-				return DRK.Unleash;
+			if (IsEnabled(CustomComboPreset.DarkStalwartSoulCombo)) {
+				return SimpleChainCombo(level, lastComboMove, comboTime, (1, DRK.Unleash),
+					(DRK.Levels.StalwartSoul, DRK.StalwartSoul)
+				);
 			}
 
 			return actionID;
@@ -117,6 +120,56 @@ namespace XIVComboVX.Combos {
 
 			if (level >= DRK.Levels.Shadowbringer && SelfHasEffect(DRK.Buffs.Darkside) && LocalPlayer.CurrentMp < 6000)
 				return DRK.Shadowbringer;
+
+			return actionID;
+		}
+	}
+
+	internal class DarkCarveAndSpitAbyssalDrain: CustomCombo {
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.DrkAny;
+		public override uint[] ActionIDs { get; } = new[] { DRK.CarveAndSpit, DRK.AbyssalDrain };
+
+		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+
+			if (level >= DRK.Levels.BloodWeapon && IsEnabled(CustomComboPreset.DarkBloodWeaponFeature) && IsOffCooldown(DRK.BloodWeapon))
+				return DRK.BloodWeapon;
+
+			return actionID;
+		}
+	}
+
+	internal class DarkQuietusBloodspiller: CustomCombo {
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.DrkAny;
+		public override uint[] ActionIDs { get; } = new[] { DRK.Quietus, DRK.Bloodspiller };
+
+		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+
+			// TODO: integrate this functionality into the Stalwart / Souleater features
+			if (level >= DRK.Levels.LivingShadow && IsEnabled(CustomComboPreset.DarkLivingShadowFeature) && GetJobGauge<DRKGauge>().Blood >= 50 && IsOffCooldown(DRK.LivingShadow))
+				return DRK.LivingShadow;
+
+			return actionID;
+		}
+	}
+
+	internal class DarkLivingShadow: CustomCombo {
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.DrkAny;
+		public override uint[] ActionIDs { get; } = new[] { DRK.LivingShadow };
+
+		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+			DRKGauge gauge = GetJobGauge<DRKGauge>();
+
+			// TODO: integrate this functionality into the Quietus / Bloodspiller features
+
+			if (IsEnabled(CustomComboPreset.DarkLivingShadowbringerFeature)) {
+				if (level >= DRK.Levels.Shadowbringer && gauge.ShadowTimeRemaining > 0 && HasCharges(DRK.Shadowbringer))
+					return DRK.Shadowbringer;
+			}
+
+			if (IsEnabled(CustomComboPreset.DarkLivingShadowbringerHpFeature)) {
+				if (level >= DRK.Levels.Shadowbringer && HasCharges(DRK.Shadowbringer) && IsOnCooldown(DRK.LivingShadow))
+					return DRK.Shadowbringer;
+			}
 
 			return actionID;
 		}

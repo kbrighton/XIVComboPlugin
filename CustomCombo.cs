@@ -201,12 +201,6 @@ namespace XIVComboVX.Combos {
 
 		protected internal static bool HasPetPresent() => Service.BuddyList.PetBuddyPresent;
 
-		protected internal static CooldownData GetCooldown(uint actionID) => Service.DataCache.GetCooldown(actionID);
-
-		protected internal static bool IsOnCooldown(uint actionID) => GetCooldown(actionID).IsCooldown;
-
-		protected internal static bool IsOffCooldown(uint actionID) => !GetCooldown(actionID).IsCooldown;
-
 		protected internal static T GetJobGauge<T>() where T : JobGaugeBase => Service.DataCache.GetJobGauge<T>();
 
 		protected internal static bool ShouldSwiftcast
@@ -221,6 +215,18 @@ namespace XIVComboVX.Combos {
 				|| SelfHasEffect(Common.Buffs.LostChainspell);
 		protected internal static bool CanInterrupt
 			=> Service.DataCache.CanInterruptTarget;
+
+		#endregion
+
+		#region Cooldowns and charges
+
+		protected internal static CooldownData GetCooldown(uint actionID) => Service.DataCache.GetCooldown(actionID);
+
+		protected internal static bool IsOnCooldown(uint actionID) => GetCooldown(actionID).IsCooldown;
+
+		protected internal static bool IsOffCooldown(uint actionID) => !GetCooldown(actionID).IsCooldown;
+
+		protected internal static bool HasCharges(uint actionID) => GetCooldown(actionID).HasCharges;
 
 		#endregion
 

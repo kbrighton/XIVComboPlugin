@@ -294,24 +294,40 @@ namespace XIVComboVX {
 		// ====================================================================================
 		#region DARK KNIGHT (32xx)
 
+		[CustomComboInfo("Stun/Interrupt Feature", "Turn Low Blow and Interject into Interject when off CD and your target can be interrupted, Low Blow otherwise.", DRK.JobID)]
+		DarkStunInterruptFeature = 3205,
+
 		[CustomComboInfo("Souleater Combo", "Replace Souleater with its combo chain.", DRK.JobID)]
 		DarkSouleaterCombo = 3200,
+
+		[ParentPreset(DarkSouleaterCombo)]
+		[CustomComboInfo("Souleater Overcap Feature", "Replace Souleater with Bloodspiller when the next combo action would cause the Blood Gauge to overcap.", WAR.JobID)]
+		DarkSouleaterOvercapFeature = 3206,
 
 		[CustomComboInfo("Stalwart Soul Combo", "Replace Stalwart Soul with its combo chain.", DRK.JobID)]
 		DarkStalwartSoulCombo = 3201,
 
+		[ParentPreset(DarkStalwartSoulCombo)]
+		[CustomComboInfo("Stalwart Soul Overcap Feature", "Replace Stalwart Soul with Quietus when the next combo action would cause the Blood Gauge to overcap.", WAR.JobID)]
+		DarkStalwartSoulOvercapFeature = 3207,
+
 		[CustomComboInfo("Delirium Feature", "Replace Souleater and Stalwart Soul with Bloodspiller and Quietus when Delirium is active.", DRK.JobID)]
 		DarkDeliriumFeature = 3202,
 
-		[CustomComboInfo("Dark Knight Gauge Overcap Saver", "Replace AoE combo with gauge spender if you are about to overcap.", DRK.JobID)]
-		DarkOvercapFeature = 3203,
-
-		[Experimental]
 		[CustomComboInfo("Shadows Galore", "Replace Flood and Edge of Darkness with Shadowbringer when under Darkside with less than 6000 MP left.", DRK.JobID)]
 		DarkShadowbringerFeature = 3204,
 
-		[CustomComboInfo("Stun/Interrupt Feature", "Turn Low Blow and Interject into Interject when off CD and your target can be interrupted, Low Blow otherwise.", DRK.JobID)]
-		DarkStunInterruptFeature = 3205,
+		[CustomComboInfo("Blood Weapon Feature", "Replace Carve and Spit, and Abyssal Drain with Blood Weapon when available.", DRK.JobID)]
+		DarkBloodWeaponFeature = 3210,
+
+		[CustomComboInfo("Living Shadow Feature", "Replace Quietus and Bloodspiller with Living Shadow when available.", DRK.JobID)]
+		DarkLivingShadowFeature = 3211,
+
+		[CustomComboInfo("Living Shadowbringer Feature", "Replace Living Shadow with Shadowbringer when charges are available and your Shadow is present.", DRK.JobID)]
+		DarkLivingShadowbringerFeature = 3208,
+
+		[CustomComboInfo("Missing Shadowbringer Feature", "Replace Living Shadow with Shadowbringer when charges are available and Living Shadow is on cooldown.", DRK.JobID)]
+		DarkLivingShadowbringerHpFeature = 3209,
 
 		#endregion
 		// ====================================================================================
