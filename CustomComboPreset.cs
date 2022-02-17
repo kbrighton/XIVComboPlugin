@@ -382,24 +382,35 @@ namespace XIVComboVX {
 		[CustomComboInfo("(Heated) Shot Combo", "Replace either form of Clean Shot with its combo chain.", MCH.JobID)]
 		MachinistMainCombo = 3100,
 
+		[ParentPreset(MachinistMainCombo)]
+		[CustomComboInfo("Hypercharge Combo", "Replace Clean Shot combo with Heat Blast while overheated.", MCH.JobID)]
+		MachinistHypercombo = 3108,
+
 		[CustomComboInfo("Spread Shot Heat", "Replace Spread Shot with Auto Crossbow when overheated.", MCH.JobID)]
-		MachinistSpreadShotFeature = 3101,
+		MachinistSpreadShot = 3101,
 
 		[CustomComboInfo("Hypercharge Feature", "Replace Heat Blast and Auto Crossbow with Hypercharge when not overheated.", MCH.JobID)]
-		MachinistOverheatFeature = 3102,
+		MachinistOverheat = 3102,
+
+		[CustomComboInfo("Hyperfire Feature", "Replace Hypercharge with Wildfire if available and you have a target.", MCH.JobID)]
+		MachinistHyperfire = 3109,
 
 		[CustomComboInfo("Overdrive Feature", "Replace Rook Autoturret and Automaton Queen with their respective Overdrive while active.", MCH.JobID)]
-		MachinistOverdriveFeature = 3103,
+		MachinistOverdrive = 3103,
 
 		[CustomComboInfo("Gauss Round / Ricochet Feature", "Replace Gauss Round and Ricochet with one or the other depending on which has less recharge time left.", MCH.JobID)]
-		MachinistGaussRoundRicochetFeature = 3104,
+		MachinistGaussRoundRicochet = 3104,
 
-		[CustomComboInfo("Hot Shot / Air Anchor / Drill Feature", "Replace Hot Shot (Air Anchor) and Drill with whichever is available.", MCH.JobID)]
-		MachinistDrillAirAnchorFeature = 3105,
+		[ParentPreset(MachinistGaussRoundRicochet)]
+		[CustomComboInfo("Gauss Round / Ricochet Overheat Option", "Replace Gauss Round and Ricochet with one or the other only while overheated.", MCH.JobID)]
+		MachinistGaussRoundRicochetLimiter = 3110,
 
-		[ParentPreset(MachinistDrillAirAnchorFeature)]
+		[CustomComboInfo("Hot Shot / Air Anchor / Drill Feature", "Replace Hot Shot (Air Anchor) and Drill with whichever is available.\nTries to avoid overcapping battery, but only if that would NOT present a potency loss.", MCH.JobID)]
+		MachinistDrillAirAnchor = 3105,
+
+		[ParentPreset(MachinistDrillAirAnchor)]
 		[CustomComboInfo("HS/AA/D + Chain Saw Feature", "Also allow the above to become Chain Saw.\nChain Saw itself will not change.", MCH.JobID)]
-		MachinistDrillAirAnchorPlusFeature = 3106,
+		MachinistDrillAirAnchorPlus = 3106,
 
 		#endregion
 		// ====================================================================================

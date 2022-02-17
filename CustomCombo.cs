@@ -167,9 +167,14 @@ namespace XIVComboVX.Combos {
 
 		#region Utility/convenience getters
 
-		protected internal static uint OriginalHook(uint actionID) => Service.IconReplacer.OriginalHook(actionID);
+		protected internal static uint OriginalHook(uint actionID)
+			=> Service.IconReplacer.OriginalHook(actionID);
 
-		protected static PlayerCharacter LocalPlayer => Service.Client.LocalPlayer!;
+		protected static bool IsOriginal(uint actionID)
+			=> OriginalHook(actionID) == actionID;
+
+		protected static PlayerCharacter LocalPlayer
+			=> Service.Client.LocalPlayer!;
 
 		protected static bool IsJob(params uint[] jobs) {
 			PlayerCharacter? p = Service.Client.LocalPlayer;
@@ -183,9 +188,11 @@ namespace XIVComboVX.Combos {
 			return false;
 		}
 
-		protected static bool HasTarget => Service.Targets.Target is not null;
+		protected static bool HasTarget
+			=> Service.Targets.Target is not null;
 
-		protected static GameObject? CurrentTarget => Service.Targets.Target;
+		protected static GameObject? CurrentTarget
+			=> Service.Targets.Target;
 
 		protected internal static bool IsEnabled(CustomComboPreset preset) {
 			if ((int)preset < 100) {
@@ -197,11 +204,14 @@ namespace XIVComboVX.Combos {
 			return enabled;
 		}
 
-		protected internal static bool HasCondition(ConditionFlag flag) => Service.Conditions[flag];
+		protected internal static bool HasCondition(ConditionFlag flag)
+			=> Service.Conditions[flag];
 
-		protected internal static bool HasPetPresent() => Service.BuddyList.PetBuddyPresent;
+		protected internal static bool HasPetPresent()
+			=> Service.BuddyList.PetBuddyPresent;
 
-		protected internal static T GetJobGauge<T>() where T : JobGaugeBase => Service.DataCache.GetJobGauge<T>();
+		protected internal static T GetJobGauge<T>() where T : JobGaugeBase
+			=> Service.DataCache.GetJobGauge<T>();
 
 		protected internal static bool ShouldSwiftcast
 			=> IsOffCooldown(Common.Swiftcast)
@@ -220,32 +230,48 @@ namespace XIVComboVX.Combos {
 
 		#region Cooldowns and charges
 
-		protected internal static CooldownData GetCooldown(uint actionID) => Service.DataCache.GetCooldown(actionID);
+		protected internal static CooldownData GetCooldown(uint actionID)
+			=> Service.DataCache.GetCooldown(actionID);
 
-		protected internal static bool IsOnCooldown(uint actionID) => GetCooldown(actionID).IsCooldown;
+		protected internal static bool IsOnCooldown(uint actionID)
+			=> GetCooldown(actionID).IsCooldown;
 
-		protected internal static bool IsOffCooldown(uint actionID) => !GetCooldown(actionID).IsCooldown;
+		protected internal static bool IsOffCooldown(uint actionID)
+			=> !GetCooldown(actionID).IsCooldown;
 
-		protected internal static bool HasCharges(uint actionID) => GetCooldown(actionID).HasCharges;
+		protected internal static bool HasCharges(uint actionID)
+			=> GetCooldown(actionID).HasCharges;
 
 		#endregion
 
 		#region Effects
 
-		protected internal static Status? SelfFindEffect(ushort effectId) => FindEffect(effectId, LocalPlayer, null);
-		protected internal static bool SelfHasEffect(ushort effectId) => SelfFindEffect(effectId) is not null;
-		protected internal static float SelfEffectDuration(ushort effectId) => SelfFindEffect(effectId)?.RemainingTime ?? 0;
-		protected internal static float SelfEffectStacks(ushort effectId) => SelfFindEffect(effectId)?.StackCount ?? 0;
+		protected internal static Status? SelfFindEffect(ushort effectId)
+			=> FindEffect(effectId, LocalPlayer, null);
+		protected internal static bool SelfHasEffect(ushort effectId)
+			=> SelfFindEffect(effectId) is not null;
+		protected internal static float SelfEffectDuration(ushort effectId)
+			=> SelfFindEffect(effectId)?.RemainingTime ?? 0;
+		protected internal static float SelfEffectStacks(ushort effectId)
+			=> SelfFindEffect(effectId)?.StackCount ?? 0;
 
-		protected internal static Status? TargetFindAnyEffect(ushort effectId) => FindEffect(effectId, CurrentTarget, null);
-		protected internal static bool TargetHasAnyEffect(ushort effectId) => TargetFindAnyEffect(effectId) is not null;
-		protected internal static float TargetAnyEffectDuration(ushort effectId) => TargetFindAnyEffect(effectId)?.RemainingTime ?? 0;
-		protected internal static float TargetAnyEffectStacks(ushort effectId) => TargetFindAnyEffect(effectId)?.StackCount ?? 0;
+		protected internal static Status? TargetFindAnyEffect(ushort effectId)
+			=> FindEffect(effectId, CurrentTarget, null);
+		protected internal static bool TargetHasAnyEffect(ushort effectId)
+			=> TargetFindAnyEffect(effectId) is not null;
+		protected internal static float TargetAnyEffectDuration(ushort effectId)
+			=> TargetFindAnyEffect(effectId)?.RemainingTime ?? 0;
+		protected internal static float TargetAnyEffectStacks(ushort effectId)
+			=> TargetFindAnyEffect(effectId)?.StackCount ?? 0;
 
-		protected internal static Status? TargetFindOwnEffect(ushort effectId) => FindEffect(effectId, CurrentTarget, LocalPlayer?.ObjectId);
-		protected internal static bool TargetHasOwnEffect(ushort effectId) => TargetFindOwnEffect(effectId) is not null;
-		protected internal static float TargetOwnEffectDuration(ushort effectId) => TargetFindOwnEffect(effectId)?.RemainingTime ?? 0;
-		protected internal static float TargetOwnEffectStacks(ushort effectId) => TargetFindOwnEffect(effectId)?.StackCount ?? 0;
+		protected internal static Status? TargetFindOwnEffect(ushort effectId)
+			=> FindEffect(effectId, CurrentTarget, LocalPlayer?.ObjectId);
+		protected internal static bool TargetHasOwnEffect(ushort effectId)
+			=> TargetFindOwnEffect(effectId) is not null;
+		protected internal static float TargetOwnEffectDuration(ushort effectId)
+			=> TargetFindOwnEffect(effectId)?.RemainingTime ?? 0;
+		protected internal static float TargetOwnEffectStacks(ushort effectId)
+			=> TargetFindOwnEffect(effectId)?.StackCount ?? 0;
 
 		protected internal static Status? FindEffect(ushort effectId, GameObject? actor, uint? sourceId)
 			=> Service.DataCache.GetStatus(effectId, actor, sourceId);
