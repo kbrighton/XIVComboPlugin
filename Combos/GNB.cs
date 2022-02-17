@@ -21,8 +21,8 @@ namespace XIVComboVX.Combos {
 			BurstStrike = 16162,
 			FatedCircle = 16163,
 			Bloodfest = 16164,
-			DoubleDown = 25760,
-			Hypervelocity = 25759;
+			Hypervelocity = 25759,
+			DoubleDown = 25760;
 
 		public static class Buffs {
 			public const ushort
@@ -43,6 +43,7 @@ namespace XIVComboVX.Combos {
 				NoMercy = 2,
 				BrutalShell = 4,
 				SolidBarrel = 26,
+				BurstStrike = 30,
 				DemonSlaughter = 40,
 				SonicBreak = 54,
 				BowShock = 62,
@@ -59,26 +60,47 @@ namespace XIVComboVX.Combos {
 		public override CustomComboPreset Preset { get; } = CustomComboPreset.GunbreakerStunInterruptFeature;
 	}
 
-	internal class GunbreakerSolidBarrelCombo: CustomCombo {
+	internal class GunbreakerSolidBarrel: CustomCombo {
 		public override CustomComboPreset Preset => CustomComboPreset.GunbreakerSolidBarrelCombo;
 		public override uint[] ActionIDs { get; } = new[] { GNB.SolidBarrel };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-			return SimpleChainCombo(level, lastComboMove, comboTime, (1, GNB.KeenEdge),
-				(GNB.Levels.BrutalShell, GNB.BrutalShell),
-				(GNB.Levels.SolidBarrel, GNB.SolidBarrel)
-			);
+			if (comboTime > 0) {
+
+				if (level >= GNB.Levels.BrutalShell && lastComboMove is GNB.KeenEdge)
+					return GNB.BrutalShell;
+
+				if (level >= GNB.Levels.SolidBarrel && lastComboMove is GNB.BrutalShell) {
+
+					if (IsEnabled(CustomComboPreset.GunbreakerBurstStrikeFeature)) {
+						GNBGauge gauge = GetJobGauge<GNBGauge>();
+						int maxAmmo = level >= GNB.Levels.CartridgeCharge2 ? 3 : 2;
+
+						if (level >= GNB.Levels.EnhancedContinuation && IsEnabled(CustomComboPreset.GunbreakerBurstStrikeCont) && SelfHasEffect(GNB.Buffs.ReadyToBlast))
+							return GNB.Hypervelocity;
+
+						if (level >= GNB.Levels.BurstStrike && gauge.Ammo == maxAmmo)
+							return GNB.BurstStrike;
+
+					}
+
+					return GNB.SolidBarrel;
+				}
+			}
+
+			return GNB.KeenEdge;
 		}
 	}
 
-	internal class GunbreakerGnashingFangContinuation: CustomCombo {
+	internal class GunbreakerGnashingFang: CustomCombo {
 		public override CustomComboPreset Preset => CustomComboPreset.GunbreakerGnashingFangCont;
 		public override uint[] ActionIDs { get; } = new[] { GNB.GnashingFang };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
 			if (level >= GNB.Levels.Continuation) {
+
 				if (SelfHasEffect(GNB.Buffs.ReadyToGouge))
 					return GNB.EyeGouge;
 
@@ -87,6 +109,7 @@ namespace XIVComboVX.Combos {
 
 				if (SelfHasEffect(GNB.Buffs.ReadyToRip))
 					return GNB.JugularRip;
+
 			}
 
 			return OriginalHook(GNB.GnashingFang);
@@ -99,29 +122,32 @@ namespace XIVComboVX.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-			if (actionID is GNB.BurstStrike) {
-				if (IsEnabled(CustomComboPreset.GunbreakerBurstStrikeCont) && level >= GNB.Levels.EnhancedContinuation && SelfHasEffect(GNB.Buffs.ReadyToBlast))
-					return GNB.Hypervelocity;
+			if (actionID is GNB.BurstStrike
+				&& level >= GNB.Levels.EnhancedContinuation
+				&& IsEnabled(CustomComboPreset.GunbreakerBurstStrikeCont)
+				&& SelfHasEffect(GNB.Buffs.ReadyToBlast)
+			) {
+				return GNB.Hypervelocity;
 			}
 
 			GNBGauge gauge = GetJobGauge<GNBGauge>();
 
-			if (IsEnabled(CustomComboPreset.GunbreakerDoubleDownFeature) && level >= GNB.Levels.DoubleDown && gauge.Ammo >= 2) {
-				CooldownData doubleDown = GetCooldown(GNB.DoubleDown);
-
-				if (!doubleDown.IsCooldown)
-					return GNB.DoubleDown;
-
+			if (level >= GNB.Levels.DoubleDown
+				&& IsEnabled(CustomComboPreset.GunbreakerDoubleDownFeature)
+				&& gauge.Ammo >= 2
+				&& IsOffCooldown(GNB.DoubleDown)
+			) {
+				return GNB.DoubleDown;
 			}
 
-			if (IsEnabled(CustomComboPreset.GunbreakerEmptyBloodfestFeature) && level >= GNB.Levels.Bloodfest && gauge.Ammo == 0)
+			if (level >= GNB.Levels.Bloodfest && IsEnabled(CustomComboPreset.GunbreakerEmptyBloodfestFeature) && gauge.Ammo == 0)
 				return GNB.Bloodfest;
 
 			return actionID;
 		}
 	}
 
-	internal class GunbreakerBowShockSonicBreakFeature: CustomCombo {
+	internal class GunbreakerBowShockSonicBreak: CustomCombo {
 		public override CustomComboPreset Preset => CustomComboPreset.GunbreakerBowShockSonicBreakFeature;
 		public override uint[] ActionIDs { get; } = new[] { GNB.BowShock, GNB.SonicBreak };
 
@@ -134,7 +160,7 @@ namespace XIVComboVX.Combos {
 		}
 	}
 
-	internal class GunbreakerDemonSlaughterCombo: CustomCombo {
+	internal class GunbreakerDemonSlaughter: CustomCombo {
 		public override CustomComboPreset Preset => CustomComboPreset.GunbreakerDemonSlaughterCombo;
 		public override uint[] ActionIDs { get; } = new[] { GNB.DemonSlaughter };
 
@@ -158,13 +184,33 @@ namespace XIVComboVX.Combos {
 		}
 	}
 
-	internal class GunbreakerNoMercyFeature: CustomCombo {
-		public override CustomComboPreset Preset => CustomComboPreset.GunbreakerNoMercyFeature;
+	internal class GunbreakerNoMercy: CustomCombo {
+		public override CustomComboPreset Preset => CustomComboPreset.GnbAny;
 		public override uint[] ActionIDs { get; } = new[] { GNB.NoMercy };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+			GNBGauge gauge = GetJobGauge<GNBGauge>();
 
-			if (level >= GNB.Levels.NoMercy && SelfHasEffect(GNB.Buffs.NoMercy)) {
+			if (level >= GNB.Levels.DoubleDown
+				&& IsEnabled(CustomComboPreset.GunbreakerNoMercyDoubleDownFeature)
+				&& gauge.Ammo >= 2
+				&& IsOffCooldown(GNB.DoubleDown)
+				&& SelfHasEffect(GNB.Buffs.NoMercy)
+			) {
+				return GNB.DoubleDown;
+			}
+
+			if (level >= GNB.Levels.DoubleDown
+				&& IsEnabled(CustomComboPreset.GunbreakerNoMercyAlwaysDoubleDownFeature)
+				&& SelfHasEffect(GNB.Buffs.NoMercy)
+			) {
+				return GNB.DoubleDown;
+			}
+
+			if (level >= GNB.Levels.NoMercy
+				&& IsEnabled(CustomComboPreset.GunbreakerNoMercyFeature)
+				&& SelfHasEffect(GNB.Buffs.NoMercy)
+			) {
 
 				if (level >= GNB.Levels.BowShock)
 					return PickByCooldown(GNB.SonicBreak, GNB.SonicBreak, GNB.BowShock);

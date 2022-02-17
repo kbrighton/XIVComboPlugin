@@ -333,36 +333,47 @@ namespace XIVComboVX {
 		// ====================================================================================
 		#region GUNBREAKER (37xx)
 
+		[CustomComboInfo("Stun/Interrupt Feature", "Turn Low Blow and Interject into Interject when off CD and your target can be interrupted, Low Blow otherwise.", GNB.JobID)]
+		GunbreakerStunInterruptFeature = 3710,
+
 		[CustomComboInfo("Solid Barrel Combo", "Replace Solid Barrel with its combo chain.", GNB.JobID)]
 		GunbreakerSolidBarrelCombo = 3700,
+
+		[ParentPreset(GunbreakerSolidBarrelCombo)]
+		[CustomComboInfo("Burst Strike Feature", "Replace Solid Barrel with Burst Strike when charges are full.", GNB.JobID)]
+		GunbreakerBurstStrikeFeature = 3711,
 
 		[CustomComboInfo("Gnashing Fang Continuation", "Replace Gnashing Fang with Continuation moves when appropriate.", GNB.JobID)]
 		GunbreakerGnashingFangCont = 3702,
 
+		[CustomComboInfo("Burst Strike Continuation", "Replace Burst Strike with Continuation moves when appropriate.", GNB.JobID)]
+		GunbreakerBurstStrikeCont = 3708,
+
 		[CustomComboInfo("Demon Slaughter Combo", "Replace Demon Slaughter with its combo chain.", GNB.JobID)]
 		GunbreakerDemonSlaughterCombo = 3703,
 
+		[ParentPreset(GunbreakerDemonSlaughterCombo)]
 		[CustomComboInfo("Fated Circle Feature", "In addition to the Demon Slaughter combo, add Fated Circle when charges are full.", GNB.JobID)]
 		GunbreakerFatedCircleFeature = 3704,
 
 		[CustomComboInfo("Empty Bloodfest Feature", "Replace Burst Strike and Fated Circle with Bloodfest if the powder gauge is empty.", GNB.JobID)]
 		GunbreakerEmptyBloodfestFeature = 3705,
 
-		[ParentPreset(GunbreakerEmptyBloodfestFeature)]
-		[CustomComboInfo("Burst Strike Continuation", "Replace Burst Strike with Continuation moves when appropriate.", GNB.JobID)]
-		GunbreakerBurstStrikeCont = 3708,
-
-		[CustomComboInfo("No Mercy Feature", "Replace No Mercy with Bow Shock, and then Sonic Break, while No Mercy is active.", GNB.JobID)]
+		[CustomComboInfo("No Mercy - Bow Shock / Sonic Break", "Replace No Mercy with Bow Shock, and then Sonic Break, while No Mercy is active.", GNB.JobID)]
 		GunbreakerNoMercyFeature = 3706,
+
+		[CustomComboInfo("No Mercy - Double Down", "Replace No Mercy with Double Down while No Mercy is active, 2 cartridges are available, and Double Down is off cooldown.\nThis takes priority over the No Mercy Bow Shock/Sonic Break Feature.", GNB.JobID)]
+		GunbreakerNoMercyDoubleDownFeature = 3712,
+
+		[Conflicts(GunbreakerNoMercyFeature)]
+		[CustomComboInfo("No Mercy - Always Double Down", "Replace No Mercy with Double Down while No Mercy is active.", GNB.JobID)]
+		GunbreakerNoMercyAlwaysDoubleDownFeature = 3713,
 
 		[CustomComboInfo("Bow Shock / Sonic Break Swap", "Replace Bow Shock and Sonic Break with one or the other, depending on which is on cooldown.", GNB.JobID)]
 		GunbreakerBowShockSonicBreakFeature = 3707,
 
 		[CustomComboInfo("Double Down Feature", "Replace Burst Strike and Fated Circle with Double Down when available.", GNB.JobID)]
 		GunbreakerDoubleDownFeature = 3709,
-
-		[CustomComboInfo("Stun/Interrupt Feature", "Turn Low Blow and Interject into Interject when off CD and your target can be interrupted, Low Blow otherwise.", GNB.JobID)]
-		GunbreakerStunInterruptFeature = 3710,
 
 		#endregion
 		// ====================================================================================
@@ -502,6 +513,9 @@ namespace XIVComboVX {
 		// ====================================================================================
 		#region PALADIN (19xx)
 
+		[CustomComboInfo("Stun/Interrupt Feature", "Turn Low Blow and Interject into Interject when off CD and your target can be interrupted, Low Blow otherwise.", PLD.JobID)]
+		PaladinStunInterruptFeature = 1907,
+
 		[CustomComboInfo("Goring Blade Combo", "Replace Goring Blade with its combo chain.", PLD.JobID)]
 		PaladinGoringBladeCombo = 1900,
 
@@ -522,9 +536,6 @@ namespace XIVComboVX {
 
 		[CustomComboInfo("Intervene Level Sync", "Replace Intervene with Shield Lob when under level.", PLD.JobID)]
 		PaladinInterveneSyncFeature = 1906,
-
-		[CustomComboInfo("Stun/Interrupt Feature", "Turn Low Blow and Interject into Interject when off CD and your target can be interrupted, Low Blow otherwise.", PLD.JobID)]
-		PaladinStunInterruptFeature = 1907,
 
 		#endregion
 		// ====================================================================================
@@ -839,6 +850,9 @@ namespace XIVComboVX {
 		// ====================================================================================
 		#region WARRIOR (21xx)
 
+		[CustomComboInfo("Stun/Interrupt Feature", "Turn Low Blow and Interject into Interject when off CD and your target can be interrupted, Low Blow otherwise.", WAR.JobID)]
+		WarriorStunInterruptFeature = 2109,
+
 		[CustomComboInfo("Storm's Path Combo", "Replace Storm's Path with its combo chain.", WAR.JobID)]
 		WarriorStormsPathCombo = 2100,
 
@@ -875,9 +889,6 @@ namespace XIVComboVX {
 
 		[CustomComboInfo("Primal Release Feature", "Replace Inner Release with Primal Rend when available", WAR.JobID)]
 		WarriorPrimalReleaseFeature = 2108,
-
-		[CustomComboInfo("Stun/Interrupt Feature", "Turn Low Blow and Interject into Interject when off CD and your target can be interrupted, Low Blow otherwise.", WAR.JobID)]
-		WarriorStunInterruptFeature = 2109,
 
 		#endregion
 		// ====================================================================================
