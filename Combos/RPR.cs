@@ -106,14 +106,14 @@ namespace XIVComboExpandedPlugin.Combos {
 
 			if (level >= RPR.Levels.Enshroud && gauge.EnshroudedTimeRemaining > 0) {
 
-				if (IsEnabled(CustomComboPreset.ReaperSliceCommunioFeature)) {
-					if (level >= RPR.Levels.Communio && gauge.LemureShroud == 1 && gauge.VoidShroud == 0)
-						return RPR.Communio;
-				}
-
 				if (IsEnabled(CustomComboPreset.ReaperSliceLemuresFeature)) {
 					if (level >= RPR.Levels.EnhancedShroud && gauge.VoidShroud >= 2)
 						return RPR.LemuresSlice;
+				}
+
+				if (IsEnabled(CustomComboPreset.ReaperSliceCommunioFeature)) {
+					if (level >= RPR.Levels.Communio && gauge.LemureShroud == 1 && gauge.VoidShroud == 0)
+						return RPR.Communio;
 				}
 
 			}
@@ -173,14 +173,14 @@ namespace XIVComboExpandedPlugin.Combos {
 
 			if (level >= RPR.Levels.Enshroud && gauge.EnshroudedTimeRemaining > 0) {
 
-				if (IsEnabled(CustomComboPreset.ReaperScytheCommunioFeature)) {
-					if (level >= RPR.Levels.Communio && gauge.LemureShroud == 1 && gauge.VoidShroud == 0)
-						return RPR.Communio;
-				}
-
 				if (IsEnabled(CustomComboPreset.ReaperScytheLemuresFeature)) {
 					if (level >= RPR.Levels.LemuresScythe && gauge.VoidShroud >= 2)
 						return RPR.LemuresScythe;
+				}
+
+				if (IsEnabled(CustomComboPreset.ReaperScytheCommunioFeature)) {
+					if (level >= RPR.Levels.Communio && gauge.LemureShroud == 1 && gauge.VoidShroud == 0)
+						return RPR.Communio;
 				}
 
 			}
@@ -229,14 +229,14 @@ namespace XIVComboExpandedPlugin.Combos {
 
 			if (level >= RPR.Levels.Enshroud && gauge.EnshroudedTimeRemaining > 0) {
 
-				if (IsEnabled(CustomComboPreset.ReaperShadowCommunioFeature)) {
-					if (level >= RPR.Levels.Communio && gauge.LemureShroud == 1 && gauge.VoidShroud == 0)
-						return RPR.Communio;
-				}
-
 				if (IsEnabled(CustomComboPreset.ReaperShadowLemuresFeature)) {
 					if (level >= RPR.Levels.EnhancedShroud && gauge.VoidShroud >= 2)
 						return RPR.LemuresSlice;
+				}
+
+				if (IsEnabled(CustomComboPreset.ReaperShadowCommunioFeature)) {
+					if (level >= RPR.Levels.Communio && gauge.LemureShroud == 1 && gauge.VoidShroud == 0)
+						return RPR.Communio;
 				}
 
 			}
@@ -268,14 +268,14 @@ namespace XIVComboExpandedPlugin.Combos {
 
 			if (level >= RPR.Levels.Enshroud && gauge.EnshroudedTimeRemaining > 0) {
 
-				if (IsEnabled(CustomComboPreset.ReaperSoulCommunioFeature)) {
-					if (level >= RPR.Levels.Communio && gauge.LemureShroud == 1 && gauge.VoidShroud == 0)
-						return RPR.Communio;
-				}
-
 				if (IsEnabled(CustomComboPreset.ReaperSoulLemuresFeature)) {
 					if (level >= RPR.Levels.EnhancedShroud && gauge.VoidShroud >= 2)
 						return RPR.LemuresSlice;
+				}
+
+				if (IsEnabled(CustomComboPreset.ReaperSoulCommunioFeature)) {
+					if (level >= RPR.Levels.Communio && gauge.LemureShroud == 1 && gauge.VoidShroud == 0)
+						return RPR.Communio;
 				}
 
 			}
@@ -369,14 +369,14 @@ namespace XIVComboExpandedPlugin.Combos {
 				|| (level >= RPR.Levels.Enshroud && gauge.EnshroudedTimeRemaining > 0)
 			) {
 
-				if (IsEnabled(CustomComboPreset.ReaperCommunioSoulReaverFeature)) {
-					if (level >= RPR.Levels.Communio && gauge.LemureShroud == 1 && gauge.VoidShroud == 0)
-						return RPR.Communio;
-				}
-
 				if (IsEnabled(CustomComboPreset.ReaperLemuresSoulReaverFeature)) {
 					if (level >= RPR.Levels.EnhancedShroud && gauge.VoidShroud >= 2)
 						return RPR.LemuresSlice;
+				}
+
+				if (IsEnabled(CustomComboPreset.ReaperCommunioSoulReaverFeature)) {
+					if (level >= RPR.Levels.Communio && gauge.LemureShroud == 1 && gauge.VoidShroud == 0)
+						return RPR.Communio;
 				}
 
 				if (IsEnabled(CustomComboPreset.ReaperEnhancedEnshroudedFeature)) {
