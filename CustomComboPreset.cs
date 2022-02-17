@@ -251,8 +251,14 @@ namespace XIVComboVX {
 		// ====================================================================================
 		#region DRAGOON (22xx)
 
+		[CustomComboInfo("Jump + Mirage Dive", "Replace (High) Jump with Mirage Dive when Dive Ready.", DRG.JobID)]
+		DragoonJumpFeature = 2203,
+
 		[CustomComboInfo("Coerthan Torment Combo", "Replace Coerthan Torment with its combo chain.", DRG.JobID)]
 		DragoonCoerthanTormentCombo = 2200,
+
+		[CustomComboInfo("Coerthan Torment Wyrmwind Feature", "Replace Coerthan Torment with Wyrmwind Thrust when you have two Firstminds' Focus.", DRG.JobID)]
+		DragoonCoerthanWyrmwindFeature = 2209,
 
 		[CustomComboInfo("Chaos Thrust Combo", "Replace Chaos Thrust with its combo chain.", DRG.JobID)]
 		DragoonChaosThrustCombo = 2201,
@@ -268,13 +274,19 @@ namespace XIVComboVX {
 		[CustomComboInfo("Full Thrust from Vorpal", "Start the Full Thrust combo chain with Vorpal Thrust instead of True Thrust.", DRG.JobID)]
 		DragoonFullThrustLateOption = 2208,
 
-		[CustomComboInfo("Jump + Mirage Dive", "Replace (High) Jump with Mirage Dive when Dive Ready.", DRG.JobID)]
-		DragoonJumpFeature = 2203,
-
 		[CustomComboInfo("Wheeling Thrust / Fang and Claw Option", "When you have either Enhanced Fang and Claw or Wheeling Thrust, Chaos Thrust becomes Wheeling Thrust and Full Thrust becomes Fang and Claw.", DRG.JobID)]
 		DragoonFangThrustFeature = 2206,
 
+		[Conflicts(DragoonStardiverDragonfireDiveFeature)]
+		[CustomComboInfo("Stardiver to Nastrond", "Replace Stardiver with Nastrond when Nastrond is off-cooldown, and Geirskogul outside of Life of the Dragon.", DRG.JobID)]
+		DragoonStardiverNastrondFeature = 2210,
+
+		[Conflicts(DragoonStardiverNastrondFeature)]
+		[CustomComboInfo("Stardiver to Dragonfire Dive", "Replace Stardiver with Dragonfire Dive when the latter is off cooldown (and you have more than 7.5s of LotD left), or outside of Life of the Dragon.", DRG.JobID)]
+		DragoonStardiverDragonfireDiveFeature = 2211,
+
 		[Experimental]
+		[Conflicts(DragoonStardiverDragonfireDiveFeature, DragoonStardiverNastrondFeature)]
 		[CustomComboInfo("Dive Dive Dive!", "Replace Spineshatter Dive, Dragonfire Dive, and Stardiver with whichever is available.", DRG.JobID)]
 		DragoonDiveFeature = 2205,
 

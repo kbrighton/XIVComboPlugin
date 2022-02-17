@@ -1,3 +1,5 @@
+using System;
+
 using Dalamud.Game.ClientState.JobGauge.Types;
 
 namespace XIVComboVX.Combos {
@@ -22,6 +24,8 @@ namespace XIVComboVX.Combos {
 			CoerthanTorment = 16477,
 			DraconianFury = 25770,
 			// Combined
+			Geirskogul = 3555,
+			Nastrond = 7400,
 			// Jumps
 			Jump = 92,
 			SpineshatterDive = 95,
@@ -55,8 +59,10 @@ namespace XIVComboVX.Combos {
 				ChaoticSpring = 86,
 				FangAndClaw = 56,
 				WheelingThrust = 58,
+				Geirskogul = 60,
 				SonicThrust = 62,
 				MirageDive = 68,
+				LifeOfTheDragon = 70,
 				CoerthanTorment = 72,
 				HighJump = 74,
 				RaidenThrust = 76,
@@ -64,7 +70,7 @@ namespace XIVComboVX.Combos {
 		}
 	}
 
-	internal class DragoonJumpFeature: CustomCombo {
+	internal class DragoonJump: CustomCombo {
 		public override CustomComboPreset Preset => CustomComboPreset.DragoonJumpFeature;
 		public override uint[] ActionIDs { get; } = new[] { DRG.Jump, DRG.HighJump };
 
@@ -77,15 +83,18 @@ namespace XIVComboVX.Combos {
 		}
 	}
 
-	internal class DragoonCoerthanTormentCombo: CustomCombo {
-		public override CustomComboPreset Preset => CustomComboPreset.DragoonCoerthanTormentCombo;
+	internal class DragoonCoerthanTorment: CustomCombo {
+		public override CustomComboPreset Preset => CustomComboPreset.DrgAny;
 		public override uint[] ActionIDs { get; } = new[] { DRG.CoerthanTorment };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-			if (comboTime > 0) {
+			if (IsEnabled(CustomComboPreset.DragoonCoerthanWyrmwindFeature) && GetJobGauge<DRGGauge>().FirstmindsFocusCount == 2)
+				return DRG.WyrmwindThrust;
 
-				if (level >= DRG.Levels.SonicThrust && lastComboMove == DRG.DoomSpike)
+			if (IsEnabled(CustomComboPreset.DragoonCoerthanTormentCombo) && comboTime > 0) {
+
+				if (level >= DRG.Levels.SonicThrust && lastComboMove is DRG.DoomSpike or DRG.DraconianFury)
 					return DRG.SonicThrust;
 
 				if (level >= DRG.Levels.CoerthanTorment && lastComboMove == DRG.SonicThrust)
@@ -97,7 +106,7 @@ namespace XIVComboVX.Combos {
 		}
 	}
 
-	internal class DragoonChaosThrustCombo: CustomCombo {
+	internal class DragoonChaosThrust: CustomCombo {
 		public override CustomComboPreset Preset => CustomComboPreset.DrgAny;
 		public override uint[] ActionIDs { get; } = new[] { DRG.ChaosThrust, DRG.ChaoticSpring };
 
@@ -177,18 +186,35 @@ namespace XIVComboVX.Combos {
 		}
 	}
 
+	internal class DragoonStardiver: CustomCombo {
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.DrgAny;
+		public override uint[] ActionIDs { get; } = new[] { DRG.Stardiver };
+
+		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+			DRGGauge gauge = GetJobGauge<DRGGauge>();
+
+			if (IsEnabled(CustomComboPreset.DragoonStardiverNastrondFeature)) {
+				if (level >= DRG.Levels.Geirskogul && (!gauge.IsLOTDActive || IsOffCooldown(DRG.Nastrond) || IsOnCooldown(DRG.Stardiver)))
+					return OriginalHook(DRG.Geirskogul);
+			}
+
+			if (IsEnabled(CustomComboPreset.DragoonStardiverDragonfireDiveFeature)) {
+				if (level < DRG.Levels.Stardiver || !gauge.IsLOTDActive || IsOnCooldown(DRG.Stardiver) || (IsOffCooldown(DRG.DragonfireDive) && gauge.LOTDTimer > 7.5))
+					return DRG.DragonfireDive;
+			}
+
+			return actionID;
+		}
+	}
+
 	internal class DragoonDiveFeature: CustomCombo {
 		public override CustomComboPreset Preset { get; } = CustomComboPreset.DragoonDiveFeature;
 		public override uint[] ActionIDs { get; } = new[] { DRG.SpineshatterDive, DRG.DragonfireDive, DRG.Stardiver };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-			if (level >= DRG.Levels.Stardiver) {
-
-				if (GetJobGauge<DRGGauge>().IsLOTDActive)
-					return PickByCooldown(actionID, DRG.SpineshatterDive, DRG.DragonfireDive, DRG.Stardiver);
-
-			}
+			if (level >= DRG.Levels.Stardiver && GetJobGauge<DRGGauge>().IsLOTDActive)
+				return PickByCooldown(actionID, DRG.SpineshatterDive, DRG.DragonfireDive, DRG.Stardiver);
 
 			if (level >= DRG.Levels.DragonfireDive)
 				return PickByCooldown(actionID, DRG.SpineshatterDive, DRG.DragonfireDive);
