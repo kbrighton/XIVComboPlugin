@@ -8,6 +8,7 @@ namespace XIVComboVX.Combos {
 			HeavySwing = 31,
 			Maim = 37,
 			Berserk = 38,
+			ThrillOfBattle = 40,
 			Overpower = 41,
 			StormsPath = 42,
 			StormsEye = 45,
@@ -17,15 +18,18 @@ namespace XIVComboVX.Combos {
 			FellCleave = 3549,
 			Decimate = 3550,
 			RawIntuition = 3551,
+			Equilibrium = 3552,
 			InnerRelease = 7389,
 			MythrilTempest = 16462,
 			ChaoticCyclone = 16463,
 			NascentFlash = 16464,
 			InnerChaos = 16465,
+			Bloodwhetting = 25751,
 			PrimalRend = 25753;
 
 		public static class Buffs {
 			public const ushort
+				Berserk = 86,
 				InnerRelease = 1177,
 				NascentChaos = 1897,
 				PrimalRendReady = 2624,
@@ -39,15 +43,22 @@ namespace XIVComboVX.Combos {
 		public static class Levels {
 			public const byte
 				Maim = 4,
+				Berserk = 6,
 				StormsPath = 26,
-				InnerRelease = 35,
+				ThrillOfBattle = 30,
+				InnerBeast = 35,
 				MythrilTempest = 40,
 				StormsEye = 50,
+				Infuriate = 50,
 				FellCleave = 54,
+				RawIntuition = 56,
+				Equilibrium = 58,
 				Decimate = 60,
+				InnerRelease = 70,
 				MythrilTempestTrait = 74,
 				NascentFlash = 76,
 				InnerChaos = 80,
+				Bloodwhetting = 82,
 				PrimalRend = 90;
 		}
 	}
@@ -134,9 +145,29 @@ namespace XIVComboVX.Combos {
 		}
 	}
 
-	internal class WArriorPrimalBeastFeature: CustomCombo {
-		public override CustomComboPreset Preset { get; } = CustomComboPreset.WarriorPrimalBeastFeature;
+	internal class WarriorFellCleaveDecimate: CustomCombo {
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.WarAny;
 		public override uint[] ActionIDs { get; } = new[] { WAR.InnerBeast, WAR.FellCleave, WAR.SteelCyclone, WAR.Decimate };
+
+		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+
+			if (IsEnabled(CustomComboPreset.WarriorPrimalBeastFeature)) {
+				if (level >= WAR.Levels.PrimalRend && SelfHasEffect(WAR.Buffs.PrimalRendReady))
+					return WAR.PrimalRend;
+			}
+
+			if (IsEnabled(CustomComboPreset.WarriorInfuriateBeastFeature)) {
+				if (level >= WAR.Levels.Infuriate && GetJobGauge<WARGauge>().BeastGauge < 50 && !SelfHasEffect(WAR.Buffs.InnerRelease))
+					return WAR.Infuriate;
+			}
+
+			return actionID;
+		}
+	}
+
+	internal class WarriorBerserkInnerRelease: CustomCombo {
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.WarriorPrimalReleaseFeature;
+		public override uint[] ActionIDs { get; } = new[] { WAR.Berserk, WAR.InnerRelease };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -147,14 +178,20 @@ namespace XIVComboVX.Combos {
 		}
 	}
 
-	internal class WArriorPrimalReleaseFeature: CustomCombo {
-		public override CustomComboPreset Preset { get; } = CustomComboPreset.WarriorPrimalReleaseFeature;
-		public override uint[] ActionIDs { get; } = new[] { WAR.Berserk, WAR.InnerRelease };
+	internal class WarriorBloodwhetting: CustomCombo {
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.WarriorHealthyBalancedDietFeature;
+		public override uint[] ActionIDs { get; } = new[] { WAR.Bloodwhetting, WAR.RawIntuition };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-			if (level >= WAR.Levels.PrimalRend && SelfHasEffect(WAR.Buffs.PrimalRendReady))
-				return WAR.PrimalRend;
+			if (level >= WAR.Levels.Bloodwhetting && IsOffCooldown(WAR.Bloodwhetting))
+				return WAR.Bloodwhetting;
+
+			if (level >= WAR.Levels.ThrillOfBattle && IsOffCooldown(WAR.ThrillOfBattle))
+				return WAR.ThrillOfBattle;
+
+			if (level >= WAR.Levels.Equilibrium && IsOffCooldown(WAR.Equilibrium))
+				return WAR.Equilibrium;
 
 			return actionID;
 		}
