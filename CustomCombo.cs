@@ -207,6 +207,9 @@ namespace XIVComboVX.Combos {
 		protected internal static bool HasCondition(ConditionFlag flag)
 			=> Service.Conditions[flag];
 
+		protected internal static bool InCombat
+			=> Service.Conditions[ConditionFlag.InCombat];
+
 		protected internal static bool HasPetPresent()
 			=> Service.BuddyList.PetBuddyPresent;
 
