@@ -483,7 +483,7 @@ namespace XIVComboVX {
 		NinjaHakkeMujinsatsuCombo = 3002,
 
 		[CustomComboInfo("Smart Hide", "Replaces Hide with Trick Attack while under the effect of Suiton or Hidden, or else Mug if in combat.", NIN.JobID)]
-		NinjaHideMugFeature = 3004,
+		NinjaSmartHideFeature = 3004,
 
 		[CustomComboInfo("GCDs to Ninjutsu Feature", "Every GCD combo becomes Ninjutsu while Mudras are being used.", NIN.JobID)]
 		NinjaGCDNinjutsuFeature = 3005,
