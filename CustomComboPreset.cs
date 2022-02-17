@@ -802,17 +802,29 @@ namespace XIVComboVX {
 		[CustomComboInfo("Seraph Fey Blessing/Consolation", "Change Fey Blessing into Consolation when Seraph is out.", SCH.JobID)]
 		ScholarSeraphConsolationFeature = 2801,
 
-		[CustomComboInfo("ED Aetherflow", "Change Energy Drain into Aetherflow when you have no more Aetherflow stacks.", SCH.JobID)]
-		ScholarEnergyDrainFeature = 2802,
-
 		[CustomComboInfo("Lustrous Aetherflow", "Change Lustrate into Aetherflow when you have no more Aetherflow stacks.", SCH.JobID)]
 		ScholarLustrateAetherflowFeature = 2803,
+
+		[CustomComboInfo("Lustrate to Recitation", "Replace Lustrate with Recitation when Recitation is off cooldown.", SCH.JobID)]
+		ScholarLustrateRecitationFeature = 2807,
+
+		[CustomComboInfo("Lustrate to Excogitation", "Replace Lustrate with Excogitation when Excogitation is off cooldown.", SCH.JobID)]
+		ScholarLustrateExcogitationFeature = 2808,
+
+		[CustomComboInfo("Excog / Lustrate", "Change Excogitation into Lustrate when on CD or under level.", SCH.JobID)]
+		ScholarExcogFallbackFeature = 2805,
+
+		[CustomComboInfo("Excogitation to Recitation", "Replace Excogitation with Recitation when Recitation is off cooldown.", SCH.JobID)]
+		ScholarExcogitationRecitationFeature = 2806,
+
+		[CustomComboInfo("ED Aetherflow", "Change Energy Drain into Aetherflow when you have no more Aetherflow stacks.", SCH.JobID)]
+		ScholarEnergyDrainAetherflowFeature = 2802,
 
 		[CustomComboInfo("Indomitable Aetherflow", "Change Indomitability into Aetherflow when you have no more Aetherflow stacks.", SCH.JobID)]
 		ScholarIndomAetherflowFeature = 2804,
 
-		[CustomComboInfo("Excog / Lustrate", "Change Excogitation into Lustrate when on CD or under level.", SCH.JobID)]
-		ScholarExcogFallbackFeature = 2805,
+		[CustomComboInfo("Summon Seraph Feature", "Replace Summon Eos and Selene with Summon Seraph when a summon is out.", SCH.JobID)]
+		ScholarSeraphFeature = 2809,
 
 		#endregion
 		// ====================================================================================
