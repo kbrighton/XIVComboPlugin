@@ -471,7 +471,7 @@ namespace XIVComboVX {
 		[CustomComboInfo("Fleeting Edge Feature", "Replaces the Aeolian Edge combo with Fleeting Raiju when available.", NIN.JobID)]
 		NinjaAeolianEdgeFleetingRaijuFeature = 3011,
 
-		[ParentPreset(NinjaArmorCrushCombo)]
+		[ParentPreset(NinjaAeolianEdgeCombo)]
 		[Conflicts(NinjaAeolianEdgeFleetingRaijuFeature)]
 		[CustomComboInfo("Forked Edge Feature", "Replaces the Aeolian Edge combo with Forked Raiju when available.", NIN.JobID)]
 		NinjaAeolianEdgeForkedRaijuFeature = 3016,
