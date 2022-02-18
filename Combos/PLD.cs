@@ -113,14 +113,15 @@ namespace XIVComboVX.Combos {
 
 			if (comboTime > 0 && doMainCombo) {
 
-				if (IsEnabled(CustomComboPreset.PaladinRoyalAuthorityDoTSaver)) {
-					Status? gbDot = TargetFindOwnEffect(PLD.Debuffs.GoringBlade);
-					if (gbDot is null || gbDot.RemainingTime < 7)
-						return PLD.GoringBlade;
-				}
+				if (lastComboMove == PLD.RiotBlade && level >= PLD.Levels.RageOfHalone) {
 
-				if (lastComboMove == PLD.RiotBlade && level >= PLD.Levels.RageOfHalone)
+					if (IsEnabled(CustomComboPreset.PaladinRoyalAuthorityDoTSaver)) {
+						if (TargetOwnEffectDuration(PLD.Debuffs.GoringBlade) < 7)
+							return PLD.GoringBlade;
+					}
+
 					return OriginalHook(PLD.RageOfHalone);
+				}
 
 				if (lastComboMove == PLD.FastBlade && level >= PLD.Levels.RiotBlade)
 					return PLD.RiotBlade;
