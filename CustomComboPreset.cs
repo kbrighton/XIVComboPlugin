@@ -917,22 +917,22 @@ namespace XIVComboVX {
 		WarriorStormsPathCombo = 2100,
 
 		[ParentPreset(WarriorStormsPathCombo)]
+		[CustomComboInfo("Gauge Overcap Saver: Storm's Path", "Replace the Storm's Path combo with gauge spender if completing the combo would overcap you.", WAR.JobID)]
+		WarriorGaugeOvercapPathFeature = 2103,
+
+		[ParentPreset(WarriorStormsPathCombo)]
 		[CustomComboInfo("Storm's Path Double Combo", "Replace the Storm's Path combo chain with Storm's Eye if Surging Tempest has less than 7 seconds left.", WAR.JobID)]
 		WarriorSmartStormCombo = 2112,
 
 		[CustomComboInfo("Storm's Eye Combo", "Replace Storm's Eye with its combo chain.", WAR.JobID)]
 		WarriorStormsEyeCombo = 2101,
 
-		[CustomComboInfo("Mythril Tempest Combo", "Replace Mythril Tempest with its combo chain.", WAR.JobID)]
-		WarriorMythrilTempestCombo = 2102,
-
-		[ParentPreset(WarriorStormsPathCombo)]
-		[CustomComboInfo("Gauge Overcap Saver: Storm's Path", "Replace the Storm's Path combo with gauge spender if completing the combo would overcap you.", WAR.JobID)]
-		WarriorGaugeOvercapPathFeature = 2103,
-
 		[ParentPreset(WarriorStormsEyeCombo)]
 		[CustomComboInfo("Gauge Overcap Saver: Storm's Eye", "Replace the Storm's Eye combo with gauge spender if completing the combo would overcap you.", WAR.JobID)]
 		WarriorGaugeOvercapEyeFeature = 2110,
+
+		[CustomComboInfo("Mythril Tempest Combo", "Replace Mythril Tempest with its combo chain.", WAR.JobID)]
+		WarriorMythrilTempestCombo = 2102,
 
 		[ParentPreset(WarriorMythrilTempestCombo)]
 		[CustomComboInfo("Gauge Overcap Saver: Mythril Tempest", "Replace the Mythril Tempest combo with gauge spender if completing the combo would overcap you.", WAR.JobID)]

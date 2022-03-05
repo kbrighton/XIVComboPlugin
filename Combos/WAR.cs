@@ -76,7 +76,7 @@ namespace XIVComboVX.Combos {
 			if (IsEnabled(CustomComboPreset.WarriorInnerReleaseFeature) && level >= WAR.Levels.InnerRelease && SelfHasEffect(WAR.Buffs.InnerRelease))
 				return OriginalHook(WAR.FellCleave);
 
-			if (IsEnabled(CustomComboPreset.WarriorGaugeOvercapPathFeature) && level >= WAR.Levels.InnerRelease && GetJobGauge<WARGauge>().BeastGauge > 70)
+			if (IsEnabled(CustomComboPreset.WarriorGaugeOvercapPathFeature) && level >= WAR.Levels.InnerBeast && GetJobGauge<WARGauge>().BeastGauge > 70)
 				return OriginalHook(WAR.FellCleave);
 
 			if (IsEnabled(CustomComboPreset.WarriorSmartStormCombo) && level >= WAR.Levels.StormsEye && SelfEffectDuration(WAR.Buffs.SurgingTempest) < 7) {
