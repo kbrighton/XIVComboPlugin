@@ -213,7 +213,7 @@ namespace XIVComboVX.Combos {
 			) {
 
 				if (level >= GNB.Levels.BowShock)
-					return PickByCooldown(GNB.SonicBreak, GNB.SonicBreak, GNB.BowShock);
+					return PickByCooldown(GNB.BowShock, GNB.SonicBreak, GNB.BowShock);
 
 				if (level >= GNB.Levels.SonicBreak)
 					return GNB.SonicBreak;
