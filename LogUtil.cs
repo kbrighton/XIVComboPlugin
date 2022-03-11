@@ -62,20 +62,12 @@ namespace XIVComboVX {
 
 		#region IDisposable
 
-		protected virtual void Dispose(bool disposing) {
+		public void Dispose() {
 			if (this.disposed)
 				return;
-
-			if (disposing) {
-				Service.Framework.Update -= this.onTick;
-			}
-
 			this.disposed = true;
-		}
 
-		public void Dispose() {
-			this.Dispose(disposing: true);
-			GC.SuppressFinalize(this);
+			Service.Framework.Update -= this.onTick;
 		}
 
 		#endregion

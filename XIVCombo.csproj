@@ -81,6 +81,8 @@
 		<Compile Remove="lib\**" />
 		<EmbeddedResource Remove="lib\**" />
 		<None Remove="lib\**" />
+		<None Remove=".gitignore" />
+		<None Remove=".gitmodules" />
 		<None Remove="bump" />
 		<None Remove="gencombotable" />
 		<None Remove="Header.frag" />

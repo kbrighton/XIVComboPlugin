@@ -12,6 +12,7 @@ using Dalamud.Utility;
 using XIVCombo.Combos;
 
 using XIVComboVX.Attributes;
+using XIVComboVX.GameData;
 
 namespace XIVComboVX.Combos {
 	internal abstract class CustomCombo {

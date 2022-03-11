@@ -8,9 +8,11 @@ using Dalamud.Game.ClientState.Objects.SubKinds;
 using Dalamud.Game.ClientState.Objects.Types;
 using Dalamud.Game.ClientState.Statuses;
 
-namespace XIVComboVX {
+namespace XIVComboVX.GameData {
 	internal class ComboDataCache: IDisposable {
 		protected const uint InvalidObjectID = 0xE000_0000;
+
+		private bool disposed;
 
 		// Invalidate these
 		private readonly Dictionary<(uint StatusID, uint? TargetID, uint? SourceID), Status?> statusCache = new();
@@ -34,7 +36,14 @@ namespace XIVComboVX {
 			Service.Framework.Update += this.invalidateCache;
 		}
 
-		public void Dispose() => Service.Framework.Update -= this.invalidateCache;
+		public void Dispose() {
+			if (this.disposed)
+				return;
+			this.disposed = true;
+
+			Service.Framework.Update -= this.invalidateCache;
+			this.jobGaugeCache?.Clear();
+		}
 
 		internal void updateActionManager(IntPtr address) => this.actionManager = address;
 
@@ -131,5 +140,6 @@ namespace XIVComboVX {
 			this.cooldownCache.Clear();
 			this.canInterruptTarget = null;
 		}
+
 	}
 }

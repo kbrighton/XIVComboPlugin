@@ -8,7 +8,7 @@ using Dalamud.Logging;
 
 using XIVComboVX.Combos;
 
-namespace XIVComboVX {
+namespace XIVComboVX.GameData {
 	internal class IconReplacer: IDisposable {
 
 		private delegate ulong IsIconReplaceableDelegate(uint actionID);

@@ -1,6 +1,8 @@
 using Dalamud.Game.ClientState.JobGauge.Enums;
 using Dalamud.Game.ClientState.JobGauge.Types;
 
+using XIVComboVX.GameData;
+
 namespace XIVComboVX.Combos {
 	internal static class AST {
 		public const byte JobID = 33;

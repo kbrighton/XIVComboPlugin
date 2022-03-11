@@ -11,8 +11,13 @@ using Dalamud.Game.Gui;
 using Dalamud.IoC;
 using Dalamud.Plugin;
 
+using XIVComboVX.Config;
+using XIVComboVX.GameData;
+
 namespace XIVComboVX {
 	internal class Service {
+		public static XIVComboVX Plugin { get; set; } = null!;
+
 		public static PluginConfiguration Configuration { get; set; } = null!;
 
 		public static IconReplacer IconReplacer { get; set; } = null!;
@@ -23,6 +28,12 @@ namespace XIVComboVX {
 
 		public static LogUtil Logger { get; set; } = null!;
 
+		public static GameState GameState { get; set; } = null!;
+
+		public static UpdateAlerter? UpdateAlert { get; set; } = null;
+
+		public static ChatUtil ChatUtils { get; set; } = null!;
+
 		[PluginService]
 		public static DalamudPluginInterface Interface { get; private set; } = null!;
 
@@ -30,7 +41,7 @@ namespace XIVComboVX {
 		public static BuddyList BuddyList { get; private set; } = null!;
 
 		[PluginService]
-		public static ChatGui Chat { get; private set; } = null!;
+		public static ChatGui ChatGui { get; private set; } = null!;
 
 		[PluginService]
 		public static ClientState Client { get; private set; } = null!;
@@ -52,5 +63,8 @@ namespace XIVComboVX {
 
 		[PluginService]
 		public static TargetManager Targets { get; private set; } = null!;
+
+		[PluginService]
+		public static GameGui GameGui { get; private set; } = null!;
 	}
 }

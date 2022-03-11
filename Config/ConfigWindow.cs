@@ -12,7 +12,14 @@ using ImGuiNET;
 using XIVComboVX.Attributes;
 using XIVComboVX.Combos;
 
-namespace XIVComboVX {
+// TODO: probably want to redesign this to allow for easier implementation of non-boolean settings, if I can find a good method
+// I have had an idea! It's gonna involve reflecting shit, but we're already doing that, and likewise with mapping detail settings to presets.
+// Basic thinking (so far) is a 1:N mapping of presets and a set of details for the sub-option, including a label, tooltip, min/max, and type.
+// Included will be a reflection-accessor to allow getting and setting the value, but that raises the concern of speed.
+// The existing value will have to be gotten every draw call, albeit only for presets that are visible AND enabled.
+// But there'll still be SOME level of performance impact, unless I can figure out how to cache it somehow... or just find another solution.
+
+namespace XIVComboVX.Config {
 	public class ConfigWindow: Window {
 
 		private readonly Dictionary<string, List<(CustomComboPreset preset, CustomComboInfoAttribute info)>> groupedPresets;
@@ -71,6 +78,8 @@ namespace XIVComboVX {
 		public override void Draw() {
 
 			bool hideChildren = Service.Configuration.HideDisabledFeaturesChildren;
+			bool registerNormalCommand = Service.Configuration.RegisterCommonCommand;
+			bool showUpdateMessage = Service.Configuration.ShowUpdateMessage;
 
 			if (ImGui.BeginMenuBar()) {
 
@@ -87,6 +96,39 @@ namespace XIVComboVX {
 					}
 					if (clickCollapse) {
 						Service.Configuration.HideDisabledFeaturesChildren = hideChildren;
+						Service.Configuration.Save();
+					}
+
+					bool clickRegister = ImGui.MenuItem($"Register {XIVComboVX.command}", "", ref registerNormalCommand);
+					if (ImGui.IsItemHovered()) {
+						ImGui.BeginTooltip();
+						ImGui.Text($"If enabled, {Service.Plugin.Name} will attempt to register the {XIVComboVX.command} command.");
+						ImGui.Text("This is the command generally used by all forks of XIVCombo, which");
+						ImGui.Text("means it will conflict if you have multiple forks installed. This");
+						ImGui.Text("isn't advised to begin with, but this option will allow for slightly");
+						ImGui.Text("better compatibility than would otherwise be available, at least.");
+						ImGui.Text("");
+						ImGui.Text("This plugin always registers its own (separate) command to open the");
+						ImGui.Text("settings window, regardless of whether the default one is also used.");
+						ImGui.Text("");
+						ImGui.Text("This options only takes effect after a restart.");
+						ImGui.EndTooltip();
+					}
+					if (clickRegister) {
+						Service.Configuration.RegisterCommonCommand = registerNormalCommand;
+						Service.Configuration.Save();
+					}
+
+					bool clickUpdates = ImGui.MenuItem("Show update messages", "", ref showUpdateMessage);
+					if (ImGui.IsItemHovered()) {
+						ImGui.BeginTooltip();
+						ImGui.Text("If enabled, an alert will be shown in your chatlog whenever the plugin updates.");
+						ImGui.Text("The message includes the old version, the new version, and a clickable 'link' to");
+						ImGui.Text("open the plugin configuration window.");
+						ImGui.EndTooltip();
+					}
+					if (clickUpdates) {
+						Service.Configuration.ShowUpdateMessage = showUpdateMessage;
 						Service.Configuration.Save();
 					}
 

@@ -4,7 +4,7 @@ using System.Text;
 using Dalamud.Game;
 using Dalamud.Logging;
 
-namespace XIVComboVX {
+namespace XIVComboVX.GameData {
 	internal class PluginAddressResolver: BaseAddressResolver {
 		private const string addrFmtSpec = "X16";
 
@@ -58,6 +58,7 @@ namespace XIVComboVX {
 				msg.AppendLine(":");
 				msg.Append(ex.ToString());
 				PluginLog.Fatal(msg.ToString());
+				return;
 			}
 
 			Service.Logger.debug("Address resolution successful");

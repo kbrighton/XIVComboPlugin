@@ -1,6 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace XIVComboVX {
+namespace XIVComboVX.GameData {
+
 	[StructLayout(LayoutKind.Explicit)]
 	internal struct CooldownData {
 		[FieldOffset(0x0)] private readonly bool isCooldown;
