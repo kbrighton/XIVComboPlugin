@@ -2,9 +2,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<Authors>attick, daemitus, VariableVixen</Authors>
-		<Company>-</Company>
-		<Version>3.32.5</Version>
-		<Description>This plugin condenses combos and mutually exclusive abilities onto a single button.</Description>
+		<Version>4.0</Version>
+		<Description>This plugin condenses various abilities onto single buttons.</Description>
 		<Copyright>Copyleft attick 2020 baybeeee</Copyright>
 		<PackageProjectUrl>https://github.com/PrincessRTFM/XIVComboPlugin</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/PrincessRTFM/XIVComboPlugin.git</RepositoryUrl>
@@ -22,11 +21,15 @@
 		<ProduceReferenceAssembly>false</ProduceReferenceAssembly>
 		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-		<DalamudLibPath>$(appdata)\XIVLauncher\addon\Hooks\dev\</DalamudLibPath>
 		<RootNamespace>XIVComboVX</RootNamespace>
+		<DalamudLibPath>$(appdata)\XIVLauncher\addon\Hooks\dev\</DalamudLibPath>
+		<Deterministic>false</Deterministic>
+		<AssemblyVersion>$(Version).*</AssemblyVersion>
+		<GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
 	</PropertyGroup>
 
 	<PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+		<SourceRevisionId>debug</SourceRevisionId>
 		<DebugSymbols>true</DebugSymbols>
 		<DebugType>embedded</DebugType>
 		<Optimize>false</Optimize>
