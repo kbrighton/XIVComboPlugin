@@ -171,7 +171,8 @@ namespace XIVComboVX.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-			if (comboTime > 0 && PartialChainCombo(level, lastComboMove, out uint move, (PLD.Levels.BladeOfFaith, PLD.BladeOfFaith),
+			if (comboTime > 0 && PartialChainCombo(level, lastComboMove, out uint move, (PLD.Levels.Confiteor, PLD.Confiteor),
+				(PLD.Levels.BladeOfFaith, PLD.BladeOfFaith),
 				(PLD.Levels.BladeOfTruth, PLD.BladeOfTruth),
 				(PLD.Levels.BladeOfValor, PLD.BladeOfValor)
 			)) {
@@ -191,7 +192,8 @@ namespace XIVComboVX.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-			if (comboTime > 0 && PartialChainCombo(level, lastComboMove, out uint move, (PLD.Levels.BladeOfFaith, PLD.BladeOfFaith),
+			if (comboTime > 0 && PartialChainCombo(level, lastComboMove, out uint move, (PLD.Levels.Confiteor, PLD.Confiteor),
+				(PLD.Levels.BladeOfFaith, PLD.BladeOfFaith),
 				(PLD.Levels.BladeOfTruth, PLD.BladeOfTruth),
 				(PLD.Levels.BladeOfValor, PLD.BladeOfValor)
 			)) {
