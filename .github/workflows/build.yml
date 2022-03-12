@@ -33,27 +33,36 @@ jobs:
       run: |
         dotnet restore -r win ${{ env.SOLUTION_NAME }}.sln
         dotnet build ${{ env.SOLUTION_NAME }}.sln --configuration Release --no-restore
-    - uses: actions/upload-artifact@v2
+    - name: Upload build
+      uses: actions/upload-artifact@v2
       with:
         name: PluginRepoZip
         path: ${{ env.RELEASE_DIR }}
         if-no-files-found: error
         retention-days: 1
+    - name: Tag build
+      run: |
+        buildVersion=$(jq -j .AssemblyVersion "${{ env.RELEASE_DIR }}/${{ env.SOLUTION_NAME }}.json")
+        git tag -am "[Automated build $buildVersion]" "v$buildVersion"
+      shell: bash
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout
+      uses: actions/checkout@v2
       with:
         ref: master
         repository: ${{ env.PERSONAL_PLUGIN_REPO }}
         token: ${{ secrets.PAT }}
-    - uses: actions/download-artifact@v2
+    - name: Download build
+      uses: actions/download-artifact@v2
       with:
         name: PluginRepoZip
         path: plugins/${{ env.INTERNAL_NAME }}
-    - uses: EndBug/add-and-commit@v7
+    - name: Commit
+      uses: EndBug/add-and-commit@v7
       with:
         add: plugins/
         branch: master
