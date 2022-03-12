@@ -44,6 +44,7 @@ jobs:
       run: |
         buildVersion=$(jq -j .AssemblyVersion "${{ env.RELEASE_DIR }}/${{ env.SOLUTION_NAME }}.json")
         git tag -am "[Automated build $buildVersion]" "v$buildVersion"
+        git push origin "v$buildVersion"
       shell: bash
       env:
         GIT_AUTHOR_NAME: GitHub Action
