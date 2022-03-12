@@ -103,10 +103,11 @@ namespace XIVComboVX.Combos {
 			if (level >= PLD.Levels.HolySpirit && IsEnabled(CustomComboPreset.PaladinRequiescatFeature)) {
 				Status? requiescat = SelfFindEffect(PLD.Buffs.Requiescat);
 
-				if (level >= PLD.Levels.Confiteor && IsEnabled(CustomComboPreset.PaladinConfiteorFeature) && (requiescat?.StackCount == 1 || LocalPlayer?.CurrentMp < 2000))
-					return PLD.Confiteor;
-
-				return PLD.HolySpirit;
+				if (requiescat is not null) {
+					if (level >= PLD.Levels.Confiteor && IsEnabled(CustomComboPreset.PaladinConfiteorFeature) && (requiescat?.StackCount == 1 || LocalPlayer?.CurrentMp < 2000))
+						return PLD.Confiteor;
+					return PLD.HolySpirit;
+				}
 			}
 
 			bool doMainCombo = IsEnabled(CustomComboPreset.PaladinRoyalAuthorityCombo);
@@ -147,10 +148,11 @@ namespace XIVComboVX.Combos {
 			if (level >= PLD.Levels.HolyCircle && IsEnabled(CustomComboPreset.PaladinRequiescatFeature)) {
 				Status? requiescat = SelfFindEffect(PLD.Buffs.Requiescat);
 
-				if (level >= PLD.Levels.Confiteor && IsEnabled(CustomComboPreset.PaladinConfiteorFeature) && (requiescat?.StackCount == 1 || LocalPlayer?.CurrentMp < 2000))
-					return PLD.Confiteor;
-
-				return PLD.HolyCircle;
+				if (requiescat is not null) {
+					if (level >= PLD.Levels.Confiteor && IsEnabled(CustomComboPreset.PaladinConfiteorFeature) && (requiescat?.StackCount == 1 || LocalPlayer?.CurrentMp < 2000))
+						return PLD.Confiteor;
+					return PLD.HolyCircle;
+				}
 			}
 
 			if (IsEnabled(CustomComboPreset.PaladinProminenceCombo)) {
