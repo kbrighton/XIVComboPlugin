@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 
-using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.ClientState.JobGauge.Enums;
 using Dalamud.Game.ClientState.JobGauge.Types;
 
@@ -176,7 +175,7 @@ namespace XIVComboVX.Combos {
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
 			if (IsEnabled(CustomComboPreset.MonkTwinSnakesFeature)) {
-				if (level < MNK.Levels.TwinSnakes || SelfFindEffect(MNK.Buffs.DisciplinedFist)?.RemainingTime > 6.0)
+				if (level < MNK.Levels.TwinSnakes || SelfEffectDuration(MNK.Buffs.DisciplinedFist) > Service.Configuration.MonkTwinSnakesBuffTime)
 					return MNK.TrueStrike;
 			}
 

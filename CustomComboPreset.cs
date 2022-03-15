@@ -243,7 +243,6 @@ namespace XIVComboVX {
 
 		[Conflicts(DancerDanceStepCombo)]
 		[CustomComboInfo("Dance Step Feature", "Change custom actions into dance steps while dancing." +
-			"\nThe defaults are Cascade, Flourish, Fan Dance and Fan Dance II. If set to 0, they will reset to these actions." +
 			"\nYou can get Action IDs with Garland Tools by searching for the action and clicking the cog.", DNC.JobID)]
 		DancerDanceComboCompatibility = 3806,
 

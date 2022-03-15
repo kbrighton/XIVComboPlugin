@@ -69,7 +69,12 @@ namespace XIVComboVX.Combos {
 
 	internal class DancerDanceComboCompatibility: CustomCombo {
 		public override CustomComboPreset Preset => CustomComboPreset.DancerDanceComboCompatibility;
-		public override uint[] ActionIDs => Service.Configuration.DancerDanceCompatActionIDs;
+		public override uint[] ActionIDs => new uint[] {
+			Service.Configuration.DancerEmboiteRedActionID,
+			Service.Configuration.DancerEntrechatBlueActionID,
+			Service.Configuration.DancerJeteGreenActionID,
+			Service.Configuration.DancerPirouetteYellowActionID,
+		};
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			if (level >= DNC.Levels.StandardStep && GetJobGauge<DNCGauge>().IsDancing) {
@@ -78,13 +83,13 @@ namespace XIVComboVX.Combos {
 				if (actionID == actionIDs[0] || (actionIDs[0] == 0 && actionID is DNC.Cascade))
 					return OriginalHook(DNC.Cascade);
 
-				if (actionID == actionIDs[1] || (actionIDs[1] == 0 && actionID is DNC.Flourish))
+				if (actionID == actionIDs[1] || (actionIDs[1] == 0 && actionID is DNC.Fountain))
 					return OriginalHook(DNC.Fountain);
 
-				if (actionID == actionIDs[2] || (actionIDs[2] == 0 && actionID is DNC.FanDance1))
+				if (actionID == actionIDs[2] || (actionIDs[2] == 0 && actionID is DNC.ReverseCascade))
 					return OriginalHook(DNC.ReverseCascade);
 
-				if (actionID == actionIDs[3] || (actionIDs[3] == 0 && actionID is DNC.FanDance2))
+				if (actionID == actionIDs[3] || (actionIDs[3] == 0 && actionID is DNC.Fountainfall))
 					return OriginalHook(DNC.Fountainfall);
 
 			}

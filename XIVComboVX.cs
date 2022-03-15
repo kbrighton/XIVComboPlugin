@@ -40,6 +40,8 @@ namespace XIVComboVX {
 			Service.Configuration = pluginInterface.GetPluginConfig() as PluginConfiguration ?? new PluginConfiguration();
 			Service.Address = new();
 
+			Service.Configuration.UpgradeIfNeeded();
+
 			Service.Address.Setup();
 
 			if (Service.Address.LoadSuccessful) {

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Reflection;
+using System.Runtime.InteropServices;
 
 using Dalamud.Game.ClientState.Objects.SubKinds;
 using Dalamud.Interface.Windowing;
@@ -10,14 +12,6 @@ using Dalamud.Utility;
 using ImGuiNET;
 
 using XIVComboVX.Attributes;
-using XIVComboVX.Combos;
-
-// TODO: probably want to redesign this to allow for easier implementation of non-boolean settings, if I can find a good method
-// I have had an idea! It's gonna involve reflecting shit, but we're already doing that, and likewise with mapping detail settings to presets.
-// Basic thinking (so far) is a 1:N mapping of presets and a set of details for the sub-option, including a label, tooltip, min/max, and type.
-// Included will be a reflection-accessor to allow getting and setting the value, but that raises the concern of speed.
-// The existing value will have to be gotten every draw call, albeit only for presets that are visible AND enabled.
-// But there'll still be SOME level of performance impact, unless I can figure out how to cache it somehow... or just find another solution.
 
 namespace XIVComboVX.Config {
 	public class ConfigWindow: Window {
@@ -25,6 +19,7 @@ namespace XIVComboVX.Config {
 		private readonly Dictionary<string, List<(CustomComboPreset preset, CustomComboInfoAttribute info)>> groupedPresets;
 		private readonly Dictionary<CustomComboPreset, HashSet<(CustomComboPreset Preset, CustomComboInfoAttribute Info)>> parentToChildrenPresets = new();
 		private readonly Dictionary<CustomComboPreset, (CustomComboPreset Preset, CustomComboInfoAttribute Info)> childToParentPresets = new();
+		private readonly Dictionary<CustomComboPreset, List<ComboDetailSetting>> detailSettings = new();
 
 		private static readonly Vector4 shadedColour = new(0.69f, 0.69f, 0.69f, 1.0f); // NICE (x3 COMBO)
 		private static readonly Vector4 warningColour = new(200f / 255f, 25f / 255f, 35f / 255f, 1f);
@@ -52,6 +47,19 @@ namespace XIVComboVX.Config {
 					group => group.Key,
 					data => data
 						.OrderBy(e => e.info.Order)
+						.ToList()
+				);
+
+			this.detailSettings = typeof(PluginConfiguration)
+				.GetProperties(BindingFlags.Instance | BindingFlags.Public)
+				.Select(prop => (prop, attr: prop.GetCustomAttribute<ComboDetailSettingAttribute>()))
+				.Where(pair => pair.attr is not null)
+				.Select(pair => new ComboDetailSetting(pair.prop, pair.attr!))
+				.GroupBy(detail => detail.Combo)
+				.ToDictionary(
+					group => group.Key,
+					group => group
+						.OrderBy(detail => detail.Label)
 						.ToList()
 				);
 
@@ -140,19 +148,12 @@ namespace XIVComboVX.Config {
 					bool clickReset = ImGui.MenuItem("Reset configuration");
 					if (ImGui.IsItemHovered()) {
 						ImGui.BeginTooltip();
-						ImGui.Text("This will clear ALL enabled action replacers, as well as");
-						ImGui.Text("resetting DNC's Dance Step Feature to the default actions.");
+						ImGui.Text("This will completely reset your entire configuration to the defaults.");
 						ImGui.TextColored(warningColour, "THIS CANNOT BE UNDONE!");
 						ImGui.EndTooltip();
 					}
 					if (clickReset) {
-						Service.Configuration.EnabledActions.Clear();
-						Service.Configuration.DancerDanceCompatActionIDs = new[] {
-							DNC.Cascade,
-							DNC.Flourish,
-							DNC.FanDance1,
-							DNC.FanDance2,
-						};
+						Service.Configuration = new();
 						Service.Configuration.Save();
 					}
 
@@ -180,6 +181,8 @@ namespace XIVComboVX.Config {
 					else {
 						ImGui.MenuItem($"{player.Name}: {player.ClassJob.GameData!.Abbreviation.ToString().ToUpper()} ({player.ClassJob.Id})", false);
 					}
+
+					//ImGui.MenuItem($"Config window: {this.Size?.X}x{this.Size?.Y}", false);
 
 					ImGui.EndMenu();
 				}
@@ -221,6 +224,8 @@ namespace XIVComboVX.Config {
 			bool hideChildren = Service.Configuration.HideDisabledFeaturesChildren;
 			bool hasChildren = this.parentToChildrenPresets.TryGetValue(preset, out HashSet<(CustomComboPreset Preset, CustomComboInfoAttribute Info)>? children)
 				&& children is not null;
+			bool hasDetails = this.detailSettings.TryGetValue(preset, out List<ComboDetailSetting>? details)
+				&& details is not null;
 
 			ImGui.PushItemWidth(200);
 
@@ -259,27 +264,95 @@ namespace XIVComboVX.Config {
 			}
 			if (hasChildren && hideChildren && !enabled)
 				description += "\nThis preset has one or more children.";
+			if (hasDetails && !enabled)
+				description += "\nThis preset has additional configurable options.";
 
 			ImGui.PushTextWrapPos((this.Size?.Y ?? minWidth) - 20);
 			ImGui.TextColored(shadedColour, description);
 			ImGui.PopTextWrapPos();
 			ImGui.Spacing();
 
-			if (preset is CustomComboPreset.DancerDanceComboCompatibility && enabled) {
-				int[] actions = Service.Configuration.DancerDanceCompatActionIDs.Cast<int>().ToArray();
-				bool changed = false;
-
-				changed |= ImGui.InputInt("Emboite (Red) ActionID", ref actions[0], 0);
-				changed |= ImGui.InputInt("Entrechat (Blue) ActionID", ref actions[1], 0);
-				changed |= ImGui.InputInt("Jete (Green) ActionID", ref actions[2], 0);
-				changed |= ImGui.InputInt("Pirouette (Yellow) ActionID", ref actions[3], 0);
-
-				if (changed) {
-					Service.Configuration.DancerDanceCompatActionIDs = actions.Cast<uint>().ToArray();
-					Service.Configuration.Save();
+			if (hasDetails && enabled) {
+				const int MEM_WIDTH = 4;
+				IntPtr ptrVal = Marshal.AllocHGlobal(MEM_WIDTH);
+				IntPtr ptrMin = Marshal.AllocHGlobal(MEM_WIDTH);
+				IntPtr ptrMax = Marshal.AllocHGlobal(MEM_WIDTH);
+				IntPtr ptrStep = Marshal.AllocHGlobal(MEM_WIDTH);
+				foreach (ComboDetailSetting? detail in details!) {
+					if (detail is not null) {
+						string fmt;
+						switch (detail.ImGuiType) {
+							case ImGuiDataType.Float:
+								fmt = $"%.{detail.Precision}f";
+								Marshal.Copy(BitConverter.GetBytes(detail.Val), 0, ptrVal, MEM_WIDTH);
+								Marshal.Copy(BitConverter.GetBytes(detail.Min), 0, ptrMin, MEM_WIDTH);
+								Marshal.Copy(BitConverter.GetBytes(detail.Max), 0, ptrMax, MEM_WIDTH);
+								Marshal.Copy(BitConverter.GetBytes((float)1), 0, ptrStep, MEM_WIDTH);
+								break;
+							case ImGuiDataType.U32:
+								fmt = "%u";
+								Marshal.Copy(BitConverter.GetBytes((uint)detail.Val), 0, ptrVal, MEM_WIDTH);
+								Marshal.Copy(BitConverter.GetBytes((uint)detail.Min), 0, ptrMin, MEM_WIDTH);
+								Marshal.Copy(BitConverter.GetBytes((uint)detail.Max), 0, ptrMax, MEM_WIDTH);
+								Marshal.Copy(BitConverter.GetBytes((uint)1), 0, ptrStep, MEM_WIDTH);
+								break;
+							case ImGuiDataType.S32:
+								fmt = "%i";
+								Marshal.Copy(BitConverter.GetBytes((int)detail.Val), 0, ptrVal, MEM_WIDTH);
+								Marshal.Copy(BitConverter.GetBytes((int)detail.Min), 0, ptrMin, MEM_WIDTH);
+								Marshal.Copy(BitConverter.GetBytes((int)detail.Max), 0, ptrMax, MEM_WIDTH);
+								Marshal.Copy(BitConverter.GetBytes(1), 0, ptrStep, MEM_WIDTH);
+								break;
+							default:
+								throw new FormatException($"Invalid detail type {detail.ImGuiType}");
+						}
+						Service.Logger.debug(
+							$"{detail.Label} ({detail.Type.Name}/{detail.ImGuiType}) {detail.Min} <= {detail.Val} <= {detail.Max}"
+						);
+						bool changed = detail.Max - detail.Min > 40
+							? ImGui.InputScalar(
+								detail.Label + $"##{detail.Combo}",
+								detail.ImGuiType,
+								ptrVal,
+								ptrStep,
+								ptrStep,
+								fmt,
+								ImGuiInputTextFlags.AutoSelectAll
+							)
+							: ImGui.SliderScalar(
+								detail.Label + $"##{detail.Combo}",
+								detail.ImGuiType,
+								ptrVal,
+								ptrMin,
+								ptrMax,
+								fmt,
+								ImGuiSliderFlags.AlwaysClamp
+							);
+						if (!string.IsNullOrEmpty(detail.Description) && ImGui.IsItemHovered()) {
+							ImGui.BeginTooltip();
+							ImGui.PushTextWrapPos(300);
+							ImGui.TextUnformatted(detail.Description);
+							ImGui.PopTextWrapPos();
+							ImGui.EndTooltip();
+						}
+						if (changed) {
+							byte[] value = new byte[MEM_WIDTH];
+							Marshal.Copy(ptrVal, value, 0, MEM_WIDTH);
+							float val = detail.ImGuiType switch {
+								ImGuiDataType.Float => BitConverter.ToSingle(value),
+								ImGuiDataType.U32 => BitConverter.ToUInt32(value),
+								ImGuiDataType.S32 => BitConverter.ToInt32(value),
+								_ => throw new FormatException($"Invalid detail type {detail.ImGuiType}"), // theoretically unpossible
+							};
+							detail.Val = (float)Math.Round(val, detail.Precision);
+							Service.Configuration.Save();
+						}
+					}
 				}
-
-				ImGui.Spacing();
+				Marshal.FreeHGlobal(ptrVal);
+				Marshal.FreeHGlobal(ptrMin);
+				Marshal.FreeHGlobal(ptrMax);
+				Marshal.FreeHGlobal(ptrStep);
 			}
 
 			i++;

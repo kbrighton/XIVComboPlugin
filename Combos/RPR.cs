@@ -468,7 +468,7 @@ namespace XIVComboExpandedPlugin.Combos {
 				Status? threshold = SelfFindEffect(RPR.Buffs.Threshold);
 				if (threshold is not null) {
 					if (IsEnabled(CustomComboPreset.ReaperRegressDelayed)) {
-						if (threshold.RemainingTime <= 8.5)
+						if (threshold.RemainingTime <= Service.Configuration.ReaperThresholdBuffTime)
 							return RPR.Regress;
 					}
 					else {
