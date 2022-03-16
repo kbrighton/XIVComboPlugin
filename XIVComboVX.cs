@@ -29,9 +29,8 @@ namespace XIVComboVX {
 #else
 			false;
 #endif
-		private static readonly string assemblyName = Assembly.GetExecutingAssembly().GetName().Name!;
 
-		public string Name => assemblyName;
+		public string Name { get; } = Assembly.GetExecutingAssembly().GetName().Name!;
 
 		public XIVComboVX(DalamudPluginInterface pluginInterface) {
 
