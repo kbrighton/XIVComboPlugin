@@ -12,24 +12,22 @@ namespace XIVComboVX.Config {
 		private bool disposed;
 
 		private bool seenUpdateMessage = false;
-		private readonly bool hasUpdated = false;
-		private readonly Version? from;
-		private readonly Version to;
+		private readonly bool isFreshInstall = false;
+		private readonly Version current;
 
 		private CancellationTokenSource? aborter;
 
-		internal UpdateAlerter(Version? from, Version to) {
-			this.from = from;
-			this.to = to;
-			this.hasUpdated = from is null || !from.Equals(to);
-			if (this.hasUpdated && Service.Configuration.ShowUpdateMessage) {
+		internal UpdateAlerter(Version to, bool isFresh) {
+			this.current = to;
+			this.isFreshInstall = isFresh;
+			if (Service.Configuration.ShowUpdateMessage) {
 				this.register();
 				this.checkMessage();
 			}
 		}
 
 		internal void checkMessage() {
-			if (!this.hasUpdated || this.seenUpdateMessage) {
+			if (this.seenUpdateMessage) {
 				this.unregister();
 				return;
 			}
@@ -57,9 +55,9 @@ namespace XIVComboVX.Config {
 			Service.ChatUtils.print(
 				XivChatType.Notice,
 				new TextPayload(
-					this.from is null
-						? $"{name} v{this.to} has been installed. By default, all features are disabled.\n["
-						: $"{name} has been updated from {this.from} to {this.to}. Features may have been added or changed.\n"
+					this.isFreshInstall
+						? $"{name} v{this.current} has been installed. By default, all features are disabled.\n["
+						: $"{name} has been updated to {this.current}. Features may have been added or changed.\n"
 				),
 				new UIForegroundPayload(ChatUtil.clfgOpenConfig),
 				new UIGlowPayload(ChatUtil.clbgOpenConfig),

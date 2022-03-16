@@ -13,6 +13,11 @@ namespace XIVComboVX.Config {
 	public class PluginConfiguration: IPluginConfiguration {
 		public int Version { get; set; } = 6;
 
+		public PluginConfiguration() { }
+		public PluginConfiguration(bool firstRun) {
+			this.IsFirstRun = firstRun;
+		}
+
 		#region Auto-linked combo detail settings
 
 		[ComboDetailSetting(
@@ -82,7 +87,7 @@ namespace XIVComboVX.Config {
 		public Version LastVersion { get; set; } = new("3.32.5"); // The last version released before the format change
 
 		[JsonProperty("FirstRun")]
-		public bool IsFirstRun { get; set; } = true;
+		public bool IsFirstRun { get; set; } = false;
 
 		[JsonProperty("DisplayUpdateMessage")]
 		public bool ShowUpdateMessage { get; set; } = true;

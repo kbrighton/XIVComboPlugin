@@ -39,7 +39,7 @@ namespace XIVComboVX {
 
 			Service.Plugin = this;
 			Service.Logger = new();
-			Service.Configuration = pluginInterface.GetPluginConfig() as PluginConfiguration ?? new PluginConfiguration();
+			Service.Configuration = pluginInterface.GetPluginConfig() as PluginConfiguration ?? new(true);
 			Service.Address = new();
 
 			Service.Configuration.UpgradeIfNeeded();
@@ -75,16 +75,8 @@ namespace XIVComboVX {
 			}
 
 			PluginLog.Information($"{this.Name} v{Version} {(Debug ? "(debug build) " : "")}initialised {(Service.Address.LoadSuccessful ? "" : "un")}successfully");
-			if (Service.Configuration.IsFirstRun) {
-				Service.UpdateAlert = new(null, Version);
-
-				Service.Configuration.LastVersion = Version;
-				Service.Configuration.Save();
-			}
-			else if (!Service.Configuration.LastVersion.Equals(Version)) {
-				PluginLog.Information("This is a different version than was last loaded - features may have changed.");
-
-				Service.UpdateAlert = new(Service.Configuration.LastVersion, Version);
+			if (Service.Configuration.IsFirstRun || !Service.Configuration.LastVersion.Equals(Version)) {
+				Service.UpdateAlert = new(Version, Service.Configuration.IsFirstRun);
 
 				Service.Configuration.LastVersion = Version;
 				Service.Configuration.Save();
@@ -153,7 +145,7 @@ namespace XIVComboVX {
 					}
 					break;
 				case "reset": {
-						PluginConfiguration config = new();
+						PluginConfiguration config = new(false);
 						config.IsFirstRun = false;
 						config.LastVersion = XIVComboVX.Version;
 						Service.Configuration = config;
