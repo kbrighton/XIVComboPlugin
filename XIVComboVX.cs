@@ -148,6 +148,10 @@ namespace XIVComboVX {
 						Service.ChatGui.Print("Enabled debug message snapshot");
 					}
 					break;
+				case "version": {
+						Service.ChatGui.Print($"You are running {this.Name} v{Version}, {(Service.Interface.IsDev ? "dev" : "standard")} install.");
+					}
+					break;
 				case "reset": {
 						PluginConfiguration config = new();
 						config.IsFirstRun = false;
