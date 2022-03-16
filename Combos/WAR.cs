@@ -76,15 +76,15 @@ namespace XIVComboVX.Combos {
 			if (IsEnabled(CustomComboPreset.WarriorInnerReleaseFeature) && level >= WAR.Levels.InnerRelease && SelfHasEffect(WAR.Buffs.InnerRelease))
 				return OriginalHook(WAR.FellCleave);
 
-			if (IsEnabled(CustomComboPreset.WarriorGaugeOvercapPathFeature) && level >= WAR.Levels.InnerBeast && GetJobGauge<WARGauge>().BeastGauge > 70)
-				return OriginalHook(WAR.FellCleave);
-
 			if (IsEnabled(CustomComboPreset.WarriorSmartStormCombo) && level >= WAR.Levels.StormsEye && SelfEffectDuration(WAR.Buffs.SurgingTempest) <= Service.Configuration.WarriorStormBuffSaverBuffTime) {
 				return SimpleChainCombo(level, lastComboMove, comboTime, (1, WAR.HeavySwing),
 					(WAR.Levels.Maim, WAR.Maim),
 					(WAR.Levels.StormsEye, WAR.StormsEye)
 				);
 			}
+
+			if (IsEnabled(CustomComboPreset.WarriorGaugeOvercapPathFeature) && level >= WAR.Levels.InnerBeast && GetJobGauge<WARGauge>().BeastGauge > 70)
+				return OriginalHook(WAR.FellCleave);
 
 			return SimpleChainCombo(level, lastComboMove, comboTime, (1, WAR.HeavySwing),
 				(WAR.Levels.Maim, WAR.Maim),
