@@ -16,17 +16,12 @@ using XIVComboVX.GameData;
 
 namespace XIVComboVX.Combos {
 	internal abstract class CustomCombo {
-		#region static 
-
 		public const uint InvalidObjectID = 0xE000_0000;
-
-		public readonly string ModuleName;
-
-		#endregion
 
 		public abstract CustomComboPreset Preset { get; }
 		public virtual uint[] ActionIDs { get; } = Array.Empty<uint>();
 		public readonly HashSet<uint> AffectedIDs;
+		public readonly string ModuleName;
 
 		public byte JobID { get; }
 		public byte ClassID => this.JobID switch {
