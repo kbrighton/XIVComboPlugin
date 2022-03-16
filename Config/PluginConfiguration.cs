@@ -90,7 +90,7 @@ namespace XIVComboVX.Config {
 		[JsonProperty("EnabledActionsV5")]
 		public HashSet<CustomComboPreset> EnabledActions = new();
 
-		[Obsolete]
+		[Obsolete("Use the explicit 'Dancer*ActionID' ushorts instead")]
 		public uint[] DancerDanceCompatActionIDs = Array.Empty<uint>();
 
 		public bool IsEnabled(CustomComboPreset preset) => this.EnabledActions.Contains(preset);
@@ -98,7 +98,7 @@ namespace XIVComboVX.Config {
 		public void Save() => Service.Interface.SavePluginConfig(this);
 
 		public void UpgradeIfNeeded() {
-#pragma warning disable CS0612 // Type or member is obsolete
+#pragma warning disable CS0618 // Type or member is obsolete
 			if (this.Version == 5) {
 				this.DancerEmboiteRedActionID = this.DancerDanceCompatActionIDs[0];
 				this.DancerEntrechatBlueActionID = this.DancerDanceCompatActionIDs[1];
@@ -107,7 +107,7 @@ namespace XIVComboVX.Config {
 				this.DancerDanceCompatActionIDs = Array.Empty<uint>();
 				this.Version++;
 			}
-#pragma warning restore CS0612 // Type or member is obsolete
+#pragma warning restore CS0618 // Type or member is obsolete
 		}
 
 	}
