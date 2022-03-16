@@ -23,9 +23,11 @@ Type `/xlplugins` in-game to access the plugin installer and updater. Note that 
   * The description associated with each combo should be enough to tell you which ability needs to be placed on the hotbar.
 
 ### Examples
-![](https://github.com/PrincessRTFM/XIVComboPlugin/raw/master/res/souleater_combo.gif)
-![](https://github.com/PrincessRTFM/XIVComboPlugin/raw/master/res/hypercharge_heat_blast.gif)
-![](https://github.com/PrincessRTFM/XIVComboPlugin/raw/master/res/eno_swap.gif)
+![DRK Souleater combo](https://github.com/PrincessRTFM/XIVComboPlugin/raw/master/res/souleater_combo.gif)
+
+![MCH Hypercharge/Heat Blast combo](https://github.com/PrincessRTFM/XIVComboPlugin/raw/master/res/hypercharge_heat_blast.gif)
+
+![BLM Enochian switcher (outdated)](https://github.com/PrincessRTFM/XIVComboPlugin/raw/master/res/eno_swap.gif)
 
 ## Why Another Fork?
 Because the original fork developer (daemitus) has a different philosophy regarding how much the plugin should be allowed to do. They want to avoid "intelligent" decisions in the plugin, because they feel it's too close to botting. While I respect their decision and their reasoning, I also personally disagree with it, and additionally believe that since this plugin _only_ operates in PvE, there's no real harm or reason to restrict it like that. You aren't gaining an advantage over another player unless you're comparing parses, and even then nobody "wins" or "loses" anything. <!-- Although it could be said that everyone comparing parses like that loses, in a way :P -->
