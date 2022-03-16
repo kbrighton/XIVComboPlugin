@@ -1,12 +1,15 @@
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 using Dalamud.Game.Command;
+using Dalamud.Game.Text;
+using Dalamud.Game.Text.SeStringHandling;
+using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Interface.Windowing;
 using Dalamud.Logging;
 using Dalamud.Plugin;
 
-using XIVComboVX.Combos;
 using XIVComboVX.Config;
 
 namespace XIVComboVX {
@@ -73,7 +76,13 @@ namespace XIVComboVX {
 			}
 
 			PluginLog.Information($"{this.Name} v{Version} {(Debug ? "(debug build) " : "")}initialised {(Service.Address.LoadSuccessful ? "" : "un")}successfully");
-			if (!Service.Configuration.LastVersion.Equals(Version)) {
+			if (Service.Configuration.IsFirstRun) {
+				Service.UpdateAlert = new(null, Version);
+
+				Service.Configuration.LastVersion = Version;
+				Service.Configuration.Save();
+			}
+			else if (!Service.Configuration.LastVersion.Equals(Version)) {
 				PluginLog.Information("This is a different version than was last loaded - features may have changed.");
 
 				Service.UpdateAlert = new(Service.Configuration.LastVersion, Version);
@@ -141,16 +150,32 @@ namespace XIVComboVX {
 					}
 					break;
 				case "reset": {
-						Service.Configuration.EnabledActions.Clear();
-						Service.Configuration.DancerDanceCompatActionIDs = new[] {
-							DNC.Cascade,
-							DNC.Flourish,
-							DNC.FanDance1,
-							DNC.FanDance2,
-						};
-						Service.Configuration.Save();
-
-						Service.ChatGui.Print("Reset configuration");
+						PluginConfiguration config = new();
+						config.IsFirstRun = false;
+						config.LastVersion = XIVComboVX.Version;
+						Service.Configuration = config;
+						config.Save();
+						List<Payload> parts = new(new Payload[] {
+							new TextPayload("Your "),
+							new UIForegroundPayload(35),
+							new TextPayload(Service.Plugin.Name),
+							new UIForegroundPayload(0),
+							new TextPayload("configuration has been reset to the defaults.")
+						});
+						if (this.configWindow is not null && !this.configWindow.IsOpen) {
+							parts.AddRange(new Payload[] {
+								new TextPayload("\nYou will need to "),
+								new UIForegroundPayload(ChatUtil.clfgOpenConfig),
+								new UIGlowPayload(ChatUtil.clbgOpenConfig),
+								Service.ChatUtils.clplOpenConfig,
+								new TextPayload($"[open the settings]"),
+								RawPayload.LinkTerminator,
+								new UIGlowPayload(0),
+								new UIForegroundPayload(0),
+								new TextPayload(" to enable your desired features.")
+							});
+						}
+						Service.ChatUtils.print(XivChatType.SystemMessage, parts.ToArray());
 					}
 					break;
 				case "showUpdate": {

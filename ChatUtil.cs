@@ -14,8 +14,21 @@ namespace XIVComboVX {
 		internal readonly DalamudLinkPayload
 			clplOpenConfig;
 
+		internal const ushort
+			clfgOpenConfig = 34,
+			clbgOpenConfig = 502;
+
 		internal ChatUtil() {
 			this.clplOpenConfig = Service.Interface.AddChatLinkHandler(clidOpenConfig, this.onClickChatLink);
+		}
+
+		internal void print(XivChatType type, params Payload[] payloads) {
+			if (payloads.Length > 0) {
+				Service.ChatGui.PrintChat(new XivChatEntry() {
+					Type = type,
+					Message = new SeString(payloads),
+				});
+			}
 		}
 
 		private void onClickChatLink(uint id, SeString source) {

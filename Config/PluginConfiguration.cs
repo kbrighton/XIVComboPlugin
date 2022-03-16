@@ -81,26 +81,25 @@ namespace XIVComboVX.Config {
 		[JsonProperty("LastLoadedVersion")]
 		public Version LastVersion { get; set; } = new("3.32.5"); // The last version released before the format change
 
+		[JsonProperty("FirstRun")]
+		public bool IsFirstRun { get; set; } = true;
+
 		[JsonProperty("DisplayUpdateMessage")]
 		public bool ShowUpdateMessage { get; set; } = true;
 
 		[JsonProperty("EnabledActionsV5")]
 		public HashSet<CustomComboPreset> EnabledActions = new();
 
-		public uint[] DancerDanceCompatActionIDs = new[] {
-			DNC.Cascade,
-			DNC.Flourish,
-			DNC.FanDance1,
-			DNC.FanDance2,
-		};
+		[Obsolete]
+		public uint[] DancerDanceCompatActionIDs = Array.Empty<uint>();
 
 		public bool IsEnabled(CustomComboPreset preset) => this.EnabledActions.Contains(preset);
 
 		public void Save() => Service.Interface.SavePluginConfig(this);
 
 		public void UpgradeIfNeeded() {
+#pragma warning disable CS0612 // Type or member is obsolete
 			if (this.Version == 5) {
-				// Need to assign the old DancerDanceCompatActionIDs to the new individuals
 				this.DancerEmboiteRedActionID = this.DancerDanceCompatActionIDs[0];
 				this.DancerEntrechatBlueActionID = this.DancerDanceCompatActionIDs[1];
 				this.DancerJeteGreenActionID = this.DancerDanceCompatActionIDs[2];
@@ -108,6 +107,7 @@ namespace XIVComboVX.Config {
 				this.DancerDanceCompatActionIDs = Array.Empty<uint>();
 				this.Version++;
 			}
+#pragma warning restore CS0612 // Type or member is obsolete
 		}
 
 	}

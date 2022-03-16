@@ -153,8 +153,7 @@ namespace XIVComboVX.Config {
 						ImGui.EndTooltip();
 					}
 					if (clickReset) {
-						Service.Configuration = new();
-						Service.Configuration.Save();
+						Service.Plugin.onPluginCommand("", "reset");
 					}
 
 					ImGui.EndMenu();
