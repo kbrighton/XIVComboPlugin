@@ -5,8 +5,11 @@ name: Build
 on:
   workflow_dispatch:
   push:
-    branch:
+    branches:
     - master
+    # Just in case I ever change the branch name or something
+    - main
+    - release
 
 env:
   SOLUTION_NAME: XIVComboVX
