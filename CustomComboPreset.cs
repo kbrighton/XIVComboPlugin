@@ -920,7 +920,7 @@ namespace XIVComboVX {
 		WarriorGaugeOvercapPathFeature = 2103,
 
 		[ParentPreset(WarriorStormsPathCombo)]
-		[CustomComboInfo("Storm's Path Double Combo", "Replace the Storm's Path combo chain with Storm's Eye if Surging Tempest has less than 7 seconds left.", WAR.JobID)]
+		[CustomComboInfo("Storm's Path Double Combo", "Replace the Storm's Path combo chain with Storm's Eye if Surging Tempest has less than 7 (default) seconds left.", WAR.JobID)]
 		WarriorSmartStormCombo = 2112,
 
 		[CustomComboInfo("Storm's Eye Combo", "Replace Storm's Eye with its combo chain.", WAR.JobID)]
