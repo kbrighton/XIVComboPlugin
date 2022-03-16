@@ -253,7 +253,7 @@
 | WAR | Stalwart Soul Overcap Feature | Replace Stalwart Soul with Quietus when the next combo action would cause the Blood Gauge to overcap. |
 | WAR | Storm's Eye Combo | Replace Storm's Eye with its combo chain. |
 | WAR | Storm's Path Combo | Replace Storm's Path with its combo chain. |
-| WAR | Storm's Path Double Combo | Replace the Storm's Path combo chain with Storm's Eye if Surging Tempest has less than 7 seconds left. |
+| WAR | Storm's Path Double Combo | Replace the Storm's Path combo chain with Storm's Eye if Surging Tempest has less than 7 (default) seconds left. |
 | WAR | Stun/Interrupt Feature | Turn Low Blow and Interject into Interject when off CD and your target can be interrupted, Low Blow otherwise. |
 | WHM | Afflatus Feature | Changes Cure 2 into Afflatus Solace, and Medica into Afflatus Rapture, when lilies are up. |
 | WHM | Cure 2 Level Sync | Changes Cure 2 to Cure when below level 30 in synced content. |
