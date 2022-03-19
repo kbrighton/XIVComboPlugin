@@ -154,6 +154,11 @@ namespace XIVComboVX.Combos {
 					return MNK.Meditation;
 			}
 
+			if (IsEnabled(CustomComboPreset.MonkDragonKickSteelPeakFeature)) {
+				if (level >= MNK.Levels.Meditation && gauge.Chakra == 5 && InCombat)
+					return OriginalHook(MNK.Meditation);
+			}
+
 			if (IsEnabled(CustomComboPreset.MonkDragonKickBalanceFeature)) {
 				if (level >= MNK.Levels.MasterfulBlitz && !gauge.BeastChakra.Contains(BeastChakra.NONE))
 					return OriginalHook(MNK.MasterfulBlitz);

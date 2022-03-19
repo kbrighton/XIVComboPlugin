@@ -427,6 +427,9 @@ namespace XIVComboVX {
 		[CustomComboInfo("Dragon Meditation Feature", "Replace Dragon Kick with Meditation when out of combat and the Fifth Chakra is not open.", MNK.JobID)]
 		MonkDragonKickMeditationFeature = 2015,
 
+		[CustomComboInfo("Steel Peak / Forbidden Chakra Feature", "Replace Dragon Kick with Meditation / Steel Peak / The Forbidden Chakra when in of combat and the Fifth Chakra is open.", MNK.JobID)]
+		MonkDragonKickSteelPeakFeature = 2016,
+
 		[CustomComboInfo("Twin Snakes to True Strike Feature", "Replaces Twin Snakes with True Strike if Disciplined Fist is up.", MNK.JobID)]
 		MonkTwinSnakesFeature = 2010,
 
