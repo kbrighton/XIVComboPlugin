@@ -1,4 +1,3 @@
-using System;
 
 using Dalamud.Game.ClientState.JobGauge.Types;
 
@@ -79,7 +78,7 @@ namespace XIVComboVX.Combos {
 			if (level >= DRG.Levels.MirageDive && SelfHasEffect(DRG.Buffs.DiveReady))
 				return DRG.MirageDive;
 
-			return actionID;
+			return OriginalHook(actionID);
 		}
 	}
 
@@ -92,17 +91,21 @@ namespace XIVComboVX.Combos {
 			if (IsEnabled(CustomComboPreset.DragoonCoerthanWyrmwindFeature) && GetJobGauge<DRGGauge>().FirstmindsFocusCount == 2)
 				return DRG.WyrmwindThrust;
 
-			if (IsEnabled(CustomComboPreset.DragoonCoerthanTormentCombo) && comboTime > 0) {
+			if (IsEnabled(CustomComboPreset.DragoonCoerthanTormentCombo)) {
 
-				if (level >= DRG.Levels.SonicThrust && lastComboMove is DRG.DoomSpike or DRG.DraconianFury)
-					return DRG.SonicThrust;
+				if (comboTime > 0) {
 
-				if (level >= DRG.Levels.CoerthanTorment && lastComboMove == DRG.SonicThrust)
-					return DRG.CoerthanTorment;
+					if (level >= DRG.Levels.SonicThrust && lastComboMove is DRG.DoomSpike)
+						return DRG.SonicThrust;
 
+					if (level >= DRG.Levels.CoerthanTorment && lastComboMove is DRG.SonicThrust)
+						return DRG.CoerthanTorment;
+				}
+
+				return OriginalHook(DRG.DoomSpike);
 			}
 
-			return OriginalHook(DRG.DoomSpike);
+			return actionID;
 		}
 	}
 
@@ -142,7 +145,7 @@ namespace XIVComboVX.Combos {
 					: OriginalHook(DRG.TrueThrust);
 			}
 
-			return actionID;
+			return OriginalHook(actionID);
 		}
 	}
 
@@ -182,7 +185,7 @@ namespace XIVComboVX.Combos {
 					: OriginalHook(DRG.TrueThrust);
 			}
 
-			return actionID;
+			return OriginalHook(actionID);
 		}
 	}
 
