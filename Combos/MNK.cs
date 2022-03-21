@@ -70,7 +70,7 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class MonkAoECombo: CustomCombo {
-		public override CustomComboPreset Preset { get; } = CustomComboPreset.MnkAny;
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.MonkAoECombo;
 
 		public override uint[] ActionIDs { get; } = new[] { MNK.MasterfulBlitz };
 
