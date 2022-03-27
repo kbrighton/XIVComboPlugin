@@ -21,6 +21,15 @@ namespace XIVComboVX.Config {
 		#region Auto-linked combo detail settings
 
 		[ComboDetailSetting(
+			CustomComboPreset.PaladinRoyalAuthorityDoTSaver,
+			"RA/RoH buff threshold",
+			"When the Goring Blade DoT only has this many seconds left, switch to Goring Blade to renew it",
+			0,
+			30
+		)]
+		public float PaladinGoringBladeDoTSaverDebuffTime { get; set; } = 7;
+
+		[ComboDetailSetting(
 			CustomComboPreset.WarriorSmartStormCombo,
 			"Surging Tempest buff threshold",
 			"When the Surging Tempest buff only has this many seconds left, switch to the Storm's Eye combo chain",

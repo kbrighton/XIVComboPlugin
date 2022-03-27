@@ -64,7 +64,7 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class PaladinGoringBlade: CustomCombo {
-		public override CustomComboPreset Preset => CustomComboPreset.PldAny;
+		public override CustomComboPreset Preset => CustomComboPreset.PaladinGoringBladeCombo;
 		public override uint[] ActionIDs { get; } = new[] { PLD.GoringBlade };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
@@ -72,30 +72,24 @@ namespace XIVComboVX.Combos {
 			if (level >= PLD.Levels.HolySpirit && IsEnabled(CustomComboPreset.PaladinRequiescatFeature) && SelfHasEffect(PLD.Buffs.Requiescat))
 				return PLD.HolySpirit;
 
-			bool doMainCombo = IsEnabled(CustomComboPreset.PaladinGoringBladeCombo);
+			uint nextMainCombo = 0;
+			bool inMainCombo = comboTime > 0
+				&& PartialChainCombo(level, lastComboMove, out nextMainCombo, (1, PLD.FastBlade),
+					(PLD.Levels.RiotBlade, PLD.RiotBlade),
+					(PLD.Levels.GoringBlade, PLD.GoringBlade)
+				);
 
-			if (comboTime > 0 && doMainCombo) {
-
-				if (lastComboMove is PLD.RiotBlade && level >= PLD.Levels.GoringBlade)
-					return PLD.GoringBlade;
-
-				if (lastComboMove == PLD.FastBlade && level >= PLD.Levels.RiotBlade)
-					return PLD.RiotBlade;
-
-			}
-
-			if (level >= PLD.Levels.Atonement && IsEnabled(CustomComboPreset.PaladinAtonementFeature) && SelfHasEffect(PLD.Buffs.SwordOath))
+			if (level >= PLD.Levels.Atonement && !inMainCombo && IsEnabled(CustomComboPreset.PaladinAtonementFeature) && SelfHasEffect(PLD.Buffs.SwordOath))
 				return PLD.Atonement;
 
-			if (doMainCombo)
-				return PLD.FastBlade;
-
-			return actionID;
+			return inMainCombo
+				? nextMainCombo
+				: PLD.FastBlade;
 		}
 	}
 
 	internal class PaladinRoyalAuthorityCombo: CustomCombo {
-		public override CustomComboPreset Preset => CustomComboPreset.PldAny;
+		public override CustomComboPreset Preset => CustomComboPreset.PaladinRoyalAuthorityCombo;
 		public override uint[] ActionIDs { get; } = new[] { PLD.RageOfHalone, PLD.RoyalAuthority };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
@@ -110,14 +104,12 @@ namespace XIVComboVX.Combos {
 				}
 			}
 
-			bool doMainCombo = IsEnabled(CustomComboPreset.PaladinRoyalAuthorityCombo);
-
-			if (comboTime > 0 && doMainCombo) {
+			if (comboTime > 0) {
 
 				if (lastComboMove == PLD.RiotBlade && level >= PLD.Levels.RageOfHalone) {
 
 					if (IsEnabled(CustomComboPreset.PaladinRoyalAuthorityDoTSaver)) {
-						if (TargetOwnEffectDuration(PLD.Debuffs.GoringBlade) < 7)
+						if (TargetOwnEffectDuration(PLD.Debuffs.GoringBlade) < Service.Configuration.PaladinGoringBladeDoTSaverDebuffTime)
 							return PLD.GoringBlade;
 					}
 
@@ -132,15 +124,12 @@ namespace XIVComboVX.Combos {
 			if (level >= PLD.Levels.Atonement && IsEnabled(CustomComboPreset.PaladinAtonementFeature) && SelfHasEffect(PLD.Buffs.SwordOath))
 				return PLD.Atonement;
 
-			if (doMainCombo)
-				return PLD.FastBlade;
-
-			return actionID;
+			return PLD.FastBlade;
 		}
 	}
 
 	internal class PaladinProminenceCombo: CustomCombo {
-		public override CustomComboPreset Preset => CustomComboPreset.PldAny;
+		public override CustomComboPreset Preset => CustomComboPreset.PaladinProminenceCombo;
 		public override uint[] ActionIDs { get; } = new[] { PLD.Prominence };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
@@ -155,18 +144,14 @@ namespace XIVComboVX.Combos {
 				}
 			}
 
-			if (IsEnabled(CustomComboPreset.PaladinProminenceCombo)) {
-				return SimpleChainCombo(level, lastComboMove, comboTime, (PLD.Levels.TotalEclipse, PLD.TotalEclipse),
-					(PLD.Levels.Prominence, PLD.Prominence)
-				);
-			}
-
-			return actionID;
+			return SimpleChainCombo(level, lastComboMove, comboTime, (PLD.Levels.TotalEclipse, PLD.TotalEclipse),
+				(PLD.Levels.Prominence, PLD.Prominence)
+			);
 		}
 	}
 
 	internal class PaladinHolySpiritHolyCircle: CustomCombo {
-		public override CustomComboPreset Preset { get; } = CustomComboPreset.PaladinConfiteorFeature;
+		public override CustomComboPreset Preset => CustomComboPreset.PaladinConfiteorFeature;
 		public override uint[] ActionIDs { get; } = new[] { PLD.HolySpirit, PLD.HolyCircle };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
