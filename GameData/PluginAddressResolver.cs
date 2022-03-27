@@ -23,8 +23,6 @@ namespace XIVComboVX.GameData {
 		public IntPtr IsActionIdReplaceable { get; private set; } = IntPtr.Zero;
 		public string IsActionIdReplaceableAddr => this.IsActionIdReplaceable.ToInt64().ToString(addrFmtSpec);
 
-		public IntPtr GetActionCooldown { get; private set; } = IntPtr.Zero;
-		public string GetActionCooldownAddr => this.GetActionCooldown.ToInt64().ToString(addrFmtSpec);
 
 		protected override void Setup64Bit(SigScanner scanner) {
 			try {
@@ -36,9 +34,6 @@ namespace XIVComboVX.GameData {
 
 				PluginLog.Debug("Scanning for IsActionIdReplaceable signature");
 				this.IsActionIdReplaceable = scanner.ScanText("81 F9 ?? ?? ?? ?? 7F 35");
-
-				PluginLog.Debug("Scanning for GetActionCooldown signature");
-				this.GetActionCooldown = scanner.ScanText("E8 ?? ?? ?? ?? 0F 57 FF 48 85 C0");
 			}
 			catch (Exception ex) {
 				this.LoadFailReason = ex;
@@ -53,8 +48,6 @@ namespace XIVComboVX.GameData {
 					msg.Append("GetAdjustedActionId");
 				else if (this.IsActionIdReplaceable == IntPtr.Zero)
 					msg.Append("IsActionIdReplaceable");
-				else if (this.GetActionCooldown == IntPtr.Zero)
-					msg.Append("GetActionCooldown");
 				msg.AppendLine(":");
 				msg.Append(ex.ToString());
 				PluginLog.Fatal(msg.ToString());
@@ -67,7 +60,6 @@ namespace XIVComboVX.GameData {
 			PluginLog.Verbose($"IsIconReplaceable   0x{this.IsActionIdReplaceableAddr}");
 			PluginLog.Verbose($"ComboTimer          0x{this.ComboTimerAddr}");
 			PluginLog.Verbose($"LastComboMove       0x{this.LastComboMoveAddr}");
-			PluginLog.Verbose($"GetActionCooldown   0x{this.GetActionCooldownAddr}");
 		}
 	}
 }

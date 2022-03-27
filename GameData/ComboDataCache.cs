@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 
 using Dalamud.Game;
 using Dalamud.Game.ClientState.JobGauge.Types;
@@ -27,12 +26,8 @@ namespace XIVComboVX.GameData {
 		#region Core/setup
 
 		private delegate IntPtr GetActionCooldownSlotDelegate(IntPtr actionManager, int cooldownGroup);
-		private readonly GetActionCooldownSlotDelegate getActionCooldownSlot;
-		private IntPtr actionManager = IntPtr.Zero;
 
 		public ComboDataCache() {
-			this.getActionCooldownSlot = Marshal.GetDelegateForFunctionPointer<GetActionCooldownSlotDelegate>(Service.Address.GetActionCooldown);
-
 			Service.Framework.Update += this.invalidateCache;
 		}
 
@@ -44,8 +39,6 @@ namespace XIVComboVX.GameData {
 			Service.Framework.Update -= this.invalidateCache;
 			this.jobGaugeCache?.Clear();
 		}
-
-		internal void updateActionManager(IntPtr address) => this.actionManager = address;
 
 		#endregion
 

@@ -64,7 +64,6 @@ namespace XIVComboVX.GameData {
 		private unsafe uint getIconDetour(IntPtr actionManager, uint actionID) {
 			try {
 				this.actionManager = actionManager;
-				Service.DataCache.updateActionManager(actionManager);
 
 				if (Service.Client.LocalPlayer is null)
 					return this.OriginalHook(actionID);
