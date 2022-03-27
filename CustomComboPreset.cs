@@ -524,19 +524,19 @@ namespace XIVComboVX {
 		PaladinRoyalAuthorityCombo = 1901,
 
 		[ParentPreset(PaladinRoyalAuthorityCombo)]
-		[CustomComboInfo("Royal Authority DoT Saver", "The  RA/RoH combo chain becomes Goring Blade at the end, if your current target has less than seven seconds on the GB DoT.\nThis includes when your target doesn't have the DoT.", PLD.JobID)]
+		[CustomComboInfo("Royal Authority DoT Saver", "The RA/RoH combo chain becomes Goring Blade at the end, if your current target has less than seven seconds on the GB DoT.\nThis includes when your target doesn't have the DoT.", PLD.JobID)]
 		PaladinRoyalAuthorityDoTSaver = 1909,
 
-		[CustomComboInfo("Atonement Feature", "Replace Royal Authority and Goring Blade with Atonement when under the effect of Sword Oath.", PLD.JobID)]
+		[CustomComboInfo("Atonement Feature", "Replace the Royal Authority and Goring Blade combos with Atonement when under the effect of Sword Oath.", PLD.JobID)]
 		PaladinAtonementFeature = 1902,
 
 		[CustomComboInfo("Prominence Combo", "Replace Prominence with its combo chain.", PLD.JobID)]
 		PaladinProminenceCombo = 1903,
 
-		[CustomComboInfo("Requiescat Confiteor", "Replace Requiescat with Confiteor while under the effect of Requiescat.\nReplace Requiescat with Confiteor's combos while chaining.", PLD.JobID)]
+		[CustomComboInfo("Requiescat Confiteor", "Replace Requiescat with Confiteor while under the effect of Requiescat.\nIncludes Confiteor's combos while chaining.", PLD.JobID)]
 		PaladinRequiescatConfiteorCombo = 1904,
 
-		[CustomComboInfo("Requiescat Feature", "Replace Royal Authority/Goring Blade with Holy Spirit, and Prominence with Holy Circle, while Requiescat is active.", PLD.JobID)]
+		[CustomComboInfo("Requiescat Feature", "Replace Royal Authority/Goring Blade combos with Holy Spirit, and Prominence combo with Holy Circle, while Requiescat is active.", PLD.JobID)]
 		PaladinRequiescatFeature = 1905,
 
 		[CustomComboInfo("Confiteor Feature", "Replace Holy Spirit/Circle with Confiteor (and then its combos) when Requiescat is up and MP is under 2000 or only one stack remains.\nAlso changes the RA/GB/Prominence into HS/HC combos into Confiteor, though NOT into its subsequent combos.", PLD.JobID)]

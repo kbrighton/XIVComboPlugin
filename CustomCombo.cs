@@ -157,7 +157,7 @@ namespace XIVComboVX.Combos {
 				}
 			}
 
-			// If nothing is found, then return 0 to indicate that this case doesn't apply
+			// If nothing is found, then return false to indicate that this case doesn't apply
 			return false;
 		}
 
