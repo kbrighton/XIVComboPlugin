@@ -162,7 +162,10 @@ namespace XIVComboVX.Combos {
 			}
 
 			if (IsEnabled(CustomComboPreset.WarriorInfuriateBeastFeature)) {
-				if (level >= WAR.Levels.Infuriate && GetJobGauge<WARGauge>().BeastGauge < 50 && !SelfHasEffect(WAR.Buffs.InnerRelease))
+				int threshold = IsEnabled(CustomComboPreset.WarriorInfuriateBeastRaidModeFeature)
+					? 60
+					: 50;
+				if (level >= WAR.Levels.Infuriate && GetJobGauge<WARGauge>().BeastGauge < threshold && !SelfHasEffect(WAR.Buffs.InnerRelease))
 					return WAR.Infuriate;
 			}
 

@@ -946,8 +946,12 @@ namespace XIVComboVX {
 		[CustomComboInfo("Nascent Flash Feature", "Replace Nascent Flash with Raw Intuition when below level 76.", WAR.JobID)]
 		WarriorNascentFlashFeature = 2105,
 
-		[CustomComboInfo("Angry Beast Feature", "Replace Inner Beast and Steel Cyclone with Infuriate when less then 50 Beast Gauge is available.", WAR.JobID)]
+		[CustomComboInfo("Angry Beast Feature", "Replace Inner Beast, Fell Cleave, Steel Cyclone, and Decimate with Infuriate when less then 50 Beast Gauge is available.", WAR.JobID)]
 		WarriorInfuriateBeastFeature = 2113,
+
+		[ParentPreset(WarriorInfuriateBeastFeature)]
+		[CustomComboInfo("Angry Beast Gauge Saver", "Replace the above with Infuriate when less than 60 Beast Gauge instead of 50.", WAR.JobID)]
+		WarriorInfuriateBeastRaidModeFeature = 2115,
 
 		[CustomComboInfo("Healthy Balanaced Diet Feature", "Replace Bloodwhetting with Thrill of Battle, and then Equilibrium when the preceding is on cooldown.", WAR.JobID)]
 		WarriorHealthyBalancedDietFeature = 2114,
