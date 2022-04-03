@@ -77,23 +77,19 @@ namespace XIVComboVX.Combos {
 			if (IsEnabled(CustomComboPreset.WarriorInnerReleaseFeature) && level >= WAR.Levels.InnerRelease && SelfHasEffect(WAR.Buffs.InnerRelease))
 				return OriginalHook(WAR.FellCleave);
 
-			if (IsEnabled(CustomComboPreset.WarriorSmartStormCombo) && level >= WAR.Levels.StormsEye && SelfEffectDuration(WAR.Buffs.SurgingTempest) <= Service.Configuration.WarriorStormBuffSaverBuffTime) {
-				return SimpleChainCombo(level, lastComboMove, comboTime, (1, WAR.HeavySwing),
-					(WAR.Levels.Maim, WAR.Maim),
-					(WAR.Levels.StormsEye, WAR.StormsEye)
-				);
-			}
-
-			uint nextMainCombo = 0;
-			bool inMainCombo = comboTime > 0 && PartialChainCombo(level, lastComboMove, out nextMainCombo, (1, WAR.HeavySwing),
+			uint nextCombo = 0;
+			(byte, uint) final = (WAR.Levels.StormsPath, WAR.StormsPath);
+			if (IsEnabled(CustomComboPreset.WarriorSmartStormCombo) && level >= WAR.Levels.StormsEye && SelfEffectDuration(WAR.Buffs.SurgingTempest) <= Service.Configuration.WarriorStormBuffSaverBuffTime)
+				final = (WAR.Levels.StormsEye, WAR.StormsEye);
+			bool inCombo = comboTime > 0 && PartialChainCombo(level, lastComboMove, out nextCombo, (1, WAR.HeavySwing),
 				(WAR.Levels.Maim, WAR.Maim),
-				(WAR.Levels.StormsPath, WAR.StormsPath)
+				final
 			);
 
-			if (IsEnabled(CustomComboPreset.WarriorGaugeOvercapPathFeature) && level >= WAR.Levels.InnerBeast && !inMainCombo && GetJobGauge<WARGauge>().BeastGauge > 70)
+			if (IsEnabled(CustomComboPreset.WarriorGaugeOvercapPathFeature) && level >= WAR.Levels.InnerBeast && GetJobGauge<WARGauge>().BeastGauge > (inCombo ? 90 : 70))
 				return OriginalHook(WAR.FellCleave);
 
-			return inMainCombo ? nextMainCombo : WAR.HeavySwing;
+			return inCombo ? nextCombo : WAR.HeavySwing;
 		}
 	}
 
@@ -106,16 +102,16 @@ namespace XIVComboVX.Combos {
 			if (IsEnabled(CustomComboPreset.WarriorInnerReleaseFeature) && level >= WAR.Levels.InnerRelease && SelfHasEffect(WAR.Buffs.InnerRelease))
 				return OriginalHook(WAR.FellCleave);
 
-			uint nextMainCombo = 0;
-			bool inMainCombo = comboTime > 0 && PartialChainCombo(level, lastComboMove, out nextMainCombo, (1, WAR.HeavySwing),
+			uint nextCombo = 0;
+			bool inCombo = comboTime > 0 && PartialChainCombo(level, lastComboMove, out nextCombo, (1, WAR.HeavySwing),
 				(WAR.Levels.Maim, WAR.Maim),
 				(WAR.Levels.StormsEye, WAR.StormsEye)
 			);
 
-			if (IsEnabled(CustomComboPreset.WarriorGaugeOvercapEyeFeature) && level >= WAR.Levels.InnerBeast && !inMainCombo && GetJobGauge<WARGauge>().BeastGauge > 80)
+			if (IsEnabled(CustomComboPreset.WarriorGaugeOvercapEyeFeature) && level >= WAR.Levels.InnerBeast && GetJobGauge<WARGauge>().BeastGauge > (inCombo ? 90 : 80))
 				return OriginalHook(WAR.FellCleave);
 
-			return inMainCombo ? nextMainCombo : WAR.HeavySwing;
+			return inCombo ? nextCombo : WAR.HeavySwing;
 		}
 	}
 
@@ -129,15 +125,15 @@ namespace XIVComboVX.Combos {
 			if (IsEnabled(CustomComboPreset.WarriorInnerReleaseFeature) && SelfHasEffect(WAR.Buffs.InnerRelease))
 				return OriginalHook(WAR.Decimate);
 
-			uint nextMainCombo = 0;
-			bool inMainCombo = comboTime > 0 && PartialChainCombo(level, lastComboMove, out nextMainCombo, (WAR.Levels.Overpower, WAR.Overpower),
+			uint nextCombo = 0;
+			bool inCombo = comboTime > 0 && PartialChainCombo(level, lastComboMove, out nextCombo, (WAR.Levels.Overpower, WAR.Overpower),
 				(WAR.Levels.MythrilTempest, WAR.MythrilTempest)
 			);
 
-			if (IsEnabled(CustomComboPreset.WarriorGaugeOvercapTempestFeature) && level >= WAR.Levels.MythrilTempestTrait && !inMainCombo && GetJobGauge<WARGauge>().BeastGauge > 80)
+			if (IsEnabled(CustomComboPreset.WarriorGaugeOvercapTempestFeature) && level >= WAR.Levels.MythrilTempestTrait && GetJobGauge<WARGauge>().BeastGauge > (inCombo ? 90 : 80))
 				return OriginalHook(WAR.Decimate);
 
-			return inMainCombo ? nextMainCombo : WAR.Overpower;
+			return inCombo ? nextCombo : WAR.Overpower;
 		}
 	}
 
