@@ -78,7 +78,7 @@ namespace XIVComboVX.Combos {
 			MNKGauge gauge = GetJobGauge<MNKGauge>();
 
 			// Blitz
-			if (level >= MNK.Levels.MasterfulBlitz && (!GetJobGauge<MNKGauge>().BeastChakra.Contains(BeastChakra.NONE) || SelfHasEffect(MNK.Buffs.PerfectBalance)))
+			if (level >= MNK.Levels.MasterfulBlitz && !gauge.BeastChakra.Contains(BeastChakra.NONE))
 				return OriginalHook(MNK.MasterfulBlitz);
 
 			if (level >= MNK.Levels.PerfectBalance && SelfHasEffect(MNK.Buffs.PerfectBalance)) {
@@ -209,7 +209,7 @@ namespace XIVComboVX.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-			if (level >= MNK.Levels.MasterfulBlitz && !GetJobGauge<MNKGauge>().BeastChakra.Contains(BeastChakra.NONE))
+			if (level >= MNK.Levels.MasterfulBlitz && (!GetJobGauge<MNKGauge>().BeastChakra.Contains(BeastChakra.NONE) || SelfHasEffect(MNK.Buffs.PerfectBalance)))
 				// Chakra actions
 				return OriginalHook(MNK.MasterfulBlitz);
 

@@ -439,7 +439,7 @@ namespace XIVComboVX {
 		[CustomComboInfo("Howling Fist / Meditation Feature", "Replaces Howling Fist with Meditation when the Fifth Chakra is not open.", MNK.JobID)]
 		MonkHowlingFistMeditationFeature = 2002,
 
-		[CustomComboInfo("Perfect Balance Feature", "Replace Perfect Balance with Masterful Blitz when you have 3 Beast Chakra.", MNK.JobID)]
+		[CustomComboInfo("Perfect Balance Feature", "Replace Perfect Balance with Masterful Blitz when you have 3 Beast Chakra, or when under Perfect Balance already.", MNK.JobID)]
 		MonkPerfectBalanceFeature = 2004,
 
 		[CustomComboInfo("Riddle of Brotherly Fire", "Replace Riddle of Fire with Brotherhood if the former is on CD and the latter isn't.", MNK.JobID)]
