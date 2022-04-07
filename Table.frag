@@ -104,9 +104,10 @@
 | MNK | Dragon Meditation Feature | Replace Dragon Kick with Meditation when out of combat and the Fifth Chakra is not open. |
 | MNK | Howling Fist / Meditation Feature | Replaces Howling Fist with Meditation when the Fifth Chakra is not open. |
 | MNK | Monk AoE Combo | Replaces Masterful Blitz with the AoE combo chain. |
-| MNK | Perfect Balance Feature | Replace Perfect Balance with Masterful Blitz when you have 3 Beast Chakra. |
+| MNK | Perfect Balance Feature | Replace Perfect Balance with Masterful Blitz when you have 3 Beast Chakra, or when under Perfect Balance already. |
 | MNK | Riddle of Brotherly Fire | Replace Riddle of Fire with Brotherhood if the former is on CD and the latter isn't. |
 | MNK | Riddle of Fire and Wind | Replace Riddle of Fire with Riddle of Wind if the former is on CD and the latter isn't. |
+| MNK | Steel Peak / Forbidden Chakra Feature | Replace Dragon Kick with Meditation / Steel Peak / The Forbidden Chakra when in of combat and the Fifth Chakra is open. |
 | MNK | Twin Snakes to True Strike Feature | Replaces Twin Snakes with True Strike if Disciplined Fist is up. |
 | NIN | Aeolian Edge / Huton Feature | Replaces Aeolian Edge with Armor Crush when Huton has less than 30 seconds remaining and Huraijin when missing. |
 | NIN | Aeolian Edge Combo | Replace Aeolian Edge with its combo chain. |
@@ -124,15 +125,15 @@
 | NIN | Kassatsu to Trick | Replaces Kassatsu with Trick Attack while Suiton or Hidden is up. |
 | NIN | Smart Hide | Replaces Hide with Trick Attack while under the effect of Suiton or Hidden, or else Mug if in combat. |
 | NIN | Ten Chi Jin to Meisui | Replaces Ten Chi Jin (the move) with Meisui while Suiton is up. |
-| PLD | Atonement Feature | Replace Royal Authority and Goring Blade with Atonement when under the effect of Sword Oath. |
+| PLD | Atonement Feature | Replace the Royal Authority and Goring Blade combos with Atonement when under the effect of Sword Oath. |
 | PLD | Confiteor Feature | Replace Holy Spirit/Circle with Confiteor (and then its combos) when Requiescat is up and MP is under 2000 or only one stack remains. |
 | PLD | Goring Blade Combo | Replace Goring Blade with its combo chain. |
 | PLD | Intervene Level Sync | Replace Intervene with Shield Lob when under level. |
 | PLD | Prominence Combo | Replace Prominence with its combo chain. |
 | PLD | Requiescat Confiteor | Replace Requiescat with Confiteor while under the effect of Requiescat. |
-| PLD | Requiescat Feature | Replace Royal Authority/Goring Blade with Holy Spirit, and Prominence with Holy Circle, while Requiescat is active. |
+| PLD | Requiescat Feature | Replace Royal Authority/Goring Blade combos with Holy Spirit, and Prominence combo with Holy Circle, while Requiescat is active. |
 | PLD | Royal Authority Combo | Replace Royal Authority/Rage of Halone with its combo chain. |
-| PLD | Royal Authority DoT Saver | The  RA/RoH combo chain becomes Goring Blade at the end, if your current target has less than seven seconds on the GB DoT. |
+| PLD | Royal Authority DoT Saver | The RA/RoH combo chain becomes Goring Blade at the end, if your current target has less than seven seconds on the GB DoT. |
 | PLD | Stun/Interrupt Feature | Turn Low Blow and Interject into Interject when off CD and your target can be interrupted, Low Blow otherwise. |
 | RDM | Acceleration into Swiftcast | Replace Acceleration with Swiftcast when on cooldown or synced. |
 | RDM | Acceleration with Swiftcast first | Replace Acceleration with Swiftcast when neither are on cooldown. |
@@ -239,7 +240,8 @@
 | SMN | Swiftcast Resurrection | Resurrection turns into Swiftcast when available and reasonable. |
 | SMN | Titan's Favor Outburst Feature | Change Outburst into Mountain Buster (oGCD) when available. |
 | SMN | Titan's Favor Ruin Feature | Change Ruin into Mountain Buster (oGCD) when available. |
-| WAR | Angry Beast Feature | Replace Inner Beast and Steel Cyclone with Infuriate when less then 50 Beast Gauge is available. |
+| WAR | Angry Beast Feature | Replace Inner Beast, Fell Cleave, Steel Cyclone, and Decimate with Infuriate when less then 50 Beast Gauge is available. |
+| WAR | Angry Beast Gauge Saver | Replace the above with Infuriate when less than 60 Beast Gauge instead of 50. |
 | WAR | Gauge Overcap Saver: Mythril Tempest | Replace the Mythril Tempest combo with gauge spender if completing the combo would overcap you. |
 | WAR | Gauge Overcap Saver: Storm's Eye | Replace the Storm's Eye combo with gauge spender if completing the combo would overcap you. |
 | WAR | Gauge Overcap Saver: Storm's Path | Replace the Storm's Path combo with gauge spender if completing the combo would overcap you. |
