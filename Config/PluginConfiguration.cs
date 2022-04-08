@@ -98,6 +98,9 @@ namespace XIVComboVX.Config {
 		[JsonProperty("FirstRun")]
 		public bool IsFirstRun { get; set; } = false;
 
+		[JsonProperty("CompactDisplay")]
+		public bool CompactSettingsWindow { get; set; } = false;
+
 		[JsonProperty("DisplayUpdateMessage")]
 		public bool ShowUpdateMessage { get; set; } = true;
 

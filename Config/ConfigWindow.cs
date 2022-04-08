@@ -88,6 +88,7 @@ namespace XIVComboVX.Config {
 			bool hideChildren = Service.Configuration.HideDisabledFeaturesChildren;
 			bool registerNormalCommand = Service.Configuration.RegisterCommonCommand;
 			bool showUpdateMessage = Service.Configuration.ShowUpdateMessage;
+			bool compactMode = Service.Configuration.CompactSettingsWindow;
 
 			if (ImGui.BeginMenuBar()) {
 
@@ -137,6 +138,19 @@ namespace XIVComboVX.Config {
 					}
 					if (clickUpdates) {
 						Service.Configuration.ShowUpdateMessage = showUpdateMessage;
+						Service.Configuration.Save();
+					}
+
+					bool clickCompact = ImGui.MenuItem("Compact display", "", ref compactMode);
+					if (ImGui.IsItemHovered()) {
+						ImGui.BeginTooltip();
+						ImGui.Text("If enabled, combo descriptions will be moved into tooltips shown on hover.");
+						ImGui.Text("This makes the combo display more compact, which can be useful with the");
+						ImGui.Text("new detail settings taking up extra space.");
+						ImGui.EndTooltip();
+					}
+					if (clickCompact) {
+						Service.Configuration.CompactSettingsWindow = compactMode;
 						Service.Configuration.Save();
 					}
 
@@ -215,6 +229,7 @@ namespace XIVComboVX.Config {
 
 		private void drawPreset(CustomComboPreset preset, CustomComboInfoAttribute info, ref int i) {
 
+			bool compactMode = Service.Configuration.CompactSettingsWindow;
 			bool enabled = Service.Configuration.IsEnabled(preset);
 			CustomComboPreset[] conflicts = preset.GetConflicts();
 			CustomComboPreset? parent = preset.GetParent();
@@ -226,9 +241,30 @@ namespace XIVComboVX.Config {
 			bool hasDetails = this.detailSettings.TryGetValue(preset, out List<ComboDetailSetting>? details)
 				&& details is not null;
 
-			ImGui.PushItemWidth(200);
+			string conflictWarning = string.Empty;
+			if (conflicts.Length > 0) {
+				string[] conflictNames = conflicts
+					.Select(p => p.GetAttribute<CustomComboInfoAttribute>().FancyName)
+					.ToArray();
+				conflictWarning = $"Conflicts with: {string.Join(", ", conflictNames)}";
+			}
 
-			if (ImGui.Checkbox(info.FancyName, ref enabled)) {
+			ImGui.PushItemWidth(200);
+			bool toggled = ImGui.Checkbox($"{i}: {info.FancyName}", ref enabled);
+			ImGui.PopItemWidth();
+
+			if (compactMode && ImGui.IsItemHovered()) {
+				ImGui.BeginTooltip();
+
+				ImGui.TextUnformatted(info.Description);
+
+				if (conflictWarning.Length > 0)
+					ImGui.TextColored(shadedColour, conflictWarning);
+
+				ImGui.EndTooltip();
+			}
+
+			if (toggled) {
 				if (enabled) {
 
 					Service.Configuration.EnabledActions.Add(preset);
@@ -246,29 +282,23 @@ namespace XIVComboVX.Config {
 				Service.Configuration.Save();
 			}
 
-			ImGui.PopItemWidth();
+			ImGui.PushTextWrapPos((this.Size?.Y ?? minWidth) - 20);
 
+			if (!compactMode)
+				ImGui.TextUnformatted(info.Description);
 			if (dangerous)
 				ImGui.TextColored(warningColour, "UNSAFE - may potentially crash, use at your own risk!\n");
 			else if (experimental)
 				ImGui.TextColored(warningColour, "EXPERIMENTAL - not yet fully tested, may cause unwanted behaviour!");
-
-			string description = $"#{i}: {info.Description}";
-
-			if (conflicts.Length > 0) {
-				string[] conflictNames = conflicts
-					.Select(p => p.GetAttribute<CustomComboInfoAttribute>().FancyName)
-					.ToArray();
-				description += $"\nConflicts with: {string.Join(", ", conflictNames)}";
-			}
+			if (!compactMode && conflictWarning.Length > 0)
+				ImGui.TextColored(shadedColour, conflictWarning);
 			if (hasChildren && hideChildren && !enabled)
-				description += "\nThis preset has one or more children.";
+				ImGui.TextColored(shadedColour, "This preset has one or more children.");
 			if (hasDetails && !enabled)
-				description += "\nThis preset has additional configurable options.";
+				ImGui.TextColored(shadedColour, "This preset has additional configurable options.");
 
-			ImGui.PushTextWrapPos((this.Size?.Y ?? minWidth) - 20);
-			ImGui.TextColored(shadedColour, description);
 			ImGui.PopTextWrapPos();
+
 			ImGui.Spacing();
 
 			if (hasDetails && enabled) {
@@ -359,9 +389,11 @@ namespace XIVComboVX.Config {
 			if (hasChildren && (!hideChildren || enabled)) {
 				ImGui.Indent();
 				ImGui.Indent();
+
 				foreach ((CustomComboPreset childPreset, CustomComboInfoAttribute childInfo) in children!) {
 					this.drawPreset(childPreset, childInfo, ref i);
 				}
+
 				ImGui.Unindent();
 				ImGui.Unindent();
 			}
