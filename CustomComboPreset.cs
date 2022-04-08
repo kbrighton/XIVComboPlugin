@@ -946,7 +946,7 @@ namespace XIVComboVX {
 		[CustomComboInfo("Nascent Flash Feature", "Replace Nascent Flash with Raw Intuition when below level 76.", WAR.JobID)]
 		WarriorNascentFlashFeature = 2105,
 
-		[CustomComboInfo("Angry Beast Feature", "Replace Inner Beast, Fell Cleave, Steel Cyclone, and Decimate with Infuriate when less then 50 Beast Gauge is available.", WAR.JobID)]
+		[CustomComboInfo("Angry Beast Feature", "Replace Inner Beast/Fell Cleave and Steel Cyclone/Decimate with Infuriate when less then 50 Beast Gauge is available.\nWhen you have at least 50 gauge AND the Nascent Chaos buff, they become Inner Chaos and Chaotic Cyclone, respectively.", WAR.JobID)]
 		WarriorInfuriateBeastFeature = 2113,
 
 		[ParentPreset(WarriorInfuriateBeastFeature)]

@@ -56,6 +56,7 @@ namespace XIVComboVX.Combos {
 				Equilibrium = 58,
 				Decimate = 60,
 				InnerRelease = 70,
+				ChaoticCyclone = 72,
 				MythrilTempestTrait = 74,
 				NascentFlash = 76,
 				InnerChaos = 80,
@@ -161,15 +162,22 @@ namespace XIVComboVX.Combos {
 					return WAR.PrimalRend;
 			}
 
-			if (IsEnabled(CustomComboPreset.WarriorInfuriateBeastFeature)) {
+			uint normal = OriginalHook(actionID);
+
+			if (IsEnabled(CustomComboPreset.WarriorInfuriateBeastFeature) && level >= WAR.Levels.Infuriate) {
+				WARGauge gauge = GetJobGauge<WARGauge>();
 				int threshold = IsEnabled(CustomComboPreset.WarriorInfuriateBeastRaidModeFeature)
 					? 60
 					: 50;
-				if (level >= WAR.Levels.Infuriate && GetJobGauge<WARGauge>().BeastGauge < threshold && !SelfHasEffect(WAR.Buffs.InnerRelease))
+
+				if (gauge.BeastGauge >= 50 && normal is WAR.InnerChaos or WAR.ChaoticCyclone)
+					return normal;
+
+				if (gauge.BeastGauge < threshold && !SelfHasEffect(WAR.Buffs.InnerRelease))
 					return WAR.Infuriate;
 			}
 
-			return actionID;
+			return normal;
 		}
 	}
 
