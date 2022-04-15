@@ -396,7 +396,7 @@ namespace XIVComboVX {
 		// ====================================================================================
 		#region MONK (20xx)
 
-		[CustomComboInfo("Monk AoE Combo", "Replaces Masterful Blitz with the AoE combo chain.", MNK.JobID)]
+		[CustomComboInfo("Monk AoE Combo", "Replaces (Arm/Shadow) of the Destroyer with the AoE combo chain.", MNK.JobID)]
 		MonkAoECombo = 2000,
 
 		[CustomComboInfo("Dragon Kick to Bootshine Feature", "Replaces Dragon Kick with Bootshine if Leaden Fist is up.", MNK.JobID)]
