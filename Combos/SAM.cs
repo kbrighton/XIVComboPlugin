@@ -57,7 +57,7 @@ namespace XIVComboVX.Combos {
 				Oka = 45,
 				Yukikaze = 50,
 				MeikyoShisui = 50,
-				HissatsuKyuten = 64,
+				HissatsuKyuten = 62,
 				HissatsuGuren = 70,
 				HissatsuSenei = 72,
 				TsubameGaeshi = 76,
