@@ -29,7 +29,8 @@ namespace XIVComboVX.Combos {
 		public static class Buffs {
 			public const ushort
 				Requiescat = 1368,
-				SwordOath = 1902;
+				SwordOath = 1902,
+				BladeOfFaithReady = 3019;
 		}
 
 		public static class Debuffs {
@@ -156,14 +157,6 @@ namespace XIVComboVX.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-			if (comboTime > 0 && PartialChainCombo(level, lastComboMove, out uint move, (PLD.Levels.Confiteor, PLD.Confiteor),
-				(PLD.Levels.BladeOfFaith, PLD.BladeOfFaith),
-				(PLD.Levels.BladeOfTruth, PLD.BladeOfTruth),
-				(PLD.Levels.BladeOfValor, PLD.BladeOfValor)
-			)) {
-				return move;
-			}
-
 			if (level >= PLD.Levels.Confiteor && (SelfFindEffect(PLD.Buffs.Requiescat)?.StackCount == 1 || LocalPlayer?.CurrentMp < 2000))
 				return PLD.Confiteor;
 
@@ -176,14 +169,6 @@ namespace XIVComboVX.Combos {
 		public override uint[] ActionIDs { get; } = new[] { PLD.Requiescat };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-
-			if (comboTime > 0 && PartialChainCombo(level, lastComboMove, out uint move, (PLD.Levels.Confiteor, PLD.Confiteor),
-				(PLD.Levels.BladeOfFaith, PLD.BladeOfFaith),
-				(PLD.Levels.BladeOfTruth, PLD.BladeOfTruth),
-				(PLD.Levels.BladeOfValor, PLD.BladeOfValor)
-			)) {
-				return move;
-			}
 
 			if (level >= PLD.Levels.Confiteor && SelfHasEffect(PLD.Buffs.Requiescat))
 				return PLD.Confiteor;
