@@ -69,27 +69,16 @@ namespace XIVComboVX.Combos {
 		}
 	}
 
-	internal class DragoonJump: CustomCombo {
-		public override CustomComboPreset Preset => CustomComboPreset.DragoonJumpFeature;
-		public override uint[] ActionIDs { get; } = new[] { DRG.Jump, DRG.HighJump };
-
-		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-
-			if (level >= DRG.Levels.MirageDive && SelfHasEffect(DRG.Buffs.DiveReady))
-				return DRG.MirageDive;
-
-			return OriginalHook(actionID);
-		}
-	}
-
 	internal class DragoonCoerthanTorment: CustomCombo {
 		public override CustomComboPreset Preset => CustomComboPreset.DrgAny;
 		public override uint[] ActionIDs { get; } = new[] { DRG.CoerthanTorment };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-			if (IsEnabled(CustomComboPreset.DragoonCoerthanWyrmwindFeature) && GetJobGauge<DRGGauge>().FirstmindsFocusCount == 2)
-				return DRG.WyrmwindThrust;
+			if (IsEnabled(CustomComboPreset.DragoonCoerthanWyrmwindFeature)) {
+				if (GetJobGauge<DRGGauge>().FirstmindsFocusCount == 2)
+					return DRG.WyrmwindThrust;
+			}
 
 			if (IsEnabled(CustomComboPreset.DragoonCoerthanTormentCombo)) {
 
@@ -115,11 +104,11 @@ namespace XIVComboVX.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-			if (IsEnabled(CustomComboPreset.DragoonFangThrustFeature)
-				&& level >= DRG.Levels.FangAndClaw
-				&& (SelfHasEffect(DRG.Buffs.SharperFangAndClaw) || SelfHasEffect(DRG.Buffs.EnhancedWheelingThrust))
-			) {
-				return DRG.WheelingThrust;
+			if (IsEnabled(CustomComboPreset.DragoonFangThrustFeature)) {
+				if (level >= DRG.Levels.FangAndClaw) {
+					if (SelfHasEffect(DRG.Buffs.SharperFangAndClaw) || SelfHasEffect(DRG.Buffs.EnhancedWheelingThrust))
+						return DRG.WheelingThrust;
+				}
 			}
 
 			if (IsEnabled(CustomComboPreset.DragoonChaosThrustCombo)) {
