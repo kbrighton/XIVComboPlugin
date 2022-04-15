@@ -183,19 +183,6 @@ namespace XIVComboVX.Combos {
 		}
 	}
 
-	internal class SummonerSearingCarbuncleFeature: CustomCombo {
-		public override CustomComboPreset Preset { get; } = CustomComboPreset.SummonerSearingCarbuncleFeature;
-		public override uint[] ActionIDs { get; } = new[] { SMN.SearingLight };
-
-		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-
-			if (level >= SMN.Levels.SummonCarbuncle && !HasPetPresent() && GetJobGauge<SMNGauge>().Attunement == 0)
-				return SMN.SummonCarbuncle;
-
-			return actionID;
-		}
-	}
-
 	internal class SummonerSlipcastFeature: CustomCombo {
 		public override CustomComboPreset Preset { get; } = CustomComboPreset.SummonerSlipcastFeature;
 		public override uint[] ActionIDs { get; } = new[] { SMN.AstralFlow, SMN.Slipstream };
