@@ -68,8 +68,10 @@ namespace XIVComboVX.Combos {
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			BLMGauge gauge = GetJobGauge<BLMGauge>();
 
-			if (actionID is BLM.Blizzard4 && IsEnabled(CustomComboPreset.BlackUmbralSoulFeature) && level >= BLM.Levels.UmbralSoul && gauge.InUmbralIce && !HasTarget)
-				return BLM.UmbralSoul;
+			if (IsEnabled(CustomComboPreset.BlackUmbralSoulFeature)) {
+				if (actionID is BLM.Blizzard4 && level >= BLM.Levels.UmbralSoul && gauge.InUmbralIce && !HasTarget)
+					return BLM.UmbralSoul;
+			}
 
 			if (actionID is BLM.Fire4 or BLM.Blizzard4) {
 
@@ -157,8 +159,10 @@ namespace XIVComboVX.Combos {
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			BLMGauge gauge = GetJobGauge<BLMGauge>();
 
-			if (IsEnabled(CustomComboPreset.BlackUmbralSoulFeature) && level >= BLM.Levels.UmbralSoul && gauge.InUmbralIce && !HasTarget)
-				return BLM.UmbralSoul;
+			if (IsEnabled(CustomComboPreset.BlackUmbralSoulFeature)) {
+				if (level >= BLM.Levels.UmbralSoul && gauge.InUmbralIce && !HasTarget)
+					return BLM.UmbralSoul;
+			}
 
 			if (IsEnabled(CustomComboPreset.BlackBlizzardFeature)) {
 
@@ -183,7 +187,6 @@ namespace XIVComboVX.Combos {
 			BLMGauge gauge = GetJobGauge<BLMGauge>();
 
 			if (actionID is BLM.Freeze) {
-
 				if (IsEnabled(CustomComboPreset.BlackUmbralSoulFeature)) {
 					if (level >= BLM.Levels.UmbralSoul && gauge.InUmbralIce && !HasTarget)
 						return BLM.UmbralSoul;
@@ -214,8 +217,12 @@ namespace XIVComboVX.Combos {
 					return actionID;
 			}
 
-			if (level >= BLM.Levels.Flare && gauge.InAstralFire && (gauge.UmbralHearts == 1 || LocalPlayer?.CurrentMp < 3800 || SelfHasEffect(BLM.Buffs.EnhancedFlare)))
+			if (level >= BLM.Levels.Flare
+				&& gauge.InAstralFire &&
+				(gauge.UmbralHearts == 1 || LocalPlayer?.CurrentMp < 3800 || SelfHasEffect(BLM.Buffs.EnhancedFlare))
+			) {
 				return BLM.Flare;
+			}
 
 			return actionID;
 		}

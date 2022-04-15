@@ -74,8 +74,10 @@ namespace XIVComboVX.Combos {
 
 			ASTGauge gauge = GetJobGauge<ASTGauge>();
 
-			if (level >= AST.Levels.Astrodyne && IsEnabled(CustomComboPreset.AstrologianPlayAstrodyneFeature) && !gauge.ContainsSeal(SealType.NONE))
-				return AST.Astrodyne;
+			if (IsEnabled(CustomComboPreset.AstrologianPlayAstrodyneFeature)) {
+				if (level >= AST.Levels.Astrodyne && !gauge.ContainsSeal(SealType.NONE))
+					return AST.Astrodyne;
+			}
 
 			if (IsEnabled(CustomComboPreset.AstrologianPlayDrawFeature)) {
 

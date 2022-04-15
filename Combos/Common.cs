@@ -18,11 +18,9 @@
 
 	internal abstract class SwiftRaiseCombo: CustomCombo {
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-
-			if (ShouldSwiftcast)
-				return Common.Swiftcast;
-
-			return actionID;
+			return ShouldSwiftcast
+				? Common.Swiftcast
+				: actionID;
 		}
 	}
 
