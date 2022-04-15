@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<Authors>attick, daemitus, VariableVixen</Authors>
-		<Version>5.1</Version>
+		<Version>6.0</Version>
 		<Description>This plugin condenses various abilities onto single buttons.</Description>
 		<Copyright>Copyleft attick 2020 baybeeee</Copyright>
 		<PackageProjectUrl>https://github.com/PrincessRTFM/XIVComboPlugin</PackageProjectUrl>
@@ -45,7 +45,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="DalamudPackager" Version="2.1.5" />
+		<PackageReference Include="DalamudPackager" Version="2.1.6" />
 		<PackageReference Include="ILRepack" Version="2.0.18" />
 		<Reference Include="FFXIVClientStructs">
 			<HintPath>$(SolutionDir)lib\FFXIVClientStructs\bin\$(ConfigurationName)\FFXIVClientStructs.dll</HintPath>
