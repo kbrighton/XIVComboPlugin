@@ -159,9 +159,6 @@ namespace XIVComboVX {
 		// ====================================================================================
 		#region BARD (23xx)
 
-		[CustomComboInfo("Wanderer's into Pitch Perfect", "Replaces Wanderer's Minuet with Pitch Perfect while in WM.", BRD.JobID)]
-		BardWanderersPitchPerfectFeature = 2300,
-
 		[CustomComboInfo("Heavy Shot into Straight Shot", "Replaces Heavy Shot/Burst Shot with Straight Shot/Refulgent Arrow when procced.", BRD.JobID)]
 		BardStraightShotUpgradeFeature = 2301,
 
@@ -206,18 +203,8 @@ namespace XIVComboVX {
 		[CustomComboInfo("AoE Multibutton", "Change Windmill into procs and combos as available.", DNC.JobID)]
 		DancerAoeMultibutton = 3801,
 
-		[CustomComboInfo("Flourish Proc Saver", "Change Flourish into any available procs before using.", DNC.JobID)]
+		[CustomComboInfo("Flourish Dance 4", "Change Flourish into Fan Dance 4 when available.", DNC.JobID)]
 		DancerFlourishFeature = 3804,
-
-		[ParentPreset(DancerFlourishFeature)]
-		[Conflicts(DancerFlourishCooldownFeature)]
-		[CustomComboInfo("Only for Fan Dance 4", "Only change Flourish into Fan Dance 4, not the other procs.", DNC.JobID)]
-		DancerFlourishLimitedFeature = 3810,
-
-		[ParentPreset(DancerFlourishFeature)]
-		[Conflicts(DancerFlourishLimitedFeature)]
-		[CustomComboInfo("Only when off CD", "Only change Flourish into procs (other than Fan Dance 4) when Flourish is off CD.", DNC.JobID)]
-		DancerFlourishCooldownFeature = 3811,
 
 		[Conflicts(DancerDanceComboCompatibility)]
 		[CustomComboInfo("Dance Step Combo", "Change Standard Step and Technical Step into each dance step while dancing.", DNC.JobID)]
@@ -225,9 +212,6 @@ namespace XIVComboVX {
 
 		[CustomComboInfo("Devilment Feature", "Change Devilment into Starfall Dance after use.", DNC.JobID)]
 		DancerDevilmentFeature = 3807,
-
-		// [CustomComboInfo("Fan Dance Switchers", "Change Fan Dance 1/2 into Fan Dance 3/4 based on the below combos.", DNC.JobID)]
-		// DancerFanDanceSwitcher = 3810,
 
 		[CustomComboInfo("Fan Dance 1/3 Combo", "Change Fan Dance 1 into Fan Dance 3 when available.", DNC.JobID)]
 		DancerFanDance13Combo = 3802,
@@ -249,9 +233,6 @@ namespace XIVComboVX {
 		#endregion
 		// ====================================================================================
 		#region DRAGOON (22xx)
-
-		[CustomComboInfo("Jump + Mirage Dive", "Replace (High) Jump with Mirage Dive when Dive Ready.", DRG.JobID)]
-		DragoonJumpFeature = 2203,
 
 		[CustomComboInfo("Coerthan Torment Combo", "Replace Coerthan Torment with its combo chain.", DRG.JobID)]
 		DragoonCoerthanTormentCombo = 2200,
@@ -533,13 +514,13 @@ namespace XIVComboVX {
 		[CustomComboInfo("Prominence Combo", "Replace Prominence with its combo chain.", PLD.JobID)]
 		PaladinProminenceCombo = 1903,
 
-		[CustomComboInfo("Requiescat Confiteor", "Replace Requiescat with Confiteor while under the effect of Requiescat.\nIncludes Confiteor's combos while chaining.", PLD.JobID)]
+		[CustomComboInfo("Requiescat Confiteor", "Replace Requiescat with Confiteor while under the effect of Requiescat.", PLD.JobID)]
 		PaladinRequiescatConfiteorCombo = 1904,
 
 		[CustomComboInfo("Requiescat Feature", "Replace Royal Authority/Goring Blade combos with Holy Spirit, and Prominence combo with Holy Circle, while Requiescat is active.", PLD.JobID)]
 		PaladinRequiescatFeature = 1905,
 
-		[CustomComboInfo("Confiteor Feature", "Replace Holy Spirit/Circle with Confiteor (and then its combos) when Requiescat is up and MP is under 2000 or only one stack remains.\nAlso changes the RA/GB/Prominence into HS/HC combos into Confiteor, though NOT into its subsequent combos.", PLD.JobID)]
+		[CustomComboInfo("Confiteor Feature", "Replace Holy Spirit/Circle with Confiteor when Requiescat is up and MP is under 2000 or only one stack remains.\nAlso changes the RA/GB/Prominence-into-HS/HC-combos into Confiteor.", PLD.JobID)]
 		PaladinConfiteorFeature = 1908,
 
 		[CustomComboInfo("Intervene Level Sync", "Replace Intervene with Shield Lob when under level.", PLD.JobID)]
@@ -901,9 +882,6 @@ namespace XIVComboVX {
 
 		[CustomComboInfo("Radiant Carbuncle Feature", "Change Radiant Aegis into Summon Carbuncle when no pet has been summoned.", SMN.JobID)]
 		SummonerRadiantCarbuncleFeature = 2716,
-
-		[CustomComboInfo("Searing Carbuncle Feature", "Change Searing Light into Summon Carbuncle when no pet has been summoned.", SMN.JobID)]
-		SummonerSearingCarbuncleFeature = 2717,
 
 		[CustomComboInfo("Slipstream / Swiftcast Feature", "Change Slipstream into Swiftcast when Swiftcast is available.", SMN.JobID)]
 		SummonerSlipcastFeature = 2718,
