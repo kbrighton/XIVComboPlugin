@@ -1,4 +1,3 @@
-using Dalamud.Game.ClientState.JobGauge.Enums;
 using Dalamud.Game.ClientState.JobGauge.Types;
 using Dalamud.Game.ClientState.Statuses;
 
@@ -68,19 +67,6 @@ namespace XIVComboVX.Combos {
 				Ladonsbite = 82,
 				BlastShot = 86,
 				RadiantFinale = 90;
-		}
-	}
-
-	internal class BardWanderersPitchPerfectFeature: CustomCombo {
-		public override CustomComboPreset Preset => CustomComboPreset.BardWanderersPitchPerfectFeature;
-		public override uint[] ActionIDs { get; } = new[] { BRD.WanderersMinuet };
-
-		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-
-			if (level >= BRD.Levels.PitchPerfect && GetJobGauge<BRDGauge>().Song == Song.WANDERER)
-				return BRD.PitchPerfect;
-
-			return actionID;
 		}
 	}
 
@@ -180,8 +166,10 @@ namespace XIVComboVX.Combos {
 
 			}
 
-			if (IsEnabled(CustomComboPreset.BardShadowbiteFeature) && level >= BRD.Levels.Shadowbite && SelfHasEffect(BRD.Buffs.ShadowbiteReady))
-				return BRD.Shadowbite;
+			if (IsEnabled(CustomComboPreset.BardShadowbiteFeature)) {
+				if (level >= BRD.Levels.Shadowbite && SelfHasEffect(BRD.Buffs.ShadowbiteReady))
+					return BRD.Shadowbite;
+			}
 
 			return actionID;
 		}
@@ -203,14 +191,15 @@ namespace XIVComboVX.Combos {
 
 			}
 
-			if (IsEnabled(CustomComboPreset.BardBloodRainFeature)
-				&& level >= BRD.Levels.RainOfDeath
-				&& !TargetHasOwnEffect(BRD.Debuffs.CausticBite)
-				&& !TargetHasOwnEffect(BRD.Debuffs.Stormbite)
-				&& !TargetHasOwnEffect(BRD.Debuffs.Windbite)
-				&& !TargetHasOwnEffect(BRD.Debuffs.VenomousBite)
-			) {
-				return BRD.RainOfDeath;
+			if (IsEnabled(CustomComboPreset.BardBloodRainFeature)) {
+				if (level >= BRD.Levels.RainOfDeath
+					&& !TargetHasOwnEffect(BRD.Debuffs.CausticBite)
+					&& !TargetHasOwnEffect(BRD.Debuffs.Stormbite)
+					&& !TargetHasOwnEffect(BRD.Debuffs.Windbite)
+					&& !TargetHasOwnEffect(BRD.Debuffs.VenomousBite)
+				) {
+					return BRD.RainOfDeath;
+				}
 			}
 
 			return actionID;
@@ -252,8 +241,12 @@ namespace XIVComboVX.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-			if (level >= BRD.Levels.StraightShot && SelfHasEffect(BRD.Buffs.StraightShotReady) && !SelfHasEffect(BRD.Buffs.ShadowbiteReady))
+			if (level >= BRD.Levels.StraightShot
+				&& SelfHasEffect(BRD.Buffs.StraightShotReady)
+				&& !SelfHasEffect(BRD.Buffs.ShadowbiteReady)
+			) {
 				return OriginalHook(BRD.StraightShot);
+			}
 
 			return actionID;
 		}
