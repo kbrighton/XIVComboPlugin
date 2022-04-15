@@ -34,10 +34,12 @@ namespace XIVComboVX.Combos {
 
 		public static class Buffs {
 			public const ushort
-				FlourishingSymmetry = 2693,
-				FlourishingFlow = 2694,
+				FlourishingSymmetry = 3017,
+				FlourishingFlow = 3018,
 				FlourishingFinish = 2698,
 				FlourishingStarfall = 2700,
+				SilkenSymmetry = 2693,
+				SilkenFlow = 2694,
 				StandardStep = 1818,
 				TechnicalStep = 1819,
 				ThreefoldFanDance = 1820,
@@ -128,7 +130,6 @@ namespace XIVComboVX.Combos {
 		public override uint[] ActionIDs { get; } = new[] { DNC.StandardStep, DNC.TechnicalStep };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-
 			if (level >= DNC.Levels.StandardStep) {
 				DNCGauge gauge = GetJobGauge<DNCGauge>();
 
@@ -160,21 +161,6 @@ namespace XIVComboVX.Combos {
 			if (level >= DNC.Levels.FanDance4 && SelfHasEffect(DNC.Buffs.FourfoldFanDance))
 				return DNC.FanDance4;
 
-			if (IsEnabled(CustomComboPreset.DancerFlourishLimitedFeature)
-				|| (IsEnabled(CustomComboPreset.DancerFlourishCooldownFeature) && IsOnCooldown(actionID))
-			) {
-				return actionID;
-			}
-
-			if (level >= DNC.Levels.Fountainfall && SelfHasEffect(DNC.Buffs.FlourishingFlow))
-				return DNC.Fountainfall;
-
-			if (level >= DNC.Levels.ReverseCascade && SelfHasEffect(DNC.Buffs.FlourishingSymmetry))
-				return DNC.ReverseCascade;
-
-			if (level >= DNC.Levels.FanDance3 && SelfHasEffect(DNC.Buffs.ThreefoldFanDance))
-				return DNC.FanDance3;
-
 			return actionID;
 		}
 	}
@@ -185,10 +171,10 @@ namespace XIVComboVX.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-			if (level >= DNC.Levels.Fountainfall && SelfHasEffect(DNC.Buffs.FlourishingFlow))
+			if (level >= DNC.Levels.Fountainfall && (SelfHasEffect(DNC.Buffs.FlourishingFlow) || SelfHasEffect(DNC.Buffs.SilkenFlow)))
 				return DNC.Fountainfall;
 
-			if (level >= DNC.Levels.ReverseCascade && SelfHasEffect(DNC.Buffs.FlourishingSymmetry))
+			if (level >= DNC.Levels.ReverseCascade && (SelfHasEffect(DNC.Buffs.FlourishingSymmetry) || SelfHasEffect(DNC.Buffs.SilkenSymmetry)))
 				return DNC.ReverseCascade;
 
 			if (lastComboMove is DNC.Cascade && level >= DNC.Levels.Fountain)
@@ -204,10 +190,10 @@ namespace XIVComboVX.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-			if (level >= DNC.Levels.Bloodshower && SelfHasEffect(DNC.Buffs.FlourishingFlow))
+			if (level >= DNC.Levels.Bloodshower && (SelfHasEffect(DNC.Buffs.FlourishingFlow) || SelfHasEffect(DNC.Buffs.SilkenFlow)))
 				return DNC.Bloodshower;
 
-			if (level >= DNC.Levels.RisingWindmill && SelfHasEffect(DNC.Buffs.FlourishingSymmetry))
+			if (level >= DNC.Levels.RisingWindmill && (SelfHasEffect(DNC.Buffs.FlourishingSymmetry) || SelfHasEffect(DNC.Buffs.SilkenSymmetry)))
 				return DNC.RisingWindmill;
 
 			if (lastComboMove is DNC.Windmill && level >= DNC.Levels.Bladeshower)
