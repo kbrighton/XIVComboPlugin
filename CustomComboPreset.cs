@@ -208,7 +208,7 @@ namespace XIVComboVX {
 		DancerAoeMultibutton = 3801,
 
 		[ParentPreset(DancerAoeMultibutton)]
-		[CustomComboInfo("Fan Dance 2 Weaving", "Also change into Fan Dance 2 when you can weave without clipping.", DNC.JobID)]
+		[CustomComboInfo("Fan Dance 2/4 Weaving", "Also change into Fan Dance 2/4 when you can weave without clipping.", DNC.JobID)]
 		DancerAoeFanDanceWeave = 3811,
 
 		[CustomComboInfo("Flourish Dance 4", "Change Flourish into Fan Dance 4 when available.", DNC.JobID)]

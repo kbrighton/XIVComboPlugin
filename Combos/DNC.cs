@@ -206,8 +206,10 @@ namespace XIVComboVX.Combos {
 			if (IsEnabled(CustomComboPreset.DancerAoeFanDanceWeave)) {
 				if (level >= DNC.Levels.FanDance2) {
 					if (CanWeave(actionID)) {
-						if (GetJobGauge<DNCGauge>().Feathers > 0)
-							return DNC.FanDance1;
+						if (level >= DNC.Levels.FanDance4 && SelfHasEffect(DNC.Buffs.FourfoldFanDance))
+							return DNC.FanDance4;
+						else if (GetJobGauge<DNCGauge>().Feathers > 0)
+							return DNC.FanDance2;
 					}
 				}
 			}
