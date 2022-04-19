@@ -176,7 +176,7 @@ namespace XIVComboVX.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-			if (level >= SMN.Levels.SummonCarbuncle && !HasPetPresent() && GetJobGauge<SMNGauge>().Attunement == 0)
+			if (level >= SMN.Levels.SummonCarbuncle && !HasPetPresent && GetJobGauge<SMNGauge>().Attunement == 0)
 				return SMN.SummonCarbuncle;
 
 			return actionID;

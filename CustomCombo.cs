@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.ClientState.JobGauge.Types;
@@ -80,7 +81,17 @@ namespace XIVComboVX.Combos {
 		}
 		protected abstract uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level);
 
-		#region Common calculations
+		protected internal static bool IsEnabled(CustomComboPreset preset) {
+			if ((int)preset < 100) {
+				Service.Logger.debug($"Bypassing is-enabled check for preset #{(int)preset}");
+				return true;
+			}
+			bool enabled = Service.Configuration.IsEnabled(preset);
+			Service.Logger.debug($"Checking status of preset #{(int)preset} - {enabled}");
+			return enabled;
+		}
+
+		#region Common calculations and shortcuts
 
 		protected static uint PickByCooldown(uint original, params uint[] actions) {
 
@@ -167,21 +178,8 @@ namespace XIVComboVX.Combos {
 			return sequence[0].id;
 		}
 
-		#endregion
-
-		#region Utility/convenience getters
-
-		protected internal static uint OriginalHook(uint actionID)
-			=> Service.IconReplacer.OriginalHook(actionID);
-
-		protected static bool IsOriginal(uint actionID)
-			=> OriginalHook(actionID) == actionID;
-
-		protected static PlayerCharacter LocalPlayer
-			=> Service.Client.LocalPlayer!;
-
 		protected static bool IsJob(params uint[] jobs) {
-			PlayerCharacter? p = Service.Client.LocalPlayer;
+			PlayerCharacter? p = LocalPlayer;
 			if (p is null)
 				return false;
 			uint current = p.ClassJob.Id;
@@ -192,21 +190,18 @@ namespace XIVComboVX.Combos {
 			return false;
 		}
 
-		protected static bool HasTarget
-			=> Service.Targets.Target is not null;
+		protected internal static uint OriginalHook(uint actionID)
+			=> Service.IconReplacer.OriginalHook(actionID);
 
-		protected static GameObject? CurrentTarget
-			=> Service.Targets.Target;
+		protected static bool IsOriginal(uint actionID)
+			=> OriginalHook(actionID) == actionID;
 
-		protected internal static bool IsEnabled(CustomComboPreset preset) {
-			if ((int)preset < 100) {
-				Service.Logger.debug($"Bypassing is-enabled check for preset #{(int)preset}");
-				return true;
-			}
-			bool enabled = Service.Configuration.IsEnabled(preset);
-			Service.Logger.debug($"Checking status of preset #{(int)preset} - {enabled}");
-			return enabled;
-		}
+		#endregion
+
+		#region Player details/stats
+
+		protected static PlayerCharacter LocalPlayer
+			=> Service.Client.LocalPlayer!;
 
 		protected internal static bool HasCondition(ConditionFlag flag)
 			=> Service.Conditions[flag];
@@ -214,11 +209,11 @@ namespace XIVComboVX.Combos {
 		protected internal static bool InCombat
 			=> Service.Conditions[ConditionFlag.InCombat];
 
-		protected internal static bool HasPetPresent()
+		protected internal static bool HasPetPresent
 			=> Service.BuddyList.PetBuddyPresent;
 
-		protected internal static T GetJobGauge<T>() where T : JobGaugeBase
-			=> Service.DataCache.GetJobGauge<T>();
+		protected static double PlayerHealthPercentage
+			=> LocalPlayer.CurrentHp / LocalPlayer.MaxHp * 100;
 
 		protected internal static bool ShouldSwiftcast
 			=> IsOffCooldown(Common.Swiftcast)
@@ -230,8 +225,44 @@ namespace XIVComboVX.Combos {
 				|| SelfHasEffect(Common.Buffs.Swiftcast3)
 				|| SelfHasEffect(RDM.Buffs.Dualcast)
 				|| SelfHasEffect(Common.Buffs.LostChainspell);
+
+		protected internal static T GetJobGauge<T>() where T : JobGaugeBase
+			=> Service.DataCache.GetJobGauge<T>();
+
+		#endregion
+
+		#region Target details/stats
+
+		protected static GameObject? CurrentTarget
+			=> Service.Targets.Target;
+
+		protected static bool HasTarget
+			=> CurrentTarget is not null;
 		protected internal static bool CanInterrupt
 			=> Service.DataCache.CanInterruptTarget;
+
+		protected internal static double TargetDistance {
+			get {
+				if (LocalPlayer is null || CurrentTarget is null)
+					return 0;
+
+				GameObject target = CurrentTarget;
+
+				Vector2 tPos = new(target.Position.X, target.Position.Z);
+				Vector2 sPos = new(LocalPlayer.Position.X, LocalPlayer.Position.Z);
+
+				return Vector2.Distance(tPos, sPos) - target.HitboxRadius - LocalPlayer.HitboxRadius;
+			}
+		}
+		protected internal static bool InMeleeRange
+			=> TargetDistance <= 3;
+
+		protected static double TargetCurrentHp
+			=> CurrentTarget is BattleChara npc ? npc.CurrentHp : 0;
+		protected static double TargetMaxHp
+			=> CurrentTarget is BattleChara npc ? npc.MaxHp : 0;
+		protected static double TargetHealthPercentage
+			=> CurrentTarget is BattleChara npc ? npc.CurrentHp / npc.MaxHp * 100 : 0;
 
 		#endregion
 
@@ -248,6 +279,11 @@ namespace XIVComboVX.Combos {
 
 		protected internal static bool HasCharges(uint actionID)
 			=> GetCooldown(actionID).HasCharges;
+
+		protected internal static bool CanWeave(uint actionID, double weaveTime = 0.7)
+		   => GetCooldown(actionID).CooldownRemaining > weaveTime;
+		protected internal static bool CanSpellWeave(uint actionID, double weaveTime = 0.5)
+			=> GetCooldown(actionID).CooldownRemaining > weaveTime && !LocalPlayer.IsCasting;
 
 		#endregion
 

@@ -145,7 +145,7 @@ namespace XIVComboVX.Combos {
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			SCHGauge gauge = GetJobGauge<SCHGauge>();
 
-			if (gauge.SeraphTimer > 0 || HasPetPresent())
+			if (gauge.SeraphTimer > 0 || HasPetPresent)
 				return OriginalHook(SCH.SummonSeraph);
 
 			return actionID;
