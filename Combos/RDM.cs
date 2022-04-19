@@ -11,8 +11,10 @@ namespace XIVComboVX.Combos {
 		public const uint
 			Verraise = 7523,
 			Verthunder = 7505,
+			Corpsacorps = 7506,
 			Veraero = 7507,
 			Scatter = 7509,
+			Displacement = 7515,
 			Veraero2 = 16525,
 			Verthunder2 = 16524,
 			Impact = 16526,
@@ -35,6 +37,7 @@ namespace XIVComboVX.Combos {
 			Verholy = 7526,
 			Verflare = 7525,
 			Swiftcast = 7561,
+			Engagement = 16527,
 			Scorch = 16530,
 			Resolution = 25858;
 
@@ -54,12 +57,15 @@ namespace XIVComboVX.Combos {
 			public const byte
 				Jolt = 2,
 				Verthunder = 4,
+				Corpsacorps = 6,
 				Veraero = 10,
 				Scatter = 15,
 				Swiftcast = 18,
 				Verthunder2 = 18,
 				Veraero2 = 22,
 				Zwerchhau = 35,
+				Displacement = 40,
+				Engagement = 40,
 				Fleche = 45,
 				Redoublement = 50,
 				Acceleration = 50,
@@ -147,6 +153,11 @@ namespace XIVComboVX.Combos {
 			}
 
 			if (actionID is RDM.Redoublement) {
+
+				if (IsEnabled(CustomComboPreset.RedMageMeleeComboCloser)) {
+					if (HasTarget && !InMeleeRange)
+						return RDM.Corpsacorps;
+				}
 
 				if (lastComboMove is RDM.Zwerchhau or RDM.EnchantedZwerchhau && level >= RDM.Levels.Redoublement)
 					return OriginalHook(RDM.Redoublement);
@@ -444,6 +455,23 @@ namespace XIVComboVX.Combos {
 
 			if (level >= RDM.Levels.Manafication && IsOffCooldown(RDM.Manafication) && IsOnCooldown(RDM.Embolden))
 				return RDM.Manafication;
+
+			return actionID;
+		}
+	}
+
+	internal class RedMageGapControl: CustomCombo {
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.RdmAny;
+		public override uint[] ActionIDs => new[] { RDM.Corpsacorps, RDM.Displacement };
+
+		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+			if (level < RDM.Levels.Displacement)
+				return actionID;
+
+			if ((actionID is RDM.Corpsacorps && IsEnabled(CustomComboPreset.RedMageMeleeGapReverserBackstep)) || (actionID is RDM.Displacement && IsEnabled(CustomComboPreset.RedMageMeleeGapReverserLunge))) {
+				if (HasTarget)
+					return InMeleeRange ? RDM.Displacement : RDM.Corpsacorps;
+			}
 
 			return actionID;
 		}

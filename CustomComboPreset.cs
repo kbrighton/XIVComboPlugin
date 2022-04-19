@@ -549,6 +549,10 @@ namespace XIVComboVX {
 		RedMageMeleeCombo = 3502,
 
 		[ParentPreset(RedMageMeleeCombo)]
+		[CustomComboInfo("Redoublement Combo Closer", "Replaces Redoublement with Corps-a-corps when out of melee range.", RDM.JobID)]
+		RedMageMeleeComboCloser = 3514,
+
+		[ParentPreset(RedMageMeleeCombo)]
 		[CustomComboInfo("Redoublement Combo Plus", "Replaces Redoublement (and Moulinet) with Verflare/Verholy (and then Scorch and Resolution) after 3 mana stacks, whichever is more appropriate.", RDM.JobID)]
 		RedMageMeleeComboPlus = 3503,
 
@@ -592,6 +596,12 @@ namespace XIVComboVX {
 
 		[CustomComboInfo("Embolden to Manaification", "Replace Embolden with Manafication if the former is on cooldown and the latter is not.", RDM.JobID)]
 		RedMageEmboldenFeature = 3513,
+
+		[CustomComboInfo("Gap Reverser: Backstep", "Replaces Corps-a-corps with Displacement when your taget is in melee range.", RDM.JobID)]
+		RedMageMeleeGapReverserBackstep = 3515,
+
+		[CustomComboInfo("Gap Reverser: Lunge", "Replaces Displacement with Corps-a-corps when your taget is NOT in melee range.", RDM.JobID)]
+		RedMageMeleeGapReverserLunge = 3516,
 
 		#endregion
 		// ====================================================================================
