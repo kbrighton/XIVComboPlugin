@@ -200,8 +200,16 @@ namespace XIVComboVX {
 		[CustomComboInfo("Single Target Multibutton", "Change Cascade into procs and combos as available.", DNC.JobID)]
 		DancerSingleTargetMultibutton = 3800,
 
+		[ParentPreset(DancerSingleTargetMultibutton)]
+		[CustomComboInfo("Fan Dance 1/3 Weaving", "Also change into Fan Dance 1/3 when you can weave without clipping.", DNC.JobID)]
+		DancerSingleTargetFanDanceWeave = 3810,
+
 		[CustomComboInfo("AoE Multibutton", "Change Windmill into procs and combos as available.", DNC.JobID)]
 		DancerAoeMultibutton = 3801,
+
+		[ParentPreset(DancerAoeMultibutton)]
+		[CustomComboInfo("Fan Dance 2 Weaving", "Also change into Fan Dance 2 when you can weave without clipping.", DNC.JobID)]
+		DancerAoeFanDanceWeave = 3811,
 
 		[CustomComboInfo("Flourish Dance 4", "Change Flourish into Fan Dance 4 when available.", DNC.JobID)]
 		DancerFlourishFeature = 3804,
@@ -564,9 +572,17 @@ namespace XIVComboVX {
 		[CustomComboInfo("Smartcast AoE", "Dynamically replaces Veraero/Verthunder 2 with the appropriate spell based on your job gauge.\nIncludes Impact/Scatter when fastcasting.", RDM.JobID)]
 		RedMageSmartcastAoEFeature = 3508,
 
+		[ParentPreset(RedMageSmartcastAoEFeature)]
+		[CustomComboInfo("Contre Sixte Weave", "Turns the AoE smartcast combo into Contre Sixte when you can weave without clipping.\nAffected by the Contre Sixte / Fleche feature.", RDM.JobID)]
+		RedMageSmartcastAoEWeave = 3517,
+
 		[Conflicts(RedMageVerprocCombo)]
 		[CustomComboInfo("Smartcast Single Target", "Dynamically replaces Verstone/Verfire with the appropriate spell based on your job gauge.\nVeraero and Verthunder are replaced with one or the other accordingly, for openers.", RDM.JobID)]
 		RedMageSmartcastSingleFeature = 3509,
+
+		[ParentPreset(RedMageSmartcastSingleFeature)]
+		[CustomComboInfo("Fleche Weave", "Turns the single-target smartcast combo into Fleche when you can weave without clipping.\nAffected by the Contre Sixte / Fleche feature.", RDM.JobID)]
+		RedMageSmartcastSingleWeave = 3518,
 
 		[Conflicts(RedMageSmartcastAoEFeature)]
 		[CustomComboInfo("Red Mage AoE Combo", "Replaces Veraero/Verthunder 2 with Impact when under a cast speeder.", RDM.JobID)]

@@ -33,18 +33,17 @@
 | BRD | Radiant Voice Feature | Replace Radiant Finale with Battle Voice if Battle Voice is available. |
 | BRD | Rain of Death Feature | Replaces Rain of Death with Empyreal Arrow and Sidewinder depending on which is available. |
 | BRD | Sidewinder Feature | Replace Sidewinder with Empyreal Arrow depending on which is available. |
-| BRD | Wanderer's into Pitch Perfect | Replaces Wanderer's Minuet with Pitch Perfect while in WM. |
 | DNC | AoE Multibutton | Change Windmill into procs and combos as available. |
 | DNC | Dance Step Combo | Change Standard Step and Technical Step into each dance step while dancing. |
 | DNC | Dance Step Feature | Change custom actions into dance steps while dancing. |
 | DNC | Devilment Feature | Change Devilment into Starfall Dance after use. |
 | DNC | Fan Dance 1/3 Combo | Change Fan Dance 1 into Fan Dance 3 when available. |
+| DNC | Fan Dance 1/3 Weaving | Also change into Fan Dance 1/3 when you can weave without clipping. |
 | DNC | Fan Dance 1/4 Combo | Change Fan Dance 1 into Fan Dance 4 when available. |
+| DNC | Fan Dance 2 Weaving | Also change into Fan Dance 2 when you can weave without clipping. |
 | DNC | Fan Dance 2/3 Combo | Change Fan Dance 2 into Fan Dance 3 when available. |
 | DNC | Fan Dance 2/4 Combo | Change Fan Dance 2 into Fan Dance 4 when available. |
-| DNC | Flourish Proc Saver | Change Flourish into any available procs before using. |
-| DNC | Only for Fan Dance 4 | Only change Flourish into Fan Dance 4, not the other procs. |
-| DNC | Only when off CD | Only change Flourish into procs (other than Fan Dance 4) when Flourish is off CD. |
+| DNC | Flourish Dance 4 | Change Flourish into Fan Dance 4 when available. |
 | DNC | Single Target Multibutton | Change Cascade into procs and combos as available. |
 | DOL | Cast / Gig Feature | Replace Cast with Gig when swimming. |
 | DOL | Cast / Hook Feature | Replace Cast with Hook when fishing. |
@@ -62,7 +61,7 @@
 | DRG | Dive Dive Dive! | Replace Spineshatter Dive, Dragonfire Dive, and Stardiver with whichever is available. |
 | DRG | Full Thrust Combo | Replace Full Thrust with its combo chain. |
 | DRG | Full Thrust from Vorpal | Start the Full Thrust combo chain with Vorpal Thrust instead of True Thrust. |
-| DRG | Jump + Mirage Dive | Replace (High) Jump with Mirage Dive when Dive Ready. |
+| DRG | Power Surge Buff Saver | When the Power Surge buff is about to run out (or isn't up), execute the Chaos Thrust chain to use Disembowl. |
 | DRG | Stardiver to Dragonfire Dive | Replace Stardiver with Dragonfire Dive when the latter is off cooldown (and you have more than 7.5s of LotD left), or outside of Life of the Dragon. |
 | DRG | Stardiver to Nastrond | Replace Stardiver with Nastrond when Nastrond is off-cooldown, and Geirskogul outside of Life of the Dragon. |
 | DRG | Wheeling Thrust / Fang and Claw Option | When you have either Enhanced Fang and Claw or Wheeling Thrust, Chaos Thrust becomes Wheeling Thrust and Full Thrust becomes Fang and Claw. |
@@ -98,12 +97,15 @@
 | MCH | Hyperfire Feature | Replace Hypercharge with Wildfire if available and you have a target. |
 | MCH | Overdrive Feature | Replace Rook Autoturret and Automaton Queen with their respective Overdrive while active. |
 | MCH | Spread Shot Heat | Replace Spread Shot with Auto Crossbow when overheated. |
+| MNK | AoE Combo: Destroyer | Replaces (Arm/Shadow) of the Destroyer with the AoE combo chain. |
+| MNK | AoE Combo: Masterful Blitz | Replaces Masterful Blitz with the AoE combo chain. |
+| MNK | AoE Combo: Rockbreaker | Replaces Rockbreaker with the AoE combo chain. |
 | MNK | Demolish to Snap Punch Feature | Replaces Demolish with Snap Punch if target is under Demolish. |
 | MNK | Dragon Kick to Bootshine Feature | Replaces Dragon Kick with Bootshine if Leaden Fist is up. |
 | MNK | Dragon Kick to Masterful Blitz Feature | Replaces Dragon Kick with Masterful Blitz if you have three Beast Chakra. |
 | MNK | Dragon Meditation Feature | Replace Dragon Kick with Meditation when out of combat and the Fifth Chakra is not open. |
 | MNK | Howling Fist / Meditation Feature | Replaces Howling Fist with Meditation when the Fifth Chakra is not open. |
-| MNK | Monk AoE Combo | Replaces Masterful Blitz with the AoE combo chain. |
+| MNK | Monk AoE Combo | Replaces the selected actions with the AoE combo chain. |
 | MNK | Perfect Balance Feature | Replace Perfect Balance with Masterful Blitz when you have 3 Beast Chakra, or when under Perfect Balance already. |
 | MNK | Riddle of Brotherly Fire | Replace Riddle of Fire with Brotherhood if the former is on CD and the latter isn't. |
 | MNK | Riddle of Fire and Wind | Replace Riddle of Fire with Riddle of Wind if the former is on CD and the latter isn't. |
@@ -126,7 +128,7 @@
 | NIN | Smart Hide | Replaces Hide with Trick Attack while under the effect of Suiton or Hidden, or else Mug if in combat. |
 | NIN | Ten Chi Jin to Meisui | Replaces Ten Chi Jin (the move) with Meisui while Suiton is up. |
 | PLD | Atonement Feature | Replace the Royal Authority and Goring Blade combos with Atonement when under the effect of Sword Oath. |
-| PLD | Confiteor Feature | Replace Holy Spirit/Circle with Confiteor (and then its combos) when Requiescat is up and MP is under 2000 or only one stack remains. |
+| PLD | Confiteor Feature | Replace Holy Spirit/Circle with Confiteor when Requiescat is up and MP is under 2000 or only one stack remains. |
 | PLD | Goring Blade Combo | Replace Goring Blade with its combo chain. |
 | PLD | Intervene Level Sync | Replace Intervene with Shield Lob when under level. |
 | PLD | Prominence Combo | Replace Prominence with its combo chain. |
@@ -138,8 +140,13 @@
 | RDM | Acceleration into Swiftcast | Replace Acceleration with Swiftcast when on cooldown or synced. |
 | RDM | Acceleration with Swiftcast first | Replace Acceleration with Swiftcast when neither are on cooldown. |
 | RDM | Contre Sixte / Fleche Feature | Turns Contre Sixte and Fleche into whichever is available. |
+| RDM | Contre Sixte Weave | Turns the AoE smartcast combo into Contre Sixte when you can weave without clipping. |
 | RDM | Embolden to Manaification | Replace Embolden with Manafication if the former is on cooldown and the latter is not. |
+| RDM | Fleche Weave | Turns the single-target smartcast combo into Fleche when you can weave without clipping. |
+| RDM | Gap Reverser: Backstep | Replaces Corps-a-corps with Displacement when your taget is in melee range. |
+| RDM | Gap Reverser: Lunge | Replaces Displacement with Corps-a-corps when your taget is NOT in melee range. |
 | RDM | Red Mage AoE Combo | Replaces Veraero/Verthunder 2 with Impact when under a cast speeder. |
+| RDM | Redoublement Combo Closer | Replaces Redoublement with Corps-a-corps when out of melee range. |
 | RDM | Redoublement Combo Plus | Replaces Redoublement (and Moulinet) with Verflare/Verholy (and then Scorch and Resolution) after 3 mana stacks, whichever is more appropriate. |
 | RDM | Redoublement combo | Replaces Redoublement with its combo chain, following enchantment rules. |
 | RDM | Smartcast AoE | Dynamically replaces Veraero/Verthunder 2 with the appropriate spell based on your job gauge. |
@@ -233,14 +240,13 @@
 | SMN | Outburst Feature | Change Outburst into Precious Brilliance when attuned. |
 | SMN | Radiant Carbuncle Feature | Change Radiant Aegis into Summon Carbuncle when no pet has been summoned. |
 | SMN | Ruin Feature | Change Ruin into Gemburst when attuned. |
-| SMN | Searing Carbuncle Feature | Change Searing Light into Summon Carbuncle when no pet has been summoned. |
 | SMN | Shiny Enkindle Feature | Change Gemshine and Precious Brilliance to Enkindle when Bahamut or Phoenix are summoned. |
 | SMN | Shiny Titan's Favour | Change Ruin into Ruin4 when available and appropriate. |
 | SMN | Slipstream / Swiftcast Feature | Change Slipstream into Swiftcast when Swiftcast is available. |
 | SMN | Swiftcast Resurrection | Resurrection turns into Swiftcast when available and reasonable. |
 | SMN | Titan's Favor Outburst Feature | Change Outburst into Mountain Buster (oGCD) when available. |
 | SMN | Titan's Favor Ruin Feature | Change Ruin into Mountain Buster (oGCD) when available. |
-| WAR | Angry Beast Feature | Replace Inner Beast, Fell Cleave, Steel Cyclone, and Decimate with Infuriate when less then 50 Beast Gauge is available. |
+| WAR | Angry Beast Feature | Replace Inner Beast/Fell Cleave and Steel Cyclone/Decimate with Infuriate when less then 50 Beast Gauge is available. |
 | WAR | Angry Beast Gauge Saver | Replace the above with Infuriate when less than 60 Beast Gauge instead of 50. |
 | WAR | Gauge Overcap Saver: Mythril Tempest | Replace the Mythril Tempest combo with gauge spender if completing the combo would overcap you. |
 | WAR | Gauge Overcap Saver: Storm's Eye | Replace the Storm's Eye combo with gauge spender if completing the combo would overcap you. |

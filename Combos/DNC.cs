@@ -57,9 +57,11 @@ namespace XIVComboVX.Combos {
 				StandardStep = 15,
 				ReverseCascade = 20,
 				Bladeshower = 25,
+				FanDance1 = 30,
 				RisingWindmill = 35,
 				Fountainfall = 40,
 				Bloodshower = 45,
+				FanDance2 = 50,
 				FanDance3 = 66,
 				TechnicalStep = 70,
 				Tillana = 82,
@@ -171,6 +173,17 @@ namespace XIVComboVX.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
+			if (IsEnabled(CustomComboPreset.DancerSingleTargetFanDanceWeave)) {
+				if (level >= DNC.Levels.FanDance1) {
+					if (CanWeave(actionID)) {
+						if (level >= DNC.Levels.FanDance3 && SelfHasEffect(DNC.Buffs.ThreefoldFanDance))
+							return DNC.FanDance3;
+						else if (GetJobGauge<DNCGauge>().Feathers > 0)
+							return DNC.FanDance1;
+					}
+				}
+			}
+
 			if (level >= DNC.Levels.Fountainfall && (SelfHasEffect(DNC.Buffs.FlourishingFlow) || SelfHasEffect(DNC.Buffs.SilkenFlow)))
 				return DNC.Fountainfall;
 
@@ -189,6 +202,15 @@ namespace XIVComboVX.Combos {
 		public override uint[] ActionIDs { get; } = new[] { DNC.Windmill };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+
+			if (IsEnabled(CustomComboPreset.DancerAoeFanDanceWeave)) {
+				if (level >= DNC.Levels.FanDance2) {
+					if (CanWeave(actionID)) {
+						if (GetJobGauge<DNCGauge>().Feathers > 0)
+							return DNC.FanDance1;
+					}
+				}
+			}
 
 			if (level >= DNC.Levels.Bloodshower && (SelfHasEffect(DNC.Buffs.FlourishingFlow) || SelfHasEffect(DNC.Buffs.SilkenFlow)))
 				return DNC.Bloodshower;

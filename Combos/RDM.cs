@@ -262,6 +262,27 @@ namespace XIVComboVX.Combos {
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 			const int DELTA = 7;
 
+			if (IsEnabled(CustomComboPreset.RedMageSmartcastAoEWeave)) {
+				if (level >= RDM.Levels.ContreSixte) {
+					if (CanWeave(actionID)) {
+						if (IsEnabled(CustomComboPreset.RedMageContreFlecheFeature)) {
+							uint chosen = PickByCooldown(RDM.ContreSixte, RDM.Fleche, RDM.ContreSixte);
+							if (IsOffCooldown(chosen))
+								return chosen;
+						}
+						else if (IsOffCooldown(RDM.ContreSixte)) {
+							return RDM.ContreSixte;
+						}
+					}
+				}
+				else if (level >= RDM.Levels.Fleche && IsEnabled(CustomComboPreset.RedMageContreFlecheFeature)) {
+					if (CanWeave(actionID)) {
+						if (IsOffCooldown(RDM.Fleche))
+							return RDM.Fleche;
+					}
+				}
+			}
+
 			if (IsFastcasting || SelfHasEffect(RDM.Buffs.Acceleration) || level < RDM.Levels.Verthunder2)
 				return OriginalHook(RDM.Impact);
 
@@ -292,6 +313,22 @@ namespace XIVComboVX.Combos {
 				PROC_DELTA = 5,
 				FINISHER_DELTA = 11,
 				IMBALANCE_DIFF_MAX = 30;
+
+			if (IsEnabled(CustomComboPreset.RedMageSmartcastSingleWeave)) {
+				if (level >= RDM.Levels.Fleche) {
+					if (CanWeave(actionID)) {
+						if (IsEnabled(CustomComboPreset.RedMageContreFlecheFeature)) {
+							if (level >= RDM.Levels.ContreSixte) {
+								uint chosen = PickByCooldown(RDM.Fleche, RDM.Fleche, RDM.ContreSixte);
+								if (IsOffCooldown(chosen))
+									return chosen;
+							}
+						}
+						if (IsOffCooldown(RDM.Fleche))
+							return RDM.Fleche;
+					}
+				}
+			}
 
 			bool verfireUp = SelfHasEffect(RDM.Buffs.VerfireReady);
 			bool verstoneUp = SelfHasEffect(RDM.Buffs.VerstoneReady);
