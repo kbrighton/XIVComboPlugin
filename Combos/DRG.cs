@@ -39,7 +39,8 @@ namespace XIVComboVX.Combos {
 			public const ushort
 				SharperFangAndClaw = 802,
 				EnhancedWheelingThrust = 803,
-				DiveReady = 1243;
+				DiveReady = 1243,
+				PowerSurge = 2720;
 		}
 
 		public static class Debuffs {
@@ -161,11 +162,21 @@ namespace XIVComboVX.Combos {
 
 				if (comboTime > 0) {
 
-					if (level >= DRG.Levels.VorpalThrust && lastComboMove is DRG.TrueThrust or DRG.RaidenThrust)
-						return DRG.VorpalThrust;
+					if (lastComboMove is DRG.TrueThrust) {
+						if (IsEnabled(CustomComboPreset.DragoonFullThrustBuffSaver)) {
+							if (level >= DRG.Levels.Disembowel) {
+								if (SelfEffectDuration(DRG.Buffs.PowerSurge) < Service.Configuration.DragoonFullThrustBuffSaverBuffTime)
+									return DRG.Disembowel;
+							}
+						}
+						if (level >= DRG.Levels.VorpalThrust)
+							return DRG.VorpalThrust;
+					}
 
-					if (level >= DRG.Levels.FullThrust && lastComboMove == DRG.VorpalThrust)
-						return OriginalHook(DRG.FullThrust);
+					if (lastComboMove is DRG.VorpalThrust) {
+						if (level >= DRG.Levels.FullThrust)
+							return OriginalHook(DRG.FullThrust);
+					}
 
 				}
 

@@ -30,6 +30,15 @@ namespace XIVComboVX.Config {
 		public float PaladinGoringBladeDoTSaverDebuffTime { get; set; } = 7;
 
 		[ComboDetailSetting(
+			CustomComboPreset.DragoonFullThrustBuffSaver,
+			"Power Surge buff threshold",
+			"When the Power Surge buff only has this many seconds left, switch to the Chaos Thrust combo chain to renew it",
+			0,
+			30
+		)]
+		public float DragoonFullThrustBuffSaverBuffTime { get; set; } = 7;
+
+		[ComboDetailSetting(
 			CustomComboPreset.WarriorSmartStormCombo,
 			"Surging Tempest buff threshold",
 			"When the Surging Tempest buff only has this many seconds left, switch to the Storm's Eye combo chain",

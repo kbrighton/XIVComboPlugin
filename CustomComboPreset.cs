@@ -254,6 +254,10 @@ namespace XIVComboVX {
 		[CustomComboInfo("Full Thrust from Vorpal", "Start the Full Thrust combo chain with Vorpal Thrust instead of True Thrust.", DRG.JobID)]
 		DragoonFullThrustLateOption = 2208,
 
+		[ParentPreset(DragoonFullThrustCombo)]
+		[CustomComboInfo("Power Surge Buff Saver", "When the Power Surge buff is about to run out (or isn't up), execute the Chaos Thrust chain to use Disembowl.", DRG.JobID)]
+		DragoonFullThrustBuffSaver = 2208,
+
 		[CustomComboInfo("Wheeling Thrust / Fang and Claw Option", "When you have either Enhanced Fang and Claw or Wheeling Thrust, Chaos Thrust becomes Wheeling Thrust and Full Thrust becomes Fang and Claw.", DRG.JobID)]
 		DragoonFangThrustFeature = 2206,
 
