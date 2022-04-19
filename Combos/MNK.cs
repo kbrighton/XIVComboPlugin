@@ -72,9 +72,23 @@ namespace XIVComboVX.Combos {
 	internal class MonkAoECombo: CustomCombo {
 		public override CustomComboPreset Preset { get; } = CustomComboPreset.MonkAoECombo;
 
-		public override uint[] ActionIDs { get; } = new[] { MNK.ArmOfTheDestroyer, MNK.ShadowOfTheDestroyer };
-
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+			if (actionID is MNK.ArmOfTheDestroyer or MNK.ShadowOfTheDestroyer) {
+				if (!IsEnabled(CustomComboPreset.MonkAoECombo_Destroyers))
+					return actionID;
+			}
+			else if (actionID is MNK.MasterfulBlitz) {
+				if (!IsEnabled(CustomComboPreset.MonkAoECombo_MasterBlitz))
+					return actionID;
+			}
+			else if (actionID is MNK.Rockbreaker) {
+				if (!IsEnabled(CustomComboPreset.MonkAoECombo_Rockbreaker))
+					return actionID;
+			}
+			else {
+				return actionID;
+			}
+
 			MNKGauge gauge = GetJobGauge<MNKGauge>();
 
 			// Blitz

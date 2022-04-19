@@ -396,8 +396,20 @@ namespace XIVComboVX {
 		// ====================================================================================
 		#region MONK (20xx)
 
-		[CustomComboInfo("Monk AoE Combo", "Replaces (Arm/Shadow) of the Destroyer with the AoE combo chain.", MNK.JobID)]
+		[CustomComboInfo("Monk AoE Combo", "Replaces the selected actions with the AoE combo chain.", MNK.JobID)]
 		MonkAoECombo = 2000,
+
+		[ParentPreset(MonkAoECombo)]
+		[CustomComboInfo("AoE Combo: Destroyer", "Replaces (Arm/Shadow) of the Destroyer with the AoE combo chain.", MNK.JobID)]
+		MonkAoECombo_Destroyers = 2099,
+
+		[ParentPreset(MonkAoECombo)]
+		[CustomComboInfo("AoE Combo: Masterful Blitz", "Replaces Masterful Blitz with the AoE combo chain.", MNK.JobID)]
+		MonkAoECombo_MasterBlitz = 2098,
+
+		[ParentPreset(MonkAoECombo)]
+		[CustomComboInfo("AoE Combo: Rockbreaker", "Replaces Rockbreaker with the AoE combo chain.", MNK.JobID)]
+		MonkAoECombo_Rockbreaker = 2097,
 
 		[CustomComboInfo("Dragon Kick to Bootshine Feature", "Replaces Dragon Kick with Bootshine if Leaden Fist is up.", MNK.JobID)]
 		MonkBootshineFeature = 2001,
