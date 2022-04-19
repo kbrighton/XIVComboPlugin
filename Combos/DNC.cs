@@ -82,16 +82,16 @@ namespace XIVComboVX.Combos {
 			if (level >= DNC.Levels.StandardStep && GetJobGauge<DNCGauge>().IsDancing) {
 				uint[] actionIDs = this.ActionIDs;
 
-				if (actionID == actionIDs[0] || (actionIDs[0] == 0 && actionID is DNC.Cascade))
+				if (actionID == actionIDs[0])
 					return OriginalHook(DNC.Cascade);
 
-				if (actionID == actionIDs[1] || (actionIDs[1] == 0 && actionID is DNC.Fountain))
+				if (actionID == actionIDs[1])
 					return OriginalHook(DNC.Fountain);
 
-				if (actionID == actionIDs[2] || (actionIDs[2] == 0 && actionID is DNC.ReverseCascade))
+				if (actionID == actionIDs[2])
 					return OriginalHook(DNC.ReverseCascade);
 
-				if (actionID == actionIDs[3] || (actionIDs[3] == 0 && actionID is DNC.Fountainfall))
+				if (actionID == actionIDs[3])
 					return OriginalHook(DNC.Fountainfall);
 
 			}
