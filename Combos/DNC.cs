@@ -174,14 +174,28 @@ namespace XIVComboVX.Combos {
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
 			if (IsEnabled(CustomComboPreset.DancerSingleTargetFanDanceWeave)) {
+				bool weaving = CanWeave(actionID);
+
 				if (level >= DNC.Levels.FanDance1) {
-					if (CanWeave(actionID)) {
+					if (weaving) {
 						if (level >= DNC.Levels.FanDance3 && SelfHasEffect(DNC.Buffs.ThreefoldFanDance))
 							return DNC.FanDance3;
 						else if (GetJobGauge<DNCGauge>().Feathers > 0)
 							return DNC.FanDance1;
 					}
 				}
+
+				if (IsEnabled(CustomComboPreset.DancerSingleTargetFanDanceFallback)) {
+					if (level >= DNC.Levels.FanDance2) {
+						if (weaving) {
+							if (level >= DNC.Levels.FanDance4 && SelfHasEffect(DNC.Buffs.FourfoldFanDance))
+								return DNC.FanDance4;
+							else if (GetJobGauge<DNCGauge>().Feathers > 0)
+								return DNC.FanDance2;
+						}
+					}
+				}
+
 			}
 
 			if (level >= DNC.Levels.Fountainfall && (SelfHasEffect(DNC.Buffs.FlourishingFlow) || SelfHasEffect(DNC.Buffs.SilkenFlow)))
@@ -204,14 +218,28 @@ namespace XIVComboVX.Combos {
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
 			if (IsEnabled(CustomComboPreset.DancerAoeFanDanceWeave)) {
+				bool weaving = CanWeave(actionID);
+
 				if (level >= DNC.Levels.FanDance2) {
-					if (CanWeave(actionID)) {
+					if (weaving) {
 						if (level >= DNC.Levels.FanDance4 && SelfHasEffect(DNC.Buffs.FourfoldFanDance))
 							return DNC.FanDance4;
 						else if (GetJobGauge<DNCGauge>().Feathers > 0)
 							return DNC.FanDance2;
 					}
 				}
+
+				if (IsEnabled(CustomComboPreset.DancerAoeFanDanceFallback)) {
+					if (level >= DNC.Levels.FanDance1) {
+						if (weaving) {
+							if (level >= DNC.Levels.FanDance3 && SelfHasEffect(DNC.Buffs.ThreefoldFanDance))
+								return DNC.FanDance3;
+							else if (GetJobGauge<DNCGauge>().Feathers > 0)
+								return DNC.FanDance1;
+						}
+					}
+				}
+
 			}
 
 			if (level >= DNC.Levels.Bloodshower && (SelfHasEffect(DNC.Buffs.FlourishingFlow) || SelfHasEffect(DNC.Buffs.SilkenFlow)))

@@ -204,12 +204,20 @@ namespace XIVComboVX {
 		[CustomComboInfo("Fan Dance 1/3 Weaving", "Also change into Fan Dance 1/3 when you can weave without clipping.", DNC.JobID)]
 		DancerSingleTargetFanDanceWeave = 3810,
 
+		[ParentPreset(DancerSingleTargetFanDanceWeave)]
+		[CustomComboInfo("Fan Dance 2/4 Fallback", "Also change into Fan Dance 2/4, with lower priority than 1/3.", DNC.JobID)]
+		DancerSingleTargetFanDanceFallback = 3812,
+
 		[CustomComboInfo("AoE Multibutton", "Change Windmill into procs and combos as available.", DNC.JobID)]
 		DancerAoeMultibutton = 3801,
 
 		[ParentPreset(DancerAoeMultibutton)]
 		[CustomComboInfo("Fan Dance 2/4 Weaving", "Also change into Fan Dance 2/4 when you can weave without clipping.", DNC.JobID)]
 		DancerAoeFanDanceWeave = 3811,
+
+		[ParentPreset(DancerAoeFanDanceWeave)]
+		[CustomComboInfo("Fan Dance 1/3 Fallback", "Also change into Fan Dance 1/3, with lower priority than 2/4.", DNC.JobID)]
+		DancerAoeFanDanceFallback = 3813,
 
 		[CustomComboInfo("Flourish Dance 4", "Change Flourish into Fan Dance 4 when available.", DNC.JobID)]
 		DancerFlourishFeature = 3804,
