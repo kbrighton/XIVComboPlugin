@@ -388,14 +388,16 @@ namespace XIVComboVX.Config {
 
 			if (hasChildren && (!hideChildren || enabled)) {
 				ImGui.Indent();
-				ImGui.Indent();
+				if (!compactMode)
+					ImGui.Indent();
 
 				foreach ((CustomComboPreset childPreset, CustomComboInfoAttribute childInfo) in children!) {
 					this.drawPreset(childPreset, childInfo, ref i);
 				}
 
 				ImGui.Unindent();
-				ImGui.Unindent();
+				if (!compactMode)
+					ImGui.Unindent();
 			}
 
 		}
