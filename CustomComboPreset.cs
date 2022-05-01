@@ -546,11 +546,27 @@ namespace XIVComboVX {
 		[CustomComboInfo("Goring Blade Combo", "Replace Goring Blade with its combo chain.", PLD.JobID)]
 		PaladinGoringBladeCombo = 1900,
 
+		[ParentPreset(PaladinGoringBladeCombo)]
+		[CustomComboInfo("Intervening Blade Feature", "Replace the GB combo with Intervene when NOT in the combo chain, and the current target is out of melee range.", PLD.JobID)]
+		PaladinGoringBladeRangeSwapFeature = 1910,
+
+		[ParentPreset(PaladinGoringBladeRangeSwapFeature)]
+		[CustomComboInfo("Level Sync", "Replace Intervene with Shield Lob when under level.", PLD.JobID)]
+		PaladinGoringBladeRangeSwapSyncFeature = 1911,
+
 		[CustomComboInfo("Royal Authority Combo", "Replace Royal Authority/Rage of Halone with its combo chain.", PLD.JobID)]
 		PaladinRoyalAuthorityCombo = 1901,
 
 		[ParentPreset(PaladinRoyalAuthorityCombo)]
-		[CustomComboInfo("Royal Authority DoT Saver", "The RA/RoH combo chain becomes Goring Blade at the end, if your current target has less than seven seconds on the GB DoT.\nThis includes when your target doesn't have the DoT.", PLD.JobID)]
+		[CustomComboInfo("Royal Intervention Feature", "Replace the RA/RoH combo with Intervene when NOT in the combo chain, and the current target is out of melee range.", PLD.JobID)]
+		PaladinRoyalAuthorityRangeSwapFeature = 1912,
+
+		[ParentPreset(PaladinRoyalAuthorityRangeSwapFeature)]
+		[CustomComboInfo("Level Sync", "Replace Intervene with Shield Lob when under level.", PLD.JobID)]
+		PaladinRoyalAuthorityRangeSwapSyncFeature = 1913,
+
+		[ParentPreset(PaladinRoyalAuthorityCombo)]
+		[CustomComboInfo("Royal Authority DoT Saver", "The RA/RoH combo chain becomes Goring Blade at the end, if your current target has less than seven seconds (adjustable) on the GB DoT.\nThis includes when your target doesn't have the DoT.", PLD.JobID)]
 		PaladinRoyalAuthorityDoTSaver = 1909,
 
 		[CustomComboInfo("Atonement Feature", "Replace the Royal Authority and Goring Blade combos with Atonement when under the effect of Sword Oath.", PLD.JobID)]
