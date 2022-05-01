@@ -161,6 +161,10 @@ namespace XIVComboVX.Combos {
 		protected static bool PartialChainCombo(byte level, uint last, out uint next, params (byte lvl, uint id)[] sequence) {
 			next = 0;
 
+			// Shortcut out if there's no previous combo move
+			if (last == 0)
+				return false;
+
 			// Work backwards, find the latest item in the chain that can be used (level >= lvl) and is ready to be used (last == prev.id)
 			for (int i = sequence.Length - 1; i > 0; --i) {
 				(byte lvl, uint id) = sequence[i];
