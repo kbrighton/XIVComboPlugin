@@ -75,6 +75,24 @@ namespace XIVComboVX.Config {
 		public float NinjaHutonThresholdTime { get; set; } = 30;
 
 		[ComboDetailSetting(
+			CustomComboPreset.MonkSTCombo,
+			"Monk Bloodbath health percentage threshold",
+			"When your health percentage is below this threshold, weave Bloodbath into the combo",
+			0,
+			90
+		)]
+		public uint MonkBloodbathHealthPercentage { get; set; } = 75;
+
+		[ComboDetailSetting(
+			CustomComboPreset.MonkSTCombo,
+			"Monk Riddle of Earth health percentage threshold",
+			"When your health percentage is below this threshold, weave Riddle of Earth into the combo",
+			0,
+			90
+		)]
+		public uint MonkRiddleOfEarthHealthPercentage { get; set; } = 50;
+
+		[ComboDetailSetting(
 			CustomComboPreset.DancerDanceComboCompatibility,
 			"Emboite (Red) Action ID",
 			"Defaults to Cascade (15989)"

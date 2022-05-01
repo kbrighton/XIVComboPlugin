@@ -431,6 +431,10 @@ namespace XIVComboVX {
 		[CustomComboInfo("AoE Combo: Rockbreaker", "Replaces Rockbreaker with the AoE combo chain.", MNK.JobID)]
 		MonkAoECombo_Rockbreaker = 2097,
 
+		[Experimental]
+		[CustomComboInfo("Monk ST Combo", "Replace Bootshine with all single-target rotation actions", MNK.JobID)]
+		MonkSTCombo = 2017,
+
 		[CustomComboInfo("Dragon Kick to Bootshine Feature", "Replaces Dragon Kick with Bootshine if Leaden Fist is up.", MNK.JobID)]
 		MonkBootshineFeature = 2001,
 

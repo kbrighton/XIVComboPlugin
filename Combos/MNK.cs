@@ -20,8 +20,10 @@ namespace XIVComboVX.Combos {
 			Rockbreaker = 70,
 			DragonKick = 74,
 			Meditation = 3546,
+			RiddleOfEarth = 7394,
 			RiddleOfFire = 7395,
 			Brotherhood = 7396,
+			Bloodbath = 7542,
 			FourPointFury = 16473,
 			Enlightenment = 16474,
 			HowlingFist = 25763,
@@ -36,6 +38,8 @@ namespace XIVComboVX.Combos {
 				CoerlForm = 109,
 				PerfectBalance = 110,
 				LeadenFist = 1861,
+				Brotherhood = 1185,
+				RiddleOfFire = 1181,
 				FormlessFist = 2513,
 				DisciplinedFist = 3001;
 		}
@@ -49,6 +53,7 @@ namespace XIVComboVX.Combos {
 			public const byte
 				TrueStrike = 4,
 				SnapPunch = 6,
+				Bloodbath = 12,
 				Meditation = 15,
 				TwinSnakes = 18,
 				ArmOfTheDestroyer = 26,
@@ -61,6 +66,7 @@ namespace XIVComboVX.Combos {
 				FormShift = 52,
 				EnhancedPerfectBalance = 60,
 				MasterfulBlitz = 60,
+				RiddleOfEarth = 64,
 				RiddleOfFire = 68,
 				Brotherhood = 70,
 				Enlightenment = 70,
@@ -139,6 +145,149 @@ namespace XIVComboVX.Combos {
 
 			// Shadow of the Destroyer
 			return OriginalHook(MNK.ArmOfTheDestroyer);
+		}
+	}
+
+	internal class MonkSTCombo: CustomCombo {
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.MonkSTCombo;
+		public override uint[] ActionIDs => new[] { MNK.Bootshine };
+
+		// All credit to Evolutious on the github - they wrote the code themselves and sent it to me.
+		// All I did was adjust the style to better fit the rest of the plugin, and change a few hardcoded values to adjustable ones.
+		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+			MNKGauge gauge = GetJobGauge<MNKGauge>();
+
+			// *** oGCD Rotation ***
+			if (CanWeave(MNK.Bootshine)) {
+
+				// Bloodbath
+				if (level >= MNK.Levels.Bloodbath) {
+					if (IsOffCooldown(MNK.Bloodbath) && PlayerHealthPercentage < Service.Configuration.MonkBloodbathHealthPercentage)
+						return MNK.Bloodbath;
+				}
+
+				// Riddle of Earth
+				if (level >= MNK.Levels.RiddleOfEarth) {
+					if (IsOffCooldown(MNK.RiddleOfEarth) && PlayerHealthPercentage < Service.Configuration.MonkRiddleOfEarthHealthPercentage)
+						return MNK.RiddleOfEarth;
+				}
+
+				// Steel Peak/The Forbidden Chakra
+				if (level >= MNK.Levels.Meditation) {
+					if (gauge.Chakra == 5 && InCombat)
+						return OriginalHook(MNK.Meditation);
+				}
+
+				// Perfect Balance
+				if (level >= MNK.Levels.PerfectBalance && !SelfHasEffect(MNK.Buffs.PerfectBalance)) {
+					// These all go to the same codepath, but combining them would be some eldritch frankencondition, so they're kept separate for readability. -PrincessRTFM
+					if (level >= MNK.Levels.Brotherhood) {
+						if (SelfHasEffect(MNK.Buffs.RiddleOfFire) && SelfEffectDuration(MNK.Buffs.RiddleOfFire) < 10.0 && !SelfHasEffect(MNK.Buffs.FormlessFist) && SelfHasEffect(MNK.Buffs.DisciplinedFist) && SelfHasEffect(MNK.Buffs.Brotherhood))
+							return MNK.PerfectBalance;
+					}
+					else if (level >= MNK.Levels.RiddleOfFire) {
+						if (SelfHasEffect(MNK.Buffs.RiddleOfFire) && SelfEffectDuration(MNK.Buffs.RiddleOfFire) >= 10.0 && !SelfHasEffect(MNK.Buffs.FormlessFist) && SelfHasEffect(MNK.Buffs.DisciplinedFist))
+							return MNK.PerfectBalance;
+					}
+					else if (level >= MNK.Levels.FormShift) {
+						if (level < MNK.Levels.RiddleOfFire && !SelfHasEffect(MNK.Buffs.FormlessFist) && SelfHasEffect(MNK.Buffs.DisciplinedFist))
+							return MNK.PerfectBalance;
+					}
+					else if (level < MNK.Levels.FormShift) {
+						if (SelfHasEffect(MNK.Buffs.DisciplinedFist))
+							return MNK.PerfectBalance;
+					}
+				}
+
+				// Riddle of Fire
+				if (level >= MNK.Levels.RiddleOfFire) {
+					if (!IsOnCooldown(MNK.RiddleOfFire) && SelfHasEffect(MNK.Buffs.DisciplinedFist))
+						return MNK.RiddleOfFire;
+				}
+
+				// Brotherhood
+				if (level >= MNK.Levels.Brotherhood) {
+					if (SelfHasEffect(MNK.Buffs.PerfectBalance) && !IsOnCooldown(MNK.Brotherhood) && (gauge.BeastChakra.Contains(BeastChakra.RAPTOR) || gauge.BeastChakra.Contains(BeastChakra.COEURL) || gauge.BeastChakra.Contains(BeastChakra.OPOOPO)))
+						return MNK.Brotherhood;
+				}
+
+				// Riddle of Wind
+				if (level >= MNK.Levels.RiddleOfWind) {
+					if (!IsOnCooldown(MNK.RiddleOfWind) && IsOnCooldown(MNK.RiddleOfFire))
+						return MNK.RiddleOfWind;
+				}
+
+			}
+
+			// Masterful Blitz
+			if (level >= MNK.Levels.MasterfulBlitz) {
+				if (!gauge.BeastChakra.Contains(BeastChakra.NONE))
+					return OriginalHook(MNK.MasterfulBlitz);
+			}
+
+			// Master's Gauge
+			if (level >= MNK.Levels.PerfectBalance) {
+				if (SelfHasEffect(MNK.Buffs.PerfectBalance)) {
+
+					// Solar
+					if (level >= MNK.Levels.EnhancedPerfectBalance) {
+						if (!gauge.Nadi.HasFlag(Nadi.SOLAR)) {
+
+							if (!gauge.BeastChakra.Contains(BeastChakra.RAPTOR))
+								return MNK.TwinSnakes;
+
+							if (!gauge.BeastChakra.Contains(BeastChakra.COEURL)) {
+								return level < MNK.Levels.Demolish || TargetOwnEffectDuration(MNK.Debuffs.Demolish) > 6.0
+									? MNK.SnapPunch
+									: MNK.Demolish;
+							}
+
+							if (!gauge.BeastChakra.Contains(BeastChakra.OPOOPO)) {
+								return level < MNK.Levels.DragonKick || SelfHasEffect(MNK.Buffs.LeadenFist)
+									? MNK.Bootshine
+									: MNK.DragonKick;
+							}
+
+							return level >= MNK.Levels.DragonKick
+								? MNK.DragonKick
+								: MNK.Bootshine;
+						}
+					}
+
+					// Lunar.  Also used if we have both Nadi as Tornado Kick/Phantom Rush isn't picky, or under 60.
+					return level < MNK.Levels.DragonKick || SelfHasEffect(MNK.Buffs.LeadenFist)
+						? MNK.Bootshine
+						: MNK.DragonKick;
+				}
+			}
+
+			// 1-2-3 combo
+			if (level >= MNK.Levels.TrueStrike) {
+				if (SelfHasEffect(MNK.Buffs.RaptorForm) || SelfHasEffect(MNK.Buffs.FormlessFist)) {
+					return level < MNK.Levels.TwinSnakes
+						? MNK.TrueStrike
+						: MNK.TwinSnakes;
+				}
+			}
+
+			if (level >= MNK.Levels.SnapPunch) {
+				if (SelfHasEffect(MNK.Buffs.CoerlForm)) {
+					return level < MNK.Levels.Demolish || TargetOwnEffectDuration(MNK.Debuffs.Demolish) > 6.0
+						? MNK.SnapPunch
+						: MNK.Demolish;
+				}
+			}
+
+			if (SelfHasEffect(MNK.Buffs.OpoOpoForm)) {
+				return level < MNK.Levels.DragonKick || SelfHasEffect(MNK.Buffs.LeadenFist)
+					? MNK.Bootshine
+					: MNK.DragonKick;
+			}
+
+			// Dragon Kick
+			return level < MNK.Levels.DragonKick || SelfHasEffect(MNK.Buffs.LeadenFist)
+				? MNK.Bootshine
+				: MNK.DragonKick;
 		}
 	}
 
