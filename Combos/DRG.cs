@@ -162,7 +162,7 @@ namespace XIVComboVX.Combos {
 
 				if (comboTime > 0) {
 
-					if (lastComboMove is DRG.TrueThrust) {
+					if (lastComboMove is DRG.TrueThrust or DRG.RaidenThrust) {
 						if (IsEnabled(CustomComboPreset.DragoonFullThrustBuffSaver)) {
 							if (level >= DRG.Levels.Disembowel) {
 								if (SelfEffectDuration(DRG.Buffs.PowerSurge) < Service.Configuration.DragoonFullThrustBuffSaverBuffTime)
