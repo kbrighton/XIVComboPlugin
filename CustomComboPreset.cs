@@ -482,6 +482,10 @@ namespace XIVComboVX {
 		[CustomComboInfo("Forked Crush Feature", "Replaces the Armor Crush combo with Forked Raiju when available.", NIN.JobID)]
 		NinjaArmorCrushForkedRaijuFeature = 3017,
 
+		[ParentPreset(NinjaArmorCrushCombo)]
+		[CustomComboInfo("Crushing Daggers Feature", "Replaces the Armor Crush combo with Throwing Dagger when NOT in the combo chain, and the current target is out of melee range.", NIN.JobID)]
+		NinjaArmorCrushThrowingDaggerFeature = 3018,
+
 		[CustomComboInfo("Aeolian Edge Combo", "Replace Aeolian Edge with its combo chain.", NIN.JobID)]
 		NinjaAeolianEdgeCombo = 3001,
 
@@ -495,6 +499,11 @@ namespace XIVComboVX {
 		[CustomComboInfo("Forked Edge Feature", "Replaces the Aeolian Edge combo with Forked Raiju when available.", NIN.JobID)]
 		NinjaAeolianEdgeForkedRaijuFeature = 3016,
 
+		[ParentPreset(NinjaAeolianEdgeCombo)]
+		[CustomComboInfo("Aoelian Daggers Feature", "Replaces the Aeolian Edge combo with Throwing Dagger when NOT in the combo chain, and the current target is out of melee range.", NIN.JobID)]
+		NinjaAeolianEdgeThrowingDaggerFeature = 3019,
+
+		[ParentPreset(NinjaAeolianEdgeCombo)]
 		[CustomComboInfo("Aeolian Edge / Huton Feature", "Replaces Aeolian Edge with Armor Crush when Huton timer is below a set threshold and Huraijin when missing.", NIN.JobID)]
 		NinjaAeolianEdgeHutonFeature = 3014,
 
