@@ -62,6 +62,9 @@ namespace XIVComboVX.Combos {
 				return false;
 			}
 
+			if (comboTime <= 0)
+				lastComboActionId = 0;
+
 			Service.Logger.debug($"{this.ModuleName}.Invoke({actionID}, {lastComboActionId}, {comboTime}, {level})");
 			try {
 				uint resultingActionID = this.Invoke(actionID, lastComboActionId, comboTime, level);
@@ -172,6 +175,7 @@ namespace XIVComboVX.Combos {
 			return false;
 		}
 
+		[Obsolete("Makes advanced logic much harder to implement, use PartialChainCombo if absolutely necessary")]
 		protected static uint SimpleChainCombo(byte level, uint last, float time, params (byte lvl, uint id)[] sequence) {
 			if (time > 0 && PartialChainCombo(level, last, out uint next, sequence))
 				return next;
