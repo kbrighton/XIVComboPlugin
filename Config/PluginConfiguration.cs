@@ -66,6 +66,15 @@ namespace XIVComboVX.Config {
 		public float ReaperThresholdBuffTime { get; set; } = 8.5F;
 
 		[ComboDetailSetting(
+			CustomComboPreset.NinjaAeolianEdgeHutonFeature,
+			"Huton timer threshold",
+			"When Huton timer is above zero but below this many seconds left, switch to Armor Crush",
+			10,
+			30
+		)]
+		public float NinjaHutonThresholdTime { get; set; } = 30;
+
+		[ComboDetailSetting(
 			CustomComboPreset.DancerDanceComboCompatibility,
 			"Emboite (Red) Action ID",
 			"Defaults to Cascade (15989)"

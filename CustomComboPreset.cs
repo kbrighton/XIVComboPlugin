@@ -491,7 +491,7 @@ namespace XIVComboVX {
 		[CustomComboInfo("Forked Edge Feature", "Replaces the Aeolian Edge combo with Forked Raiju when available.", NIN.JobID)]
 		NinjaAeolianEdgeForkedRaijuFeature = 3016,
 
-		[CustomComboInfo("Aeolian Edge / Huton Feature", "Replaces Aeolian Edge with Armor Crush when Huton has less than 30 seconds remaining and Huraijin when missing.", NIN.JobID)]
+		[CustomComboInfo("Aeolian Edge / Huton Feature", "Replaces Aeolian Edge with Armor Crush when Huton timer is below a set threshold and Huraijin when missing.", NIN.JobID)]
 		NinjaAeolianEdgeHutonFeature = 3014,
 
 		[CustomComboInfo("Hakke Mujinsatsu Combo", "Replace Hakke Mujinsatsu with its combo chain.", NIN.JobID)]

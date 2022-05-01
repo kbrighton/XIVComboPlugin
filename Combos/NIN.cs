@@ -115,7 +115,7 @@ namespace XIVComboVX.Combos {
 				if (level >= NIN.Levels.Huraijin && gauge.HutonTimer <= 0)
 					return NIN.Huraijin;
 
-				if (level >= NIN.Levels.ArmorCrush && comboTime > 0 && lastComboMove is NIN.GustSlash && gauge.HutonTimer <= 30_000)
+				if (level >= NIN.Levels.ArmorCrush && comboTime > 0 && lastComboMove is NIN.GustSlash && gauge.HutonTimer <= Service.Configuration.NinjaHutonThresholdTime * 1000)
 					return NIN.ArmorCrush;
 
 			}
