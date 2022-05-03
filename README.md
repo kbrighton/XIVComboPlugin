@@ -79,11 +79,13 @@ Now sorted by job and combo name!
 | DNC | Dance Step Feature | Change custom actions into dance steps while dancing. |
 | DNC | Devilment Feature | Change Devilment into Starfall Dance after use. |
 | DNC | Fan Dance 1/3 Combo | Change Fan Dance 1 into Fan Dance 3 when available. |
+| DNC | Fan Dance 1/3 Fallback | Also change into Fan Dance 1/3, with lower priority than 2/4. |
 | DNC | Fan Dance 1/3 Weaving | Also change into Fan Dance 1/3 when you can weave without clipping. |
 | DNC | Fan Dance 1/4 Combo | Change Fan Dance 1 into Fan Dance 4 when available. |
-| DNC | Fan Dance 2 Weaving | Also change into Fan Dance 2 when you can weave without clipping. |
 | DNC | Fan Dance 2/3 Combo | Change Fan Dance 2 into Fan Dance 3 when available. |
 | DNC | Fan Dance 2/4 Combo | Change Fan Dance 2 into Fan Dance 4 when available. |
+| DNC | Fan Dance 2/4 Fallback | Also change into Fan Dance 2/4, with lower priority than 1/3. |
+| DNC | Fan Dance 2/4 Weaving | Also change into Fan Dance 2/4 when you can weave without clipping. |
 | DNC | Flourish Dance 4 | Change Flourish into Fan Dance 4 when available. |
 | DNC | Single Target Multibutton | Change Cascade into procs and combos as available. |
 | DOL | Cast / Gig Feature | Replace Cast with Gig when swimming. |
@@ -147,14 +149,17 @@ Now sorted by job and combo name!
 | MNK | Dragon Meditation Feature | Replace Dragon Kick with Meditation when out of combat and the Fifth Chakra is not open. |
 | MNK | Howling Fist / Meditation Feature | Replaces Howling Fist with Meditation when the Fifth Chakra is not open. |
 | MNK | Monk AoE Combo | Replaces the selected actions with the AoE combo chain. |
+| MNK | Monk ST Combo | Replace Bootshine with all single-target rotation actions |
 | MNK | Perfect Balance Feature | Replace Perfect Balance with Masterful Blitz when you have 3 Beast Chakra, or when under Perfect Balance already. |
 | MNK | Riddle of Brotherly Fire | Replace Riddle of Fire with Brotherhood if the former is on CD and the latter isn't. |
 | MNK | Riddle of Fire and Wind | Replace Riddle of Fire with Riddle of Wind if the former is on CD and the latter isn't. |
 | MNK | Steel Peak / Forbidden Chakra Feature | Replace Dragon Kick with Meditation / Steel Peak / The Forbidden Chakra when in of combat and the Fifth Chakra is open. |
 | MNK | Twin Snakes to True Strike Feature | Replaces Twin Snakes with True Strike if Disciplined Fist is up. |
-| NIN | Aeolian Edge / Huton Feature | Replaces Aeolian Edge with Armor Crush when Huton has less than 30 seconds remaining and Huraijin when missing. |
+| NIN | Aeolian Edge / Huton Feature | Replaces Aeolian Edge with Armor Crush when Huton timer is below a set threshold and Huraijin when missing. |
 | NIN | Aeolian Edge Combo | Replace Aeolian Edge with its combo chain. |
+| NIN | Aoelian Daggers Feature | Replaces the Aeolian Edge combo with Throwing Dagger when NOT in the combo chain, and the current target is out of melee range. |
 | NIN | Armor Crush Combo | Replace Armor Crush with its combo chain. |
+| NIN | Crushing Daggers Feature | Replaces the Armor Crush combo with Throwing Dagger when NOT in the combo chain, and the current target is out of melee range. |
 | NIN | Fleeting Crush Feature | Replaces the Armor Crush combo with Fleeting Raiju when available. |
 | NIN | Fleeting Edge Feature | Replaces the Aeolian Edge combo with Fleeting Raiju when available. |
 | NIN | Fleeting Huraijin Feature | Replaces Huraijin with Fleeting Raiju when available. |
@@ -172,11 +177,15 @@ Now sorted by job and combo name!
 | PLD | Confiteor Feature | Replace Holy Spirit/Circle with Confiteor when Requiescat is up and MP is under 2000 or only one stack remains. |
 | PLD | Goring Blade Combo | Replace Goring Blade with its combo chain. |
 | PLD | Intervene Level Sync | Replace Intervene with Shield Lob when under level. |
+| PLD | Intervening Blade Feature | Replace the GB combo with Intervene when NOT in the combo chain, and the current target is out of melee range. |
+| PLD | Level Sync | Replace Intervene with Shield Lob when under level. |
+| PLD | Level Sync | Replace Intervene with Shield Lob when under level. |
 | PLD | Prominence Combo | Replace Prominence with its combo chain. |
 | PLD | Requiescat Confiteor | Replace Requiescat with Confiteor while under the effect of Requiescat. |
 | PLD | Requiescat Feature | Replace Royal Authority/Goring Blade combos with Holy Spirit, and Prominence combo with Holy Circle, while Requiescat is active. |
 | PLD | Royal Authority Combo | Replace Royal Authority/Rage of Halone with its combo chain. |
-| PLD | Royal Authority DoT Saver | The RA/RoH combo chain becomes Goring Blade at the end, if your current target has less than seven seconds on the GB DoT. |
+| PLD | Royal Authority DoT Saver | The RA/RoH combo chain becomes Goring Blade at the end, if your current target has less than seven seconds (adjustable) on the GB DoT. |
+| PLD | Royal Intervention Feature | Replace the RA/RoH combo with Intervene when NOT in the combo chain, and the current target is out of melee range. |
 | PLD | Stun/Interrupt Feature | Turn Low Blow and Interject into Interject when off CD and your target can be interrupted, Low Blow otherwise. |
 | RDM | Acceleration into Swiftcast | Replace Acceleration with Swiftcast when on cooldown or synced. |
 | RDM | Acceleration with Swiftcast first | Replace Acceleration with Swiftcast when neither are on cooldown. |
@@ -215,7 +224,7 @@ Now sorted by job and combo name!
 | RPR | Scythe Communio Feature | Replace Nightmare Scythe with Communio when one stack is left of Shroud. |
 | RPR | Scythe Guillotine Feature | Replace Nightmare Scythe with Guillotine while Reaving or Enshrouded. |
 | RPR | Scythe Harvest Moon Feature | Replace Nightmare Scythe with Harvest Moon when Soulsow is active and you have a target. |
-| RPR | Scythe Lemure's Feature | Replace Nightmare Scythe with Lemure's Slice when two or more stacks of Void Shroud are active. |
+| RPR | Scythe Lemure's Feature | Replace Nightmare Scythe with Lemure's Scythe when two or more stacks of Void Shroud are active. |
 | RPR | Scythe Soulsow Feature | Replace Nightmare Scythe with Soulsow when out of combat and not active. |
 | RPR | Shadow Communio Feature | Replace Shadow of Death with Communio when one stack of Shroud is left. |
 | RPR | Shadow Gallows Feature | Replace Shadow of Death with Gallows while Reaving or Enshrouded. |
