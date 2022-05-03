@@ -71,10 +71,14 @@ namespace XIVComboVX.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-			if (level >= PLD.Levels.HolySpirit && IsEnabled(CustomComboPreset.PaladinRequiescatFeature) && SelfHasEffect(PLD.Buffs.Requiescat))
-				return PLD.HolySpirit;
+			if (IsEnabled(CustomComboPreset.PaladinRequiescatFeature)) {
+				if (level >= PLD.Levels.HolySpirit) {
+					if (SelfHasEffect(PLD.Buffs.Requiescat))
+						return PLD.HolySpirit;
+				}
+			}
 
-			if (lastComboMove is 0) {
+			if (lastComboMove is not PLD.FastBlade or PLD.RiotBlade) {
 
 				if (IsEnabled(CustomComboPreset.PaladinGoringBladeRangeSwapFeature)) {
 					if (level >= PLD.Levels.Intervene) {
@@ -127,7 +131,7 @@ namespace XIVComboVX.Combos {
 				}
 			}
 
-			if (lastComboMove is 0) {
+			if (lastComboMove is not PLD.FastBlade or PLD.RiotBlade) {
 
 				if (IsEnabled(CustomComboPreset.PaladinRoyalAuthorityRangeSwapFeature)) {
 					if (level >= PLD.Levels.Intervene) {
