@@ -156,8 +156,10 @@ namespace XIVComboVX.Combos {
 				if (lastComboMove is PLD.RiotBlade) {
 
 					if (IsEnabled(CustomComboPreset.PaladinRoyalAuthorityDoTSaver)) {
-						if (TargetOwnEffectDuration(PLD.Debuffs.GoringBlade) < Service.Configuration.PaladinGoringBladeDoTSaverDebuffTime)
-							return PLD.GoringBlade;
+						if (level >= PLD.Levels.GoringBlade) {
+							if (TargetOwnEffectDuration(PLD.Debuffs.GoringBlade) < Service.Configuration.PaladinGoringBladeDoTSaverDebuffTime)
+								return PLD.GoringBlade;
+						}
 					}
 
 					return OriginalHook(PLD.RageOfHalone);
