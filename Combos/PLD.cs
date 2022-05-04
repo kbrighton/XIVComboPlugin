@@ -73,44 +73,51 @@ namespace XIVComboVX.Combos {
 
 			if (IsEnabled(CustomComboPreset.PaladinRequiescatFeature)) {
 				if (level >= PLD.Levels.HolySpirit) {
-					if (SelfHasEffect(PLD.Buffs.Requiescat))
-						return PLD.HolySpirit;
-				}
-			}
+					Status? requiescat = SelfFindEffect(PLD.Buffs.Requiescat);
 
-			if (lastComboMove is not PLD.FastBlade or PLD.RiotBlade) {
+					if (requiescat is not null) {
 
-				if (IsEnabled(CustomComboPreset.PaladinGoringBladeRangeSwapFeature)) {
-					if (level >= PLD.Levels.Intervene) {
-						if (TargetDistance is > 3 and <= 20)
-							return PLD.Intervene;
-					}
-					else if (IsEnabled(CustomComboPreset.PaladinGoringBladeRangeSwapSyncFeature)) {
-						if (level >= PLD.Levels.ShieldLob) {
-							if (TargetDistance is > 3 and <= 20)
-								return PLD.ShieldLob;
+						if (IsEnabled(CustomComboPreset.PaladinConfiteorFeature)) {
+							if (level >= PLD.Levels.Confiteor) {
+								if (requiescat?.StackCount == 1 || LocalPlayer?.CurrentMp < 2000)
+									return PLD.Confiteor;
+							}
 						}
+
+						return PLD.HolySpirit;
 					}
 				}
-
-				if (IsEnabled(CustomComboPreset.PaladinAtonementFeature)) {
-					if (level >= PLD.Levels.Atonement) {
-						if (SelfHasEffect(PLD.Buffs.SwordOath))
-							return PLD.Atonement;
-					}
-				}
-
-				return PLD.FastBlade;
 			}
 
-			if (level >= PLD.Levels.GoringBlade) {
-				if (lastComboMove is PLD.RiotBlade)
-					return PLD.GoringBlade;
-			}
-			if (level >= PLD.Levels.RiotBlade) {
-				if (lastComboMove is PLD.FastBlade)
+			if (lastComboMove is PLD.FastBlade) {
+				if (level >= PLD.Levels.RiotBlade)
 					return PLD.RiotBlade;
 			}
+			else if (lastComboMove is PLD.RiotBlade) {
+				if (level >= PLD.Levels.GoringBlade)
+					return PLD.GoringBlade;
+			}
+
+			if (IsEnabled(CustomComboPreset.PaladinGoringBladeRangeSwapFeature)) {
+				if (level >= PLD.Levels.Intervene) {
+					if (TargetDistance is > 3 and <= 20)
+						return PLD.Intervene;
+				}
+				else if (IsEnabled(CustomComboPreset.PaladinGoringBladeRangeSwapSyncFeature)) {
+					if (level >= PLD.Levels.ShieldLob) {
+						if (TargetDistance is > 3 and <= 20)
+							return PLD.ShieldLob;
+					}
+				}
+			}
+
+			if (IsEnabled(CustomComboPreset.PaladinAtonementFeature)) {
+				if (level >= PLD.Levels.Atonement) {
+					if (SelfHasEffect(PLD.Buffs.SwordOath))
+						return PLD.Atonement;
+				}
+			}
+
 			return PLD.FastBlade;
 		}
 	}
@@ -121,43 +128,30 @@ namespace XIVComboVX.Combos {
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-			if (level >= PLD.Levels.HolySpirit && IsEnabled(CustomComboPreset.PaladinRequiescatFeature)) {
-				Status? requiescat = SelfFindEffect(PLD.Buffs.Requiescat);
+			if (IsEnabled(CustomComboPreset.PaladinRequiescatFeature)) {
+				if (level >= PLD.Levels.HolySpirit) {
+					Status? requiescat = SelfFindEffect(PLD.Buffs.Requiescat);
 
-				if (requiescat is not null) {
-					if (level >= PLD.Levels.Confiteor && IsEnabled(CustomComboPreset.PaladinConfiteorFeature) && (requiescat?.StackCount == 1 || LocalPlayer?.CurrentMp < 2000))
-						return PLD.Confiteor;
-					return PLD.HolySpirit;
-				}
-			}
+					if (requiescat is not null) {
 
-			if (lastComboMove is not PLD.FastBlade or PLD.RiotBlade) {
-
-				if (IsEnabled(CustomComboPreset.PaladinRoyalAuthorityRangeSwapFeature)) {
-					if (level >= PLD.Levels.Intervene) {
-						if (TargetDistance is > 3 and <= 20)
-							return PLD.Intervene;
-					}
-					else if (IsEnabled(CustomComboPreset.PaladinRoyalAuthorityRangeSwapSyncFeature)) {
-						if (level >= PLD.Levels.ShieldLob) {
-							if (TargetDistance is > 3 and <= 20)
-								return PLD.ShieldLob;
+						if (IsEnabled(CustomComboPreset.PaladinConfiteorFeature)) {
+							if (level >= PLD.Levels.Confiteor) {
+								if (requiescat?.StackCount == 1 || LocalPlayer?.CurrentMp < 2000)
+									return PLD.Confiteor;
+							}
 						}
+
+						return PLD.HolySpirit;
 					}
 				}
-
-				if (IsEnabled(CustomComboPreset.PaladinAtonementFeature)) {
-					if (level >= PLD.Levels.Atonement) {
-						if (SelfHasEffect(PLD.Buffs.SwordOath))
-							return PLD.Atonement;
-					}
-				}
-
-				return PLD.FastBlade;
 			}
 
-			if (level >= PLD.Levels.RageOfHalone) {
-				if (lastComboMove is PLD.RiotBlade) {
+			if (lastComboMove is PLD.FastBlade) {
+				if (level >= PLD.Levels.RiotBlade)
+					return PLD.RiotBlade;
+			}
+			if (lastComboMove is PLD.RiotBlade) {
+				if (level >= PLD.Levels.RageOfHalone) {
 
 					if (IsEnabled(CustomComboPreset.PaladinRoyalAuthorityDoTSaver)) {
 						if (level >= PLD.Levels.GoringBlade) {
@@ -169,10 +163,27 @@ namespace XIVComboVX.Combos {
 					return OriginalHook(PLD.RageOfHalone);
 				}
 			}
-			if (level >= PLD.Levels.RiotBlade) {
-				if (lastComboMove is PLD.FastBlade)
-					return PLD.RiotBlade;
+
+			if (IsEnabled(CustomComboPreset.PaladinRoyalAuthorityRangeSwapFeature)) {
+				if (level >= PLD.Levels.Intervene) {
+					if (TargetDistance is > 3 and <= 20)
+						return PLD.Intervene;
+				}
+				else if (IsEnabled(CustomComboPreset.PaladinRoyalAuthorityRangeSwapSyncFeature)) {
+					if (level >= PLD.Levels.ShieldLob) {
+						if (TargetDistance is > 3 and <= 20)
+							return PLD.ShieldLob;
+					}
+				}
 			}
+
+			if (IsEnabled(CustomComboPreset.PaladinAtonementFeature)) {
+				if (level >= PLD.Levels.Atonement) {
+					if (SelfHasEffect(PLD.Buffs.SwordOath))
+						return PLD.Atonement;
+				}
+			}
+
 			return PLD.FastBlade;
 		}
 	}
@@ -188,8 +199,14 @@ namespace XIVComboVX.Combos {
 					Status? requiescat = SelfFindEffect(PLD.Buffs.Requiescat);
 
 					if (requiescat is not null) {
-						if (level >= PLD.Levels.Confiteor && IsEnabled(CustomComboPreset.PaladinConfiteorFeature) && (requiescat?.StackCount == 1 || LocalPlayer?.CurrentMp < 2000))
-							return PLD.Confiteor;
+
+						if (IsEnabled(CustomComboPreset.PaladinConfiteorFeature)) {
+							if (level >= PLD.Levels.Confiteor) {
+								if (requiescat?.StackCount == 1 || LocalPlayer?.CurrentMp < 2000)
+									return PLD.Confiteor;
+							}
+						}
+
 						return PLD.HolyCircle;
 					}
 				}
