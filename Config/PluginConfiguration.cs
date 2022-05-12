@@ -111,6 +111,15 @@ namespace XIVComboVX.Config {
 		public float MonkTwinSnakesBuffTime { get; set; } = 6;
 
 		[ComboDetailSetting(
+			CustomComboPreset.MonkDemolishFeature,
+			"Demolish debuff threshold",
+			"When your current target's Demolish debuff only has this many seconds left, switch back to Demolish",
+			0,
+			15
+		)]
+		public float MonkDemolishDebuffTime { get; set; } = 6;
+
+		[ComboDetailSetting(
 			CustomComboPreset.MonkSTCombo,
 			"Monk Bloodbath health percentage threshold",
 			"When your health percentage is below this threshold, weave Bloodbath into the combo",

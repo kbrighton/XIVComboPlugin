@@ -337,30 +337,26 @@ namespace XIVComboVX.Combos {
 	}
 
 	internal class MonkTwinSnakes: CustomCombo {
-		public override CustomComboPreset Preset { get; } = CustomComboPreset.MnkAny;
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.MonkTwinSnakesFeature;
 		public override uint[] ActionIDs => new[] { MNK.TwinSnakes };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-			if (IsEnabled(CustomComboPreset.MonkTwinSnakesFeature)) {
-				if (level < MNK.Levels.TwinSnakes || SelfEffectDuration(MNK.Buffs.DisciplinedFist) > Service.Configuration.MonkTwinSnakesBuffTime)
-					return MNK.TrueStrike;
-			}
+			if (level < MNK.Levels.TwinSnakes || SelfEffectDuration(MNK.Buffs.DisciplinedFist) > Service.Configuration.MonkTwinSnakesBuffTime)
+				return MNK.TrueStrike;
 
 			return actionID;
 		}
 	}
 
 	internal class MonkDemolish: CustomCombo {
-		public override CustomComboPreset Preset { get; } = CustomComboPreset.MnkAny;
+		public override CustomComboPreset Preset { get; } = CustomComboPreset.MonkDemolishFeature;
 		public override uint[] ActionIDs => new[] { MNK.Demolish };
 
 		protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-			if (IsEnabled(CustomComboPreset.MonkDemolishFeature)) {
-				if (level < MNK.Levels.Demolish || TargetFindOwnEffect(MNK.Debuffs.Demolish)?.RemainingTime > 6.0)
-					return MNK.SnapPunch;
-			}
+			if (level < MNK.Levels.Demolish || TargetOwnEffectDuration(MNK.Debuffs.Demolish) > Service.Configuration.MonkDemolishDebuffTime)
+				return MNK.SnapPunch;
 
 			return actionID;
 		}
