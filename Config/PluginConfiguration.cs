@@ -18,79 +18,25 @@ namespace XIVComboVX.Config {
 			this.IsFirstRun = firstRun;
 		}
 
-		#region Auto-linked combo detail settings
+		#region AST settings
 
-		[ComboDetailSetting(
-			CustomComboPreset.PaladinRoyalAuthorityDoTSaver,
-			"RA/RoH buff threshold",
-			"When the Goring Blade DoT only has this many seconds left, switch to Goring Blade to renew it",
-			0,
-			30
-		)]
-		public float PaladinGoringBladeDoTSaverDebuffTime { get; set; } = 7;
+		// placeholder
 
-		[ComboDetailSetting(
-			CustomComboPreset.DragoonFullThrustBuffSaver,
-			"Power Surge buff threshold",
-			"When the Power Surge buff only has this many seconds left, switch to the Chaos Thrust combo chain to renew it",
-			0,
-			30
-		)]
-		public float DragoonFullThrustBuffSaverBuffTime { get; set; } = 7;
+		#endregion
 
-		[ComboDetailSetting(
-			CustomComboPreset.WarriorSmartStormCombo,
-			"Surging Tempest buff threshold",
-			"When the Surging Tempest buff only has this many seconds left, switch to the Storm's Eye combo chain",
-			0,
-			30
-		)]
-		public float WarriorStormBuffSaverBuffTime { get; set; } = 7;
+		#region BLM settings
 
-		[ComboDetailSetting(
-			CustomComboPreset.MonkTwinSnakesFeature,
-			"Disciplined Fist buff threshold",
-			"When the Disciplined Fist buff only has this many seconds left, switch to True Strike",
-			0,
-			10
-		)]
-		public float MonkTwinSnakesBuffTime { get; set; } = 6;
+		// placeholder
 
-		[ComboDetailSetting(
-			CustomComboPreset.ReaperRegressDelayed,
-			"Threshold buff threshold",
-			"When the Threshold buff only has this many seconds left, switch to Regress",
-			0,
-			10
-		)]
-		public float ReaperThresholdBuffTime { get; set; } = 8.5F;
+		#endregion
 
-		[ComboDetailSetting(
-			CustomComboPreset.NinjaAeolianEdgeHutonFeature,
-			"Huton timer threshold",
-			"When Huton timer is above zero but below this many seconds left, switch to Armor Crush",
-			10,
-			30
-		)]
-		public float NinjaHutonThresholdTime { get; set; } = 30;
+		#region BRD settings
 
-		[ComboDetailSetting(
-			CustomComboPreset.MonkSTCombo,
-			"Monk Bloodbath health percentage threshold",
-			"When your health percentage is below this threshold, weave Bloodbath into the combo",
-			0,
-			90
-		)]
-		public uint MonkBloodbathHealthPercentage { get; set; } = 75;
+		// placeholder
 
-		[ComboDetailSetting(
-			CustomComboPreset.MonkSTCombo,
-			"Monk Riddle of Earth health percentage threshold",
-			"When your health percentage is below this threshold, weave Riddle of Earth into the combo",
-			0,
-			90
-		)]
-		public uint MonkRiddleOfEarthHealthPercentage { get; set; } = 50;
+		#endregion
+
+		#region DNC settings
 
 		[ComboDetailSetting(
 			CustomComboPreset.DancerDanceComboCompatibility,
@@ -122,6 +68,158 @@ namespace XIVComboVX.Config {
 
 		#endregion
 
+		#region DRG settings
+
+		[ComboDetailSetting(
+			CustomComboPreset.DragoonFullThrustBuffSaver,
+			"Power Surge buff threshold",
+			"When the Power Surge buff only has this many seconds left, switch to the Chaos Thrust combo chain to renew it",
+			0,
+			30
+		)]
+		public float DragoonFullThrustBuffSaverBuffTime { get; set; } = 7;
+
+		#endregion
+
+		#region DRK settings
+
+		// placeholder
+
+		#endregion
+
+		#region GNB settings
+
+		// placeholder
+
+		#endregion
+
+		#region MCH settings
+
+		// placeholder
+
+		#endregion
+
+		#region MNK settings
+
+		[ComboDetailSetting(
+			CustomComboPreset.MonkTwinSnakesFeature,
+			"Disciplined Fist buff threshold",
+			"When the Disciplined Fist buff only has this many seconds left, switch to True Strike",
+			0,
+			10
+		)]
+		public float MonkTwinSnakesBuffTime { get; set; } = 6;
+
+		[ComboDetailSetting(
+			CustomComboPreset.MonkSTCombo,
+			"Monk Bloodbath health percentage threshold",
+			"When your health percentage is below this threshold, weave Bloodbath into the combo",
+			0,
+			90
+		)]
+		public uint MonkBloodbathHealthPercentage { get; set; } = 75;
+
+		[ComboDetailSetting(
+			CustomComboPreset.MonkSTCombo,
+			"Monk Riddle of Earth health percentage threshold",
+			"When your health percentage is below this threshold, weave Riddle of Earth into the combo",
+			0,
+			90
+		)]
+		public uint MonkRiddleOfEarthHealthPercentage { get; set; } = 50;
+
+		#endregion
+
+		#region NIN settings
+
+		[ComboDetailSetting(
+			CustomComboPreset.NinjaAeolianEdgeHutonFeature,
+			"Huton timer threshold",
+			"When Huton timer is above zero but below this many seconds left, switch to Armor Crush",
+			10,
+			30
+		)]
+		public float NinjaHutonThresholdTime { get; set; } = 30;
+
+		#endregion
+
+		#region PLD settings
+
+		[ComboDetailSetting(
+			CustomComboPreset.PaladinRoyalAuthorityDoTSaver,
+			"RA/RoH buff threshold",
+			"When the Goring Blade DoT only has this many seconds left, switch to Goring Blade to renew it",
+			0,
+			30
+		)]
+		public float PaladinGoringBladeDoTSaverDebuffTime { get; set; } = 7;
+
+		#endregion
+
+		#region RDM settings
+
+		// placeholder
+
+		#endregion
+
+		#region RPR settings
+
+		[ComboDetailSetting(
+			CustomComboPreset.ReaperRegressDelayed,
+			"Threshold buff threshold",
+			"When the Threshold buff only has this many seconds left, switch to Regress",
+			0,
+			10
+		)]
+		public float ReaperThresholdBuffTime { get; set; } = 8.5F;
+
+		#endregion
+
+		#region SAM settings
+
+		// placeholder
+
+		#endregion
+
+		#region SCH settings
+
+		// placeholder
+
+		#endregion
+
+		#region SGE settings
+
+		// placeholder
+
+		#endregion
+
+		#region SMN settings
+
+		// placeholder
+
+		#endregion
+
+		#region WAR settings
+
+		[ComboDetailSetting(
+			CustomComboPreset.WarriorSmartStormCombo,
+			"Surging Tempest buff threshold",
+			"When the Surging Tempest buff only has this many seconds left, switch to the Storm's Eye combo chain",
+			0,
+			30
+		)]
+		public float WarriorStormBuffSaverBuffTime { get; set; } = 7;
+
+		#endregion
+
+		#region WHM settings
+
+		// placeholder
+
+		#endregion
+
+		#region General plugin settings
+
 		[JsonProperty("HideDisabledFeaturesChildren")]
 		public bool HideDisabledFeaturesChildren { get; set; } = false;
 
@@ -146,6 +244,10 @@ namespace XIVComboVX.Config {
 		[Obsolete("Use the explicit 'Dancer*ActionID' ushorts instead")]
 		public uint[] DancerDanceCompatActionIDs = Array.Empty<uint>();
 
+		#endregion
+
+		#region Methods
+
 		public bool IsEnabled(CustomComboPreset preset) => this.EnabledActions.Contains(preset);
 
 		public void Save() => Service.Interface.SavePluginConfig(this);
@@ -162,6 +264,8 @@ namespace XIVComboVX.Config {
 			}
 #pragma warning restore CS0618 // Type or member is obsolete
 		}
+
+		#endregion
 
 	}
 }
