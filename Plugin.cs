@@ -32,7 +32,7 @@ public sealed class Plugin: IDalamudPlugin {
 #endif
 
 	public string Name { get; } = Assembly.GetExecutingAssembly().GetName().Name!;
-	public string PluginSignature => $"{this.Name} v{Version}{(Debug ? " (debug build)" : "")}";
+	public string PluginSignature => $"{this.Name} v{Version} ({(Debug ? "debug" : "release")} build)";
 
 	public Plugin(DalamudPluginInterface pluginInterface) {
 
