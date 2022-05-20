@@ -181,7 +181,7 @@ public sealed class Plugin: IDalamudPlugin {
 					Service.ChatUtils.print(XivChatType.SystemMessage, parts.ToArray());
 				}
 				break;
-			case "showUpdate": {
+			case "showupdate": {
 					Service.UpdateAlert?.displayMessage();
 				}
 				break;
