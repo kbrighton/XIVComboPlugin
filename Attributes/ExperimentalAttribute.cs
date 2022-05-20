@@ -1,7 +1,6 @@
-﻿using System;
+﻿namespace XIVComboVX.Attributes;
 
-namespace XIVComboVX.Attributes {
-	[AttributeUsage(AttributeTargets.Field)]
-	internal class ExperimentalAttribute: Attribute {
-	}
-}
+using System;
+
+[AttributeUsage(AttributeTargets.Field)]
+internal class ExperimentalAttribute: Attribute { }

@@ -1,4 +1,5 @@
-﻿
+﻿namespace XIVComboVX;
+
 using Dalamud.Data;
 using Dalamud.Game;
 using Dalamud.Game.ClientState;
@@ -14,57 +15,56 @@ using Dalamud.Plugin;
 using XIVComboVX.Config;
 using XIVComboVX.GameData;
 
-namespace XIVComboVX {
-	internal class Service {
-		public static XIVComboVX Plugin { get; set; } = null!;
+internal class Service {
+	public static Plugin Plugin { get; set; } = null!;
 
-		public static PluginConfiguration Configuration { get; set; } = null!;
+	public static PluginConfiguration Configuration { get; set; } = null!;
 
-		public static IconReplacer IconReplacer { get; set; } = null!;
+	public static IconReplacer IconReplacer { get; set; } = null!;
 
-		public static PluginAddressResolver Address { get; set; } = null!;
+	public static PluginAddressResolver Address { get; set; } = null!;
 
-		public static ComboDataCache DataCache { get; set; } = null!;
+	public static ComboDataCache DataCache { get; set; } = null!;
 
-		public static LogUtil Logger { get; set; } = null!;
+	public static LogUtil Logger { get; set; } = null!;
 
-		public static GameState GameState { get; set; } = null!;
+	public static GameState GameState { get; set; } = null!;
 
-		public static UpdateAlerter? UpdateAlert { get; set; } = null;
+	public static UpdateAlerter? UpdateAlert { get; set; } = null;
 
-		public static ChatUtil ChatUtils { get; set; } = null!;
+	public static ChatUtil ChatUtils { get; set; } = null!;
 
-		[PluginService]
-		public static DalamudPluginInterface Interface { get; private set; } = null!;
+	[PluginService]
+	public static DalamudPluginInterface Interface { get; private set; } = null!;
 
-		[PluginService]
-		public static BuddyList BuddyList { get; private set; } = null!;
+	[PluginService]
+	public static BuddyList BuddyList { get; private set; } = null!;
 
-		[PluginService]
-		public static ChatGui ChatGui { get; private set; } = null!;
+	[PluginService]
+	public static ChatGui ChatGui { get; private set; } = null!;
 
-		[PluginService]
-		public static ClientState Client { get; private set; } = null!;
+	[PluginService]
+	public static ClientState Client { get; private set; } = null!;
 
-		[PluginService]
-		public static CommandManager Commands { get; private set; } = null!;
+	[PluginService]
+	public static CommandManager Commands { get; private set; } = null!;
 
-		[PluginService]
-		public static Condition Conditions { get; private set; } = null!;
+	[PluginService]
+	public static Condition Conditions { get; private set; } = null!;
 
-		[PluginService]
-		public static DataManager GameData { get; private set; } = null!;
+	[PluginService]
+	public static DataManager GameData { get; private set; } = null!;
 
-		[PluginService]
-		public static Framework Framework { get; private set; } = null!;
+	[PluginService]
+	public static Framework Framework { get; private set; } = null!;
 
-		[PluginService]
-		public static JobGauges JobGauge { get; private set; } = null!;
+	[PluginService]
+	public static JobGauges JobGauge { get; private set; } = null!;
 
-		[PluginService]
-		public static TargetManager Targets { get; private set; } = null!;
+	[PluginService]
+	public static TargetManager Targets { get; private set; } = null!;
 
-		[PluginService]
-		public static GameGui GameGui { get; private set; } = null!;
-	}
+	[PluginService]
+	public static GameGui GameGui { get; private set; } = null!;
+
 }

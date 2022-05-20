@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace XIVComboVX.Attributes;
 
-using XIVComboVX;
+using System;
 
-namespace XIVComboVX.Attributes {
-	[AttributeUsage(AttributeTargets.Field)]
-	internal class ParentPresetAttribute: Attribute {
-		public CustomComboPreset Parent { get; }
-		internal ParentPresetAttribute(CustomComboPreset required) {
-			this.Parent = required;
-		}
+[AttributeUsage(AttributeTargets.Field)]
+internal class ParentPresetAttribute: Attribute {
+	public CustomComboPreset Parent { get; }
+	internal ParentPresetAttribute(CustomComboPreset required) {
+		this.Parent = required;
 	}
 }
