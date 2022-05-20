@@ -118,6 +118,7 @@ public sealed class Plugin: IDalamudPlugin {
 			Service.UpdateAlert?.Dispose();
 			Service.ChatUtils?.Dispose();
 			Service.GameState?.Dispose();
+			Service.Ipc?.Dispose();
 			Service.Logger?.Dispose();
 		}
 	}
@@ -141,7 +142,7 @@ public sealed class Plugin: IDalamudPlugin {
 
 		string[] argumentsParts = arguments.Split();
 
-		switch (argumentsParts[0]) {
+		switch (argumentsParts[0].ToLower()) {
 			case "debug": {
 					Service.Logger.EnableNextTick();
 					Service.ChatGui.Print("Enabled debug message snapshot");
