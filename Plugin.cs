@@ -76,6 +76,12 @@ public sealed class Plugin: IDalamudPlugin {
 			this.registeredDefaultCommand = true;
 		}
 
+		Service.Ipc = new();
+
+		Service.Ipc.addTips(
+			$"{this.Name} - better than a broken leg!" // I will not be serious and you cannot make me.
+		);
+
 		PluginLog.Information($"{this.PluginSignature} initialised {(Service.Address.LoadSuccessful ? "" : "un")}successfully");
 		if (Service.Configuration.IsFirstRun || !Service.Configuration.LastVersion.Equals(Version)) {
 			Service.UpdateAlert = new(Version, Service.Configuration.IsFirstRun);

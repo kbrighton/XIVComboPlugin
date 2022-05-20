@@ -34,6 +34,8 @@ internal class Service {
 
 	public static ChatUtil ChatUtils { get; set; } = null!;
 
+	public static Ipc Ipc { get; set; } = null!;
+
 	[PluginService]
 	public static DalamudPluginInterface Interface { get; private set; } = null!;
 
