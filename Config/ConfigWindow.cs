@@ -177,6 +177,14 @@ public class ConfigWindow: Window {
 #if DEBUG
 			if (ImGui.BeginMenu("Debugging")) {
 
+				PlayerCharacter? player = Service.Client.LocalPlayer;
+				if (player is null) {
+					ImGui.MenuItem("Not logged in", false);
+				}
+				else {
+					ImGui.MenuItem($"{player.Name}: {player.ClassJob.GameData!.Abbreviation.ToString().ToUpper()} ({player.ClassJob.Id})", false);
+				}
+
 				bool clickDebug = ImGui.MenuItem("Snapshot debug messages");
 				if (ImGui.IsItemHovered()) {
 					ImGui.BeginTooltip();
@@ -187,16 +195,6 @@ public class ConfigWindow: Window {
 				if (clickDebug) {
 					Service.Logger.EnableNextTick();
 				}
-
-				PlayerCharacter? player = Service.Client.LocalPlayer;
-				if (player is null) {
-					ImGui.MenuItem("Not logged in", false);
-				}
-				else {
-					ImGui.MenuItem($"{player.Name}: {player.ClassJob.GameData!.Abbreviation.ToString().ToUpper()} ({player.ClassJob.Id})", false);
-				}
-
-				//ImGui.MenuItem($"Config window: {this.Size?.X}x{this.Size?.Y}", false);
 
 				ImGui.EndMenu();
 			}
