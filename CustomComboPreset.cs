@@ -664,6 +664,12 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Slice Combo", "Replace Infernal Slice with its combo chain.", RPR.JobID)]
 	ReaperSliceCombo = 3901,
 
+	[CustomComboInfo("Slice Weave Assist", "Replace Infernal Slice with Blood Stalk (or variants) when available and weaving wouldn't clip your GCD.", RPR.JobID)]
+	ReaperSliceWeaveAssist = 3942,
+
+	[CustomComboInfo("Slice of Death Feature", "Replace Infernal Slice with Shadow of Death when the target's Death's Design debuff is low.", RPR.JobID)]
+	ReaperSliceShadowFeature = 3940,
+
 	[Conflicts(ReaperSliceGallowsFeature)]
 	[CustomComboInfo("Slice Gibbet Feature", "Replace Infernal Slice with Gibbet while Reaving or Enshrouded.", RPR.JobID)]
 	ReaperSliceGibbetFeature = 3903,
@@ -718,14 +724,26 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Soul Communio Feature", "Replace Soul Slice with Communio when one stack of Shroud is left.", RPR.JobID)]
 	ReaperSoulCommunioFeature = 3928,
 
-	[CustomComboInfo("Soul Overcap Feature", "Replace Soul Slice with Blood Stalk not Enshrouded and greater-than 50 Soul Gauge is present.", RPR.JobID)]
+	[CustomComboInfo("Soul Slice Overcap Feature", "Replace Soul Slice with Blood Stalk when not Enshrouded and Soul Gauge is over 50.", RPR.JobID)]
 	ReaperSoulOvercapFeature = 3934,
 
-	[CustomComboInfo("Soul (Scythe) Overcap Feature", "Replace Soul Scythe with Grim Swathe when not Enshrouded and greater-than 50 Soul Gauge is present.", RPR.JobID)]
+	[CustomComboInfo("Soul Scythe Overcap Feature", "Replace Soul Scythe with Grim Swathe when not Enshrouded, and Soul Gauge is over 50.", RPR.JobID)]
 	ReaperSoulScytheOvercapFeature = 3935,
+
+	[CustomComboInfo("Soul Slice Weave Assist", "Replace Soul Slice with Blood Stalk (or variants) when available and weaving wouldn't clip your GCD.", RPR.JobID)]
+	ReaperSoulSliceWeaveAssist = 3944,
+
+	[CustomComboInfo("Soul Scythe Weave Assist", "Replace Soul Scythe with Grim Swathe (or variants) when available and weaving wouldn't clip your GCD.", RPR.JobID)]
+	ReaperSoulScytheWeaveAssist = 3945,
 
 	[CustomComboInfo("Scythe Combo", "Replace Nightmare Scythe with its combo chain.", RPR.JobID)]
 	ReaperScytheCombo = 3902,
+
+	[CustomComboInfo("Scythe Weave Assist", "Replace Nightmare Scythe with Grim Swathe (or variants) when available and weaving wouldn't clip your GCD.", RPR.JobID)]
+	ReaperScytheWeaveAssist = 3943,
+
+	[CustomComboInfo("Scythe of Death Feature", "Replace Nightmare Scythe with Whorl of Death when the target's Death's Design debuff is low.", RPR.JobID)]
+	ReaperScytheWhorlFeature = 3941,
 
 	[CustomComboInfo("Scythe Guillotine Feature", "Replace Nightmare Scythe with Guillotine while Reaving or Enshrouded.", RPR.JobID)]
 	ReaperScytheGuillotineFeature = 3907,
@@ -757,10 +775,10 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Enshroud Communio Feature", "Replace Enshroud with Communio when Enshrouded.", RPR.JobID)]
 	ReaperEnshroudCommunioFeature = 3909,
 
-	[CustomComboInfo("Blood Stalk Gluttony Feature", "Replace Blood Stalk with Gluttony when available and greater-than-or-equal-to 50 Soul Gauge is present.", RPR.JobID)]
+	[CustomComboInfo("Blood Stalk Gluttony Feature", "Replace Blood Stalk with Gluttony when available and Soul Gauge is at least 50.", RPR.JobID)]
 	ReaperBloodStalkGluttonyFeature = 3915,
 
-	[CustomComboInfo("Grim Swathe Gluttony Feature", "Replace Grim Swathe with Gluttony when available and greater-than-or-equal-to 50 Soul Gauge is present.", RPR.JobID)]
+	[CustomComboInfo("Grim Swathe Gluttony Feature", "Replace Grim Swathe with Gluttony when available and Soul Gauge is at least 50.", RPR.JobID)]
 	ReaperGrimSwatheGluttonyFeature = 3916,
 
 	[CustomComboInfo("Arcane Harvest Feature", "Replace Arcane Circle with Plentiful Harvest when you have stacks of Immortal Sacrifice.", RPR.JobID)]
@@ -770,7 +788,7 @@ public enum CustomComboPreset {
 	ReaperRegressFeature = 3910,
 
 	[ParentPreset(ReaperRegressFeature)]
-	[CustomComboInfo("Delayed Regress Option", "Replace the action used with Regress only after 1.5 seconds have elapsed on Threshold.", RPR.JobID)]
+	[CustomComboInfo("Delayed Regress Option", "Replace the action used with Regress only after a configurable delay.", RPR.JobID)]
 	ReaperRegressDelayed = 3933,
 
 	[CustomComboInfo("Harpe Soulsow Feature", "Replace Harpe with Soulsow when not active and out of combat or you have no target.", RPR.JobID)]

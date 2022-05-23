@@ -183,6 +183,24 @@ public class PluginConfiguration: IPluginConfiguration {
 	)]
 	public float ReaperThresholdBuffTime { get; set; } = 8.5F;
 
+	[ComboDetailSetting(
+		CustomComboPreset.ReaperSliceShadowFeature,
+		"Death's Design debuff threshold",
+		"When the current target's Death's Design debuff only has this many seconds left, switch to Shadow of Death",
+		0,
+		10
+	)]
+	public float ReaperSliceDeathDebuffTime { get; set; } = 5F;
+
+	[ComboDetailSetting(
+		CustomComboPreset.ReaperScytheWhorlFeature,
+		"Death's Design debuff threshold",
+		"When the current target's Death's Design debuff only has this many seconds left, switch to Whorl of Death",
+		0,
+		10
+	)]
+	public float ReaperScytheDeathDebuffTime { get; set; } = 5F;
+
 	#endregion
 
 	#region SAM settings

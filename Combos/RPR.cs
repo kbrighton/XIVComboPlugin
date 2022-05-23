@@ -40,6 +40,7 @@ internal static class RPR {
 		LemuresScythe = 24400,
 		// Misc
 		ShadowOfDeath = 24378,
+		WhorlOfDeath = 24379,
 		Harpe = 24386,
 		Soulsow = 24387,
 		HarvestMoon = 24388,
@@ -63,16 +64,18 @@ internal static class RPR {
 
 	public static class Debuffs {
 		public const ushort
-			Placeholder = 0;
+			DeathsDesign = 2586;
 	}
 
 	public static class Levels {
 		public const byte
 			WaxingSlice = 5,
+			ShadowOfDeath = 10,
 			HellsIngress = 20,
 			HellsEgress = 20,
 			SpinningScythe = 25,
 			InfernalSlice = 30,
+			WhorlOfDeath = 35,
 			NightmareScythe = 45,
 			BloodStalk = 50,
 			GrimSwathe = 55,
@@ -96,15 +99,27 @@ internal class ReaperSlice: CustomCombo {
 	public override uint[] ActionIDs => new[] { RPR.InfernalSlice };
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+		RPRGauge gauge = GetJobGauge<RPRGauge>();
+
+		if (IsEnabled(CustomComboPreset.ReaperSliceWeaveAssist)) {
+			if (level >= RPR.Levels.BloodStalk) {
+				if (gauge.Soul >= 50) {
+					if (InCombat && CanWeave(actionID)) {
+						return OriginalHook(RPR.BloodStalk);
+					}
+				}
+			}
+		}
 
 		if (IsEnabled(CustomComboPreset.ReaperSliceSoulsowFeature)) {
 			if (level >= RPR.Levels.Soulsow && !InCombat && !SelfHasEffect(RPR.Buffs.Soulsow))
 				return RPR.Soulsow;
 		}
 
-		RPRGauge gauge = GetJobGauge<RPRGauge>();
+		bool reaving = level >= RPR.Levels.SoulReaver && SelfHasEffect(RPR.Buffs.SoulReaver);
+		bool enshrouded = level >= RPR.Levels.Enshroud && gauge.EnshroudedTimeRemaining > 0;
 
-		if (level >= RPR.Levels.Enshroud && gauge.EnshroudedTimeRemaining > 0) {
+		if (enshrouded) {
 
 			if (IsEnabled(CustomComboPreset.ReaperSliceLemuresFeature)) {
 				if (level >= RPR.Levels.EnhancedShroud && gauge.VoidShroud >= 2)
@@ -118,9 +133,7 @@ internal class ReaperSlice: CustomCombo {
 
 		}
 
-		if ((level >= RPR.Levels.SoulReaver && SelfHasEffect(RPR.Buffs.SoulReaver))
-			|| (level >= RPR.Levels.Enshroud && gauge.EnshroudedTimeRemaining > 0)
-		) {
+		if (reaving || enshrouded) {
 
 			if (IsEnabled(CustomComboPreset.ReaperSliceEnhancedEnshroudedFeature)) {
 
@@ -153,11 +166,27 @@ internal class ReaperSlice: CustomCombo {
 				return OriginalHook(RPR.Gallows);
 		}
 
+		if (IsEnabled(CustomComboPreset.ReaperSliceShadowFeature)) {
+			if (level >= RPR.Levels.ShadowOfDeath) {
+				if (HasTarget && TargetOwnEffectDuration(RPR.Debuffs.DeathsDesign) < Service.Configuration.ReaperSliceDeathDebuffTime) {
+					return RPR.ShadowOfDeath;
+				}
+			}
+		}
+
 		if (IsEnabled(CustomComboPreset.ReaperSliceCombo)) {
-			return SimpleChainCombo(level, lastComboMove, comboTime, (1, RPR.Slice),
-				(RPR.Levels.WaxingSlice, RPR.WaxingSlice),
-				(RPR.Levels.InfernalSlice, RPR.InfernalSlice)
-			);
+
+			if (level >= RPR.Levels.InfernalSlice) {
+				if (lastComboMove is RPR.WaxingSlice)
+					return RPR.InfernalSlice;
+			}
+
+			if (level >= RPR.Levels.WaxingSlice) {
+				if (lastComboMove is RPR.Slice)
+					return RPR.WaxingSlice;
+			}
+
+			return RPR.Slice;
 		}
 
 		return actionID;
@@ -171,7 +200,20 @@ internal class ReaperScythe: CustomCombo {
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		RPRGauge gauge = GetJobGauge<RPRGauge>();
 
-		if (level >= RPR.Levels.Enshroud && gauge.EnshroudedTimeRemaining > 0) {
+		if (IsEnabled(CustomComboPreset.ReaperScytheWeaveAssist)) {
+			if (level >= RPR.Levels.GrimSwathe) {
+				if (gauge.Soul >= 50) {
+					if (InCombat && CanWeave(actionID)) {
+						return OriginalHook(RPR.GrimSwathe);
+					}
+				}
+			}
+		}
+
+		bool reaving = level >= RPR.Levels.SoulReaver && SelfHasEffect(RPR.Buffs.SoulReaver);
+		bool enshrouded = level >= RPR.Levels.Enshroud && gauge.EnshroudedTimeRemaining > 0;
+
+		if (enshrouded) {
 
 			if (IsEnabled(CustomComboPreset.ReaperScytheLemuresFeature)) {
 				if (level >= RPR.Levels.LemuresScythe && gauge.VoidShroud >= 2)
@@ -186,9 +228,7 @@ internal class ReaperScythe: CustomCombo {
 		}
 
 		if (IsEnabled(CustomComboPreset.ReaperScytheGuillotineFeature)) {
-			if ((level >= RPR.Levels.SoulReaver && SelfHasEffect(RPR.Buffs.SoulReaver))
-				|| (level >= RPR.Levels.Enshroud && gauge.EnshroudedTimeRemaining > 0)
-			) {
+			if (reaving || enshrouded) {
 				// Grim Reaping
 				return OriginalHook(RPR.Guillotine);
 			}
@@ -204,10 +244,22 @@ internal class ReaperScythe: CustomCombo {
 				return RPR.Soulsow;
 		}
 
+		if (IsEnabled(CustomComboPreset.ReaperScytheWhorlFeature)) {
+			if (level >= RPR.Levels.WhorlOfDeath) {
+				if (HasTarget && TargetOwnEffectDuration(RPR.Debuffs.DeathsDesign) < Service.Configuration.ReaperScytheDeathDebuffTime) {
+					return RPR.WhorlOfDeath;
+				}
+			}
+		}
+
 		if (IsEnabled(CustomComboPreset.ReaperScytheCombo)) {
-			return SimpleChainCombo(level, lastComboMove, comboTime, (RPR.Levels.SpinningScythe, RPR.SpinningScythe),
-				(RPR.Levels.NightmareScythe, RPR.NightmareScythe)
-			);
+
+			if (level >= RPR.Levels.NightmareScythe) {
+				if (lastComboMove is RPR.SpinningScythe)
+					return RPR.NightmareScythe;
+			}
+
+			return RPR.SpinningScythe;
 		}
 
 		return actionID;
@@ -226,8 +278,10 @@ internal class ReaperShadowOfDeath: CustomCombo {
 		}
 
 		RPRGauge gauge = GetJobGauge<RPRGauge>();
+		bool reaving = level >= RPR.Levels.SoulReaver && SelfHasEffect(RPR.Buffs.SoulReaver);
+		bool enshrouded = level >= RPR.Levels.Enshroud && gauge.EnshroudedTimeRemaining > 0;
 
-		if (level >= RPR.Levels.Enshroud && gauge.EnshroudedTimeRemaining > 0) {
+		if (enshrouded) {
 
 			if (IsEnabled(CustomComboPreset.ReaperShadowLemuresFeature)) {
 				if (level >= RPR.Levels.EnhancedShroud && gauge.VoidShroud >= 2)
@@ -241,9 +295,7 @@ internal class ReaperShadowOfDeath: CustomCombo {
 
 		}
 
-		if ((level >= RPR.Levels.SoulReaver && SelfHasEffect(RPR.Buffs.SoulReaver))
-			|| (level >= RPR.Levels.Enshroud && gauge.EnshroudedTimeRemaining > 0)
-		) {
+		if (reaving || enshrouded) {
 
 			if (IsEnabled(CustomComboPreset.ReaperShadowGallowsFeature))
 				// Cross Reaping
@@ -266,7 +318,20 @@ internal class ReaperSoulSlice: CustomCombo {
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		RPRGauge gauge = GetJobGauge<RPRGauge>();
 
-		if (level >= RPR.Levels.Enshroud && gauge.EnshroudedTimeRemaining > 0) {
+		if (IsEnabled(CustomComboPreset.ReaperSoulSliceWeaveAssist)) {
+			if (level >= RPR.Levels.BloodStalk) {
+				if (gauge.Soul >= 50) {
+					if (InCombat && CanWeave(actionID)) {
+						return OriginalHook(RPR.BloodStalk);
+					}
+				}
+			}
+		}
+
+		bool reaving = level >= RPR.Levels.SoulReaver && SelfHasEffect(RPR.Buffs.SoulReaver);
+		bool enshrouded = level >= RPR.Levels.Enshroud && gauge.EnshroudedTimeRemaining > 0;
+
+		if (enshrouded) {
 
 			if (IsEnabled(CustomComboPreset.ReaperSoulLemuresFeature)) {
 				if (level >= RPR.Levels.EnhancedShroud && gauge.VoidShroud >= 2)
@@ -280,9 +345,7 @@ internal class ReaperSoulSlice: CustomCombo {
 
 		}
 
-		if ((level >= RPR.Levels.SoulReaver && SelfHasEffect(RPR.Buffs.SoulReaver))
-			|| (level >= RPR.Levels.Enshroud && gauge.EnshroudedTimeRemaining > 0)
-		) {
+		if (reaving || enshrouded) {
 
 			if (IsEnabled(CustomComboPreset.ReaperSoulGallowsFeature))
 				// Cross Reaping
@@ -317,6 +380,16 @@ internal class ReaperSoulScythe: CustomCombo {
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		RPRGauge gauge = GetJobGauge<RPRGauge>();
+
+		if (IsEnabled(CustomComboPreset.ReaperSoulScytheWeaveAssist)) {
+			if (level >= RPR.Levels.GrimSwathe) {
+				if (gauge.Soul >= 50) {
+					if (InCombat && CanWeave(actionID)) {
+						return OriginalHook(RPR.GrimSwathe);
+					}
+				}
+			}
+		}
 
 		if (IsEnabled(CustomComboPreset.ReaperGrimSwatheGluttonyFeature)) {
 			if (level >= RPR.Levels.Gluttony && gauge.Soul >= 50 && gauge.EnshroudedTimeRemaining == 0 && IsOffCooldown(RPR.Gluttony))
