@@ -105,6 +105,12 @@ internal class ReaperSlice: CustomCombo {
 			if (level >= RPR.Levels.BloodStalk) {
 				if (gauge.Soul >= 50) {
 					if (InCombat && CanWeave(actionID)) {
+
+						if (IsEnabled(CustomComboPreset.ReaperBloodStalkGluttonyFeature)) {
+							if (level >= RPR.Levels.Gluttony && IsOffCooldown(RPR.Gluttony))
+								return RPR.Gluttony;
+						}
+
 						return OriginalHook(RPR.BloodStalk);
 					}
 				}
@@ -204,6 +210,12 @@ internal class ReaperScythe: CustomCombo {
 			if (level >= RPR.Levels.GrimSwathe) {
 				if (gauge.Soul >= 50) {
 					if (InCombat && CanWeave(actionID)) {
+
+						if (IsEnabled(CustomComboPreset.ReaperGrimSwatheGluttonyFeature)) {
+							if (level >= RPR.Levels.Gluttony && IsOffCooldown(RPR.Gluttony))
+								return RPR.Gluttony;
+						}
+
 						return OriginalHook(RPR.GrimSwathe);
 					}
 				}
@@ -320,8 +332,14 @@ internal class ReaperSoulSlice: CustomCombo {
 
 		if (IsEnabled(CustomComboPreset.ReaperSoulSliceWeaveAssist)) {
 			if (level >= RPR.Levels.BloodStalk) {
-				if (gauge.Soul >= 50) {
+				if (gauge.Soul >= 50 && gauge.EnshroudedTimeRemaining == 0) {
 					if (InCombat && CanWeave(actionID)) {
+
+						if (IsEnabled(CustomComboPreset.ReaperBloodStalkGluttonyFeature)) {
+							if (level >= RPR.Levels.Gluttony && IsOffCooldown(RPR.Gluttony))
+								return RPR.Gluttony;
+						}
+
 						return OriginalHook(RPR.BloodStalk);
 					}
 				}
@@ -385,6 +403,12 @@ internal class ReaperSoulScythe: CustomCombo {
 			if (level >= RPR.Levels.GrimSwathe) {
 				if (gauge.Soul >= 50) {
 					if (InCombat && CanWeave(actionID)) {
+
+						if (IsEnabled(CustomComboPreset.ReaperGrimSwatheGluttonyFeature)) {
+							if (level >= RPR.Levels.Gluttony && IsOffCooldown(RPR.Gluttony))
+								return RPR.Gluttony;
+						}
+
 						return OriginalHook(RPR.GrimSwathe);
 					}
 				}
