@@ -27,7 +27,7 @@ public class ConfigWindow: Window {
 
 	private const int minWidth = 900;
 
-	public ConfigWindow() : base($"Custom Combo Setup - {Service.Plugin.ShortPluginSignature}, {Service.Plugin.PluginBuildType}", ImGuiWindowFlags.MenuBar) {
+	public ConfigWindow() : base($"Custom Combo Setup - {Service.Plugin.ShortPluginSignature}, {Service.Plugin.PluginBuildType}###{Service.Plugin.Name} Custom Combo Setup", ImGuiWindowFlags.MenuBar) {
 		this.RespectCloseHotkey = true;
 
 		List<(CustomComboPreset preset, CustomComboInfoAttribute info)> realPresets = Enum
