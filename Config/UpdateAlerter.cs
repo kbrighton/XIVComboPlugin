@@ -10,13 +10,30 @@ using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Logging;
 
 internal class UpdateAlerter: IDisposable {
+	private const int messageDelayMs = 500;
+
 	private bool disposed;
 
 	private bool seenUpdateMessage = false;
 	private readonly bool isFreshInstall = false;
 	private readonly Version current;
 
-	private CancellationTokenSource? aborter;
+	private CancellationTokenSource? realAborter;
+	private CancellationTokenSource? aborter {
+		get {
+			CancellationTokenSource? src;
+			lock (this) {
+				src = this.realAborter;
+			}
+			return src;
+		}
+		set {
+			lock (this) {
+				this.realAborter?.Cancel();
+				this.realAborter = value;
+			}
+		}
+	}
 
 	internal UpdateAlerter(Version to, bool isFresh) {
 		this.current = to;
@@ -28,37 +45,46 @@ internal class UpdateAlerter: IDisposable {
 	}
 
 	internal void checkMessage() {
-		if (this.seenUpdateMessage) {
+		PluginLog.Information("Checking whether to display update message");
+		if (this.disposed) {
 			this.unregister();
+			PluginLog.Information("Update alerter already disposed");
 			return;
 		}
-		if (!Service.GameState.isChatVisible || this.disposed)
+		if (this.seenUpdateMessage) {
+			this.unregister();
+			PluginLog.Information("Message already displayed, unregistering");
 			return;
+		}
+		if (!Service.GameState.isChatVisible) {
+			PluginLog.Information("Chat is not visible, cannot display message yet");
+			return;
+		}
 
-		this.aborter?.Cancel();
+		PluginLog.Information($"Checks passed, delaying message by {messageDelayMs}ms - may be reset if message is triggered again within that time");
+
 		this.aborter = new();
 
-		Task.Delay(250, this.aborter.Token).ContinueWith(waiter => {
-			if (!waiter.IsCanceled)
+		Task.Delay(messageDelayMs, this.aborter.Token).ContinueWith(waiter => {
+			if (waiter.Status is TaskStatus.RanToCompletion)
 				this.displayMessage();
 		});
 	}
 
 	internal void displayMessage() {
-		PluginLog.Information("Displaying update alert in game chat");
 
 		this.aborter?.Cancel();
 		this.seenUpdateMessage = true;
 		this.unregister();
 
-		string name = Service.Plugin.Name;
+		PluginLog.Information("Displaying update alert in game chat");
 
 		Service.ChatUtils.print(
 			XivChatType.Notice,
 			new TextPayload(
 				this.isFreshInstall
-					? $"{name} v{this.current} has been installed. By default, all features are disabled.\n["
-					: $"{name} has been updated to {this.current}. Features may have been added or changed.\n"
+					? $"{Service.Plugin.ShortPluginSignature} has been installed. By default, all features are disabled.\n"
+					: $"{Service.Plugin.Name} has been updated to {this.current}. Features may have been added or changed.\n"
 			),
 			new UIForegroundPayload(ChatUtil.clfgOpenConfig),
 			new UIGlowPayload(ChatUtil.clbgOpenConfig),
@@ -82,7 +108,9 @@ internal class UpdateAlerter: IDisposable {
 	}
 
 	private void onChatMessage(XivChatType type, uint senderId, ref SeString sender, ref SeString message, ref bool isHandled) {
-		if (type is XivChatType.Notice)
+		if (isHandled)
+			return;
+		if (type is XivChatType.Urgent or XivChatType.Notice or XivChatType.SystemMessage)
 			this.checkMessage();
 	}
 
