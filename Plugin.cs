@@ -31,8 +31,13 @@ public sealed class Plugin: IDalamudPlugin {
 		false;
 #endif
 
+#pragma warning disable CA1822 // Mark members as static (some of these shouldn't be used until the plugin is initialised)
 	public string Name { get; } = Assembly.GetExecutingAssembly().GetName().Name!;
-	public string PluginSignature => $"{this.Name} v{Version} ({(Debug ? "debug" : "release")} build)";
+	public string PluginBuildType { get; } = $"{(Debug ? "debug" : "release")} build";
+	public string PluginInstallType => $"{(Service.Interface.IsDev ? "dev" : "standard")} install";
+	public string ShortPluginSignature => $"{this.Name} v{Version}";
+	public string FullPluginSignature => $"{this.ShortPluginSignature} ({this.PluginBuildType}, {this.PluginInstallType})";
+#pragma warning restore CA1822 // Mark members as static
 
 	public Plugin(DalamudPluginInterface pluginInterface) {
 
@@ -82,7 +87,7 @@ public sealed class Plugin: IDalamudPlugin {
 			$"{this.Name} - better than a broken leg!" // I will not be serious and you cannot make me.
 		);
 
-		PluginLog.Information($"{this.PluginSignature} initialised {(Service.Address.LoadSuccessful ? "" : "un")}successfully");
+		PluginLog.Information($"{this.FullPluginSignature} initialised {(Service.Address.LoadSuccessful ? "" : "un")}successfully");
 		if (Service.Configuration.IsFirstRun || !Service.Configuration.LastVersion.Equals(Version)) {
 			Service.UpdateAlert = new(Version, Service.Configuration.IsFirstRun);
 
@@ -149,7 +154,7 @@ public sealed class Plugin: IDalamudPlugin {
 				}
 				break;
 			case "version": {
-					Service.ChatGui.Print($"You are running {this.PluginSignature} on a {(Service.Interface.IsDev ? "dev" : "standard")} install.");
+					Service.ChatGui.Print($"You are running {this.FullPluginSignature}");
 				}
 				break;
 			case "reset": {
