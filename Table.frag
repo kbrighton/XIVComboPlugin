@@ -166,15 +166,15 @@
 | RDM | Verproc into Jolt Plus Veraero Opener | Turns Verstone into Veraero when out of combat. |
 | RDM | Verproc into Jolt Plus Verthunder Opener | Turns Verfire into Verthunder when out of combat. |
 | RPR | Arcane Harvest Feature | Replace Arcane Circle with Plentiful Harvest when you have stacks of Immortal Sacrifice. |
-| RPR | Blood Stalk Gluttony Feature | Replace Blood Stalk with Gluttony when available and greater-than-or-equal-to 50 Soul Gauge is present. |
+| RPR | Blood Stalk Gluttony Feature | Replace Blood Stalk with Gluttony when available and Soul Gauge is at least 50. |
 | RPR | Combat Option | Prevent replacing Harpe with Harvest Moon when not in combat. |
 | RPR | Communio Soul Reaver Feature | Replace Gibbet, Gallows, and Guillotine with Communio when one stack is left of Shroud. |
-| RPR | Delayed Regress Option | Replace the action used with Regress only after 1.5 seconds have elapsed on Threshold. |
+| RPR | Delayed Regress Option | Replace the action used with Regress only after a configurable delay. |
 | RPR | Enhanced Enshrouded Feature | Replace Gibbet and Gallows with whichever is currently enhanced while Enshrouded. |
 | RPR | Enhanced Harpe Option | Prevent replacing Harpe with Harvest Moon when Enhanced Harpe is active. |
 | RPR | Enhanced Soul Reaver Feature | Replace Gibbet and Gallows with whichever is currently enhanced while Reaving. |
 | RPR | Enshroud Communio Feature | Replace Enshroud with Communio when Enshrouded. |
-| RPR | Grim Swathe Gluttony Feature | Replace Grim Swathe with Gluttony when available and greater-than-or-equal-to 50 Soul Gauge is present. |
+| RPR | Grim Swathe Gluttony Feature | Replace Grim Swathe with Gluttony when available and Soul Gauge is at least 50. |
 | RPR | Harpe Harvest Moon Feature | Replace Harpe with Harvest Moon when Soulsow is active and you are in combat. |
 | RPR | Harpe Soulsow Feature | Replace Harpe with Soulsow when not active and out of combat or you have no target. |
 | RPR | Lemure's Soul Reaver Feature | Replace Gibbet, Gallows, and Guillotine with Lemure's Slice or Scythe when two or more stacks of Void Shroud are active. |
@@ -185,6 +185,8 @@
 | RPR | Scythe Harvest Moon Feature | Replace Nightmare Scythe with Harvest Moon when Soulsow is active and you have a target. |
 | RPR | Scythe Lemure's Feature | Replace Nightmare Scythe with Lemure's Scythe when two or more stacks of Void Shroud are active. |
 | RPR | Scythe Soulsow Feature | Replace Nightmare Scythe with Soulsow when out of combat and not active. |
+| RPR | Scythe Weave Assist | Replace Nightmare Scythe with Grim Swathe (or variants) when available and weaving wouldn't clip your GCD. |
+| RPR | Scythe of Death Feature | Replace Nightmare Scythe with Whorl of Death when the target's Death's Design debuff is low. |
 | RPR | Shadow Communio Feature | Replace Shadow of Death with Communio when one stack of Shroud is left. |
 | RPR | Shadow Gallows Feature | Replace Shadow of Death with Gallows while Reaving or Enshrouded. |
 | RPR | Shadow Gibbet Feature | Replace Shadow of Death with Gibbet while Reaving or Enshrouded. |
@@ -198,12 +200,18 @@
 | RPR | Slice Gibbet Feature | Replace Infernal Slice with Gibbet while Reaving or Enshrouded. |
 | RPR | Slice Lemure's Feature | Replace Infernal Slice with Lemure's Slice when two or more stacks of Void Shroud are active. |
 | RPR | Slice Soulsow Feature | Replace Infernal Slice with Soulsow when out of combat and not active. |
-| RPR | Soul (Scythe) Overcap Feature | Replace Soul Scythe with Grim Swathe when not Enshrouded and greater-than 50 Soul Gauge is present. |
+| RPR | Slice Weave Assist | Replace Infernal Slice with Blood Stalk (or variants) when available and weaving wouldn't clip your GCD. |
+| RPR | Slice of Death Feature | Replace Infernal Slice with Shadow of Death when the target's Death's Design debuff is low. |
 | RPR | Soul Communio Feature | Replace Soul Slice with Communio when one stack of Shroud is left. |
 | RPR | Soul Gallows Feature | Replace Soul Slice with Gallows while Reaving or Enshrouded. |
 | RPR | Soul Gibbet Feature | Replace Soul Slice with Gibbet while Reaving or Enshrouded. |
 | RPR | Soul Lemure's Feature | Replace Soul Slice with Lemure's Slice when two or more stacks of Void Shroud are active. |
-| RPR | Soul Overcap Feature | Replace Soul Slice with Blood Stalk not Enshrouded and greater-than 50 Soul Gauge is present. |
+| RPR | Soul Scythe Overcap Feature | Replace Soul Scythe with Grim Swathe when not Enshrouded, and Soul Gauge is over 50. |
+| RPR | Soul Scythe Weave Assist | Replace Soul Scythe with Grim Swathe (or variants) when available and weaving wouldn't clip your GCD. |
+| RPR | Soul Slice Overcap Feature | Replace Soul Slice with Blood Stalk when not Enshrouded and Soul Gauge is over 50. |
+| RPR | Soul Slice Weave Assist | Replace Soul Slice with Blood Stalk (or variants) when available and weaving wouldn't clip your GCD. |
+| RPR | Soulful Scythe | Replace Nightmare Scythe with Soul Scythe when available and Soul Gauge is no more than 50. |
+| RPR | Soulful Slice | Replace Infernal Slice with Soul Slice when available and Soul Gauge is no more than 50. |
 | SAM | Gekko Combo | Replace Gekko with its combo chain. |
 | SAM | Gekko Combo from Jinpu | Start the Gekko combo chain with Jinpu instead of Hakaze. |
 | SAM | Hissatsu Senei/Guren Sync Feature | Replace Hissatsu Senei with Hissatsu Guren when underlevel. |
