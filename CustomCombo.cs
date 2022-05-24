@@ -40,6 +40,10 @@ internal abstract class CustomCombo {
 
 	public bool TryInvoke(uint actionID, uint lastComboActionId, float comboTime, byte level, out uint newActionID) {
 		newActionID = 0;
+
+		if (!Service.Configuration.Active)
+			return false;
+
 		uint classJobID = LocalPlayer!.ClassJob.Id;
 
 		if (classJobID is >= 8 and <= 15)

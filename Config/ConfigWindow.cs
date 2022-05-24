@@ -86,6 +86,7 @@ public class ConfigWindow: Window {
 
 	public override void Draw() {
 
+		bool pluginActive = Service.Configuration.Active;
 		bool hideChildren = Service.Configuration.HideDisabledFeaturesChildren;
 		bool registerNormalCommand = Service.Configuration.RegisterCommonCommand;
 		bool showUpdateMessage = Service.Configuration.ShowUpdateMessage;
@@ -94,6 +95,20 @@ public class ConfigWindow: Window {
 		if (ImGui.BeginMenuBar()) {
 
 			if (ImGui.BeginMenu("Settings")) {
+
+				bool clickEnabled = ImGui.MenuItem("Enable action replacement", "", ref pluginActive);
+				if (ImGui.IsItemHovered()) {
+					ImGui.BeginTooltip();
+					ImGui.Text("If disabled, no actions will be replaced, regardless of configured");
+					ImGui.Text("combos and features. This allows you to see what actions you actually");
+					ImGui.Text("assigned on your hotbars without manually disabling everything and");
+					ImGui.Text("having to turn it all back on after, one by one.");
+					ImGui.EndTooltip();
+				}
+				if (clickEnabled) {
+					Service.Configuration.Active = pluginActive;
+					Service.Configuration.Save();
+				}
 
 				bool clickCollapse = ImGui.MenuItem("Collapse disabled features", "", ref hideChildren);
 				if (ImGui.IsItemHovered()) {
