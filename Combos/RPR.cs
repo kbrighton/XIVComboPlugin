@@ -180,6 +180,15 @@ internal class ReaperSlice: CustomCombo {
 			}
 		}
 
+		if (IsEnabled(CustomComboPreset.ReaperSoulOnSliceFeature)) {
+			if (level >= RPR.Levels.SoulSlice) {
+				if (gauge.Soul <= 50) {
+					if (IsOffCooldown(RPR.SoulSlice))
+						return RPR.SoulSlice;
+				}
+			}
+		}
+
 		if (IsEnabled(CustomComboPreset.ReaperSliceCombo)) {
 
 			if (level >= RPR.Levels.InfernalSlice) {
@@ -260,6 +269,15 @@ internal class ReaperScythe: CustomCombo {
 			if (level >= RPR.Levels.WhorlOfDeath) {
 				if (HasTarget && TargetOwnEffectDuration(RPR.Debuffs.DeathsDesign) < Service.Configuration.ReaperScytheDeathDebuffTime) {
 					return RPR.WhorlOfDeath;
+				}
+			}
+		}
+
+		if (IsEnabled(CustomComboPreset.ReaperSoulOnScytheFeature)) {
+			if (level >= RPR.Levels.SoulScythe) {
+				if (gauge.Soul <= 50) {
+					if (IsOffCooldown(RPR.SoulScythe))
+						return RPR.SoulScythe;
 				}
 			}
 		}
