@@ -100,18 +100,22 @@ internal class ReaperSlice: CustomCombo {
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		RPRGauge gauge = GetJobGauge<RPRGauge>();
+		bool reaving = level >= RPR.Levels.SoulReaver && SelfHasEffect(RPR.Buffs.SoulReaver);
+		bool enshrouded = level >= RPR.Levels.Enshroud && gauge.EnshroudedTimeRemaining > 0;
 
 		if (IsEnabled(CustomComboPreset.ReaperSliceWeaveAssist)) {
 			if (level >= RPR.Levels.BloodStalk) {
-				if (gauge.Soul >= 50) {
-					if (InCombat && CanWeave(actionID)) {
+				if (!reaving || IsEnabled(CustomComboPreset.ReaperSliceWeaveAssistDoubleReaving)) {
+					if (gauge.Soul >= 50) {
+						if (InCombat && CanWeave(actionID)) {
 
-						if (IsEnabled(CustomComboPreset.ReaperBloodStalkGluttonyFeature)) {
-							if (level >= RPR.Levels.Gluttony && IsOffCooldown(RPR.Gluttony))
-								return RPR.Gluttony;
+							if (IsEnabled(CustomComboPreset.ReaperBloodStalkGluttonyFeature)) {
+								if (level >= RPR.Levels.Gluttony && IsOffCooldown(RPR.Gluttony))
+									return RPR.Gluttony;
+							}
+
+							return OriginalHook(RPR.BloodStalk);
 						}
-
-						return OriginalHook(RPR.BloodStalk);
 					}
 				}
 			}
@@ -121,9 +125,6 @@ internal class ReaperSlice: CustomCombo {
 			if (level >= RPR.Levels.Soulsow && !InCombat && !SelfHasEffect(RPR.Buffs.Soulsow))
 				return RPR.Soulsow;
 		}
-
-		bool reaving = level >= RPR.Levels.SoulReaver && SelfHasEffect(RPR.Buffs.SoulReaver);
-		bool enshrouded = level >= RPR.Levels.Enshroud && gauge.EnshroudedTimeRemaining > 0;
 
 		if (enshrouded) {
 
@@ -214,25 +215,26 @@ internal class ReaperScythe: CustomCombo {
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		RPRGauge gauge = GetJobGauge<RPRGauge>();
+		bool reaving = level >= RPR.Levels.SoulReaver && SelfHasEffect(RPR.Buffs.SoulReaver);
+		bool enshrouded = level >= RPR.Levels.Enshroud && gauge.EnshroudedTimeRemaining > 0;
 
 		if (IsEnabled(CustomComboPreset.ReaperScytheWeaveAssist)) {
 			if (level >= RPR.Levels.GrimSwathe) {
-				if (gauge.Soul >= 50) {
-					if (InCombat && CanWeave(actionID)) {
+				if (!reaving || IsEnabled(CustomComboPreset.ReaperScytheWeaveAssistDoubleReaving)) {
+					if (gauge.Soul >= 50) {
+						if (InCombat && CanWeave(actionID)) {
 
-						if (IsEnabled(CustomComboPreset.ReaperGrimSwatheGluttonyFeature)) {
-							if (level >= RPR.Levels.Gluttony && IsOffCooldown(RPR.Gluttony))
-								return RPR.Gluttony;
+							if (IsEnabled(CustomComboPreset.ReaperGrimSwatheGluttonyFeature)) {
+								if (level >= RPR.Levels.Gluttony && IsOffCooldown(RPR.Gluttony))
+									return RPR.Gluttony;
+							}
+
+							return OriginalHook(RPR.GrimSwathe);
 						}
-
-						return OriginalHook(RPR.GrimSwathe);
 					}
 				}
 			}
 		}
-
-		bool reaving = level >= RPR.Levels.SoulReaver && SelfHasEffect(RPR.Buffs.SoulReaver);
-		bool enshrouded = level >= RPR.Levels.Enshroud && gauge.EnshroudedTimeRemaining > 0;
 
 		if (enshrouded) {
 
