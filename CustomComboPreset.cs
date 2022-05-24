@@ -664,11 +664,16 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Slice Combo", "Replace Infernal Slice with its combo chain.", RPR.JobID)]
 	ReaperSliceCombo = 3901,
 
+	[Experimental]
 	[CustomComboInfo("Slice Weave Assist", "Replace Infernal Slice with Blood Stalk (or variants) when available and weaving wouldn't clip your GCD.", RPR.JobID)]
 	ReaperSliceWeaveAssist = 3942,
 
 	[CustomComboInfo("Slice of Death Feature", "Replace Infernal Slice with Shadow of Death when the target's Death's Design debuff is low.", RPR.JobID)]
 	ReaperSliceShadowFeature = 3940,
+
+	[Experimental]
+	[CustomComboInfo("Soulful Slice", "Replace Infernal Slice with Soul Slice when available and Soul Gauge is no more than 50.", RPR.JobID)]
+	ReaperSoulOnSliceFeature = 3946,
 
 	[Conflicts(ReaperSliceGallowsFeature)]
 	[CustomComboInfo("Slice Gibbet Feature", "Replace Infernal Slice with Gibbet while Reaving or Enshrouded.", RPR.JobID)]
@@ -739,11 +744,16 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Scythe Combo", "Replace Nightmare Scythe with its combo chain.", RPR.JobID)]
 	ReaperScytheCombo = 3902,
 
+	[Experimental]
 	[CustomComboInfo("Scythe Weave Assist", "Replace Nightmare Scythe with Grim Swathe (or variants) when available and weaving wouldn't clip your GCD.", RPR.JobID)]
 	ReaperScytheWeaveAssist = 3943,
 
 	[CustomComboInfo("Scythe of Death Feature", "Replace Nightmare Scythe with Whorl of Death when the target's Death's Design debuff is low.", RPR.JobID)]
 	ReaperScytheWhorlFeature = 3941,
+
+	[Experimental]
+	[CustomComboInfo("Soulful Scythe", "Replace Nightmare Scythe with Soul Scythe when available and Soul Gauge is no more than 50.", RPR.JobID)]
+	ReaperSoulOnScytheFeature = 3947,
 
 	[CustomComboInfo("Scythe Guillotine Feature", "Replace Nightmare Scythe with Guillotine while Reaving or Enshrouded.", RPR.JobID)]
 	ReaperScytheGuillotineFeature = 3907,
