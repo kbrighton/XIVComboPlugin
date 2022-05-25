@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 
 using Dalamud.Configuration;
+using Dalamud.Interface.Internal.Notifications;
 
 using Newtonsoft.Json;
 
@@ -249,7 +250,18 @@ public class PluginConfiguration: IPluginConfiguration {
 	#region General plugin settings
 
 	[NonSerialized]
-	public bool Active = true;
+	[JsonIgnore]
+	private bool enabled = true;
+	[JsonIgnore]
+	public bool Active {
+		get => this.enabled;
+		set {
+			this.enabled = value;
+			if (!value) {
+				Service.Interface.UiBuilder.AddNotification("This setting will not persist through reloads.", $"{Service.Plugin.Name} temporarily disabled", NotificationType.Warning, 6000);
+			}
+		}
+	}
 
 	[JsonProperty("HideDisabledFeaturesChildren")]
 	public bool HideDisabledFeaturesChildren { get; set; } = false;
