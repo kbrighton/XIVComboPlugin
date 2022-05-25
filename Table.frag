@@ -177,6 +177,8 @@
 | RPR | Grim Swathe Gluttony Feature | Replace Grim Swathe with Gluttony when available and Soul Gauge is at least 50. |
 | RPR | Harpe Harvest Moon Feature | Replace Harpe with Harvest Moon when Soulsow is active and you are in combat. |
 | RPR | Harpe Soulsow Feature | Replace Harpe with Soulsow when not active and out of combat or you have no target. |
+| RPR | Ignore Reaving | Allow weaving even if you're already reaving. |
+| RPR | Ignore Reaving | Allow weaving even if you're already reaving. |
 | RPR | Lemure's Soul Reaver Feature | Replace Gibbet, Gallows, and Guillotine with Lemure's Slice or Scythe when two or more stacks of Void Shroud are active. |
 | RPR | Regress Feature | Replace Hell's Ingress and Egress turn with Regress when Threshold is active, instead of just the opposite of the one used. |
 | RPR | Scythe Combo | Replace Nightmare Scythe with its combo chain. |
