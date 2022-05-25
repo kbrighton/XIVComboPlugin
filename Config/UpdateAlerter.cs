@@ -11,6 +11,7 @@ using Dalamud.Logging;
 
 internal class UpdateAlerter: IDisposable {
 	private const int messageDelayMs = 500;
+	private const int loginDelayMs = 500;
 
 	private bool disposed;
 
@@ -100,19 +101,26 @@ internal class UpdateAlerter: IDisposable {
 	internal void register() {
 		PluginLog.Information("Registering update alerter");
 		Service.ChatGui.ChatMessage += this.onChatMessage;
+		Service.Client.Login += this.onLogin;
 	}
 
 	internal void unregister() {
 		PluginLog.Information("Unregistering update alerter");
 		Service.ChatGui.ChatMessage -= this.onChatMessage;
+		Service.Client.Login -= this.onLogin;
 	}
 
 	private void onChatMessage(XivChatType type, uint senderId, ref SeString sender, ref SeString message, ref bool isHandled) {
-		if (isHandled)
-			return;
 		if (type is XivChatType.Urgent or XivChatType.Notice or XivChatType.SystemMessage)
 			this.checkMessage();
 	}
+	private async void onLogin(object? sender, EventArgs e) {
+		await Task.Delay(messageDelayMs + 1000);
+		while (!Service.Client.IsLoggedIn)
+			await Task.Delay(loginDelayMs);
+		this.checkMessage();
+	}
+
 
 	#region Disposing
 
