@@ -248,8 +248,8 @@ public class PluginConfiguration: IPluginConfiguration {
 
 	#region General plugin settings
 
-	[JsonProperty("EnableActionReplacements")]
-	public bool Active { get; set; } = true;
+	[NonSerialized]
+	public bool Active = true;
 
 	[JsonProperty("HideDisabledFeaturesChildren")]
 	public bool HideDisabledFeaturesChildren { get; set; } = false;

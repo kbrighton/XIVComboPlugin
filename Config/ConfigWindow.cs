@@ -103,6 +103,9 @@ public class ConfigWindow: Window {
 					ImGui.Text("combos and features. This allows you to see what actions you actually");
 					ImGui.Text("assigned on your hotbars without manually disabling everything and");
 					ImGui.Text("having to turn it all back on after, one by one.");
+					ImGui.Text("");
+					ImGui.Text("This option does NOT persist between plugin loads.");
+					ImGui.Text("It will always be reset to ON when you launch the game.");
 					ImGui.EndTooltip();
 				}
 				if (clickEnabled) {
@@ -136,7 +139,7 @@ public class ConfigWindow: Window {
 					ImGui.Text("This plugin always registers its own (separate) command to open the");
 					ImGui.Text("settings window, regardless of whether the default one is also used.");
 					ImGui.Text("");
-					ImGui.Text("This options only takes effect after a restart.");
+					ImGui.Text("This option only takes effect after a restart.");
 					ImGui.EndTooltip();
 				}
 				if (clickRegister) {

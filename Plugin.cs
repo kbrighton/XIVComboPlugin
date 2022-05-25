@@ -49,6 +49,7 @@ public sealed class Plugin: IDalamudPlugin {
 		Service.Configuration = pluginInterface.GetPluginConfig() as PluginConfiguration ?? new(true);
 		Service.Address = new();
 
+		Service.Configuration.Active = true;
 		Service.Configuration.UpgradeIfNeeded();
 
 		Service.Address.Setup();
