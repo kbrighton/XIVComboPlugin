@@ -23,11 +23,9 @@ internal struct CooldownData {
 	/// <summary>
 	/// Elapsed time on the cooldown, covering only the number of max charges available at current level (if applicable)
 	/// </summary>
-	public float CooldownElapsed => this.cooldownElapsed == 0
+	public float CooldownElapsed => this.cooldownElapsed == 0 || this.cooldownElapsed > this.CooldownTotal
 		? 0
-		: this.cooldownElapsed > this.CooldownTotal
-			? 0
-			: this.cooldownElapsed;
+		: this.cooldownElapsed;
 
 	/// <summary>
 	/// Total cooldown time, covering only the number of max charges available at current level (if applicable)
@@ -69,11 +67,11 @@ internal struct CooldownData {
 	/// </summary>
 	public ushort RemainingCharges {
 		get {
-			(ushort cur, ushort _) = Service.DataCache.GetMaxCharges(this.ActionID);
+			ushort curMax = this.MaxCharges;
 
 			return !this.IsCooldown
-				? cur
-				: (ushort)(this.CooldownElapsed / (this.CooldownTotal / this.MaxCharges));
+				? curMax
+				: (ushort)(this.CooldownElapsed / (this.CooldownTotal / curMax));
 		}
 	}
 
@@ -90,6 +88,11 @@ internal struct CooldownData {
 			return this.CooldownRemaining % (this.CooldownTotal / cur);
 		}
 	}
+
+	/// <summary>
+	/// Whether this action has at least one charge out of however many it has total, even if it can only have one "charge"
+	/// </summary>
+	public bool Available => !this.IsCooldown || this.RemainingCharges > 0;
 
 	public string DebugLabel
 		=> $"{(this.IsCooldown ? "on" : "off")} cd, {(this.HasCharges ? this.RemainingCharges + "/" + this.MaxCharges : "no")} charges, {this.CooldownElapsed}/{this.CooldownTotal} ({this.CooldownRemaining})";

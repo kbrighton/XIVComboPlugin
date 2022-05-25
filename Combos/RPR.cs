@@ -184,7 +184,7 @@ internal class ReaperSlice: CustomCombo {
 		if (IsEnabled(CustomComboPreset.ReaperSoulOnSliceFeature)) {
 			if (level >= RPR.Levels.SoulSlice) {
 				if (gauge.Soul <= 50) {
-					if (IsOffCooldown(RPR.SoulSlice))
+					if (GetCooldown(RPR.SoulSlice).Available)
 						return RPR.SoulSlice;
 				}
 			}
@@ -278,7 +278,7 @@ internal class ReaperScythe: CustomCombo {
 		if (IsEnabled(CustomComboPreset.ReaperSoulOnScytheFeature)) {
 			if (level >= RPR.Levels.SoulScythe) {
 				if (gauge.Soul <= 50) {
-					if (IsOffCooldown(RPR.SoulScythe))
+					if (GetCooldown(RPR.SoulScythe).Available)
 						return RPR.SoulScythe;
 				}
 			}
