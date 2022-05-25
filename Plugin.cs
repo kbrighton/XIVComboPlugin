@@ -148,6 +148,52 @@ public sealed class Plugin: IDalamudPlugin {
 		string[] argumentsParts = arguments.Split();
 
 		switch (argumentsParts[0].ToLower()) {
+			case "enable": {
+					Service.Configuration.Active = true;
+					Service.Configuration.Save();
+					Service.ChatUtils.print(XivChatType.Notice,
+						new UIForegroundPayload(35),
+						new TextPayload(Service.Plugin.Name),
+						new UIForegroundPayload(1),
+						new TextPayload(" "),
+						new UIGlowPayload(43),
+						new TextPayload("enabled"),
+						new UIGlowPayload(0),
+						new UIForegroundPayload(0)
+					);
+				}
+				break;
+			case "disable": {
+					Service.Configuration.Active = false;
+					Service.Configuration.Save();
+					Service.ChatUtils.print(XivChatType.Notice,
+						new UIForegroundPayload(35),
+						new TextPayload(Service.Plugin.Name),
+						new UIForegroundPayload(1),
+						new TextPayload(" "),
+						new UIGlowPayload(17),
+						new TextPayload("disabled"),
+						new UIGlowPayload(0),
+						new UIForegroundPayload(0)
+					);
+				}
+				break;
+			case "toggle": {
+					bool on = !Service.Configuration.Active;
+					Service.Configuration.Active = on;
+					Service.Configuration.Save();
+					Service.ChatUtils.print(XivChatType.Notice,
+						new UIForegroundPayload(35),
+						new TextPayload(Service.Plugin.Name),
+						new UIForegroundPayload(1),
+						new TextPayload(" "),
+						new UIGlowPayload((ushort)(on ? 43 : 17)),
+						new TextPayload($"{(on ? "en" : "dis")}abled"),
+						new UIGlowPayload(0),
+						new UIForegroundPayload(0)
+					);
+				}
+				break;
 			case "debug": {
 					Service.Logger.EnableNextTick();
 					Service.ChatGui.Print("Enabled debug message snapshot");
@@ -158,9 +204,9 @@ public sealed class Plugin: IDalamudPlugin {
 				}
 				break;
 			case "reset": {
-					PluginConfiguration config = new(false);
-					config.IsFirstRun = false;
-					config.LastVersion = Plugin.Version;
+					PluginConfiguration config = new(false) {
+						LastVersion = Plugin.Version
+					};
 					Service.Configuration = config;
 					config.Save();
 					List<Payload> parts = new(new Payload[] {
@@ -183,7 +229,7 @@ public sealed class Plugin: IDalamudPlugin {
 							new TextPayload(" to enable your desired features.")
 						});
 					}
-					Service.ChatUtils.print(XivChatType.SystemMessage, parts.ToArray());
+					Service.ChatUtils.print(XivChatType.Notice, parts.ToArray());
 				}
 				break;
 			case "showupdate": {
