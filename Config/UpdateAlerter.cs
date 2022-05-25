@@ -1,6 +1,7 @@
 ﻿namespace XIVComboVX.Config;
 
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -80,21 +81,25 @@ internal class UpdateAlerter: IDisposable {
 
 		PluginLog.Information("Displaying update alert in game chat");
 
-		Service.ChatUtils.print(
-			XivChatType.Notice,
-			new TextPayload(
+		List<Payload> parts = new();
+		if (!(Plugin.Debug && Service.Interface.IsDev)) {
+			parts.Add(new TextPayload(
 				this.isFreshInstall
 					? $"{Service.Plugin.ShortPluginSignature} has been installed. By default, all features are disabled.\n"
 					: $"{Service.Plugin.Name} has been updated to {this.current}. Features may have been added or changed.\n"
-			),
+			));
+		}
+		parts.AddRange(new Payload[] {
 			new UIForegroundPayload(ChatUtil.clfgOpenConfig),
 			new UIGlowPayload(ChatUtil.clbgOpenConfig),
 			Service.ChatUtils.clplOpenConfig,
 			new TextPayload($"[Open {Service.Plugin.Name} Settings]"),
 			RawPayload.LinkTerminator,
 			new UIGlowPayload(0),
-			new UIForegroundPayload(0)
-		);
+			new UIForegroundPayload(0),
+		});
+
+		Service.ChatUtils.print(XivChatType.Notice, parts.ToArray());
 
 	}
 
