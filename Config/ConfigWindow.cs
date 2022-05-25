@@ -110,7 +110,6 @@ public class ConfigWindow: Window {
 				}
 				if (clickEnabled) {
 					Service.Configuration.Active = pluginActive;
-					Service.Configuration.Save();
 				}
 
 				bool clickCollapse = ImGui.MenuItem("Collapse disabled features", "", ref hideChildren);

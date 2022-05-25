@@ -151,7 +151,6 @@ public sealed class Plugin: IDalamudPlugin {
 		switch (argumentsParts[0].ToLower()) {
 			case "enable": {
 					Service.Configuration.Active = true;
-					Service.Configuration.Save();
 					Service.ChatUtils.print(XivChatType.Notice,
 						new UIForegroundPayload(35),
 						new TextPayload(Service.Plugin.Name),
@@ -166,7 +165,6 @@ public sealed class Plugin: IDalamudPlugin {
 				break;
 			case "disable": {
 					Service.Configuration.Active = false;
-					Service.Configuration.Save();
 					Service.ChatUtils.print(XivChatType.Notice,
 						new UIForegroundPayload(35),
 						new TextPayload(Service.Plugin.Name),
@@ -182,7 +180,6 @@ public sealed class Plugin: IDalamudPlugin {
 			case "toggle": {
 					bool on = !Service.Configuration.Active;
 					Service.Configuration.Active = on;
-					Service.Configuration.Save();
 					Service.ChatUtils.print(XivChatType.Notice,
 						new UIForegroundPayload(35),
 						new TextPayload(Service.Plugin.Name),
