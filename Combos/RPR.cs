@@ -568,7 +568,7 @@ internal class ReaperArcaneCircle: CustomCombo {
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-		if (level >= RPR.Levels.PlentifulHarvest && SelfHasEffect(RPR.Buffs.ImmortalSacrifice))
+		if (level >= RPR.Levels.PlentifulHarvest && SelfEffectStacks(RPR.Buffs.ImmortalSacrifice) >= Service.Configuration.ReaperArcaneHarvestStackThreshold)
 			return RPR.PlentifulHarvest;
 
 		return actionID;
