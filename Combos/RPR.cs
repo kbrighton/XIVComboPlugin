@@ -105,7 +105,7 @@ internal class ReaperSlice: CustomCombo {
 
 		if (IsEnabled(CustomComboPreset.ReaperSliceWeaveAssist)) {
 			if (level >= RPR.Levels.BloodStalk) {
-				if (!reaving || IsEnabled(CustomComboPreset.ReaperSliceWeaveAssistDoubleReaving)) {
+				if (!enshrouded && (!reaving || IsEnabled(CustomComboPreset.ReaperSliceWeaveAssistDoubleReaving))) {
 					if (gauge.Soul >= 50) {
 						if (InCombat && CanWeave(actionID)) {
 
@@ -220,7 +220,7 @@ internal class ReaperScythe: CustomCombo {
 
 		if (IsEnabled(CustomComboPreset.ReaperScytheWeaveAssist)) {
 			if (level >= RPR.Levels.GrimSwathe) {
-				if (!reaving || IsEnabled(CustomComboPreset.ReaperScytheWeaveAssistDoubleReaving)) {
+				if (!enshrouded && (!reaving || IsEnabled(CustomComboPreset.ReaperScytheWeaveAssistDoubleReaving))) {
 					if (gauge.Soul >= 50) {
 						if (InCombat && CanWeave(actionID)) {
 
