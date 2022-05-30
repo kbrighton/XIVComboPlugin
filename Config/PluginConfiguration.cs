@@ -189,7 +189,7 @@ public class PluginConfiguration: IPluginConfiguration {
 		"Death's Design debuff threshold",
 		"When the current target's Death's Design debuff only has this many seconds left, switch to Shadow of Death",
 		0,
-		10
+		30
 	)]
 	public float ReaperSliceDeathDebuffTime { get; set; } = 5F;
 
@@ -198,7 +198,7 @@ public class PluginConfiguration: IPluginConfiguration {
 		"Death's Design debuff threshold",
 		"When the current target's Death's Design debuff only has this many seconds left, switch to Whorl of Death",
 		0,
-		10
+		30
 	)]
 	public float ReaperScytheDeathDebuffTime { get; set; } = 5F;
 
