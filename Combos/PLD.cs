@@ -74,6 +74,18 @@ internal class PaladinGoringBlade: CustomCombo {
 
 		if (IsEnabled(CustomComboPreset.PaladinRequiescatFeature)) {
 			if (level >= PLD.Levels.HolySpirit) {
+
+				if (IsEnabled(CustomComboPreset.PaladinConfiteorFeature)) {
+					if (level >= PLD.Levels.BladeOfFaith) {
+						if (lastComboMove is PLD.BladeOfTruth)
+							return PLD.BladeOfValor;
+						else if (lastComboMove is PLD.BladeOfFaith)
+							return PLD.BladeOfTruth;
+						else if (SelfHasEffect(PLD.Buffs.BladeOfFaithReady))
+							return PLD.BladeOfFaith;
+					}
+				}
+
 				Status? requiescat = SelfFindEffect(PLD.Buffs.Requiescat);
 
 				if (requiescat is not null) {
@@ -131,6 +143,18 @@ internal class PaladinRoyalAuthorityCombo: CustomCombo {
 
 		if (IsEnabled(CustomComboPreset.PaladinRequiescatFeature)) {
 			if (level >= PLD.Levels.HolySpirit) {
+
+				if (IsEnabled(CustomComboPreset.PaladinConfiteorFeature)) {
+					if (level >= PLD.Levels.BladeOfFaith) {
+						if (lastComboMove is PLD.BladeOfTruth)
+							return PLD.BladeOfValor;
+						else if (lastComboMove is PLD.BladeOfFaith)
+							return PLD.BladeOfTruth;
+						else if (SelfHasEffect(PLD.Buffs.BladeOfFaithReady))
+							return PLD.BladeOfFaith;
+					}
+				}
+
 				Status? requiescat = SelfFindEffect(PLD.Buffs.Requiescat);
 
 				if (requiescat is not null) {
@@ -197,6 +221,18 @@ internal class PaladinProminenceCombo: CustomCombo {
 
 		if (IsEnabled(CustomComboPreset.PaladinRequiescatFeature)) {
 			if (level >= PLD.Levels.HolyCircle) {
+
+				if (IsEnabled(CustomComboPreset.PaladinConfiteorFeature)) {
+					if (level >= PLD.Levels.BladeOfFaith) {
+						if (lastComboMove is PLD.BladeOfTruth)
+							return PLD.BladeOfValor;
+						else if (lastComboMove is PLD.BladeOfFaith)
+							return PLD.BladeOfTruth;
+						else if (SelfHasEffect(PLD.Buffs.BladeOfFaithReady))
+							return PLD.BladeOfFaith;
+					}
+				}
+
 				Status? requiescat = SelfFindEffect(PLD.Buffs.Requiescat);
 
 				if (requiescat is not null) {
@@ -237,6 +273,17 @@ internal class PaladinRequiescatCombo: CustomCombo {
 	public override uint[] ActionIDs { get; } = new[] { PLD.Requiescat };
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+
+		if (IsEnabled(CustomComboPreset.PaladinConfiteorFeature)) {
+			if (level >= PLD.Levels.BladeOfFaith) {
+				if (lastComboMove is PLD.BladeOfTruth)
+					return PLD.BladeOfValor;
+				else if (lastComboMove is PLD.BladeOfFaith)
+					return PLD.BladeOfTruth;
+				else if (SelfHasEffect(PLD.Buffs.BladeOfFaithReady))
+					return PLD.BladeOfFaith;
+			}
+		}
 
 		if (level >= PLD.Levels.Confiteor && SelfHasEffect(PLD.Buffs.Requiescat))
 			return PLD.Confiteor;
