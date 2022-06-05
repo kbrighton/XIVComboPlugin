@@ -77,10 +77,13 @@ internal class DarkSouleater: CustomCombo {
 			return DRK.Bloodspiller;
 
 		if (IsEnabled(CustomComboPreset.DarkSouleaterCombo)) {
-			return SimpleChainCombo(level, lastComboMove, comboTime, (1, DRK.HardSlash),
-				(DRK.Levels.SyphonStrike, DRK.SyphonStrike),
-				(DRK.Levels.Souleater, DRK.Souleater)
-			);
+
+			if (lastComboMove is DRK.SyphonStrike && level >= DRK.Levels.Souleater)
+				return DRK.Souleater;
+			if (lastComboMove is DRK.HardSlash && level >= DRK.Levels.SyphonStrike)
+				return DRK.SyphonStrike;
+
+			return DRK.HardSlash;
 		}
 
 		return actionID;
@@ -104,9 +107,11 @@ internal class DarkStalwartSoul: CustomCombo {
 			return DRK.Quietus;
 
 		if (IsEnabled(CustomComboPreset.DarkStalwartSoulCombo)) {
-			return SimpleChainCombo(level, lastComboMove, comboTime, (1, DRK.Unleash),
-				(DRK.Levels.StalwartSoul, DRK.StalwartSoul)
-			);
+
+			if (lastComboMove is DRK.Unleash && level >= DRK.Levels.StalwartSoul)
+				return DRK.StalwartSoul;
+
+			return DRK.Unleash;
 		}
 
 		return actionID;

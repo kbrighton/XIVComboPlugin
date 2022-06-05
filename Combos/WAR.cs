@@ -81,16 +81,34 @@ internal class WarriorStormsPathCombo: CustomCombo {
 		if (IsEnabled(CustomComboPreset.WarriorInnerReleaseFeature) && level >= WAR.Levels.InnerRelease && SelfHasEffect(WAR.Buffs.InnerRelease))
 			return OriginalHook(WAR.FellCleave);
 
-		(byte, uint) final = (WAR.Levels.StormsPath, WAR.StormsPath);
-		if (IsEnabled(CustomComboPreset.WarriorSmartStormCombo) && level >= WAR.Levels.StormsEye && SelfEffectDuration(WAR.Buffs.SurgingTempest) <= Service.Configuration.WarriorStormBuffSaverBuffTime)
-			final = (WAR.Levels.StormsEye, WAR.StormsEye);
-		bool inCombo = PartialChainCombo(level, lastComboMove, out uint nextCombo, (1, WAR.HeavySwing),
-			(WAR.Levels.Maim, WAR.Maim),
-			final
-		);
+		uint finalAction = WAR.StormsPath;
+		byte finalLevel = WAR.Levels.StormsPath;
+		if (IsEnabled(CustomComboPreset.WarriorSmartStormCombo)) {
+			if (level >= WAR.Levels.StormsEye) {
+				if (SelfEffectDuration(WAR.Buffs.SurgingTempest) <= Service.Configuration.WarriorStormBuffSaverBuffTime) {
+					finalAction = WAR.StormsEye;
+					finalLevel = WAR.Levels.StormsEye;
+				}
+			}
+		}
 
-		if (IsEnabled(CustomComboPreset.WarriorGaugeOvercapPathFeature) && level >= WAR.Levels.InnerBeast && GetJobGauge<WARGauge>().BeastGauge > (inCombo ? 90 : 70))
-			return OriginalHook(WAR.FellCleave);
+		bool inCombo = false;
+		uint nextCombo = 0;
+		if (lastComboMove is WAR.Maim && level >= finalLevel) {
+			inCombo = true;
+			nextCombo = finalAction;
+		}
+		if (lastComboMove is WAR.HeavySwing && level >= WAR.Levels.Maim) {
+			inCombo = true;
+			nextCombo = WAR.Maim;
+		}
+
+		if (IsEnabled(CustomComboPreset.WarriorGaugeOvercapPathFeature)) {
+			if (level >= WAR.Levels.InnerBeast) {
+				if (GetJobGauge<WARGauge>().BeastGauge > (inCombo ? 90 : 70))
+					return OriginalHook(WAR.FellCleave);
+			}
+		}
 
 		return inCombo ? nextCombo : WAR.HeavySwing;
 	}
@@ -102,17 +120,30 @@ internal class WarriorStormsEyeCombo: CustomCombo {
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-		if (IsEnabled(CustomComboPreset.WarriorInnerReleaseFeature) && level >= WAR.Levels.InnerRelease && SelfHasEffect(WAR.Buffs.InnerRelease))
-			return OriginalHook(WAR.FellCleave);
+		if (IsEnabled(CustomComboPreset.WarriorInnerReleaseFeature)) {
+			if (level >= WAR.Levels.InnerRelease) {
+				if (SelfHasEffect(WAR.Buffs.InnerRelease))
+					return OriginalHook(WAR.FellCleave);
+			}
+		}
 
+		bool inCombo = false;
 		uint nextCombo = 0;
-		bool inCombo = comboTime > 0 && PartialChainCombo(level, lastComboMove, out nextCombo, (1, WAR.HeavySwing),
-			(WAR.Levels.Maim, WAR.Maim),
-			(WAR.Levels.StormsEye, WAR.StormsEye)
-		);
+		if (lastComboMove is WAR.Maim && level >= WAR.Levels.StormsEye) {
+			inCombo = true;
+			nextCombo = WAR.StormsEye;
+		}
+		if (lastComboMove is WAR.HeavySwing && level >= WAR.Levels.Maim) {
+			inCombo = true;
+			nextCombo = WAR.Maim;
+		}
 
-		if (IsEnabled(CustomComboPreset.WarriorGaugeOvercapEyeFeature) && level >= WAR.Levels.InnerBeast && GetJobGauge<WARGauge>().BeastGauge > (inCombo ? 90 : 80))
-			return OriginalHook(WAR.FellCleave);
+		if (IsEnabled(CustomComboPreset.WarriorGaugeOvercapEyeFeature)) {
+			if (level >= WAR.Levels.InnerBeast) {
+				if (GetJobGauge<WARGauge>().BeastGauge > (inCombo ? 90 : 80))
+					return OriginalHook(WAR.FellCleave);
+			}
+		}
 
 		return inCombo ? nextCombo : WAR.HeavySwing;
 	}
@@ -125,16 +156,24 @@ internal class WarriorMythrilTempestCombo: CustomCombo {
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-		if (IsEnabled(CustomComboPreset.WarriorInnerReleaseFeature) && SelfHasEffect(WAR.Buffs.InnerRelease))
-			return OriginalHook(WAR.Decimate);
+		if (IsEnabled(CustomComboPreset.WarriorInnerReleaseFeature)) {
+			if (SelfHasEffect(WAR.Buffs.InnerRelease))
+				return OriginalHook(WAR.Decimate);
+		}
 
+		bool inCombo = false;
 		uint nextCombo = 0;
-		bool inCombo = comboTime > 0 && PartialChainCombo(level, lastComboMove, out nextCombo, (WAR.Levels.Overpower, WAR.Overpower),
-			(WAR.Levels.MythrilTempest, WAR.MythrilTempest)
-		);
+		if (lastComboMove is WAR.Overpower && level >= WAR.Levels.MythrilTempest) {
+			inCombo = true;
+			nextCombo = WAR.MythrilTempest;
+		}
 
-		if (IsEnabled(CustomComboPreset.WarriorGaugeOvercapTempestFeature) && level >= WAR.Levels.MythrilTempestTrait && GetJobGauge<WARGauge>().BeastGauge > (inCombo ? 90 : 80))
-			return OriginalHook(WAR.Decimate);
+		if (IsEnabled(CustomComboPreset.WarriorGaugeOvercapTempestFeature)) {
+			if (level >= WAR.Levels.MythrilTempestTrait) {
+				if (GetJobGauge<WARGauge>().BeastGauge > (inCombo ? 90 : 80))
+					return OriginalHook(WAR.Decimate);
+			}
+		}
 
 		return inCombo ? nextCombo : WAR.Overpower;
 	}

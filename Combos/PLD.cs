@@ -249,9 +249,10 @@ internal class PaladinProminenceCombo: CustomCombo {
 			}
 		}
 
-		return SimpleChainCombo(level, lastComboMove, comboTime, (PLD.Levels.TotalEclipse, PLD.TotalEclipse),
-			(PLD.Levels.Prominence, PLD.Prominence)
-		);
+		if (lastComboMove is PLD.TotalEclipse && level >= PLD.Levels.Prominence)
+			return PLD.Prominence;
+
+		return PLD.TotalEclipse;
 	}
 }
 
@@ -261,7 +262,7 @@ internal class PaladinHolySpiritHolyCircle: CustomCombo {
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-		if (level >= PLD.Levels.Confiteor && (SelfFindEffect(PLD.Buffs.Requiescat)?.StackCount == 1 || LocalPlayer?.CurrentMp < 2000))
+		if (level >= PLD.Levels.Confiteor && (SelfEffectStacks(PLD.Buffs.Requiescat) == 1 || LocalPlayer?.CurrentMp < 2000))
 			return PLD.Confiteor;
 
 		return actionID;

@@ -161,7 +161,7 @@ internal abstract class CustomCombo {
 		return id;
 	}
 
-	[Obsolete("Makes advanced logic a little harder to implement and tends to look messy")]
+	[Obsolete("Makes advanced logic a little harder to implement and tends to look messy", true)]
 	protected static bool PartialChainCombo(byte level, uint last, out uint next, params (byte lvl, uint id)[] sequence) {
 		next = 0;
 
@@ -183,7 +183,7 @@ internal abstract class CustomCombo {
 		return false;
 	}
 
-	[Obsolete("Makes advanced logic MUCH harder to implement, use PartialChainCombo if absolutely necessary")]
+	[Obsolete("Makes advanced logic MUCH harder to implement, use PartialChainCombo if absolutely necessary", true)]
 	protected static uint SimpleChainCombo(byte level, uint last, float time, params (byte lvl, uint id)[] sequence) {
 		if (time > 0 && PartialChainCombo(level, last, out uint next, sequence))
 			return next;
