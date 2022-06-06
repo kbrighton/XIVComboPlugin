@@ -1,4 +1,4 @@
-﻿namespace XIVComboVX.GameData;
+namespace XIVComboVX.GameData;
 
 using System.Runtime.InteropServices;
 

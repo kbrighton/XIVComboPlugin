@@ -1,4 +1,4 @@
-﻿namespace XIVComboVX;
+namespace XIVComboVX;
 
 using System;
 using System.Collections.Concurrent;

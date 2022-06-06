@@ -1,4 +1,4 @@
-﻿namespace XIVComboVX.Attributes;
+namespace XIVComboVX.Attributes;
 
 using System;
 using System.Runtime.CompilerServices;

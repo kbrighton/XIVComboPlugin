@@ -1,4 +1,4 @@
-﻿namespace XIVComboVX.Combos;
+namespace XIVComboVX.Combos;
 
 internal class Common {
 	public const uint

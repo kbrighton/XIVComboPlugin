@@ -253,4 +253,3 @@ internal class WarriorBloodwhetting: CustomCombo {
 		return actionID;
 	}
 }
-

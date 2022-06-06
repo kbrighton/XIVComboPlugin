@@ -1,4 +1,4 @@
-﻿namespace XIVComboVX.Combos;
+namespace XIVComboVX.Combos;
 
 using Dalamud.Game.ClientState.Conditions;
 

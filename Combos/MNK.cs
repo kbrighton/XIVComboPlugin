@@ -396,4 +396,3 @@ internal class MonkRiddleOfFire: CustomCombo {
 		return actionID;
 	}
 }
-

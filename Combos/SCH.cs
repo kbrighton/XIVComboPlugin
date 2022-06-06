@@ -152,4 +152,3 @@ internal class ScholarSummon: CustomCombo {
 		return actionID;
 	}
 }
-

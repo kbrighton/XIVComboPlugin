@@ -1,4 +1,4 @@
-﻿namespace XIVComboVX.Combos;
+namespace XIVComboVX.Combos;
 
 internal static class DOH {
 	public const byte JobID = 98;
@@ -21,4 +21,3 @@ internal static class DOH {
 			Placeholder = 0;
 	}
 }
-
