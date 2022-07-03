@@ -1,12 +1,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29613.14
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XIVCombo", "XIVCombo.csproj", "{619DF476-7225-4783-95A5-D29A8816EE66}"
-	ProjectSection(ProjectDependencies) = postProject
-		{0916A6BD-C8F3-42B8-A07A-C25A6267C716} = {0916A6BD-C8F3-42B8-A07A-C25A6267C716}
-		{912342CE-A218-4E4C-9357-9EB819C952D6} = {912342CE-A218-4E4C-9357-9EB819C952D6}
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8948C02A-914E-4A51-B1FE-2C608492EBF5}"
 	ProjectSection(SolutionItems) = preProject

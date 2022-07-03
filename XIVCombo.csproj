@@ -46,10 +46,9 @@
 
 	<ItemGroup>
 		<PackageReference Include="DalamudPackager" Version="2.1.7" />
-		<PackageReference Include="ILRepack" Version="2.0.18" />
 		<Reference Include="FFXIVClientStructs">
-			<HintPath>$(SolutionDir)lib\FFXIVClientStructs\bin\$(ConfigurationName)\FFXIVClientStructs.dll</HintPath>
-			<Private>true</Private>
+			<HintPath>$(DalamudLibPath)FFXIVClientStructs.dll</HintPath>
+			<Private>False</Private>
 		</Reference>
 		<Reference Include="Newtonsoft.Json">
 			<HintPath>$(DalamudLibPath)Newtonsoft.Json.dll</HintPath>
@@ -90,15 +89,8 @@
 		<None Remove="README.md" />
 		<None Remove="Table.frag" />
 	</ItemGroup>
-
-	<Target Name="ILRepack" AfterTargets="PostBuildEvent">
-		<ItemGroup>
-			<InputAssemblies Include="$(TargetPath)" />
-			<InputAssemblies Include="$(TargetDir)*.dll" Exclude="$(TargetPath)" />
-		</ItemGroup>
-		<Exec Command="$(PkgILRepack)\tools\ILRepack.exe /lib:$(DalamudLibPath) /out:$(TargetDir)..\$(Configuration).ILMerge\$(TargetFileName) @(InputAssemblies, ' ')" />
-	</Target>
+	
 	<Target Name="PackagePlugin" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
-		<DalamudPackager ProjectDir="$(ProjectDir)" OutputPath="$(OutputPath)..\$(Configuration).ILMerge" AssemblyName="$(AssemblyName)" MakeZip="true" />
+		<DalamudPackager ProjectDir="$(ProjectDir)" OutputPath="$(OutputPath)" AssemblyName="$(AssemblyName)" MakeZip="true" />
 	</Target>
 </Project>
