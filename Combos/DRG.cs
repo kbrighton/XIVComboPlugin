@@ -85,7 +85,7 @@ internal class DragoonCoerthanTorment: CustomCombo {
 
 			if (comboTime > 0) {
 
-				if (level >= DRG.Levels.SonicThrust && lastComboMove is DRG.DoomSpike)
+				if (level >= DRG.Levels.SonicThrust && lastComboMove is DRG.DoomSpike or DRG.DraconianFury)
 					return DRG.SonicThrust;
 
 				if (level >= DRG.Levels.CoerthanTorment && lastComboMove is DRG.SonicThrust)
