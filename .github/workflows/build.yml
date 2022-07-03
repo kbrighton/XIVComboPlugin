@@ -14,7 +14,7 @@ on:
 env:
   SOLUTION_NAME: XIVComboVX
   INTERNAL_NAME: XIVComboVX
-  RELEASE_DIR: bin\Release.ILMerge\XIVComboVX
+  RELEASE_DIR: bin\Release\XIVComboVX
   PERSONAL_PLUGIN_REPO: PrincessRTFM/MyDalamudPlugins
   DOTNET_CLI_TELEMETRY_OPTOUT: true
 
