@@ -254,6 +254,7 @@ public class ConfigWindow: Window {
 		bool hideChildren = Service.Configuration.HideDisabledFeaturesChildren;
 		bool hasChildren = this.parentToChildrenPresets.TryGetValue(preset, out HashSet<(CustomComboPreset Preset, CustomComboInfoAttribute Info)>? children)
 			&& children is not null;
+		int childCount = hasChildren ? children!.Count : 0;
 		bool hasDetails = this.detailSettings.TryGetValue(preset, out List<ComboDetailSetting>? details)
 			&& details is not null;
 
@@ -417,6 +418,9 @@ public class ConfigWindow: Window {
 			ImGui.Unindent();
 			if (!compactMode)
 				ImGui.Unindent();
+		}
+		else {
+			i += childCount;
 		}
 
 	}
