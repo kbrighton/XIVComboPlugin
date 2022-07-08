@@ -292,6 +292,9 @@ internal abstract class CustomCombo {
 	protected internal static bool HasCharges(uint actionID)
 		=> GetCooldown(actionID).HasCharges;
 
+	protected internal static bool CanUse(uint actionID)
+		=> GetCooldown(actionID).Available;
+
 	protected internal static bool CanWeave(uint actionID, double weaveTime = 0.7)
 	   => GetCooldown(actionID).CooldownRemaining > weaveTime;
 	protected internal static bool CanSpellWeave(uint actionID, double weaveTime = 0.5)
