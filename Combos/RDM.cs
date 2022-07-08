@@ -467,14 +467,16 @@ internal class RedMageAcceleration: CustomCombo {
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
 		if (level >= RDM.Levels.Acceleration) {
+			bool canAccelerate = HasCharges(RDM.Acceleration);
+			bool canSwiftcast = HasCharges(RDM.Swiftcast);
 
-			if (IsEnabled(CustomComboPreset.RedMageAccelerationSwiftcastOption) && IsOffCooldown(RDM.Acceleration) && IsOffCooldown(RDM.Swiftcast))
+			if (IsEnabled(CustomComboPreset.RedMageAccelerationSwiftcastOption) && canAccelerate && canSwiftcast)
 				return RDM.Swiftcast;
 
-			if (IsOffCooldown(RDM.Acceleration))
+			if (canAccelerate)
 				return RDM.Acceleration;
 
-			if (IsOffCooldown(RDM.Swiftcast))
+			if (canSwiftcast)
 				return RDM.Swiftcast;
 
 			return RDM.Acceleration;
