@@ -280,6 +280,9 @@ public class ConfigWindow: Window {
 			ImGui.EndTooltip();
 		}
 
+		ImGui.SameLine();
+		ImGui.TextColored(shadedColour, $"[debug#{(int)preset}]");
+
 		if (toggled) {
 			if (enabled) {
 
