@@ -404,25 +404,37 @@ public class ConfigWindow: Window {
 			Marshal.FreeHGlobal(ptrStep);
 		}
 
-		i++;
+		if (hasChildren) {
+			if (!hideChildren || enabled) {
+				++i;
 
-		if (hasChildren && (!hideChildren || enabled)) {
-			ImGui.Indent();
-			if (!compactMode)
 				ImGui.Indent();
+				if (!compactMode)
+					ImGui.Indent();
 
-			foreach ((CustomComboPreset childPreset, CustomComboInfoAttribute childInfo) in children!) {
-				this.drawPreset(childPreset, childInfo, ref i);
-			}
+				foreach ((CustomComboPreset childPreset, CustomComboInfoAttribute childInfo) in children!) {
+					this.drawPreset(childPreset, childInfo, ref i);
+				}
 
-			ImGui.Unindent();
-			if (!compactMode)
 				ImGui.Unindent();
+				if (!compactMode)
+					ImGui.Unindent();
+			}
+			else {
+				Queue<CustomComboPreset> queue = new();
+				queue.Enqueue(preset);
+				while (queue.TryDequeue(out CustomComboPreset next)) {
+					++i;
+					if (this.parentToChildrenPresets.TryGetValue(next, out HashSet<(CustomComboPreset Preset, CustomComboInfoAttribute Info)>? subchildren)) {
+						foreach ((CustomComboPreset Preset, CustomComboInfoAttribute _) in subchildren)
+							queue.Enqueue(Preset);
+					}
+				}
+			}
 		}
 		else {
-			i += childCount;
+			++i;
 		}
-
 	}
 
 	private void enableParentPresets(CustomComboPreset original) {
