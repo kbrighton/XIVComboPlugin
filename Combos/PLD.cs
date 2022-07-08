@@ -1,5 +1,7 @@
 namespace XIVComboVX.Combos;
 
+using System;
+
 using Dalamud.Game.ClientState.Statuses;
 
 internal static class PLD {
@@ -36,7 +38,8 @@ internal static class PLD {
 
 	public static class Debuffs {
 		public const ushort
-			GoringBlade = 725;
+			GoringBlade = 725,
+			BladeOfValor = 2721;
 	}
 
 	public static class Levels {
@@ -180,7 +183,10 @@ internal class PaladinRoyalAuthorityCombo: CustomCombo {
 
 				if (IsEnabled(CustomComboPreset.PaladinRoyalAuthorityDoTSaver)) {
 					if (level >= PLD.Levels.GoringBlade) {
-						if (TargetOwnEffectDuration(PLD.Debuffs.GoringBlade) < Service.Configuration.PaladinGoringBladeDoTSaverDebuffTime)
+						float dot = level >= PLD.Levels.BladeOfValor
+							? MathF.Max(TargetOwnEffectDuration(PLD.Debuffs.GoringBlade), TargetOwnEffectDuration(PLD.Debuffs.BladeOfValor))
+							: TargetOwnEffectDuration(PLD.Debuffs.GoringBlade);
+						if (dot < Service.Configuration.PaladinGoringBladeDoTSaverDebuffTime)
 							return PLD.GoringBlade;
 					}
 				}
