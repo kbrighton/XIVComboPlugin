@@ -470,6 +470,10 @@ public enum CustomComboPreset {
 	NinjaArmorCrushCombo = 3000,
 
 	[ParentPreset(NinjaArmorCrushCombo)]
+	[CustomComboInfo("Fallback to Aeolian Edge", "Replaces Armor Crush with Aeolian Edge when underlevel.", NIN.JobID)]
+	NinjaArmorCrushFallbackFeature = 3020,
+
+	[ParentPreset(NinjaArmorCrushCombo)]
 	[Conflicts(NinjaArmorCrushForkedRaijuFeature)]
 	[CustomComboInfo("Fleeting Crush Feature", "Replaces the Armor Crush combo with Fleeting Raiju when available.", NIN.JobID)]
 	NinjaArmorCrushFleetingRaijuFeature = 3010,
@@ -507,7 +511,7 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Hakke Mujinsatsu Combo", "Replace Hakke Mujinsatsu with its combo chain.", NIN.JobID)]
 	NinjaHakkeMujinsatsuCombo = 3002,
 
-	[CustomComboInfo("Smart Hide", "Replaces Hide with Trick Attack while under the effect of Suiton or Hidden, or else Mug if in combat.", NIN.JobID)]
+	[CustomComboInfo("Smart Hide", "Replaces Hide with Trick Attack while under the effect of Suiton or Hidden AND with a target, or else Mug if in combat.", NIN.JobID)]
 	NinjaSmartHideFeature = 3004,
 
 	[CustomComboInfo("GCDs to Ninjutsu Feature", "Every GCD combo becomes Ninjutsu while Mudras are being used.", NIN.JobID)]

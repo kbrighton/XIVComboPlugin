@@ -90,14 +90,18 @@ internal class NinjaArmorCrushCombo: CustomCombo {
 			}
 		}
 
-		if (level >= NIN.Levels.ArmorCrush) {
-			if (lastComboMove is NIN.GustSlash)
+		if (lastComboMove is NIN.GustSlash) {
+			if (level >= NIN.Levels.ArmorCrush)
 				return NIN.ArmorCrush;
+			else if (IsEnabled(CustomComboPreset.NinjaArmorCrushFallbackFeature) && level >= NIN.Levels.AeolianEdge)
+				return NIN.AeolianEdge;
 		}
-		if (level >= NIN.Levels.GustSlash) {
-			if (lastComboMove is NIN.SpinningEdge)
+
+		if (lastComboMove is NIN.SpinningEdge) {
+			if (level >= NIN.Levels.GustSlash)
 				return NIN.GustSlash;
 		}
+
 		return IsEnabled(CustomComboPreset.NinjaArmorCrushThrowingDaggerFeature) && level >= NIN.Levels.ThrowingDagger && TargetDistance is > 3 and <= 20
 			? NIN.ThrowingDagger
 			: NIN.SpinningEdge;
@@ -202,7 +206,7 @@ internal class NinjaHideMugFeature: CustomCombo {
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
 		if (level >= NIN.Levels.Hide) {
-			if (SelfHasEffect(NIN.Buffs.Hidden))
+			if (SelfHasEffect(NIN.Buffs.Hidden) && HasTarget)
 				return NIN.TrickAttack;
 		}
 
