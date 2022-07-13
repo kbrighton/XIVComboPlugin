@@ -470,42 +470,60 @@ public enum CustomComboPreset {
 	NinjaArmorCrushCombo = 3000,
 
 	[ParentPreset(NinjaArmorCrushCombo)]
-	[CustomComboInfo("Fallback to Aeolian Edge", "Replaces Armor Crush with Aeolian Edge when underlevel.", NIN.JobID)]
-	NinjaArmorCrushFallbackFeature = 3020,
+	[Conflicts(NinjaArmorCrushForkedRaijuFeature, NinjaArmorCrushFleetingRaijuFeature)]
+	[CustomComboInfo("Smart Raiju Feature", "Replaces the Armor Crush combo with Forked/Fleeting Raiju when available, depending on how far your target is.", NIN.JobID)]
+	NinjaArmorCrushSmartRaijuFeature = 3021,
 
 	[ParentPreset(NinjaArmorCrushCombo)]
 	[Conflicts(NinjaArmorCrushForkedRaijuFeature)]
-	[CustomComboInfo("Fleeting Crush Feature", "Replaces the Armor Crush combo with Fleeting Raiju when available.", NIN.JobID)]
+	[CustomComboInfo("Fleeting Raiju Feature", "Replaces the Armor Crush combo with Fleeting Raiju when available.", NIN.JobID)]
 	NinjaArmorCrushFleetingRaijuFeature = 3010,
 
 	[ParentPreset(NinjaArmorCrushCombo)]
 	[Conflicts(NinjaArmorCrushFleetingRaijuFeature)]
-	[CustomComboInfo("Forked Crush Feature", "Replaces the Armor Crush combo with Forked Raiju when available.", NIN.JobID)]
+	[CustomComboInfo("Forked Raiju Feature", "Replaces the Armor Crush combo with Forked Raiju when available.", NIN.JobID)]
 	NinjaArmorCrushForkedRaijuFeature = 3017,
 
 	[ParentPreset(NinjaArmorCrushCombo)]
-	[CustomComboInfo("Crushing Daggers Feature", "Replaces the Armor Crush combo with Throwing Dagger when NOT in the combo chain, and the current target is out of melee range.", NIN.JobID)]
+	[CustomComboInfo("Distant Daggers Feature", "Replaces the Armor Crush combo with Throwing Dagger when NOT in the combo chain, and the current target is out of melee range.", NIN.JobID)]
 	NinjaArmorCrushThrowingDaggerFeature = 3018,
+
+	[ParentPreset(NinjaArmorCrushCombo)]
+	[CustomComboInfo("Huraijin Feature", "Replaces the Armor Crush combo chain with Huraijin when Huton is missing.", NIN.JobID)]
+	NinjaArmorCrushHuraijinFeature = 3023,
+
+	[ParentPreset(NinjaArmorCrushCombo)]
+	[CustomComboInfo("Fallback to Aeolian Edge", "Replaces Armor Crush with Aeolian Edge when underlevel.", NIN.JobID)]
+	NinjaArmorCrushFallbackFeature = 3020,
 
 	[CustomComboInfo("Aeolian Edge Combo", "Replace Aeolian Edge with its combo chain.", NIN.JobID)]
 	NinjaAeolianEdgeCombo = 3001,
 
 	[ParentPreset(NinjaAeolianEdgeCombo)]
-	[Conflicts(NinjaAeolianEdgeForkedRaijuFeature)]
-	[CustomComboInfo("Fleeting Edge Feature", "Replaces the Aeolian Edge combo with Fleeting Raiju when available.", NIN.JobID)]
+	[Conflicts(NinjaAeolianEdgeFleetingRaijuFeature, NinjaAeolianEdgeForkedRaijuFeature)]
+	[CustomComboInfo("Smart Raiju Feature", "Replaces the Aeolian Edge combo with Forked/Fleeting Raiju when available, depending on how far your target is.", NIN.JobID)]
+	NinjaAeolianEdgeSmartRaijuFeature = 3022,
+
+	[ParentPreset(NinjaAeolianEdgeCombo)]
+	[Conflicts(NinjaAeolianEdgeSmartRaijuFeature, NinjaAeolianEdgeForkedRaijuFeature)]
+	[CustomComboInfo("Fleeting Raiju Feature", "Replaces the Aeolian Edge combo with Fleeting Raiju when available.", NIN.JobID)]
 	NinjaAeolianEdgeFleetingRaijuFeature = 3011,
 
 	[ParentPreset(NinjaAeolianEdgeCombo)]
-	[Conflicts(NinjaAeolianEdgeFleetingRaijuFeature)]
-	[CustomComboInfo("Forked Edge Feature", "Replaces the Aeolian Edge combo with Forked Raiju when available.", NIN.JobID)]
+	[Conflicts(NinjaAeolianEdgeSmartRaijuFeature, NinjaAeolianEdgeFleetingRaijuFeature)]
+	[CustomComboInfo("Forked Raiju Feature", "Replaces the Aeolian Edge combo with Forked Raiju when available.", NIN.JobID)]
 	NinjaAeolianEdgeForkedRaijuFeature = 3016,
 
 	[ParentPreset(NinjaAeolianEdgeCombo)]
-	[CustomComboInfo("Aoelian Daggers Feature", "Replaces the Aeolian Edge combo with Throwing Dagger when NOT in the combo chain, and the current target is out of melee range.", NIN.JobID)]
+	[CustomComboInfo("Distant Daggers Feature", "Replaces the Aeolian Edge combo with Throwing Dagger when NOT in the combo chain, and the current target is out of melee range.", NIN.JobID)]
 	NinjaAeolianEdgeThrowingDaggerFeature = 3019,
 
 	[ParentPreset(NinjaAeolianEdgeCombo)]
-	[CustomComboInfo("Aeolian Edge / Huton Feature", "Replaces Aeolian Edge with Armor Crush when Huton timer is below a set threshold and Huraijin when missing.", NIN.JobID)]
+	[CustomComboInfo("Huraijin Feature", "Replaces the Aeolian Edge combo chain with Huraijin when Huton is missing.", NIN.JobID)]
+	NinjaAeolianEdgeHuraijinFeature = 3024,
+
+	[ParentPreset(NinjaAeolianEdgeCombo)]
+	[CustomComboInfo("Huton Feature", "Replaces Aeolian Edge with Armor Crush when Huton timer is below a set threshold.", NIN.JobID)]
 	NinjaAeolianEdgeHutonFeature = 3014,
 
 	[CustomComboInfo("Hakke Mujinsatsu Combo", "Replace Hakke Mujinsatsu with its combo chain.", NIN.JobID)]
@@ -526,11 +544,15 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Kassatsu Chi/Jin Feature", "Replaces Chi with Jin while Kassatsu is up if you have Enhanced Kassatsu.", NIN.JobID)]
 	NinjaKassatsuChiJinFeature = 3008,
 
-	[Conflicts(NinjaHuraijinFleetingRaijuFeature)]
+	[Conflicts(NinjaHuraijinFleetingRaijuFeature, NinjaHuraijinForkedRaijuFeature)]
+	[CustomComboInfo("Smart Huraiju Feature", "Replaces Huraijin with Forked/Fleeting Raiju when available, depending on how far your target is.", NIN.JobID)]
+	NinjaHuraijinSmartRaijuFeature = 3025,
+
+	[Conflicts(NinjaHuraijinSmartRaijuFeature, NinjaHuraijinFleetingRaijuFeature)]
 	[CustomComboInfo("Forked Huraijin Feature", "Replaces Huraijin with Forked Raiju when available.", NIN.JobID)]
 	NinjaHuraijinForkedRaijuFeature = 3012,
 
-	[Conflicts(NinjaHuraijinForkedRaijuFeature)]
+	[Conflicts(NinjaHuraijinSmartRaijuFeature, NinjaHuraijinForkedRaijuFeature)]
 	[CustomComboInfo("Fleeting Huraijin Feature", "Replaces Huraijin with Fleeting Raiju when available.", NIN.JobID)]
 	NinjaHuraijinFleetingRaijuFeature = 3015,
 

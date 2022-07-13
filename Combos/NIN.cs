@@ -72,22 +72,38 @@ internal class NinjaArmorCrushCombo: CustomCombo {
 	public override uint[] ActionIDs { get; } = new[] { NIN.ArmorCrush };
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+		bool canRaiju = level >= NIN.Levels.Raiju && SelfHasEffect(NIN.Buffs.RaijuReady);
+		bool isDistant = TargetDistance is > 3 and <= 20;
+		bool inCombo = lastComboMove is NIN.SpinningEdge or NIN.GustSlash;
 
 		if (level >= NIN.Levels.Ninjitsu) {
 			if (IsEnabled(CustomComboPreset.NinjaGCDNinjutsuFeature) && SelfHasEffect(NIN.Buffs.Mudra))
 				return OriginalHook(NIN.Ninjutsu);
 		}
 
-		if (level >= NIN.Levels.Raiju) {
-			if (SelfHasEffect(NIN.Buffs.RaijuReady)) {
-
-				if (IsEnabled(CustomComboPreset.NinjaArmorCrushFleetingRaijuFeature))
-					return NIN.FleetingRaiju;
-
-				if (IsEnabled(CustomComboPreset.NinjaArmorCrushForkedRaijuFeature))
+		if (isDistant) {
+			if (canRaiju) {
+				if (IsEnabled(CustomComboPreset.NinjaArmorCrushSmartRaijuFeature) || IsEnabled(CustomComboPreset.NinjaArmorCrushForkedRaijuFeature)) {
 					return NIN.ForkedRaiju;
-
+				}
 			}
+			if (!inCombo && IsEnabled(CustomComboPreset.NinjaArmorCrushThrowingDaggerFeature))
+				return NIN.ThrowingDagger;
+		}
+		else if (canRaiju) {
+			if (IsEnabled(CustomComboPreset.NinjaArmorCrushSmartRaijuFeature) || IsEnabled(CustomComboPreset.NinjaArmorCrushFleetingRaijuFeature)) {
+				return NIN.FleetingRaiju;
+			}
+		}
+
+		if (IsEnabled(CustomComboPreset.NinjaArmorCrushHuraijinFeature)) {
+			if (level >= NIN.Levels.Huraijin && GetJobGauge<NINGauge>().HutonTimer <= 0)
+				return NIN.Huraijin;
+		}
+
+		if (lastComboMove is NIN.SpinningEdge) {
+			if (level >= NIN.Levels.GustSlash)
+				return NIN.GustSlash;
 		}
 
 		if (lastComboMove is NIN.GustSlash) {
@@ -97,14 +113,7 @@ internal class NinjaArmorCrushCombo: CustomCombo {
 				return NIN.AeolianEdge;
 		}
 
-		if (lastComboMove is NIN.SpinningEdge) {
-			if (level >= NIN.Levels.GustSlash)
-				return NIN.GustSlash;
-		}
-
-		return IsEnabled(CustomComboPreset.NinjaArmorCrushThrowingDaggerFeature) && level >= NIN.Levels.ThrowingDagger && TargetDistance is > 3 and <= 20
-			? NIN.ThrowingDagger
-			: NIN.SpinningEdge;
+		return NIN.SpinningEdge;
 	}
 }
 
@@ -113,6 +122,9 @@ internal class NinjaAeolianEdgeCombo: CustomCombo {
 	public override uint[] ActionIDs { get; } = new[] { NIN.AeolianEdge };
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+		bool canRaiju = level >= NIN.Levels.Raiju && SelfHasEffect(NIN.Buffs.RaijuReady);
+		bool isDistant = TargetDistance is > 3 and <= 20;
+		bool inCombo = lastComboMove is NIN.SpinningEdge or NIN.GustSlash;
 
 		if (IsEnabled(CustomComboPreset.NinjaGCDNinjutsuFeature)) {
 			if (level >= NIN.Levels.Ninjitsu) {
@@ -121,41 +133,48 @@ internal class NinjaAeolianEdgeCombo: CustomCombo {
 			}
 		}
 
-		if (level >= NIN.Levels.Raiju) {
-			if (SelfHasEffect(NIN.Buffs.RaijuReady)) {
-
-				if (IsEnabled(CustomComboPreset.NinjaAeolianEdgeFleetingRaijuFeature))
-					return NIN.FleetingRaiju;
-
-				if (IsEnabled(CustomComboPreset.NinjaAeolianEdgeForkedRaijuFeature))
+		if (isDistant) {
+			if (canRaiju) {
+				if (IsEnabled(CustomComboPreset.NinjaAeolianEdgeSmartRaijuFeature) || IsEnabled(CustomComboPreset.NinjaAeolianEdgeForkedRaijuFeature)) {
 					return NIN.ForkedRaiju;
-
+				}
 			}
+			if (!inCombo && IsEnabled(CustomComboPreset.NinjaAeolianEdgeThrowingDaggerFeature))
+				return NIN.ThrowingDagger;
+		}
+		else if (canRaiju) {
+			if (IsEnabled(CustomComboPreset.NinjaAeolianEdgeSmartRaijuFeature) || IsEnabled(CustomComboPreset.NinjaAeolianEdgeFleetingRaijuFeature)) {
+				return NIN.FleetingRaiju;
+			}
+		}
+
+		if (IsEnabled(CustomComboPreset.NinjaAeolianEdgeHuraijinFeature)) {
+			if (level >= NIN.Levels.Huraijin && GetJobGauge<NINGauge>().HutonTimer <= 0)
+				return NIN.Huraijin;
 		}
 
 		if (IsEnabled(CustomComboPreset.NinjaAeolianEdgeHutonFeature)) {
-			NINGauge gauge = GetJobGauge<NINGauge>();
-
-			if (level >= NIN.Levels.Huraijin && gauge.HutonTimer <= 0)
-				return NIN.Huraijin;
-
 			if (level >= NIN.Levels.ArmorCrush) {
-				if (lastComboMove is NIN.GustSlash && gauge.HutonTimer <= Service.Configuration.NinjaHutonThresholdTime * 1000)
-					return NIN.ArmorCrush;
+				if (lastComboMove is NIN.GustSlash) {
+					if (GetJobGauge<NINGauge>().HutonTimer <= Service.Configuration.NinjaHutonThresholdTime * 1000)
+						return NIN.ArmorCrush;
+				}
 			}
 		}
 
-		if (level >= NIN.Levels.AeolianEdge) {
-			if (lastComboMove is NIN.GustSlash)
-				return NIN.AeolianEdge;
-		}
-		if (level >= NIN.Levels.GustSlash) {
-			if (lastComboMove is NIN.SpinningEdge)
+		if (lastComboMove is NIN.SpinningEdge) {
+			if (level >= NIN.Levels.GustSlash) {
 				return NIN.GustSlash;
+			}
 		}
-		return IsEnabled(CustomComboPreset.NinjaAeolianEdgeThrowingDaggerFeature) && level >= NIN.Levels.ThrowingDagger && TargetDistance is > 3 and <= 20
-			? NIN.ThrowingDagger
-			: NIN.SpinningEdge;
+
+		if (lastComboMove is NIN.GustSlash) {
+			if (level >= NIN.Levels.AeolianEdge) {
+				return NIN.AeolianEdge;
+			}
+		}
+
+		return NIN.SpinningEdge;
 	}
 }
 
@@ -267,6 +286,9 @@ internal class NinjaHuraijinFeatures: CustomCombo {
 
 		if (level >= NIN.Levels.Raiju) {
 			if (SelfHasEffect(NIN.Buffs.RaijuReady)) {
+
+				if (IsEnabled(CustomComboPreset.NinjaHuraijinSmartRaijuFeature))
+					return TargetDistance is > 3 and <= 30 ? NIN.ForkedRaiju : NIN.FleetingRaiju;
 
 				if (IsEnabled(CustomComboPreset.NinjaHuraijinForkedRaijuFeature))
 					return NIN.ForkedRaiju;
