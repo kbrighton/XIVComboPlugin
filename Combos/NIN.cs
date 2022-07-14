@@ -74,7 +74,9 @@ internal class NinjaArmorCrushCombo: CustomCombo {
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		bool canRaiju = level >= NIN.Levels.Raiju && SelfHasEffect(NIN.Buffs.RaijuReady);
 		bool isDistant = TargetDistance is > 3 and <= 20;
-		bool inCombo = lastComboMove is NIN.SpinningEdge or NIN.GustSlash;
+		bool inCombo = level >= NIN.Levels.AeolianEdge
+			? lastComboMove is NIN.SpinningEdge or NIN.GustSlash
+			: lastComboMove is NIN.SpinningEdge;
 
 		if (level >= NIN.Levels.Ninjitsu) {
 			if (IsEnabled(CustomComboPreset.NinjaGCDNinjutsuFeature) && SelfHasEffect(NIN.Buffs.Mudra))
@@ -124,7 +126,9 @@ internal class NinjaAeolianEdgeCombo: CustomCombo {
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		bool canRaiju = level >= NIN.Levels.Raiju && SelfHasEffect(NIN.Buffs.RaijuReady);
 		bool isDistant = TargetDistance is > 3 and <= 20;
-		bool inCombo = lastComboMove is NIN.SpinningEdge or NIN.GustSlash;
+		bool inCombo = level >= NIN.Levels.AeolianEdge
+			? lastComboMove is NIN.SpinningEdge or NIN.GustSlash
+			: lastComboMove is NIN.SpinningEdge;
 
 		if (IsEnabled(CustomComboPreset.NinjaGCDNinjutsuFeature)) {
 			if (level >= NIN.Levels.Ninjitsu) {
