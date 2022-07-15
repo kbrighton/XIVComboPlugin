@@ -951,6 +951,9 @@ public enum CustomComboPreset {
 	// ====================================================================================
 	#region SAGE (40xx)
 
+	[CustomComboInfo("Swiftcast Egeiro", "Egeiro turns into Swiftcast when available and reasonable.", SGE.JobID)]
+	SageSwiftcastRaiserFeature = 4000,
+
 	[CustomComboInfo("Taurochole Into Druochole Feature", "Replace Taurochole with Druochole when on cooldown", SGE.JobID)]
 	SageTaurocholeDruocholeFeature = 4001,
 

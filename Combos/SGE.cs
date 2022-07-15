@@ -69,6 +69,11 @@ internal static class SGE {
 	}
 }
 
+internal class SageSwiftcastRaiserFeature: SwiftRaiseCombo {
+	public override CustomComboPreset Preset => CustomComboPreset.SageSwiftcastRaiserFeature;
+	public override uint[] ActionIDs { get; } = new[] { SGE.Egeiro };
+}
+
 internal class SageSoteria: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.SageSoteriaKardionFeature;
 	public override uint[] ActionIDs => new[] { SGE.Soteria };
