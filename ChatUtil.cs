@@ -23,6 +23,7 @@ internal class ChatUtil: IDisposable {
 		this.clplOpenConfig = Service.Interface.AddChatLinkHandler(clidOpenConfig, this.onClickChatLink);
 	}
 
+	[System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Convention")]
 	internal void print(XivChatType type, params Payload[] payloads) {
 		if (payloads.Length > 0) {
 			Service.ChatGui.PrintChat(new XivChatEntry() {
