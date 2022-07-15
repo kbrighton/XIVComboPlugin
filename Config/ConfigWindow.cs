@@ -283,6 +283,12 @@ public class ConfigWindow: Window {
 
 		ImGui.SameLine();
 		ImGui.TextColored(shadedColour, $"[debug#{(int)preset}]");
+		if (ImGui.IsItemHovered()) {
+			ImGui.SetMouseCursor(ImGuiMouseCursor.Hand);
+			ImGui.SetTooltip("Click to copy the debug ID for the developer");
+		}
+		if (ImGui.IsItemClicked())
+			ImGui.SetClipboardText(((int)preset).ToString());
 
 		if (toggled) {
 			if (enabled) {
