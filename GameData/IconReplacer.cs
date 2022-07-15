@@ -35,8 +35,8 @@ internal class IconReplacer: IDisposable {
 		PluginLog.Information(string.Join(", ", this.customCombos.Select(combo => combo.GetType().Name)));
 #endif
 
-		this.getIconHook = new Hook<GetIconDelegate>(Service.Address.GetAdjustedActionId, this.getIconDetour);
-		this.isIconReplaceableHook = new Hook<IsIconReplaceableDelegate>(Service.Address.IsActionIdReplaceable, this.isIconReplaceableDetour);
+		this.getIconHook = Hook<GetIconDelegate>.FromAddress(Service.Address.GetAdjustedActionId, this.getIconDetour);
+		this.isIconReplaceableHook = Hook<IsIconReplaceableDelegate>.FromAddress(Service.Address.IsActionIdReplaceable, this.isIconReplaceableDetour);
 
 		this.getIconHook.Enable();
 		this.isIconReplaceableHook.Enable();
