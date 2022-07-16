@@ -52,10 +52,12 @@ internal static class SGE {
 			Phlegma = 26,
 			Soteria = 35,
 			Druochole = 45,
+			Dyskrasia = 46,
 			Kerachole = 50,
 			Ixochole = 52,
 			Physis2 = 60,
 			Taurochole = 62,
+			Toxikon = 66,
 			Haima = 70,
 			Phlegma2 = 72,
 			Dosis2 = 72,
@@ -159,7 +161,7 @@ internal class SagePhlegma: CustomCombo {
 				return OriginalHook(SGE.Dyskrasia);
 		}
 
-		if (IsEnabled(CustomComboPreset.SagePhlegmaToxicon)) {
+		if (IsEnabled(CustomComboPreset.SagePhlegmaToxicon) && level >= SGE.Levels.Toxikon) {
 			uint phlegma = level >= SGE.Levels.Phlegma3
 				? SGE.Phlegma3
 				: level >= SGE.Levels.Phlegma2
@@ -168,11 +170,11 @@ internal class SagePhlegma: CustomCombo {
 						? SGE.Phlegma
 						: 0;
 
-			if (phlegma != 0 && GetCooldown(phlegma).CooldownRemaining > 45 && GetJobGauge<SGEGauge>().Addersting > 0)
+			if (GetCooldown(phlegma).CooldownRemaining > 45 && GetJobGauge<SGEGauge>().Addersting > 0)
 				return OriginalHook(SGE.Toxikon);
 		}
 
-		if (IsEnabled(CustomComboPreset.SagePhlegmaDyskrasia)) {
+		if (IsEnabled(CustomComboPreset.SagePhlegmaDyskrasia) && level >= SGE.Levels.Dyskrasia) {
 			uint phlegma = level >= SGE.Levels.Phlegma3
 				? SGE.Phlegma3
 				: level >= SGE.Levels.Phlegma2
@@ -181,7 +183,7 @@ internal class SagePhlegma: CustomCombo {
 						? SGE.Phlegma
 						: 0;
 
-			if (phlegma != 0 && GetCooldown(phlegma).CooldownRemaining > 45)
+			if (GetCooldown(phlegma).CooldownRemaining > 45)
 				return OriginalHook(SGE.Dyskrasia);
 		}
 
