@@ -470,7 +470,7 @@ public enum CustomComboPreset {
 	NinjaArmorCrushCombo = 3000,
 
 	[ParentPreset(NinjaArmorCrushCombo)]
-	[CustomComboInfo("Phantom Kamaitachi Feature", "Replaces the first move of the combo with Phantom Kamaitachi when available.", NIN.JobID)]
+	[CustomComboInfo("Phantom Kamaitachi Feature", "Replaces the combo with Phantom Kamaitachi when you have no stacks of Bunshin.", NIN.JobID)]
 	NinjaArmorCrushKamaitachiFeature = 3028,
 
 	[ParentPreset(NinjaArmorCrushCombo)]
@@ -489,7 +489,7 @@ public enum CustomComboPreset {
 	NinjaArmorCrushForkedRaijuFeature = 3017,
 
 	[ParentPreset(NinjaArmorCrushCombo)]
-	[CustomComboInfo("Distant Daggers Feature", "Replaces the Armor Crush combo with Throwing Dagger when NOT in the combo chain, and the current target is out of melee range.\nUses Phantom Kamaitachi instead when available.", NIN.JobID)]
+	[CustomComboInfo("Distant Daggers Feature", "Replaces the Armor Crush combo with Throwing Dagger when the current target is out of melee range.\nUses Phantom Kamaitachi instead when available.", NIN.JobID)]
 	NinjaArmorCrushThrowingDaggerFeature = 3018,
 
 	[ParentPreset(NinjaArmorCrushCombo)]
@@ -504,7 +504,7 @@ public enum CustomComboPreset {
 	NinjaAeolianEdgeCombo = 3001,
 
 	[ParentPreset(NinjaAeolianEdgeCombo)]
-	[CustomComboInfo("Phantom Kamaitachi Feature", "Replaces the first move of the combo with Phantom Kamaitachi when available.", NIN.JobID)]
+	[CustomComboInfo("Phantom Kamaitachi Feature", "Replaces the combo with Phantom Kamaitachi when you have no stacks of Bunshin.", NIN.JobID)]
 	NinjaAeolianEdgeKamaitachiFeature = 3029,
 
 	[ParentPreset(NinjaAeolianEdgeCombo)]
@@ -523,7 +523,7 @@ public enum CustomComboPreset {
 	NinjaAeolianEdgeForkedRaijuFeature = 3016,
 
 	[ParentPreset(NinjaAeolianEdgeCombo)]
-	[CustomComboInfo("Distant Daggers Feature", "Replaces the Aeolian Edge combo with Throwing Dagger when NOT in the combo chain, and the current target is out of melee range.\nUses Phantom Kamaitachi instead when available.", NIN.JobID)]
+	[CustomComboInfo("Distant Daggers Feature", "Replaces the Aeolian Edge combo with Throwing Dagger when the current target is out of melee range.\nUses Phantom Kamaitachi instead when available.", NIN.JobID)]
 	NinjaAeolianEdgeThrowingDaggerFeature = 3019,
 
 	[ParentPreset(NinjaAeolianEdgeCombo)]

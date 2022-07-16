@@ -80,10 +80,7 @@ internal class NinjaArmorCrushCombo: CustomCombo {
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		bool canRaiju = level >= NIN.Levels.Raiju && SelfHasEffect(NIN.Buffs.RaijuReady);
-		bool isDistant = TargetDistance is > 3;// and <= 20;
-		bool inCombo = level >= NIN.Levels.AeolianEdge
-			? lastComboMove is NIN.SpinningEdge or NIN.GustSlash
-			: lastComboMove is NIN.SpinningEdge;
+		bool isDistant = TargetDistance is > 3;
 
 		if (level >= NIN.Levels.Ninjitsu) {
 			if (IsEnabled(CustomComboPreset.NinjaGCDNinjutsuFeature) && SelfHasEffect(NIN.Buffs.Mudra))
@@ -107,7 +104,7 @@ internal class NinjaArmorCrushCombo: CustomCombo {
 					return NIN.ForkedRaiju;
 				}
 			}
-			if (!inCombo && IsEnabled(CustomComboPreset.NinjaArmorCrushThrowingDaggerFeature))
+			if (IsEnabled(CustomComboPreset.NinjaArmorCrushThrowingDaggerFeature))
 				return level >= NIN.Levels.PhantomKamaitachi && SelfHasEffect(NIN.Buffs.PhantomKamaitachiReady) ? NIN.PhantomKamaitachi : NIN.ThrowingDagger;
 		}
 		else if (canRaiju) {
@@ -134,7 +131,7 @@ internal class NinjaArmorCrushCombo: CustomCombo {
 		}
 
 		if (IsEnabled(CustomComboPreset.NinjaArmorCrushKamaitachiFeature)) {
-			if (level >= NIN.Levels.PhantomKamaitachi && SelfHasEffect(NIN.Buffs.PhantomKamaitachiReady))
+			if (level >= NIN.Levels.PhantomKamaitachi && SelfHasEffect(NIN.Buffs.PhantomKamaitachiReady) && !SelfHasEffect(NIN.Buffs.Bunshin))
 				return NIN.PhantomKamaitachi;
 		}
 
@@ -148,10 +145,7 @@ internal class NinjaAeolianEdgeCombo: CustomCombo {
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		bool canRaiju = level >= NIN.Levels.Raiju && SelfHasEffect(NIN.Buffs.RaijuReady);
-		bool isDistant = TargetDistance is > 3;// and <= 20;
-		bool inCombo = level >= NIN.Levels.AeolianEdge
-			? lastComboMove is NIN.SpinningEdge or NIN.GustSlash
-			: lastComboMove is NIN.SpinningEdge;
+		bool isDistant = TargetDistance is > 3;
 
 		if (IsEnabled(CustomComboPreset.NinjaGCDNinjutsuFeature)) {
 			if (level >= NIN.Levels.Ninjitsu) {
@@ -177,7 +171,7 @@ internal class NinjaAeolianEdgeCombo: CustomCombo {
 					return NIN.ForkedRaiju;
 				}
 			}
-			if (!inCombo && IsEnabled(CustomComboPreset.NinjaAeolianEdgeThrowingDaggerFeature))
+			if (IsEnabled(CustomComboPreset.NinjaAeolianEdgeThrowingDaggerFeature))
 				return level >= NIN.Levels.PhantomKamaitachi && SelfHasEffect(NIN.Buffs.PhantomKamaitachiReady) ? NIN.PhantomKamaitachi : NIN.ThrowingDagger;
 		}
 		else if (canRaiju) {
@@ -213,7 +207,7 @@ internal class NinjaAeolianEdgeCombo: CustomCombo {
 		}
 
 		if (IsEnabled(CustomComboPreset.NinjaAeolianEdgeKamaitachiFeature)) {
-			if (level >= NIN.Levels.PhantomKamaitachi && SelfHasEffect(NIN.Buffs.PhantomKamaitachiReady))
+			if (level >= NIN.Levels.PhantomKamaitachi && SelfHasEffect(NIN.Buffs.PhantomKamaitachiReady) && !SelfHasEffect(NIN.Buffs.Bunshin))
 				return NIN.PhantomKamaitachi;
 		}
 
