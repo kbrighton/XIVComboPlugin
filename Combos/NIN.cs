@@ -22,6 +22,8 @@ internal static class NIN {
 		Kassatsu = 2264,
 		ArmorCrush = 3563,
 		DreamWithinADream = 3566,
+		HellfrogMedium = 7401,
+		Bhavacakra = 7402,
 		TenChiJin = 7403,
 		HakkeMujinsatsu = 16488,
 		Meisui = 16489,
@@ -39,7 +41,8 @@ internal static class NIN {
 			Suiton = 507,
 			Hidden = 614,
 			Bunshin = 1954,
-			RaijuReady = 2690;
+			RaijuReady = 2690,
+			PhantomKamaitachiReady = 2723;
 	}
 
 	public static class Debuffs {
@@ -54,10 +57,14 @@ internal static class NIN {
 			Mug = 15,
 			AeolianEdge = 26,
 			Ninjitsu = 30,
+			Assassinate = 40,
 			Suiton = 45,
 			HakkeMujinsatsu = 52,
 			ArmorCrush = 54,
+			DreamWithinADream = 56,
 			Huraijin = 60,
+			HellfrogMedium = 62,
+			Bhavacakra = 68,
 			TenChiJin = 70,
 			Meisui = 72,
 			EnhancedKassatsu = 76,
@@ -73,7 +80,7 @@ internal class NinjaArmorCrushCombo: CustomCombo {
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		bool canRaiju = level >= NIN.Levels.Raiju && SelfHasEffect(NIN.Buffs.RaijuReady);
-		bool isDistant = TargetDistance is > 3 and <= 20;
+		bool isDistant = TargetDistance is > 3;// and <= 20;
 		bool inCombo = level >= NIN.Levels.AeolianEdge
 			? lastComboMove is NIN.SpinningEdge or NIN.GustSlash
 			: lastComboMove is NIN.SpinningEdge;
@@ -83,6 +90,17 @@ internal class NinjaArmorCrushCombo: CustomCombo {
 				return OriginalHook(NIN.Ninjutsu);
 		}
 
+		if (IsEnabled(CustomComboPreset.NinjaSingleTargetSmartWeaveFeature) && CanWeave(actionID)) {
+
+			if (level >= NIN.Levels.Bunshin && IsOffCooldown(NIN.Bunshin) && GetJobGauge<NINGauge>().Ninki >= 50)
+				return NIN.Bunshin;
+			if (level >= NIN.Levels.Bhavacakra && IsOffCooldown(NIN.Bhavacakra) && GetJobGauge<NINGauge>().Ninki >= 50 && !isDistant)
+				return NIN.Bhavacakra;
+			if (level >= NIN.Levels.Assassinate && IsOffCooldown(OriginalHook(NIN.DreamWithinADream)) && !isDistant)
+				return OriginalHook(NIN.DreamWithinADream);
+
+		}
+
 		if (isDistant) {
 			if (canRaiju) {
 				if (IsEnabled(CustomComboPreset.NinjaArmorCrushSmartRaijuFeature) || IsEnabled(CustomComboPreset.NinjaArmorCrushForkedRaijuFeature)) {
@@ -90,7 +108,7 @@ internal class NinjaArmorCrushCombo: CustomCombo {
 				}
 			}
 			if (!inCombo && IsEnabled(CustomComboPreset.NinjaArmorCrushThrowingDaggerFeature))
-				return NIN.ThrowingDagger;
+				return level >= NIN.Levels.PhantomKamaitachi && SelfHasEffect(NIN.Buffs.PhantomKamaitachiReady) ? NIN.PhantomKamaitachi : NIN.ThrowingDagger;
 		}
 		else if (canRaiju) {
 			if (IsEnabled(CustomComboPreset.NinjaArmorCrushSmartRaijuFeature) || IsEnabled(CustomComboPreset.NinjaArmorCrushFleetingRaijuFeature)) {
@@ -115,6 +133,11 @@ internal class NinjaArmorCrushCombo: CustomCombo {
 				return NIN.AeolianEdge;
 		}
 
+		if (IsEnabled(CustomComboPreset.NinjaArmorCrushKamaitachiFeature)) {
+			if (level >= NIN.Levels.PhantomKamaitachi && SelfHasEffect(NIN.Buffs.PhantomKamaitachiReady))
+				return NIN.PhantomKamaitachi;
+		}
+
 		return NIN.SpinningEdge;
 	}
 }
@@ -125,7 +148,7 @@ internal class NinjaAeolianEdgeCombo: CustomCombo {
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		bool canRaiju = level >= NIN.Levels.Raiju && SelfHasEffect(NIN.Buffs.RaijuReady);
-		bool isDistant = TargetDistance is > 3 and <= 20;
+		bool isDistant = TargetDistance is > 3;// and <= 20;
 		bool inCombo = level >= NIN.Levels.AeolianEdge
 			? lastComboMove is NIN.SpinningEdge or NIN.GustSlash
 			: lastComboMove is NIN.SpinningEdge;
@@ -137,6 +160,17 @@ internal class NinjaAeolianEdgeCombo: CustomCombo {
 			}
 		}
 
+		if (IsEnabled(CustomComboPreset.NinjaSingleTargetSmartWeaveFeature) && CanWeave(actionID)) {
+
+			if (level >= NIN.Levels.Bunshin && IsOffCooldown(NIN.Bunshin) && GetJobGauge<NINGauge>().Ninki >= 50)
+				return NIN.Bunshin;
+			if (level >= NIN.Levels.Bhavacakra && IsOffCooldown(NIN.Bhavacakra) && GetJobGauge<NINGauge>().Ninki >= 50 && !isDistant)
+				return NIN.Bhavacakra;
+			if (level >= NIN.Levels.Assassinate && IsOffCooldown(OriginalHook(NIN.DreamWithinADream)) && !isDistant)
+				return OriginalHook(NIN.DreamWithinADream);
+
+		}
+
 		if (isDistant) {
 			if (canRaiju) {
 				if (IsEnabled(CustomComboPreset.NinjaAeolianEdgeSmartRaijuFeature) || IsEnabled(CustomComboPreset.NinjaAeolianEdgeForkedRaijuFeature)) {
@@ -144,7 +178,7 @@ internal class NinjaAeolianEdgeCombo: CustomCombo {
 				}
 			}
 			if (!inCombo && IsEnabled(CustomComboPreset.NinjaAeolianEdgeThrowingDaggerFeature))
-				return NIN.ThrowingDagger;
+				return level >= NIN.Levels.PhantomKamaitachi && SelfHasEffect(NIN.Buffs.PhantomKamaitachiReady) ? NIN.PhantomKamaitachi : NIN.ThrowingDagger;
 		}
 		else if (canRaiju) {
 			if (IsEnabled(CustomComboPreset.NinjaAeolianEdgeSmartRaijuFeature) || IsEnabled(CustomComboPreset.NinjaAeolianEdgeFleetingRaijuFeature)) {
@@ -178,6 +212,11 @@ internal class NinjaAeolianEdgeCombo: CustomCombo {
 			}
 		}
 
+		if (IsEnabled(CustomComboPreset.NinjaAeolianEdgeKamaitachiFeature)) {
+			if (level >= NIN.Levels.PhantomKamaitachi && SelfHasEffect(NIN.Buffs.PhantomKamaitachiReady))
+				return NIN.PhantomKamaitachi;
+		}
+
 		return NIN.SpinningEdge;
 	}
 }
@@ -191,6 +230,11 @@ internal class NinjaHakkeMujinsatsuCombo: CustomCombo {
 		if (IsEnabled(CustomComboPreset.NinjaGCDNinjutsuFeature)) {
 			if (SelfHasEffect(NIN.Buffs.Mudra))
 				return OriginalHook(NIN.Ninjutsu);
+		}
+
+		if (IsEnabled(CustomComboPreset.NinjaAOESmartWeaveFeature) && CanWeave(actionID)) {
+			if (level >= NIN.Levels.HellfrogMedium && GetJobGauge<NINGauge>().Ninki >= 50)
+				return NIN.HellfrogMedium;
 		}
 
 		if (level >= NIN.Levels.HakkeMujinsatsu) {

@@ -470,6 +470,10 @@ public enum CustomComboPreset {
 	NinjaArmorCrushCombo = 3000,
 
 	[ParentPreset(NinjaArmorCrushCombo)]
+	[CustomComboInfo("Phantom Kamaitachi Feature", "Replaces the first move of the combo with Phantom Kamaitachi when available.", NIN.JobID)]
+	NinjaArmorCrushKamaitachiFeature = 3028,
+
+	[ParentPreset(NinjaArmorCrushCombo)]
 	[Conflicts(NinjaArmorCrushForkedRaijuFeature, NinjaArmorCrushFleetingRaijuFeature)]
 	[CustomComboInfo("Smart Raiju Feature", "Replaces the Armor Crush combo with Forked/Fleeting Raiju when available, depending on how far your target is.", NIN.JobID)]
 	NinjaArmorCrushSmartRaijuFeature = 3021,
@@ -485,7 +489,7 @@ public enum CustomComboPreset {
 	NinjaArmorCrushForkedRaijuFeature = 3017,
 
 	[ParentPreset(NinjaArmorCrushCombo)]
-	[CustomComboInfo("Distant Daggers Feature", "Replaces the Armor Crush combo with Throwing Dagger when NOT in the combo chain, and the current target is out of melee range.", NIN.JobID)]
+	[CustomComboInfo("Distant Daggers Feature", "Replaces the Armor Crush combo with Throwing Dagger when NOT in the combo chain, and the current target is out of melee range.\nUses Phantom Kamaitachi instead when available.", NIN.JobID)]
 	NinjaArmorCrushThrowingDaggerFeature = 3018,
 
 	[ParentPreset(NinjaArmorCrushCombo)]
@@ -498,6 +502,10 @@ public enum CustomComboPreset {
 
 	[CustomComboInfo("Aeolian Edge Combo", "Replace Aeolian Edge with its combo chain.", NIN.JobID)]
 	NinjaAeolianEdgeCombo = 3001,
+
+	[ParentPreset(NinjaAeolianEdgeCombo)]
+	[CustomComboInfo("Phantom Kamaitachi Feature", "Replaces the first move of the combo with Phantom Kamaitachi when available.", NIN.JobID)]
+	NinjaAeolianEdgeKamaitachiFeature = 3029,
 
 	[ParentPreset(NinjaAeolianEdgeCombo)]
 	[Conflicts(NinjaAeolianEdgeFleetingRaijuFeature, NinjaAeolianEdgeForkedRaijuFeature)]
@@ -515,7 +523,7 @@ public enum CustomComboPreset {
 	NinjaAeolianEdgeForkedRaijuFeature = 3016,
 
 	[ParentPreset(NinjaAeolianEdgeCombo)]
-	[CustomComboInfo("Distant Daggers Feature", "Replaces the Aeolian Edge combo with Throwing Dagger when NOT in the combo chain, and the current target is out of melee range.", NIN.JobID)]
+	[CustomComboInfo("Distant Daggers Feature", "Replaces the Aeolian Edge combo with Throwing Dagger when NOT in the combo chain, and the current target is out of melee range.\nUses Phantom Kamaitachi instead when available.", NIN.JobID)]
 	NinjaAeolianEdgeThrowingDaggerFeature = 3019,
 
 	[ParentPreset(NinjaAeolianEdgeCombo)]
@@ -558,6 +566,12 @@ public enum CustomComboPreset {
 
 	[CustomComboInfo("Huraijin / Crush Feature", "Replaces Huraijin with Armor Crush after Gust Slash.", NIN.JobID)]
 	NinjaHuraijinCrushFeature = 3013,
+
+	[CustomComboInfo("Single Target Smart Weave", "Replaces both Aeolian Edge and Armor Crush combos with the following when weaving and available:\n- Assassinate or DWAD\n- Bhavacakra\n- Bunshin\n- Phantom Kamaitachi.", NIN.JobID)]
+	NinjaSingleTargetSmartWeaveFeature = 3026,
+
+	[CustomComboInfo("AoE Smart Weave", "Replaces Death Blossom / Hakke Mujinsatsu with Hellfrog Medium when weaving and available.", NIN.JobID)]
+	NinjaAOESmartWeaveFeature = 3027,
 
 	#endregion
 	// ====================================================================================
