@@ -312,10 +312,24 @@ public class ConfigWindow: Window {
 
 		if (!compactMode)
 			ImGui.TextUnformatted(info.Description);
-		if (dangerous)
-			ImGui.TextColored(warningColour, "UNSAFE - may potentially crash, use at your own risk!\n");
-		else if (experimental)
-			ImGui.TextColored(warningColour, "EXPERIMENTAL - not yet fully tested, may cause unwanted behaviour!");
+		if (dangerous) {
+			ImGui.TextColored(warningColour, "UNSAFE - use at your own risk!");
+			if (ImGui.IsItemHovered()) {
+				ImGui.BeginTooltip();
+				ImGui.TextUnformatted("Unsafe replacers use internal mechanisms that may carry a risk of crashing,"
+					+ "\nespecially immediately after FFXIV or Dalamud is updated.");
+				ImGui.EndTooltip();
+			}
+		}
+		else if (experimental) {
+			ImGui.TextColored(warningColour, "EXPERIMENTAL - may change without warning!");
+			if (ImGui.IsItemHovered()) {
+				ImGui.BeginTooltip();
+				ImGui.TextUnformatted("Experimental replacers are not fully tested, may cause unwanted or unexpected behaviour,"
+					+ "\nmight not be complete, and should only be used if you accept these risks.");
+				ImGui.EndTooltip();
+			}
+		}
 		if (!compactMode && conflictWarning.Length > 0)
 			ImGui.TextColored(shadedColour, conflictWarning);
 		if (hasChildren && hideChildren && !enabled)
