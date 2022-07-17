@@ -992,6 +992,10 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Phlegma into Dyskrasia", "Replace Phlegma with Dyskrasia when no charges remain or have no target.", SGE.JobID)]
 	SagePhlegmaDyskrasia = 4008,
 
+	[Experimental]
+	[CustomComboInfo("Gap Closer Feature", "Replace Phlegma with Icarus when at least a configurable distance away and both are off CD.\nRespects the above two combos - Phlegma only becomes Icarus when NOT becoming one of the others.", SGE.JobID)]
+	SagePhlegmaIcarus = 4009,
+
 	#endregion
 	// ====================================================================================
 	#region SUMMONER (27xx)

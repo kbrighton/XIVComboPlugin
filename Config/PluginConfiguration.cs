@@ -227,7 +227,14 @@ public class PluginConfiguration: IPluginConfiguration {
 
 	#region SGE settings
 
-	// placeholder
+	[ComboDetailSetting(
+		CustomComboPreset.SagePhlegmaIcarus,
+		"Minimum distance threshold",
+		"When you are more than this many yalms away from your current target, Phlegma will become Icarus",
+		6,
+		25
+	)]
+	public float SagePhlegmaIcarusDistanceThreshold { get; set; } = 6;
 
 	#endregion
 

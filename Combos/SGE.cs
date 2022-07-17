@@ -17,6 +17,7 @@ internal static class SGE {
 		Phlegma = 24289,
 		Eukrasia = 24290,
 		Soteria = 24294,
+		Icarus = 24295,
 		Druochole = 24296,
 		Dyskrasia = 24297,
 		Kerachole = 24298,
@@ -49,8 +50,10 @@ internal static class SGE {
 		public const ushort
 			Dosis = 1,
 			Prognosis = 10,
+			Egeiro = 12,
 			Phlegma = 26,
 			Soteria = 35,
+			Icarus = 40,
 			Druochole = 45,
 			Dyskrasia = 46,
 			Kerachole = 50,
@@ -155,6 +158,13 @@ internal class SagePhlegma: CustomCombo {
 	public override uint[] ActionIDs => new[] { SGE.Phlegma, SGE.Phlegma2, SGE.Phlegma3 };
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+		uint phlegma = level >= SGE.Levels.Phlegma3
+			? SGE.Phlegma3
+			: level >= SGE.Levels.Phlegma2
+				? SGE.Phlegma2
+				: level >= SGE.Levels.Phlegma
+					? SGE.Phlegma
+					: 0;
 
 		if (IsEnabled(CustomComboPreset.SagePhlegmaDyskrasia)) {
 			if (!HasTarget)
@@ -162,29 +172,20 @@ internal class SagePhlegma: CustomCombo {
 		}
 
 		if (IsEnabled(CustomComboPreset.SagePhlegmaToxicon) && level >= SGE.Levels.Toxikon) {
-			uint phlegma = level >= SGE.Levels.Phlegma3
-				? SGE.Phlegma3
-				: level >= SGE.Levels.Phlegma2
-					? SGE.Phlegma2
-					: level >= SGE.Levels.Phlegma
-						? SGE.Phlegma
-						: 0;
-
-			if (GetCooldown(phlegma).CooldownRemaining > 45 && GetJobGauge<SGEGauge>().Addersting > 0)
+			if (!GetCooldown(phlegma).Available && GetJobGauge<SGEGauge>().Addersting > 0)
 				return OriginalHook(SGE.Toxikon);
 		}
 
 		if (IsEnabled(CustomComboPreset.SagePhlegmaDyskrasia) && level >= SGE.Levels.Dyskrasia) {
-			uint phlegma = level >= SGE.Levels.Phlegma3
-				? SGE.Phlegma3
-				: level >= SGE.Levels.Phlegma2
-					? SGE.Phlegma2
-					: level >= SGE.Levels.Phlegma
-						? SGE.Phlegma
-						: 0;
-
-			if (GetCooldown(phlegma).CooldownRemaining > 45)
+			if (!GetCooldown(phlegma).Available)
 				return OriginalHook(SGE.Dyskrasia);
+		}
+
+		if (IsEnabled(CustomComboPreset.SagePhlegmaIcarus)) {
+			if (level >= SGE.Levels.Icarus && HasTarget && TargetDistance > Service.Configuration.SagePhlegmaIcarusDistanceThreshold) {
+				if (GetCooldown(SGE.Icarus).Available && GetCooldown(phlegma).Available)
+					return SGE.Icarus;
+			}
 		}
 
 		return actionID;
