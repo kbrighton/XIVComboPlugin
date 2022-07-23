@@ -99,19 +99,19 @@ internal abstract class CustomCombo {
 
 	#region Common calculations and shortcuts
 
-	protected static uint PickByCooldown(uint original, params uint[] actions) {
+	protected static uint PickByCooldown(uint preference, params uint[] actions) {
 
 		static (uint ActionID, CooldownData Data) Selector(uint actionID) {
 			return (actionID, GetCooldown(actionID));
 		}
 
-		static (uint ActionID, CooldownData Data) Compare(uint original, (uint ActionID, CooldownData Data) a, (uint ActionID, CooldownData Data) b) {
+		static (uint ActionID, CooldownData Data) Compare(uint preference, (uint ActionID, CooldownData Data) a, (uint ActionID, CooldownData Data) b) {
 
 			// VS decided that the conditionals could be "simplified" to this.
 			// Someone should maybe teach VS what "simplified" actually means.
 			(uint ActionID, CooldownData Data) choice = // it begins ("it" = suffering)
 				!a.Data.IsCooldown && !b.Data.IsCooldown // welcome to hell, population: anyone trying to maintain this
-					? original == a.ActionID // both off CD
+					? preference == a.ActionID // both off CD
 						? a // return the original if it's the first one
 						: b // or else the second, no matter what
 					: a.Data.IsCooldown && b.Data.IsCooldown // one/both are on CD
@@ -155,7 +155,7 @@ internal abstract class CustomCombo {
 
 		uint id = actions
 			.Select(Selector)
-			.Aggregate((a1, a2) => Compare(original, a1, a2))
+			.Aggregate((a1, a2) => Compare(preference, a1, a2))
 			.ActionID;
 		Service.Logger.debug($"Final selection: {id}");
 		return id;
