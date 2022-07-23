@@ -141,13 +141,38 @@ internal class SageIxochole: CustomCombo {
 }
 
 internal class SageKerachole: CustomCombo {
-	public override CustomComboPreset Preset { get; } = CustomComboPreset.SageKeracholaRhizomataFeature;
+	public override CustomComboPreset Preset { get; } = CustomComboPreset.SgeAny;
 	public override uint[] ActionIDs => new[] { SGE.Kerachole };
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-		if (level >= SGE.Levels.Rhizomata && GetJobGauge<SGEGauge>().Addersgall == 0)
-			return SGE.Rhizomata;
+		if (IsEnabled(CustomComboPreset.SageKeracholaRhizomataFeature)) {
+			if (level >= SGE.Levels.Rhizomata && GetJobGauge<SGEGauge>().Addersgall == 0)
+				return SGE.Rhizomata;
+		}
+
+		if (IsEnabled(CustomComboPreset.SageKeracholeHolos)) {
+			if (level >= SGE.Levels.Holos) {
+				if (GetJobGauge<SGEGauge>().Addersgall == 0)
+					return PickByCooldown(SGE.Holos, SGE.Holos, SGE.Kerachole);
+			}
+		}
+
+		return actionID;
+	}
+}
+
+internal class SageHolos: CustomCombo {
+	public override CustomComboPreset Preset { get; } = CustomComboPreset.SageHolosKerachole;
+	public override uint[] ActionIDs => new[] { SGE.Holos };
+
+	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+
+		if (level < SGE.Levels.Holos)
+			return SGE.Kerachole;
+
+		if (GetJobGauge<SGEGauge>().Addersgall > 0)
+			return PickByCooldown(SGE.Holos, SGE.Holos, SGE.Kerachole);
 
 		return actionID;
 	}

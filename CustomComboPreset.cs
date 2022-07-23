@@ -995,6 +995,14 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Phlegma into Dyskrasia", "Replace Phlegma with Dyskrasia when no charges remain or have no target.", SGE.JobID)]
 	SagePhlegmaDyskrasia = 4008,
 
+	[Experimental]
+	[CustomComboInfo("Kerachole into Holos", "Turns Kerachole into Holos when your level is high enough, Kerachole is unavailable, and you can use Holos.", SGE.JobID)]
+	SageKeracholeHolos = 4010,
+
+	[Experimental]
+	[CustomComboInfo("Holos into Kerachole", "Turns Holos into Kerachole when your level is too low, or when Kerachole is available and Holos is not.", SGE.JobID)]
+	SageHolosKerachole = 4011,
+
 	#endregion
 	// ====================================================================================
 	#region SUMMONER (27xx)
