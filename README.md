@@ -93,6 +93,8 @@ Now sorted by job and combo name!
 | DOL | Chum / Electric Current Feature | Replace Chum with Electric Current when swimming. |
 | DOL | Eureka Feature | Replace Ageless Words and Solid Reason with Wise to the World when available. |
 | DOL | Identical Cast / Vital Sight Feature | Replace Identical Cast with Vital Sight when swimming. |
+| DOL | Ignore node detection skills | Do not replace skills like Triangulate / Prospect, Lay of the Land / Arbor Call, and Truth of Mountains/Forests. |
+| DOL | Job Correction | Replace Miner/Botanist actions with the other job's version when on the opposite job. |
 | DOL | Makeshift Bait / Baited Breath Feature | Replace Makeshift Bait with Baited Breath when swimming. |
 | DOL | Prize Catch / Nature's Bounty Feature | Replace Prize Catch with Nature's Bounty when swimming. |
 | DOL | Snagging / Salvage Feature | Replace Snagging with Salvage when swimming. |
@@ -155,23 +157,33 @@ Now sorted by job and combo name!
 | MNK | Riddle of Fire and Wind | Replace Riddle of Fire with Riddle of Wind if the former is on CD and the latter isn't. |
 | MNK | Steel Peak / Forbidden Chakra Feature | Replace Dragon Kick with Meditation / Steel Peak / The Forbidden Chakra when in of combat and the Fifth Chakra is open. |
 | MNK | Twin Snakes to True Strike Feature | Replaces Twin Snakes with True Strike if Disciplined Fist is up. |
-| NIN | Aeolian Edge / Huton Feature | Replaces Aeolian Edge with Armor Crush when Huton timer is below a set threshold and Huraijin when missing. |
 | NIN | Aeolian Edge Combo | Replace Aeolian Edge with its combo chain. |
-| NIN | Aoelian Daggers Feature | Replaces the Aeolian Edge combo with Throwing Dagger when NOT in the combo chain, and the current target is out of melee range. |
+| NIN | AoE Smart Weave | Replaces Death Blossom / Hakke Mujinsatsu with Hellfrog Medium when weaving and available. |
 | NIN | Armor Crush Combo | Replace Armor Crush with its combo chain. |
-| NIN | Crushing Daggers Feature | Replaces the Armor Crush combo with Throwing Dagger when NOT in the combo chain, and the current target is out of melee range. |
-| NIN | Fleeting Crush Feature | Replaces the Armor Crush combo with Fleeting Raiju when available. |
-| NIN | Fleeting Edge Feature | Replaces the Aeolian Edge combo with Fleeting Raiju when available. |
+| NIN | Distant Daggers Feature | Replaces the Armor Crush combo with Throwing Dagger when the current target is out of melee range. |
+| NIN | Distant Daggers Feature | Replaces the Aeolian Edge combo with Throwing Dagger when the current target is out of melee range. |
+| NIN | Fallback to Aeolian Edge | Replaces Armor Crush with Aeolian Edge when underlevel. |
 | NIN | Fleeting Huraijin Feature | Replaces Huraijin with Fleeting Raiju when available. |
-| NIN | Forked Crush Feature | Replaces the Armor Crush combo with Forked Raiju when available. |
-| NIN | Forked Edge Feature | Replaces the Aeolian Edge combo with Forked Raiju when available. |
+| NIN | Fleeting Raiju Feature | Replaces the Armor Crush combo with Fleeting Raiju when available. |
+| NIN | Fleeting Raiju Feature | Replaces the Aeolian Edge combo with Fleeting Raiju when available. |
 | NIN | Forked Huraijin Feature | Replaces Huraijin with Forked Raiju when available. |
+| NIN | Forked Raiju Feature | Replaces the Armor Crush combo with Forked Raiju when available. |
+| NIN | Forked Raiju Feature | Replaces the Aeolian Edge combo with Forked Raiju when available. |
 | NIN | GCDs to Ninjutsu Feature | Every GCD combo becomes Ninjutsu while Mudras are being used. |
 | NIN | Hakke Mujinsatsu Combo | Replace Hakke Mujinsatsu with its combo chain. |
 | NIN | Huraijin / Crush Feature | Replaces Huraijin with Armor Crush after Gust Slash. |
+| NIN | Huraijin Feature | Replaces the Armor Crush combo chain with Huraijin when Huton is missing. |
+| NIN | Huraijin Feature | Replaces the Aeolian Edge combo chain with Huraijin when Huton is missing. |
+| NIN | Huton Feature | Replaces Aeolian Edge with Armor Crush when Huton timer is below a set threshold. |
 | NIN | Kassatsu Chi/Jin Feature | Replaces Chi with Jin while Kassatsu is up if you have Enhanced Kassatsu. |
 | NIN | Kassatsu to Trick | Replaces Kassatsu with Trick Attack while Suiton or Hidden is up. |
-| NIN | Smart Hide | Replaces Hide with Trick Attack while under the effect of Suiton or Hidden, or else Mug if in combat. |
+| NIN | Phantom Kamaitachi Feature | Replaces the combo with Phantom Kamaitachi when you have no stacks of Bunshin. |
+| NIN | Phantom Kamaitachi Feature | Replaces the combo with Phantom Kamaitachi when you have no stacks of Bunshin. |
+| NIN | Single Target Smart Weave | Replaces both Aeolian Edge and Armor Crush combos with the following when weaving and available: |
+| NIN | Smart Hide | Replaces Hide with Trick Attack while under the effect of Suiton or Hidden AND with a target, or else Mug if in combat. |
+| NIN | Smart Huraiju Feature | Replaces Huraijin with Forked/Fleeting Raiju when available, depending on how far your target is. |
+| NIN | Smart Raiju Feature | Replaces the Armor Crush combo with Forked/Fleeting Raiju when available, depending on how far your target is. |
+| NIN | Smart Raiju Feature | Replaces the Aeolian Edge combo with Forked/Fleeting Raiju when available, depending on how far your target is. |
 | NIN | Ten Chi Jin to Meisui | Replaces Ten Chi Jin (the move) with Meisui while Suiton is up. |
 | PLD | Atonement Feature | Replace the Royal Authority and Goring Blade combos with Atonement when under the effect of Sword Oath. |
 | PLD | Confiteor Feature | Replace Holy Spirit/Circle with Confiteor when Requiescat is up and MP is under 2000 or only one stack remains. |
@@ -206,7 +218,7 @@ Now sorted by job and combo name!
 | RDM | Verproc into Jolt Plus | Additionally replaces Verstone/Verfire with Veraero/Verthunder if fastcasting are up. |
 | RDM | Verproc into Jolt Plus Veraero Opener | Turns Verstone into Veraero when out of combat. |
 | RDM | Verproc into Jolt Plus Verthunder Opener | Turns Verfire into Verthunder when out of combat. |
-| RPR | Arcane Harvest Feature | Replace Arcane Circle with Plentiful Harvest when you have stacks of Immortal Sacrifice. |
+| RPR | Arcane Harvest Feature | Replace Arcane Circle with Plentiful Harvest when you have enough stacks of Immortal Sacrifice. |
 | RPR | Blood Stalk Gluttony Feature | Replace Blood Stalk with Gluttony when available and Soul Gauge is at least 50. |
 | RPR | Combat Option | Prevent replacing Harpe with Harvest Moon when not in combat. |
 | RPR | Communio Soul Reaver Feature | Replace Gibbet, Gallows, and Guillotine with Communio when one stack is left of Shroud. |
@@ -284,11 +296,15 @@ Now sorted by job and combo name!
 | SCH | Summon Seraph Feature | Replace Summon Eos and Selene with Summon Seraph when a summon is out. |
 | SCH | Swiftcast Resurrection | Resurrection turns into Swiftcast when available and reasonable. |
 | SGE | Druochole Into Rhizomata Feature | Replace Druochole with Rhizomata when Addersgall is empty. |
+| SGE | Gap Closer Feature | Replace Phlegma with Icarus when at least a configurable distance away and both are off CD. |
+| SGE | Holos into Kerachole | Turns Holos into Kerachole when your level is too low, or when Kerachole is available and Holos is not. |
 | SGE | Ixochole Into Rhizomata Feature | Replace Ixochole with Rhizomata when Addersgall is empty. |
 | SGE | Kerachole Into Rhizomata Feature | Replace Kerachole with Rhizomata when Addersgall is empty. |
+| SGE | Kerachole into Holos | Turns Kerachole into Holos when your level is high enough, Kerachole is unavailable, and you can use Holos. |
 | SGE | Phlegma into Dyskrasia | Replace Phlegma with Dyskrasia when no charges remain or have no target. |
 | SGE | Phlegma into Toxikon | Replace Phlegma with Toxikon when no charges rmemain and have Addersting. |
 | SGE | Soteria Kardia Feature | Replace Soteria with Kardia when off cooldown and missing Kardion. |
+| SGE | Swiftcast Egeiro | Egeiro turns into Swiftcast when available and reasonable. |
 | SGE | Taurochole Into Druochole Feature | Replace Taurochole with Druochole when on cooldown |
 | SGE | Taurochole Into Rhizomata Feature | Replace Taurochole with Rhizomata when Addersgall is empty. |
 | SMN | Demi Enkindle Feature | Change Summon Bahamut and Summon Phoenix into Enkindle when Bahamut or Phoenix are summoned. |
