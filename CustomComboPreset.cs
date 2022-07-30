@@ -1142,6 +1142,13 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Eureka Feature", "Replace Ageless Words and Solid Reason with Wise to the World when available.", DOL.JobID)]
 	GatherEurekaFeature = 9900,
 
+	[CustomComboInfo("Job Correction", "Replace Miner/Botanist actions with the other job's version when on the opposite job.", DOL.JobID)]
+	GatherJobCorrectionFeature = 9909,
+
+	[ParentPreset(GatherJobCorrectionFeature)]
+	[CustomComboInfo("Ignore node detection skills", "Do not replace skills like Triangulate / Prospect, Lay of the Land / Arbor Call, and Truth of Mountains/Forests.", DOL.JobID)]
+	GatherJobCorrectionIgnoreDetectionsFeature = 9910,
+
 	[CustomComboInfo("Cast / Hook Feature", "Replace Cast with Hook when fishing.", DOL.JobID)]
 	FisherCastHookFeature = 9901,
 
