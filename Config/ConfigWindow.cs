@@ -22,6 +22,8 @@ public class ConfigWindow: Window {
 	private readonly Dictionary<CustomComboPreset, (CustomComboPreset Preset, CustomComboInfoAttribute Info)> childToParentPresets = new();
 	private readonly Dictionary<CustomComboPreset, List<ComboDetailSetting>> detailSettings = new();
 
+	private readonly string[] sortedJobs;
+
 	private static readonly Vector4 shadedColour = new(0.69f, 0.69f, 0.69f, 1.0f); // NICE (x3 COMBO)
 	private static readonly Vector4 warningColour = new(200f / 255f, 25f / 255f, 35f / 255f, 1f);
 
@@ -75,6 +77,14 @@ public class ConfigWindow: Window {
 				this.parentToChildrenPresets[parent.Value].Add((preset, info));
 			}
 		}
+
+		this.sortedJobs = this.groupedPresets.Keys
+			.Where(j => !j.StartsWith("Disciple of the "))
+			.Concat(
+				this.groupedPresets.Keys
+					.Where(j => j.StartsWith("Disciple of the "))
+			)
+			.ToArray();
 
 		this.SizeCondition = ImGuiCond.FirstUseEver;
 		this.Size = new(minWidth, 800);
@@ -221,7 +231,7 @@ public class ConfigWindow: Window {
 		}
 
 		int i = 1;
-		foreach (string jobName in this.groupedPresets.Keys) {
+		foreach (string jobName in this.sortedJobs) {
 			if (ImGui.CollapsingHeader(jobName)) {
 
 				ImGui.PushID($"settings-{jobName}");
