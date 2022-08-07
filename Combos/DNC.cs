@@ -26,6 +26,8 @@ internal static class DNC {
 		FanDance3 = 16009,
 		FanDance4 = 25791,
 		// Other
+		CuringWaltz = 16015,
+		SecondWind = 7541,
 		SaberDance = 16005,
 		EnAvant = 16010,
 		Devilment = 16011,
@@ -63,6 +65,7 @@ internal static class DNC {
 			Fountainfall = 40,
 			Bloodshower = 45,
 			FanDance2 = 50,
+			CuringWaltz = 52,
 			FanDance3 = 66,
 			TechnicalStep = 70,
 			Tillana = 82,
@@ -264,6 +267,26 @@ internal class DancerDevilmentFeature: CustomCombo {
 
 		if (level >= DNC.Levels.StarfallDance && SelfHasEffect(DNC.Buffs.FlourishingStarfall))
 			return DNC.StarfallDance;
+
+		return actionID;
+	}
+}
+
+internal class DancerCuringWindFeature: CustomCombo {
+	public override CustomComboPreset Preset { get; } = CustomComboPreset.DncAny;
+	public override uint[] ActionIDs { get; } = new[] { DNC.CuringWaltz };
+
+	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
+
+		if (IsEnabled(CustomComboPreset.DancerCuringWaltzLevelSync)) {
+			if (level < DNC.Levels.CuringWaltz)
+				return DNC.SecondWind;
+		}
+
+		if (IsEnabled(CustomComboPreset.DancerCuringWaltzCooldownSwap)) {
+			if (!CanUse(DNC.CuringWaltz))
+				return DNC.SecondWind;
+		}
 
 		return actionID;
 	}

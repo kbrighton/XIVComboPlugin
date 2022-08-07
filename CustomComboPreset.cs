@@ -238,6 +238,12 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Fan Dance 2/4 Combo", "Change Fan Dance 2 into Fan Dance 4 when available.", DNC.JobID)]
 	DancerFanDance24Combo = 3809,
 
+	[CustomComboInfo("Curing Wind Level Sync", "Change Curing Waltz into Second Wind when under level.", DNC.JobID)]
+	DancerCuringWaltzLevelSync = 3815,
+
+	[CustomComboInfo("Curing Wind Cooldown Swap", "Change Curing Waltz into Second Wind when Waltz is on CD.", DNC.JobID)]
+	DancerCuringWaltzCooldownSwap = 3816,
+
 	[Conflicts(DancerDanceStepCombo)]
 	[CustomComboInfo("Dance Step Feature", "Change custom actions into dance steps while dancing." +
 		"\nYou can get Action IDs with Garland Tools by searching for the action and clicking the cog.", DNC.JobID)]
