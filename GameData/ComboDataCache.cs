@@ -9,6 +9,8 @@ using Dalamud.Game.ClientState.Objects.SubKinds;
 using Dalamud.Game.ClientState.Objects.Types;
 using Dalamud.Game.ClientState.Statuses;
 
+using XIVComboVX.Combos;
+
 internal class ComboDataCache: IDisposable {
 	protected const uint InvalidObjectID = 0xE000_0000;
 
@@ -18,6 +20,7 @@ internal class ComboDataCache: IDisposable {
 	private readonly Dictionary<(uint StatusID, uint? TargetID, uint? SourceID), Status?> statusCache = new();
 	private readonly Dictionary<uint, CooldownData> cooldownCache = new();
 	private bool? canInterruptTarget = null;
+	private uint? dancerNextDanceStep = null;
 
 	// Do not invalidate these
 	private readonly Dictionary<uint, byte> cooldownGroupCache = new();
@@ -54,6 +57,15 @@ internal class ComboDataCache: IDisposable {
 			}
 			return this.canInterruptTarget.Value;
 		}
+	}
+
+	public bool DancerSmartDancing(out uint nextStep) {
+		if (this.dancerNextDanceStep is null)
+			this.dancerNextDanceStep = CustomCombo.DancerDancing();
+
+		nextStep = this.dancerNextDanceStep.Value;
+
+		return nextStep > 0;
 	}
 
 	public T GetJobGauge<T>() where T : JobGaugeBase {
@@ -133,6 +145,7 @@ internal class ComboDataCache: IDisposable {
 		this.statusCache.Clear();
 		this.cooldownCache.Clear();
 		this.canInterruptTarget = null;
+		this.dancerNextDanceStep = null;
 	}
 
 }

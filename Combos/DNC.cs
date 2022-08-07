@@ -136,23 +136,8 @@ internal class DancerDanceStepCombo: CustomCombo {
 	public override uint[] ActionIDs { get; } = new[] { DNC.StandardStep, DNC.TechnicalStep };
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-		if (level >= DNC.Levels.StandardStep) {
-			DNCGauge gauge = GetJobGauge<DNCGauge>();
-
-			if (gauge.IsDancing) {
-				bool fast = SelfHasEffect(DNC.Buffs.StandardStep);
-				int max = fast ? 2 : 4;
-				byte done = gauge.CompletedSteps;
-
-				if (gauge.CompletedSteps >= max) {
-					Service.Logger.debug($"No further dance steps (finished {done})");
-					return OriginalHook(fast ? DNC.StandardStep : DNC.TechnicalStep);
-				}
-
-				Service.Logger.debug($"Next dance step ({done + 1}) is #{gauge.NextStep}");
-				return gauge.NextStep;
-			}
-		}
+		if (level >= DNC.Levels.StandardStep && Service.DataCache.DancerSmartDancing(out uint danceStep))
+			return danceStep;
 
 		return actionID;
 	}
@@ -176,6 +161,10 @@ internal class DancerSingleTargetMultibutton: CustomCombo {
 	public override uint[] ActionIDs { get; } = new[] { DNC.Cascade };
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+		if (IsEnabled(CustomComboPreset.DancerSmartDanceFeature)) {
+			if (level >= DNC.Levels.StandardStep && Service.DataCache.DancerSmartDancing(out uint danceStep))
+				return danceStep;
+		}
 
 		if (IsEnabled(CustomComboPreset.DancerSingleTargetFanDanceWeave)) {
 			bool weaving = CanWeave(actionID);
@@ -220,6 +209,10 @@ internal class DancerAoeMultibutton: CustomCombo {
 	public override uint[] ActionIDs { get; } = new[] { DNC.Windmill };
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+		if (IsEnabled(CustomComboPreset.DancerSmartDanceFeature)) {
+			if (level >= DNC.Levels.StandardStep && Service.DataCache.DancerSmartDancing(out uint danceStep))
+				return danceStep;
+		}
 
 		if (IsEnabled(CustomComboPreset.DancerAoeFanDanceWeave)) {
 			bool weaving = CanWeave(actionID);

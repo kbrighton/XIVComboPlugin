@@ -223,6 +223,10 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Dance Step Combo", "Change Standard Step and Technical Step into each dance step while dancing.", DNC.JobID)]
 	DancerDanceStepCombo = 3805,
 
+	[ParentPreset(DancerDanceStepCombo)]
+	[CustomComboInfo("Smart Dance", "Change your normal ST/AOE combos into the next dance steps (and then the finishers) while dancing.", DNC.JobID)]
+	DancerSmartDanceFeature = 3814,
+
 	[CustomComboInfo("Devilment Feature", "Change Devilment into Starfall Dance after use.", DNC.JobID)]
 	DancerDevilmentFeature = 3807,
 

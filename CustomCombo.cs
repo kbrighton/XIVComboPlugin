@@ -335,4 +335,24 @@ internal abstract class CustomCombo {
 		=> Service.DataCache.GetStatus(effectId, actor, sourceId);
 
 	#endregion
+
+	#region Job-specific utilities
+
+	protected internal static uint DancerDancing() {
+		DNCGauge gauge = GetJobGauge<DNCGauge>();
+
+		if (gauge.IsDancing) {
+			bool fast = SelfHasEffect(DNC.Buffs.StandardStep);
+			int max = fast ? 2 : 4;
+
+			if (gauge.CompletedSteps >= max)
+				return OriginalHook(fast ? DNC.StandardStep : DNC.TechnicalStep);
+
+			return gauge.NextStep;
+		}
+
+		return 0;
+	}
+
+	#endregion
 }
