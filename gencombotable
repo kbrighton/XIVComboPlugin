@@ -17,7 +17,7 @@ sub scanToLine($$) {
 	return;
 }
 
-my $fileToParse = "CustomComboPreset.cs";
+my $fileToParse = "XIVComboVX/CustomComboPreset.cs";
 my $fileToWrite = "Table.frag";
 my $file = IO::File->new($fileToParse, 'r');
 defined scanToLine $file, "public enum CustomComboPreset"
