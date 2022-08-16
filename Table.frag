@@ -34,6 +34,8 @@
 | BRD | Rain of Death Feature | Replaces Rain of Death with Empyreal Arrow and Sidewinder depending on which is available. |
 | BRD | Sidewinder Feature | Replace Sidewinder with Empyreal Arrow depending on which is available. |
 | DNC | AoE Multibutton | Change Windmill into procs and combos as available. |
+| DNC | Curing Wind Cooldown Swap | Change Curing Waltz into Second Wind when Waltz is on CD. |
+| DNC | Curing Wind Level Sync | Change Curing Waltz into Second Wind when under level. |
 | DNC | Dance Step Combo | Change Standard Step and Technical Step into each dance step while dancing. |
 | DNC | Dance Step Feature | Change custom actions into dance steps while dancing. |
 | DNC | Devilment Feature | Change Devilment into Starfall Dance after use. |
@@ -47,6 +49,7 @@
 | DNC | Fan Dance 2/4 Weaving | Also change into Fan Dance 2/4 when you can weave without clipping. |
 | DNC | Flourish Dance 4 | Change Flourish into Fan Dance 4 when available. |
 | DNC | Single Target Multibutton | Change Cascade into procs and combos as available. |
+| DNC | Smart Dance | Change your normal ST/AOE combos into the next dance steps (and then the finishers) while dancing. |
 | DOL | Cast / Gig Feature | Replace Cast with Gig when swimming. |
 | DOL | Cast / Hook Feature | Replace Cast with Hook when fishing. |
 | DOL | Chum / Electric Current Feature | Replace Chum with Electric Current when swimming. |
