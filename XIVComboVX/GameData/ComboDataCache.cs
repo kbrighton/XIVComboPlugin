@@ -60,8 +60,7 @@ internal class ComboDataCache: IDisposable {
 	}
 
 	public bool DancerSmartDancing(out uint nextStep) {
-		if (this.dancerNextDanceStep is null)
-			this.dancerNextDanceStep = CustomCombo.DancerDancing();
+		this.dancerNextDanceStep ??= CustomCombo.DancerDancing();
 
 		nextStep = this.dancerNextDanceStep.Value;
 
@@ -87,7 +86,7 @@ internal class ComboDataCache: IDisposable {
 			return this.statusCache[key] = null;
 
 		foreach (Status? status in chara.StatusList) {
-			if (status.StatusId == statusID && (!sourceID.HasValue || status.SourceID == 0 || status.SourceID == InvalidObjectID || status.SourceID == sourceID))
+			if (status.StatusId == statusID && (!sourceID.HasValue || status.SourceId == 0 || status.SourceId == InvalidObjectID || status.SourceId == sourceID))
 				return this.statusCache[key] = status;
 		}
 

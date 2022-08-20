@@ -195,7 +195,7 @@ internal abstract class CustomCombo {
 		if (p is null)
 			return false;
 		uint current = p.ClassJob.Id;
-		foreach (byte job in jobs) {
+		foreach (uint job in jobs) {
 			if (current == job)
 				return true;
 		}
