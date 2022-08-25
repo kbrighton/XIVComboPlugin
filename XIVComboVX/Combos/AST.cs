@@ -112,33 +112,6 @@ internal class AstrologianDraw: CustomCombo {
 	}
 }
 
-internal class AstrologianMinorArcana: CustomCombo {
-	public override CustomComboPreset Preset => CustomComboPreset.AstrologianMinorArcanaCrownPlayFeature;
-	public override uint[] ActionIDs { get; } = new[] { AST.MinorArcana };
-
-	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-
-		if (level >= AST.Levels.CrownPlay && GetJobGauge<ASTGauge>().DrawnCrownCard is not CardType.NONE)
-			return OriginalHook(AST.CrownPlay);
-
-		return actionID;
-	}
-}
-
-internal class AstrologianCrownPlay: CustomCombo {
-	public override CustomComboPreset Preset { get; } = CustomComboPreset.AstrologianCrownPlayMinorArcanaFeature;
-	public override uint[] ActionIDs { get; } = new[] { AST.CrownPlay };
-
-	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-		ASTGauge gauge = GetJobGauge<ASTGauge>();
-
-		if (level >= AST.Levels.MinorArcana && gauge.DrawnCrownCard is CardType.NONE)
-			return AST.MinorArcana;
-
-		return actionID;
-	}
-}
-
 internal class AstrologianBeneficFeature: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.AstrologianBeneficFeature;
 	public override uint[] ActionIDs { get; } = new[] { AST.Benefic2 };
