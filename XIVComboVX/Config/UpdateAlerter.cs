@@ -58,8 +58,15 @@ internal class UpdateAlerter: IDisposable {
 			PluginLog.Information("Message already displayed, unregistering");
 			return;
 		}
-		if (!Service.GameState.isChatVisible) {
-			PluginLog.Information("Chat is not visible, cannot display message yet");
+		try {
+			if (!Service.GameState.isChatVisible) {
+				PluginLog.Information("Chat is not visible, cannot display message yet");
+				return;
+			}
+		}
+		catch (Exception e) {
+			PluginLog.Error(e, "Failed to check chat visibility state");
+			this.unregister();
 			return;
 		}
 
