@@ -225,3 +225,16 @@ internal class DragoonDiveFeature: CustomCombo {
 		return DRG.SpineshatterDive;
 	}
 }
+
+internal class DragoonMirageJumpFeature: CustomCombo {
+	public override CustomComboPreset Preset { get; } = CustomComboPreset.DragoonMirageJumpFeature;
+	public override uint[] ActionIDs { get; } = new[] { DRG.Jump, DRG.HighJump };
+
+	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+
+		if (level >= DRG.Levels.MirageDive && SelfHasEffect(DRG.Buffs.DiveReady))
+			return DRG.MirageDive;
+
+		return actionID;
+	}
+}

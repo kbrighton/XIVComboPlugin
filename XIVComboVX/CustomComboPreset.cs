@@ -286,10 +286,12 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Stardiver to Dragonfire Dive", "Replace Stardiver with Dragonfire Dive when the latter is off cooldown (and you have more than 7.5s of LotD left), or outside of Life of the Dragon.", DRG.JobID)]
 	DragoonStardiverDragonfireDiveFeature = 2211,
 
-	[Experimental]
 	[Conflicts(DragoonStardiverDragonfireDiveFeature, DragoonStardiverNastrondFeature)]
 	[CustomComboInfo("Dive Dive Dive!", "Replace Spineshatter Dive, Dragonfire Dive, and Stardiver with whichever is available.", DRG.JobID)]
 	DragoonDiveFeature = 2205,
+
+	[CustomComboInfo("Mirage Jump", "Replace Jump and High Jump with Mirage Dive when Dive Ready.", DRG.JobID)]
+	DragoonMirageJumpFeature = 2213,
 
 	#endregion
 	// ====================================================================================
