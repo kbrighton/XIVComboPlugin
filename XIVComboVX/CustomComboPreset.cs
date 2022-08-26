@@ -423,18 +423,17 @@ public enum CustomComboPreset {
 	MonkAoECombo = 2000,
 
 	[ParentPreset(MonkAoECombo)]
-	[CustomComboInfo("AoE Combo: Destroyer", "Replaces (Arm/Shadow) of the Destroyer with the AoE combo chain.", MNK.JobID)]
+	[CustomComboInfo("On Destroyer", "Replaces (Arm/Shadow) of the Destroyer with the AoE combo chain.", MNK.JobID)]
 	MonkAoECombo_Destroyers = 2099,
 
 	[ParentPreset(MonkAoECombo)]
-	[CustomComboInfo("AoE Combo: Masterful Blitz", "Replaces Masterful Blitz with the AoE combo chain.", MNK.JobID)]
+	[CustomComboInfo("On Masterful Blitz", "Replaces Masterful Blitz with the AoE combo chain.", MNK.JobID)]
 	MonkAoECombo_MasterBlitz = 2098,
 
 	[ParentPreset(MonkAoECombo)]
-	[CustomComboInfo("AoE Combo: Rockbreaker", "Replaces Rockbreaker with the AoE combo chain.", MNK.JobID)]
+	[CustomComboInfo("On Rockbreaker", "Replaces Rockbreaker with the AoE combo chain.", MNK.JobID)]
 	MonkAoECombo_Rockbreaker = 2097,
 
-	[Experimental]
 	[CustomComboInfo("Monk ST Combo", "Replace Bootshine with all single-target rotation actions", MNK.JobID)]
 	MonkSTCombo = 2017,
 

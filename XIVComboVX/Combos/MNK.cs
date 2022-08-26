@@ -38,6 +38,7 @@ internal static class MNK {
 			RaptorForm = 108,
 			CoerlForm = 109,
 			PerfectBalance = 110,
+			FifthChakra = 797,
 			LeadenFist = 1861,
 			Brotherhood = 1185,
 			RiddleOfFire = 1181,
@@ -80,6 +81,15 @@ internal class MonkAoECombo: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.MonkAoECombo;
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+
+		if (level >= MNK.Levels.HowlingFist) {
+			if (InCombat && HasTarget && CanWeave(actionID) && SelfHasEffect(MNK.Buffs.FifthChakra)) {
+				uint real = OriginalHook(MNK.HowlingFist);
+				if (CanUse(real))
+					return real;
+			}
+		}
+
 		if (actionID is MNK.ArmOfTheDestroyer or MNK.ShadowOfTheDestroyer) {
 			if (!IsEnabled(CustomComboPreset.MonkAoECombo_Destroyers))
 				return actionID;
