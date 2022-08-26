@@ -1069,6 +1069,10 @@ public enum CustomComboPreset {
 	WarriorStormsPathCombo = 2100,
 
 	[ParentPreset(WarriorStormsPathCombo)]
+	[CustomComboInfo("Smart Weave", "Automatically turn into Upheaval when weaving won't drift your GCD.", WAR.JobID)]
+	WarriorSmartWeaveSingleTargetPath = 2116,
+
+	[ParentPreset(WarriorStormsPathCombo)]
 	[CustomComboInfo("Gauge Overcap Saver: Storm's Path", "Replace the Storm's Path combo with gauge spender if completing the combo would overcap you.", WAR.JobID)]
 	WarriorGaugeOvercapPathFeature = 2103,
 
@@ -1080,11 +1084,19 @@ public enum CustomComboPreset {
 	WarriorStormsEyeCombo = 2101,
 
 	[ParentPreset(WarriorStormsEyeCombo)]
+	[CustomComboInfo("Smart Weave", "Automatically turn into Upheaval when weaving won't drift your GCD.", WAR.JobID)]
+	WarriorSmartWeaveSingleTargetEye = 2117,
+
+	[ParentPreset(WarriorStormsEyeCombo)]
 	[CustomComboInfo("Gauge Overcap Saver: Storm's Eye", "Replace the Storm's Eye combo with gauge spender if completing the combo would overcap you.", WAR.JobID)]
 	WarriorGaugeOvercapEyeFeature = 2110,
 
 	[CustomComboInfo("Mythril Tempest Combo", "Replace Mythril Tempest with its combo chain.", WAR.JobID)]
 	WarriorMythrilTempestCombo = 2102,
+
+	[ParentPreset(WarriorMythrilTempestCombo)]
+	[CustomComboInfo("Smart Weave", "Automatically turn into Orogeny when weaving won't drift your GCD.", WAR.JobID)]
+	WarriorSmartWeaveAOE = 2118,
 
 	[ParentPreset(WarriorMythrilTempestCombo)]
 	[CustomComboInfo("Gauge Overcap Saver: Mythril Tempest", "Replace the Mythril Tempest combo with gauge spender if completing the combo would overcap you.", WAR.JobID)]
