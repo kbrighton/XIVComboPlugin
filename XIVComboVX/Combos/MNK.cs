@@ -82,14 +82,6 @@ internal class MonkAoECombo: CustomCombo {
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-		if (level >= MNK.Levels.HowlingFist) {
-			if (InCombat && HasTarget && CanWeave(actionID) && SelfHasEffect(MNK.Buffs.FifthChakra)) {
-				uint real = OriginalHook(MNK.HowlingFist);
-				if (CanUse(real))
-					return real;
-			}
-		}
-
 		if (actionID is MNK.ArmOfTheDestroyer or MNK.ShadowOfTheDestroyer) {
 			if (!IsEnabled(CustomComboPreset.MonkAoECombo_Destroyers))
 				return actionID;
@@ -104,6 +96,14 @@ internal class MonkAoECombo: CustomCombo {
 		}
 		else {
 			return actionID;
+		}
+
+		if (level >= MNK.Levels.HowlingFist) {
+			if (InCombat && HasTarget && CanWeave(actionID) && SelfHasEffect(MNK.Buffs.FifthChakra)) {
+				uint real = OriginalHook(MNK.HowlingFist);
+				if (CanUse(real))
+					return real;
+			}
 		}
 
 		MNKGauge gauge = GetJobGauge<MNKGauge>();
