@@ -165,6 +165,7 @@ internal class MonkSTCombo: CustomCombo {
 
 	// All credit to Evolutious on the github - they wrote the code themselves and sent it to me.
 	// All I did was adjust the style to better fit the rest of the plugin, and change a few hardcoded values to adjustable ones.
+	// Update post-6.2: I've also integrated a few other combos better and added one that was missing.
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		MNKGauge gauge = GetJobGauge<MNKGauge>();
 
@@ -244,11 +245,14 @@ internal class MonkSTCombo: CustomCombo {
 				if (level >= MNK.Levels.EnhancedPerfectBalance) {
 					if (!gauge.Nadi.HasFlag(Nadi.SOLAR)) {
 
-						if (!gauge.BeastChakra.Contains(BeastChakra.RAPTOR))
-							return MNK.TwinSnakes;
+						if (!gauge.BeastChakra.Contains(BeastChakra.RAPTOR)) {
+							return IsEnabled(CustomComboPreset.MonkTwinSnakesFeature) && SelfEffectDuration(MNK.Buffs.DisciplinedFist) > Service.Configuration.MonkTwinSnakesBuffTime
+								? MNK.TrueStrike
+								: MNK.TwinSnakes;
+						}
 
 						if (!gauge.BeastChakra.Contains(BeastChakra.COEURL)) {
-							return level < MNK.Levels.Demolish || TargetOwnEffectDuration(MNK.Debuffs.Demolish) > 6.0
+							return level < MNK.Levels.Demolish || (IsEnabled(CustomComboPreset.MonkDemolishFeature) && TargetOwnEffectDuration(MNK.Debuffs.Demolish) > Service.Configuration.MonkDemolishDebuffTime)
 								? MNK.SnapPunch
 								: MNK.Demolish;
 						}
@@ -275,7 +279,7 @@ internal class MonkSTCombo: CustomCombo {
 		// 1-2-3 combo
 		if (level >= MNK.Levels.TrueStrike) {
 			if (SelfHasEffect(MNK.Buffs.RaptorForm) || SelfHasEffect(MNK.Buffs.FormlessFist)) {
-				return level < MNK.Levels.TwinSnakes
+				return level < MNK.Levels.TwinSnakes || (IsEnabled(CustomComboPreset.MonkTwinSnakesFeature) && SelfEffectDuration(MNK.Buffs.DisciplinedFist) > Service.Configuration.MonkTwinSnakesBuffTime)
 					? MNK.TrueStrike
 					: MNK.TwinSnakes;
 			}
@@ -283,7 +287,7 @@ internal class MonkSTCombo: CustomCombo {
 
 		if (level >= MNK.Levels.SnapPunch) {
 			if (SelfHasEffect(MNK.Buffs.CoerlForm)) {
-				return level < MNK.Levels.Demolish || TargetOwnEffectDuration(MNK.Debuffs.Demolish) > 6.0
+				return level < MNK.Levels.Demolish || (IsEnabled(CustomComboPreset.MonkDemolishFeature) && TargetOwnEffectDuration(MNK.Debuffs.Demolish) > Service.Configuration.MonkDemolishDebuffTime)
 					? MNK.SnapPunch
 					: MNK.Demolish;
 			}

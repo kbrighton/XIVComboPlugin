@@ -449,10 +449,10 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Steel Peak / Forbidden Chakra Feature", "Replace Dragon Kick with Meditation / Steel Peak / The Forbidden Chakra when in of combat and the Fifth Chakra is open.", MNK.JobID)]
 	MonkDragonKickSteelPeakFeature = 2016,
 
-	[CustomComboInfo("Twin Snakes to True Strike Feature", "Replaces Twin Snakes with True Strike if Disciplined Fist is up.", MNK.JobID)]
+	[CustomComboInfo("Twin Snakes to True Strike Feature", "Replaces Twin Snakes with True Strike if Disciplined Fist is up.\nAlso applies to the ST combo feature.", MNK.JobID)]
 	MonkTwinSnakesFeature = 2010,
 
-	[CustomComboInfo("Demolish to Snap Punch Feature", "Replaces Demolish with Snap Punch if target is under Demolish.", MNK.JobID)]
+	[CustomComboInfo("Demolish to Snap Punch Feature", "Replaces Demolish with Snap Punch if target is under Demolish.\nAlso applies to the ST combo feature.", MNK.JobID)]
 	MonkDemolishFeature = 2011,
 
 	[CustomComboInfo("Howling Fist / Meditation Feature", "Replaces Howling Fist with Meditation when the Fifth Chakra is not open.", MNK.JobID)]
