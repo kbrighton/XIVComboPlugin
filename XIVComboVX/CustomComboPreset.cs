@@ -378,6 +378,9 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Double Down Feature", "Replace Burst Strike and Fated Circle with Double Down when available.", GNB.JobID)]
 	GunbreakerDoubleDownFeature = 3709,
 
+	[CustomComboInfo("Gnashing Strike Feature", "Replace Gnashing Fang with Burst Strike when No Mercy is active and Gnashing Fang and Double Down are on cooldown, or you are too low level to use them.", GNB.JobID)]
+	GunbreakerGnashingStrikeFeature = 3714,
+
 	#endregion
 	// ====================================================================================
 	#region MACHINIST (31xx)

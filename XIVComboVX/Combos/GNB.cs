@@ -47,6 +47,7 @@ internal static class GNB {
 			BurstStrike = 30,
 			DemonSlaughter = 40,
 			SonicBreak = 54,
+			GnashingFang = 60,
 			BowShock = 62,
 			Continuation = 70,
 			FatedCircle = 72,
@@ -95,22 +96,41 @@ internal class GunbreakerSolidBarrel: CustomCombo {
 }
 
 internal class GunbreakerGnashingFang: CustomCombo {
-	public override CustomComboPreset Preset => CustomComboPreset.GunbreakerGnashingFangCont;
+	public override CustomComboPreset Preset => CustomComboPreset.GnbAny;
 	public override uint[] ActionIDs { get; } = new[] { GNB.GnashingFang };
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-		if (level >= GNB.Levels.Continuation) {
+		if (IsEnabled(CustomComboPreset.GunbreakerGnashingFangCont)) {
+			if (level >= GNB.Levels.Continuation) {
 
-			if (SelfHasEffect(GNB.Buffs.ReadyToGouge))
-				return GNB.EyeGouge;
+				if (SelfHasEffect(GNB.Buffs.ReadyToGouge))
+					return GNB.EyeGouge;
 
-			if (SelfHasEffect(GNB.Buffs.ReadyToTear))
-				return GNB.AbdomenTear;
+				if (SelfHasEffect(GNB.Buffs.ReadyToTear))
+					return GNB.AbdomenTear;
 
-			if (SelfHasEffect(GNB.Buffs.ReadyToRip))
-				return GNB.JugularRip;
+				if (SelfHasEffect(GNB.Buffs.ReadyToRip))
+					return GNB.JugularRip;
 
+			}
+		}
+
+		if (IsEnabled(CustomComboPreset.GunbreakerGnashingStrikeFeature)) {
+			if (SelfHasEffect(GNB.Buffs.NoMercy)) {
+				if (level < GNB.Levels.GnashingFang || GetCooldown(GNB.GnashingFang).CooldownRemaining > Service.Configuration.GunbreakerGnashingStrikeCooldownGnashingFang) {
+					if (level < GNB.Levels.DoubleDown || GetCooldown(GNB.DoubleDown).CooldownRemaining > Service.Configuration.GunbreakerGnashingStrikeCooldownDoubleDown) {
+
+						if (level >= GNB.Levels.EnhancedContinuation && IsEnabled(CustomComboPreset.GunbreakerBurstStrikeCont)) {
+							if (SelfHasEffect(GNB.Buffs.ReadyToBlast)) {
+								return GNB.Hypervelocity;
+							}
+						}
+
+						return GNB.BurstStrike;
+					}
+				}
+			}
 		}
 
 		return OriginalHook(GNB.GnashingFang);
