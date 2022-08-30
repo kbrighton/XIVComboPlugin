@@ -12,7 +12,9 @@ internal static class GNB {
 		DemonSlice = 16141,
 		SolidBarrel = 16145,
 		GnashingFang = 16146,
+		SavageClaw = 16147,
 		DemonSlaughter = 16149,
+		WickedTalon = 16150,
 		SonicBreak = 16153,
 		Continuation = 16155,
 		JugularRip = 16156,
@@ -115,6 +117,12 @@ internal class GunbreakerGnashingFang: CustomCombo {
 
 			}
 		}
+
+		// no level checks because GF/SC/WT are all unlocked at the same level
+		if (lastComboMove is GNB.GnashingFang)
+			return GNB.SavageClaw;
+		if (lastComboMove is GNB.SavageClaw)
+			return GNB.WickedTalon;
 
 		if (IsEnabled(CustomComboPreset.GunbreakerGnashingStrikeFeature)) {
 			if (SelfHasEffect(GNB.Buffs.NoMercy)) {
