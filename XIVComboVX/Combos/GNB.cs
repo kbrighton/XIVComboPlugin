@@ -118,13 +118,14 @@ internal class GunbreakerGnashingFang: CustomCombo {
 			}
 		}
 
-		// no level checks because GF/SC/WT are all unlocked at the same level
-		if (lastComboMove is GNB.GnashingFang)
-			return GNB.SavageClaw;
-		if (lastComboMove is GNB.SavageClaw)
-			return GNB.WickedTalon;
-
 		if (IsEnabled(CustomComboPreset.GunbreakerGnashingStrikeFeature)) {
+
+			// no level checks because GF/SC/WT are all unlocked at the same level
+			if (lastComboMove is GNB.GnashingFang or GNB.JugularRip)
+				return GNB.SavageClaw;
+			if (lastComboMove is GNB.SavageClaw or GNB.AbdomenTear)
+				return GNB.WickedTalon;
+
 			if (SelfHasEffect(GNB.Buffs.NoMercy)) {
 				if (level < GNB.Levels.GnashingFang || GetCooldown(GNB.GnashingFang).CooldownRemaining > Service.Configuration.GunbreakerGnashingStrikeCooldownGnashingFang) {
 					if (level < GNB.Levels.DoubleDown || GetCooldown(GNB.DoubleDown).CooldownRemaining > Service.Configuration.GunbreakerGnashingStrikeCooldownDoubleDown) {
