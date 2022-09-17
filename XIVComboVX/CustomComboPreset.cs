@@ -388,7 +388,7 @@ public enum CustomComboPreset {
 	[ParentPreset(GunbreakerSolidBarrelCombo)]
 	[CustomComboInfo("No Mercy Feature", "Replace Solid Barrel with No Mercy when Gnashing Fang is ready.", GNB.JobID)]
 	GunbreakerSolidNoMercy = 3716,
-	
+
 	[ParentPreset(GunbreakerSolidBarrelCombo)]
 	[CustomComboInfo("Bloodfest Feature", "Replace Solid Barrel with Bloodfest when there is no ammo and you are under No Mercy.", GNB.JobID)]
 	GunbreakerSolidBloodfest = 3717,
@@ -436,7 +436,10 @@ public enum CustomComboPreset {
 	[ParentPreset(GunbreakerGnashingFangCont)]
 	[CustomComboInfo("Sonic Break Feature", "Replace Gnashing Fang with Sonic Break when available and when you are under No Mercy.", GNB.JobID)]
 	GunbreakerGnashingFangSonicBreak = 3728,
-	
+
+	[CustomComboInfo("Gnashing Bloodfest Feature", "Weave Bloodfest onto Gnashing Fang when out of ammo and under No Mercy.", GNB.JobID)]
+	GunbreakerGnashingBloodfest = 3729,
+
 	#endregion
 	// ====================================================================================
 	#region MACHINIST (31xx)
