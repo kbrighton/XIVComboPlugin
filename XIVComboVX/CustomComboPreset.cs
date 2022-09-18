@@ -688,6 +688,10 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Confiteor Feature", "Replace Holy Spirit/Circle with Confiteor when Requiescat is up and MP is under 2000 or only one stack remains.\nAlso changes the RA/GB/Prominence-into-HS/HC-combos into Confiteor.", PLD.JobID)]
 	PaladinConfiteorFeature = 1908,
 
+	[ParentPreset(PaladinConfiteorFeature)]
+	[CustomComboInfo("Post-Confiteor Chain", "Include the Blade of Faith/Truth/Valor chain after Confiteor.", PLD.JobID)]
+	PaladinConfiteorChainFeature = 1914,
+
 	[CustomComboInfo("Intervene Level Sync", "Replace Intervene with Shield Lob when under level.", PLD.JobID)]
 	PaladinInterveneSyncFeature = 1906,
 
@@ -1258,4 +1262,5 @@ public enum CustomComboPreset {
 public static class CustomComboPresetExtensions {
 	public static CustomComboPreset[] GetConflicts(this CustomComboPreset preset) => preset.GetAttribute<ConflictsAttribute>()?.Conflicts ?? Array.Empty<CustomComboPreset>();
 	public static CustomComboPreset? GetParent(this CustomComboPreset preset) => preset.GetAttribute<ParentPresetAttribute>()?.Parent;
+	public static string GetDebugLabel(this CustomComboPreset preset) => $"{Enum.GetName(preset)!}#{(int)preset}";
 }
