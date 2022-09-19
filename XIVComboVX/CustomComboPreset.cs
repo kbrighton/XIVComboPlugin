@@ -702,16 +702,17 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Swiftcast Verraise", "Verraise turns into Swiftcast when available and reasonable.", RDM.JobID)]
 	RedMageSwiftcastRaiserFeature = 3500,
 
-	[CustomComboInfo("Redoublement combo", "Replaces Redoublement with its combo chain, following enchantment rules.", RDM.JobID)]
-	RedMageMeleeCombo = 3502,
+	[Conflicts(RedMageVerprocCombo)]
+	[CustomComboInfo("Smartcast Single Target", "Dynamically replaces Verstone/Verfire with the appropriate spell based on your job gauge.\nVeraero and Verthunder are replaced with one or the other accordingly, for openers.", RDM.JobID)]
+	RedMageSmartcastSingleFeature = 3509,
 
-	[ParentPreset(RedMageMeleeCombo)]
-	[CustomComboInfo("Redoublement Combo Closer", "Replaces Redoublement with Corps-a-corps when out of melee range.", RDM.JobID)]
-	RedMageMeleeComboCloser = 3514,
+	[ParentPreset(RedMageSmartcastSingleFeature)]
+	[CustomComboInfo("Fleche Weave", "Turns the single-target smartcast combo into Fleche when you can weave without clipping.\nAffected by the Contre Sixte / Fleche feature.", RDM.JobID)]
+	RedMageSmartcastSingleWeave = 3518,
 
-	[ParentPreset(RedMageMeleeCombo)]
-	[CustomComboInfo("Redoublement Combo Plus", "Replaces Redoublement (and Moulinet) with Verflare/Verholy (and then Scorch and Resolution) after 3 mana stacks, whichever is more appropriate.", RDM.JobID)]
-	RedMageMeleeComboPlus = 3503,
+	[ParentPreset(RedMageSmartcastSingleFeature)]
+	[CustomComboInfo("Walking Fleche", "Turns the AoE single-target smartcast combo into Fleche when you're moving and can't instacast.\nAffected by the Contre Sixte / Fleche feature.", RDM.JobID)]
+	RedMageSmartcastSingleMovement = 3519,
 
 	[Conflicts(RedMageAoECombo)]
 	[CustomComboInfo("Smartcast AoE", "Dynamically replaces Veraero/Verthunder 2 with the appropriate spell based on your job gauge.\nIncludes Impact/Scatter when fastcasting.", RDM.JobID)]
@@ -721,13 +722,20 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Contre Sixte Weave", "Turns the AoE smartcast combo into Contre Sixte when you can weave without clipping.\nAffected by the Contre Sixte / Fleche feature.", RDM.JobID)]
 	RedMageSmartcastAoEWeave = 3517,
 
-	[Conflicts(RedMageVerprocCombo)]
-	[CustomComboInfo("Smartcast Single Target", "Dynamically replaces Verstone/Verfire with the appropriate spell based on your job gauge.\nVeraero and Verthunder are replaced with one or the other accordingly, for openers.", RDM.JobID)]
-	RedMageSmartcastSingleFeature = 3509,
+	[ParentPreset(RedMageSmartcastAoEFeature)]
+	[CustomComboInfo("Walking Contre Sixte", "Turns the AoE smartcast combo into Contre Sixte when you're moving and can't instacast.\nAffected by the Contre Sixte / Fleche feature.", RDM.JobID)]
+	RedMageSmartcastAoEMovement = 3520,
 
-	[ParentPreset(RedMageSmartcastSingleFeature)]
-	[CustomComboInfo("Fleche Weave", "Turns the single-target smartcast combo into Fleche when you can weave without clipping.\nAffected by the Contre Sixte / Fleche feature.", RDM.JobID)]
-	RedMageSmartcastSingleWeave = 3518,
+	[CustomComboInfo("Melee Combo", "Replaces Redoublement with its combo chain, following enchantment rules.", RDM.JobID)]
+	RedMageMeleeCombo = 3502,
+
+	[ParentPreset(RedMageMeleeCombo)]
+	[CustomComboInfo("Melee Combo+", "Replaces Redoublement (and Moulinet) with Verflare/Verholy (and then Scorch and Resolution) after 3 mana stacks, whichever is more appropriate.", RDM.JobID)]
+	RedMageMeleeComboPlus = 3503,
+
+	[ParentPreset(RedMageMeleeCombo)]
+	[CustomComboInfo("Gap Closer", "Replaces Redoublement with Corps-a-corps when out of melee range.", RDM.JobID)]
+	RedMageMeleeComboCloser = 3514,
 
 	[Conflicts(RedMageSmartcastAoEFeature)]
 	[CustomComboInfo("Red Mage AoE Combo", "Replaces Veraero/Verthunder 2 with Impact when under a cast speeder.", RDM.JobID)]

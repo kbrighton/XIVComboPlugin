@@ -262,24 +262,20 @@ internal class RedMageSmartcastAoECombo: CustomCombo {
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		const int DELTA = 7;
 
-		if (IsEnabled(CustomComboPreset.RedMageSmartcastAoEWeave)) {
+		if ((IsEnabled(CustomComboPreset.RedMageSmartcastAoEWeave) && CanWeave(actionID)) || (IsEnabled(CustomComboPreset.RedMageSmartcastAoEMovement) && IsMoving && !IsFastcasting)) {
 			if (level >= RDM.Levels.ContreSixte) {
-				if (CanWeave(actionID)) {
-					if (IsEnabled(CustomComboPreset.RedMageContreFlecheFeature)) {
-						uint chosen = PickByCooldown(RDM.ContreSixte, RDM.Fleche, RDM.ContreSixte);
-						if (IsOffCooldown(chosen))
-							return chosen;
-					}
-					else if (IsOffCooldown(RDM.ContreSixte)) {
-						return RDM.ContreSixte;
-					}
+				if (IsEnabled(CustomComboPreset.RedMageContreFlecheFeature)) {
+					uint chosen = PickByCooldown(RDM.ContreSixte, RDM.Fleche, RDM.ContreSixte);
+					if (IsOffCooldown(chosen))
+						return chosen;
+				}
+				else if (IsOffCooldown(RDM.ContreSixte)) {
+					return RDM.ContreSixte;
 				}
 			}
 			else if (level >= RDM.Levels.Fleche && IsEnabled(CustomComboPreset.RedMageContreFlecheFeature)) {
-				if (CanWeave(actionID)) {
-					if (IsOffCooldown(RDM.Fleche))
-						return RDM.Fleche;
-				}
+				if (IsOffCooldown(RDM.Fleche))
+					return RDM.Fleche;
 			}
 		}
 
@@ -314,19 +310,15 @@ internal class RedmageSmartcastSingleCombo: CustomCombo {
 			FINISHER_DELTA = 11,
 			IMBALANCE_DIFF_MAX = 30;
 
-		if (IsEnabled(CustomComboPreset.RedMageSmartcastSingleWeave)) {
+		if ((IsEnabled(CustomComboPreset.RedMageSmartcastSingleWeave) && CanWeave(actionID)) || (IsEnabled(CustomComboPreset.RedMageSmartcastSingleMovement) && IsMoving && !IsFastcasting)) {
 			if (level >= RDM.Levels.Fleche) {
-				if (CanWeave(actionID)) {
-					if (IsEnabled(CustomComboPreset.RedMageContreFlecheFeature)) {
-						if (level >= RDM.Levels.ContreSixte) {
-							uint chosen = PickByCooldown(RDM.Fleche, RDM.Fleche, RDM.ContreSixte);
-							if (IsOffCooldown(chosen))
-								return chosen;
-						}
-					}
-					if (IsOffCooldown(RDM.Fleche))
-						return RDM.Fleche;
+				if (IsEnabled(CustomComboPreset.RedMageContreFlecheFeature) && level >= RDM.Levels.ContreSixte) {
+					uint chosen = PickByCooldown(RDM.Fleche, RDM.Fleche, RDM.ContreSixte);
+					if (IsOffCooldown(chosen))
+						return chosen;
 				}
+				if (IsOffCooldown(RDM.Fleche))
+					return RDM.Fleche;
 			}
 		}
 
