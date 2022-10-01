@@ -407,7 +407,7 @@ internal class RedmageSmartcastSingleCombo: CustomCombo {
 				return RDM.Verflare;
 			}
 
-			if (IsEnabled(CustomComboPreset.RedMageSmartcastSingleMeleeCombo) && InMeleeRange) {
+			if (IsEnabled(CustomComboPreset.RedMageSmartcastSingleMeleeCombo) && InMeleeRange && !fastCasting) {
 
 				if (inMelee) {
 					if (lastComboActionId is RDM.EnchantedZwerchhau or RDM.Zwerchhau && level >= RDM.Levels.Redoublement && black >= RDM.ManaCostRedoublement && white >= RDM.ManaCostRedoublement)
