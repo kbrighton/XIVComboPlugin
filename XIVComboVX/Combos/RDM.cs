@@ -266,7 +266,9 @@ internal class RedMageSmartcastAoECombo: CustomCombo {
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		const int DELTA = 7;
 
-		if ((IsEnabled(CustomComboPreset.RedMageSmartcastAoEWeave) && CanWeave(actionID)) || (IsEnabled(CustomComboPreset.RedMageSmartcastAoEMovement) && IsMoving && !IsFastcasting)) {
+		bool fastCast = IsFastcasting;
+
+		if ((IsEnabled(CustomComboPreset.RedMageSmartcastAoEWeave) && CanWeave(actionID)) || (IsEnabled(CustomComboPreset.RedMageSmartcastAoEMovement) && IsMoving && !fastCast)) {
 			if (level >= RDM.Levels.ContreSixte) {
 				if (IsEnabled(CustomComboPreset.RedMageContreFlecheFeature)) {
 					uint chosen = PickByCooldown(RDM.ContreSixte, RDM.Fleche, RDM.ContreSixte);
@@ -283,7 +285,7 @@ internal class RedMageSmartcastAoECombo: CustomCombo {
 			}
 		}
 
-		if (IsFastcasting || SelfHasEffect(RDM.Buffs.Acceleration) || level < RDM.Levels.Verthunder2)
+		if (fastCast || SelfHasEffect(RDM.Buffs.Acceleration) || level < RDM.Levels.Verthunder2)
 			return OriginalHook(RDM.Impact);
 
 		if (level < RDM.Levels.Veraero2)
@@ -428,10 +430,10 @@ internal class RedmageSmartcastSingleCombo: CustomCombo {
 				if (verfireUp == verstoneUp) {
 
 					// Either both procs are already up or neither is - use whatever gives us the mana we need
-					if (black < white)
+					if (black < white || Math.Min(100, white + LONG_DELTA) == black)
 						return OriginalHook(RDM.Verthunder);
 
-					if (white < black)
+					if (white < black || Math.Min(100, black + LONG_DELTA) == white)
 						return OriginalHook(RDM.Veraero);
 
 					// If mana levels are equal, prioritise the colour that the original button was
@@ -443,7 +445,7 @@ internal class RedmageSmartcastSingleCombo: CustomCombo {
 				if (verfireUp) {
 
 					// If Veraero is feasible, use it
-					if (white + LONG_DELTA <= whiteThreshold)
+					if (white + LONG_DELTA <= whiteThreshold && Math.Min(100, white + LONG_DELTA) != black)
 						return OriginalHook(RDM.Veraero);
 
 					return OriginalHook(RDM.Verthunder);
@@ -452,7 +454,7 @@ internal class RedmageSmartcastSingleCombo: CustomCombo {
 				if (verstoneUp) {
 
 					// If Verthunder is feasible, use it
-					if (black + LONG_DELTA <= blackThreshold)
+					if (black + LONG_DELTA <= blackThreshold && Math.Min(100, black + LONG_DELTA) != white)
 						return OriginalHook(RDM.Verthunder);
 
 					return OriginalHook(RDM.Veraero);
@@ -462,10 +464,10 @@ internal class RedmageSmartcastSingleCombo: CustomCombo {
 			if (verfireUp && verstoneUp) {
 
 				// Decide by mana levels
-				if (black < white)
+				if (black < white || Math.Min(100, white + PROC_DELTA) == black)
 					return RDM.Verfire;
 
-				if (white < black)
+				if (white < black || Math.Min(100, black + PROC_DELTA) == white)
 					return RDM.Verstone;
 
 				// If mana levels are equal, prioritise the original button
