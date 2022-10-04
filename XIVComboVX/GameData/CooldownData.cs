@@ -9,6 +9,11 @@ internal struct CooldownData {
 	[FieldOffset(0x8)] private readonly float cooldownElapsed;
 	[FieldOffset(0xC)] private readonly float cooldownTotal;
 
+	public uint ActionID => this.actionID;
+
+	/// <summary>
+	/// Whether this action is currently on cooldown, even if charges may be available
+	/// </summary>
 	public bool IsCooldown {
 		get {
 			(ushort cur, ushort max) = Service.DataCache.GetMaxCharges(this.ActionID);
@@ -18,12 +23,10 @@ internal struct CooldownData {
 		}
 	}
 
-	public uint ActionID => this.actionID;
-
 	/// <summary>
 	/// Elapsed time on the cooldown, covering only the number of max charges available at current level (if applicable)
 	/// </summary>
-	public float CooldownElapsed => this.cooldownElapsed == 0 || this.cooldownElapsed > this.CooldownTotal
+	public float CooldownElapsed => this.cooldownElapsed == 0 || this.cooldownElapsed >= this.CooldownTotal
 		? 0
 		: this.cooldownElapsed;
 
@@ -39,11 +42,7 @@ internal struct CooldownData {
 			if (cur == max)
 				return this.cooldownTotal;
 
-			float total = this.cooldownTotal / max * cur;
-
-			return this.cooldownElapsed > total
-				? 0
-				: total;
+			return this.cooldownTotal / max * cur;
 		}
 	}
 
