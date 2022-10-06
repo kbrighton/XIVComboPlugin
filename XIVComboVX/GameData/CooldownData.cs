@@ -94,5 +94,7 @@ internal struct CooldownData {
 	public bool Available => !this.IsCooldown || this.RemainingCharges > 0;
 
 	public string DebugLabel
-		=> $"{(this.IsCooldown ? "on" : "off")} cd, {(this.HasCharges ? this.RemainingCharges + "/" + this.MaxCharges : "no")} charges, {this.CooldownElapsed}/{this.CooldownTotal} ({this.CooldownRemaining})";
+		=> $"{(this.IsCooldown ? "on" : "off")} cd,"
+		+ $" {(this.HasCharges ? this.RemainingCharges + "/" + this.MaxCharges : "no")} charges,"
+		+ $" {this.CooldownElapsed}/{this.CooldownTotal}[{this.cooldownTotal}] ({this.CooldownRemaining})";
 }
