@@ -357,7 +357,7 @@ internal class RedmageSmartcastSingleCombo: CustomCombo {
 		int whiteThreshold = black + IMBALANCE_DIFF_MAX;
 		int minManaForEnchantedMelee = RDM.ManaCostRiposte + (level >= RDM.Levels.Zwerchhau ? RDM.ManaCostZwerchhau : 0) + (level >= RDM.Levels.Redoublement ? RDM.ManaCostRedoublement : 0);
 		bool inMelee = lastComboActionId is RDM.EnchantedRiposte or RDM.Riposte or RDM.EnchantedZwerchhau or RDM.Zwerchhau;
-		bool canStartMelee = black >= minManaForEnchantedMelee && white >= minManaForEnchantedMelee && black != white;
+		bool canStartMelee = black >= minManaForEnchantedMelee && white >= minManaForEnchantedMelee && (black != white || black is 100);
 
 		// No matter what this is (opener or combat), follow the finisher combo chains.
 		// There is never a reason to NOT use the finishers when you have them.
