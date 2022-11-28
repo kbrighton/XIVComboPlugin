@@ -264,7 +264,46 @@ internal class RedMageSmartcastAoECombo: CustomCombo {
 	public override uint[] ActionIDs { get; } = new[] { RDM.Veraero2, RDM.Verthunder2 };
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-		const int DELTA = 7;
+		const int
+			DELTA = 7,
+			FINISHER_DELTA = 11,
+			IMBALANCE_DIFF_MAX = 30;
+
+		RDMGauge gauge = GetJobGauge<RDMGauge>();
+		int black = gauge.BlackMana;
+		int white = gauge.WhiteMana;
+		bool isFinishing1 = gauge.ManaStacks == 3;
+		bool isFinishing2 = comboTime > 0 && lastComboMove is RDM.Verholy or RDM.Verflare;
+		bool isFinishing3 = comboTime > 0 && lastComboMove is RDM.Scorch;
+		bool canFinishWhite = level >= RDM.Levels.Verholy;
+		bool canFinishBlack = level >= RDM.Levels.Verflare;
+		int blackThreshold = white + IMBALANCE_DIFF_MAX;
+		int whiteThreshold = black + IMBALANCE_DIFF_MAX;
+
+		// There is never a reason to NOT use the finishers when you have them.
+		if (isFinishing3 && level >= RDM.Levels.Resolution)
+			return RDM.Resolution;
+		if (isFinishing2 && level >= RDM.Levels.Scorch)
+			return RDM.Scorch;
+		if (isFinishing1 && canFinishBlack) {
+			bool verfireUp = SelfHasEffect(RDM.Buffs.VerfireReady);
+			bool verstoneUp = SelfHasEffect(RDM.Buffs.VerstoneReady);
+
+			if (black >= white && canFinishWhite) {
+
+				// If we can already Verstone, but we can't Verfire, and Verflare WON'T imbalance us, use Verflare
+				if (verstoneUp && !verfireUp && (black + FINISHER_DELTA <= blackThreshold))
+					return RDM.Verflare;
+
+				return RDM.Verholy;
+			}
+
+			// If we can already Verfire, but we can't Verstone, and we can use Verholy, and it WON'T imbalance us, use Verholy
+			if (verfireUp && !verstoneUp && canFinishWhite && (white + FINISHER_DELTA <= whiteThreshold))
+				return RDM.Verholy;
+
+			return RDM.Verflare;
+		}
 
 		bool fastCast = IsFastcasting;
 
@@ -290,10 +329,6 @@ internal class RedMageSmartcastAoECombo: CustomCombo {
 
 		if (level < RDM.Levels.Veraero2)
 			return RDM.Verthunder2;
-
-		RDMGauge gauge = GetJobGauge<RDMGauge>();
-		int black = gauge.BlackMana;
-		int white = gauge.WhiteMana;
 
 		if (white < black || Math.Min(100, black + DELTA) == white)
 			return RDM.Veraero2;
