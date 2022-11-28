@@ -747,11 +747,11 @@ public enum CustomComboPreset {
 	RedMageSmartcastSingleMeleeComboStarter = 3522,
 
 	[ParentPreset(RedMageSmartcastSingleFeature)]
-	[CustomComboInfo("Acceleration", "Turns the single-target smartcast combo into Acceleration instead of Jolt.", RDM.JobID)]
+	[CustomComboInfo("Acceleration", "Turns the single-target smartcast combo into Acceleration instead of Jolt, when possible.", RDM.JobID)]
 	RedMageSmartcastSingleAcceleration = 3527,
 
 	[ParentPreset(RedMageSmartcastSingleAcceleration)]
-	[CustomComboInfo("With Swiftcast", "Acceleration falls back to Swiftcast if available and out of charges.", RDM.JobID)]
+	[CustomComboInfo("With Swiftcast", "Acceleration falls back to Swiftcast if it's available and Acceleration is out of charges.", RDM.JobID)]
 	RedMageSmartcastSingleAccelerationSwiftcast = 3528,
 
 	[ParentPreset(RedMageSmartcastSingleAccelerationSwiftcast)]
@@ -759,8 +759,19 @@ public enum CustomComboPreset {
 	RedMageSmartcastSingleAccelerationSwiftcastFirst = 3529,
 
 	[ParentPreset(RedMageSmartcastSingleAcceleration)]
-	[CustomComboInfo("Combat Only", "Only become Acceleration (+ Swiftcast if applicable) when in combat.", RDM.JobID)]
+	[Conflicts(RedMageSmartcastSingleAccelerationCombatWeave)]
+	[CustomComboInfo("Combat Only", "Only become Acceleration (+ Swiftcast if applicable) when in combat.\nDoes not care if you're weaving or not.\nUse both together for a logical-OR join.", RDM.JobID)]
 	RedMageSmartcastSingleAccelerationCombat = 3530,
+
+	[ParentPreset(RedMageSmartcastSingleAcceleration)]
+	[Conflicts(RedMageSmartcastSingleAccelerationCombatWeave)]
+	[CustomComboInfo("Weaving Only", "Only become Acceleration (+ Swiftcast if applicable) when weaving.\nDoes not care if you're in combat or not.\nUse both together for a logical-OR join.", RDM.JobID)]
+	RedMageSmartcastSingleAccelerationWeave = 3533,
+
+	[ParentPreset(RedMageSmartcastSingleAcceleration)]
+	[Conflicts(RedMageSmartcastSingleAccelerationCombat, RedMageSmartcastSingleAccelerationWeave)]
+	[CustomComboInfo("Combat/Weaving Only", "Only become Acceleration (+ Swiftcast if applicable) when weaving AND in combat.", RDM.JobID)]
+	RedMageSmartcastSingleAccelerationCombatWeave = 3534,
 
 	[Conflicts(RedMageAoECombo)]
 	[CustomComboInfo("Smartcast AoE", "Dynamically replaces Veraero/Verthunder 2 with the appropriate spell based on your job gauge.\nIncludes Impact/Scatter when fastcasting.", RDM.JobID)]

@@ -449,7 +449,7 @@ internal class RedmageSmartcastSingleCombo: CustomCombo {
 				return RDM.Verflare;
 			}
 
-			if (IsEnabled(CustomComboPreset.RedMageSmartcastSingleMeleeCombo) && InMeleeRange && !fastCasting) {
+			if (IsEnabled(CustomComboPreset.RedMageSmartcastSingleMeleeCombo) && InMeleeRange && (inMelee || (!accelerated && !fastCasting))) {
 
 				if (inMelee) {
 					if (lastComboActionId is RDM.EnchantedZwerchhau or RDM.Zwerchhau && level >= RDM.Levels.Redoublement && black >= RDM.ManaCostRedoublement && white >= RDM.ManaCostRedoublement)
@@ -523,8 +523,19 @@ internal class RedmageSmartcastSingleCombo: CustomCombo {
 				return RDM.Verstone;
 
 			// If neither's up or the one that is would imbalance us, should we use Acceleration (or Swiftcast)?
+			// TODO: move the weaving above Fleche/CS weaving for proper prioritisation... somehow.
+			// That'll make everything a lot more complicated though, so it's gonna be some time :/
 			if (IsEnabled(CustomComboPreset.RedMageSmartcastSingleAcceleration)) {
-				if (!IsEnabled(CustomComboPreset.RedMageSmartcastSingleAccelerationCombat) || InCombat) {
+				// Unfortunately, the fact that you can have one, the other, both (AND), _or_ both (OR) of the restrictions means that this is a bit messy.
+				// Important note: the first two are compatible with each other (you can select both), but are EXCLUSIVE with the third!
+				bool whenCombat = IsEnabled(CustomComboPreset.RedMageSmartcastSingleAccelerationCombat);
+				bool whenWeave = IsEnabled(CustomComboPreset.RedMageSmartcastSingleAccelerationWeave);
+				bool whenBoth = IsEnabled(CustomComboPreset.RedMageSmartcastSingleAccelerationCombatWeave);
+				bool enableFromCombat = whenCombat && InCombat;
+				bool enableFromWeave = whenWeave && weaving;
+				bool enableFromBoth = whenBoth && InCombat && weaving; // if this is true, the above two MUST be false - if either of the above is true, this MUST be false
+
+				if (enableFromCombat || enableFromWeave || enableFromBoth) {
 					if (level >= Common.Levels.Swiftcast) {
 						bool canAccelerate = level >= RDM.Levels.Acceleration && CanUse(RDM.Acceleration);
 						bool canSwiftcast = IsEnabled(CustomComboPreset.RedMageSmartcastSingleAccelerationSwiftcast) && CanUse(Common.Swiftcast);
