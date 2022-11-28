@@ -3,7 +3,7 @@ namespace XIVComboVX.GameData;
 using System.Runtime.InteropServices;
 
 [StructLayout(LayoutKind.Explicit)]
-internal struct CooldownData {
+internal readonly struct CooldownData {
 	[FieldOffset(0x0)] private readonly bool isCooldown;
 	[FieldOffset(0x4)] private readonly uint actionID;
 	[FieldOffset(0x8)] private readonly float cooldownElapsed;

@@ -9,7 +9,6 @@ internal unsafe class GameState: IDisposable {
 
 	private AtkUnitBase* chatLogPointer;
 
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0074:Use compound assignment", Justification = "??= doesn't work with pointers")]
 	internal AtkUnitBase* chatLog {
 		get {
 			if (Service.Client.LocalPlayer is null)
