@@ -718,6 +718,10 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Engagement Priority", "Try to use Engagement first when in melee range.\nWhile it IS a potency loss, Engagement can ONLY be used in melee range, which keeps the long-distance abilities free for when you're too far away.", RDM.JobID)]
 	RedMageSmartcastSingleWeaveMeleeFirst = 3525,
 
+	[ParentPreset(RedMageSmartcastSingleWeaveMelee)]
+	[CustomComboInfo("Leave one charge", "Always leave one charge of Engagement unused during weaves, to allow using Displacement to backstep out of AoE markers.", RDM.JobID)]
+	RedMageSmartcastSingleWeaveMeleeHoldOne = 3531,
+
 	[ParentPreset(RedMageSmartcastSingleFeature)]
 	[CustomComboInfo("Walking Fleche", "Turns the single-target smartcast combo into Fleche when you're moving and can't instacast.\nAffected by the Contre Sixte / Fleche feature.", RDM.JobID)]
 	RedMageSmartcastSingleMovement = 3519,
@@ -729,6 +733,10 @@ public enum CustomComboPreset {
 	[ParentPreset(RedMageSmartcastSingleMovementMelee)]
 	[CustomComboInfo("Engagement Priority", "Try to use Engagement first when in melee range.\nWhile it IS a potency loss, Engagement can ONLY be used in melee range, which keeps the long-distance abilities free for when you're too far away.", RDM.JobID)]
 	RedMageSmartcastSingleMovementMeleeFirst = 3526,
+
+	[ParentPreset(RedMageSmartcastSingleMovementMelee)]
+	[CustomComboInfo("Leave one charge", "Always leave one charge of Engagement unused during movement, to allow using Displacement to backstep out of AoE markers.", RDM.JobID)]
+	RedMageSmartcastSingleMovementMeleeHoldOne = 3532,
 
 	[ParentPreset(RedMageSmartcastSingleFeature)]
 	[CustomComboInfo("Melee Combo Followthrough", "Turns the single-target smartcast combo into the rest of the melee combo once you start it, as long as you're in melee range.", RDM.JobID)]

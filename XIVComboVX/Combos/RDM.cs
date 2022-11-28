@@ -355,9 +355,14 @@ internal class RedmageSmartcastSingleCombo: CustomCombo {
 		bool weaving = CanWeave(actionID);
 
 		if ((IsEnabled(CustomComboPreset.RedMageSmartcastSingleWeave) && weaving) || (IsEnabled(CustomComboPreset.RedMageSmartcastSingleMovement) && noCastCauseMoving)) {
+			ushort engageCharges = GetCooldown(RDM.Engagement).RemainingCharges;
 			bool canEngage = HasTarget && InMeleeRange && CanUse(RDM.Engagement);
-			bool engageWeave = IsEnabled(CustomComboPreset.RedMageSmartcastSingleWeaveMelee) && weaving;
-			bool engageMove = IsEnabled(CustomComboPreset.RedMageSmartcastSingleMovementMelee) && noCastCauseMoving;
+			bool engageWeave = IsEnabled(CustomComboPreset.RedMageSmartcastSingleWeaveMelee)
+				&& weaving
+				&& (!IsEnabled(CustomComboPreset.RedMageSmartcastSingleWeaveMeleeHoldOne) ^ engageCharges > 1);
+			bool engageMove = IsEnabled(CustomComboPreset.RedMageSmartcastSingleMovementMelee)
+				&& noCastCauseMoving
+				&& (!IsEnabled(CustomComboPreset.RedMageSmartcastSingleMovementMeleeHoldOne) ^ engageCharges > 1);
 			bool engagePreWeave = engageWeave && IsEnabled(CustomComboPreset.RedMageSmartcastSingleWeaveMeleeFirst);
 			bool engagePreMove = engageMove && IsEnabled(CustomComboPreset.RedMageSmartcastSingleMovementMeleeFirst);
 
