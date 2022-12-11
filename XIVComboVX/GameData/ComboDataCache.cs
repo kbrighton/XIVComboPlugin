@@ -11,10 +11,8 @@ using Dalamud.Game.ClientState.Statuses;
 
 using XIVComboVX.Combos;
 
-internal class ComboDataCache: IDisposable {
+internal class ComboDataCache: ManagedCache {
 	protected const uint InvalidObjectID = 0xE000_0000;
-
-	private bool disposed;
 
 	// Invalidate these
 	private readonly Dictionary<(uint StatusID, uint? TargetID, uint? SourceID), Status?> statusCache = new();
@@ -31,17 +29,18 @@ internal class ComboDataCache: IDisposable {
 
 	private delegate IntPtr GetActionCooldownSlotDelegate(IntPtr actionManager, int cooldownGroup);
 
-	public ComboDataCache() {
-		Service.Framework.Update += this.invalidateCache;
+	public ComboDataCache() : base() { }
+
+	protected override void Dispose(bool disposing) {
+		base.Dispose(disposing);
+		this.jobGaugeCache?.Clear();
 	}
 
-	public void Dispose() {
-		if (this.disposed)
-			return;
-		this.disposed = true;
-
-		Service.Framework.Update -= this.invalidateCache;
-		this.jobGaugeCache?.Clear();
+	protected override unsafe void InvalidateCache(Framework framework) {
+		this.statusCache.Clear();
+		this.cooldownCache.Clear();
+		this.canInterruptTarget = null;
+		this.dancerNextDanceStep = null;
 	}
 
 	#endregion
@@ -138,13 +137,6 @@ internal class ComboDataCache: IDisposable {
 		Lumina.Excel.GeneratedSheets.Action row = sheet.GetRow(actionID)!;
 
 		return this.cooldownGroupCache[actionID] = row.CooldownGroup;
-	}
-
-	private unsafe void invalidateCache(Framework framework) {
-		this.statusCache.Clear();
-		this.cooldownCache.Clear();
-		this.canInterruptTarget = null;
-		this.dancerNextDanceStep = null;
 	}
 
 }
