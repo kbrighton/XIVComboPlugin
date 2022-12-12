@@ -340,9 +340,79 @@ internal class RedMageSmartcastAoECombo: CustomCombo {
 	}
 }
 
-internal class RedmageSmartcastSingleCombo: CustomCombo {
+internal class RedmageSmartcastSingleComboOpener: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.RedMageSmartcastSingleFeature;
-	public override uint[] ActionIDs { get; } = new[] { RDM.Veraero, RDM.Verthunder, RDM.Verstone, RDM.Verfire };
+	public override uint[] ActionIDs { get; } = new[] { RDM.Veraero, RDM.Verthunder };
+
+	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
+		const int LONG_DELTA = 6;
+		RDMGauge gauge = GetJobGauge<RDMGauge>();
+		int black = gauge.BlackMana;
+		int white = gauge.WhiteMana;
+
+		if (level < RDM.Levels.Verthunder)
+			return RDM.Jolt;
+
+		if (level is < RDM.Levels.Veraero and >= RDM.Levels.Verthunder)
+			return OriginalHook(RDM.Verthunder);
+
+		// This is for the long opener only, so we're not bothered about fast casting or finishers or anything like that
+		// However, we DO want to prevent the mana levels from being perfectly even, cause that fucks up Manafication into melee as an opener
+
+		if (black < white || Math.Min(100, white + LONG_DELTA) == black)
+			return OriginalHook(RDM.Verthunder);
+
+		if (white < black || Math.Min(100, black + LONG_DELTA) == white)
+			return OriginalHook(RDM.Veraero);
+
+		return actionID;
+	}
+}
+
+internal class RedmageSmartcastSingleComboFull: CustomCombo {
+	public override CustomComboPreset Preset => CustomComboPreset.RedMageSmartcastSingleFeature;
+	public override uint[] ActionIDs { get; } = new[] { RDM.Verstone, RDM.Verfire };
+
+	private static uint noCastingSubCheck(byte level, bool engageCheck, bool holdOneEngageCharge, bool engageEarly, bool canMelee, bool allowAccelerate) {
+
+		if (allowAccelerate) {
+			bool canAccelerate = level >= RDM.Levels.Acceleration && CanUse(RDM.Acceleration);
+			bool canSwiftcast = IsEnabled(CustomComboPreset.RedMageSmartcastSingleAccelerationSwiftcast) && CanUse(Common.Swiftcast);
+
+			if (canSwiftcast && IsEnabled(CustomComboPreset.RedMageSmartcastSingleAccelerationSwiftcastFirst))
+				return Common.Swiftcast;
+			if (canAccelerate)
+				return RDM.Acceleration;
+			if (canSwiftcast)
+				return Common.Swiftcast;
+		}
+
+		ushort engageCharges = GetCooldown(RDM.Engagement).RemainingCharges;
+		bool canEngage = canMelee && engageCharges > 0;
+
+		bool shouldEngage = canEngage
+			&& engageCheck
+			&& (!holdOneEngageCharge ^ engageCharges > 1);
+		bool engagePre = shouldEngage && engageEarly;
+
+		if (canEngage && engagePre)
+			return RDM.Engagement;
+
+		if (level >= RDM.Levels.Fleche) {
+			if (IsEnabled(CustomComboPreset.RedMageContreFlecheFeature) && level >= RDM.Levels.ContreSixte) {
+				uint chosen = PickByCooldown(RDM.Fleche, RDM.Fleche, RDM.ContreSixte);
+				if (IsOffCooldown(chosen))
+					return chosen;
+			}
+			if (IsOffCooldown(RDM.Fleche))
+				return RDM.Fleche;
+		}
+
+		if (shouldEngage)
+			return RDM.Engagement;
+
+		return 0;
+	}
 
 	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
 		const int
@@ -351,211 +421,200 @@ internal class RedmageSmartcastSingleCombo: CustomCombo {
 			FINISHER_DELTA = 11,
 			IMBALANCE_DIFF_MAX = 30;
 
-		bool noCastCauseMoving = IsMoving && !IsFastcasting;
+		// This algorithm is a bit messy, because.. well, there's no clean way to do it, really.
+		// The same conditions need to be checked at different stages in the flow because of priorities.
+		// As a result, we kind of have to preload a bunch of checks, or else we'll be repeating them.
+		// Plus, some of the conditions get complex, so it's better to split things up a little like this.
+		// Just let the compiler handle optimisations :)
+
+		bool fastCasting = IsFastcasting;
+		bool accelerated = SelfHasEffect(RDM.Buffs.Acceleration);
+		bool instacasting = fastCasting || accelerated;
 		bool weaving = CanWeave(actionID);
+		bool moving = IsMoving;
+		bool targeting = HasTarget;
+		bool fighting = InCombat;
+		bool canMelee = targeting && InMeleeRange;
 
-		if ((IsEnabled(CustomComboPreset.RedMageSmartcastSingleWeave) && weaving) || (IsEnabled(CustomComboPreset.RedMageSmartcastSingleMovement) && noCastCauseMoving)) {
-			ushort engageCharges = GetCooldown(RDM.Engagement).RemainingCharges;
-			bool canEngage = HasTarget && InMeleeRange && CanUse(RDM.Engagement);
-			bool engageWeave = IsEnabled(CustomComboPreset.RedMageSmartcastSingleWeaveMelee)
-				&& weaving
-				&& (!IsEnabled(CustomComboPreset.RedMageSmartcastSingleWeaveMeleeHoldOne) ^ engageCharges > 1);
-			bool engageMove = IsEnabled(CustomComboPreset.RedMageSmartcastSingleMovementMelee)
-				&& noCastCauseMoving
-				&& (!IsEnabled(CustomComboPreset.RedMageSmartcastSingleMovementMeleeHoldOne) ^ engageCharges > 1);
-			bool engagePreWeave = engageWeave && IsEnabled(CustomComboPreset.RedMageSmartcastSingleWeaveMeleeFirst);
-			bool engagePreMove = engageMove && IsEnabled(CustomComboPreset.RedMageSmartcastSingleMovementMeleeFirst);
+		RDMGauge gauge = GetJobGauge<RDMGauge>();
 
-			if (canEngage && (engagePreWeave || engagePreMove))
-				return RDM.Engagement;
+		int black = gauge.BlackMana;
+		int white = gauge.WhiteMana;
+		int blackThreshold = white + IMBALANCE_DIFF_MAX;
+		int whiteThreshold = black + IMBALANCE_DIFF_MAX;
 
-			if (level >= RDM.Levels.Fleche) {
-				if (IsEnabled(CustomComboPreset.RedMageContreFlecheFeature) && level >= RDM.Levels.ContreSixte) {
-					uint chosen = PickByCooldown(RDM.Fleche, RDM.Fleche, RDM.ContreSixte);
-					if (IsOffCooldown(chosen))
-						return chosen;
-				}
-				if (IsOffCooldown(RDM.Fleche))
-					return RDM.Fleche;
-			}
-
-			if (canEngage && (engageWeave || engageMove))
-				return RDM.Engagement;
-		}
+		int minManaForEnchantedMelee = RDM.ManaCostRiposte + (level >= RDM.Levels.Zwerchhau ? RDM.ManaCostZwerchhau : 0) + (level >= RDM.Levels.Redoublement ? RDM.ManaCostRedoublement : 0);
 
 		bool verfireUp = SelfHasEffect(RDM.Buffs.VerfireReady);
 		bool verstoneUp = SelfHasEffect(RDM.Buffs.VerstoneReady);
-		RDMGauge gauge = GetJobGauge<RDMGauge>();
-		int black = gauge.BlackMana;
-		int white = gauge.WhiteMana;
-		bool isFinishing1 = gauge.ManaStacks == 3;
-		bool isFinishing2 = comboTime > 0 && lastComboActionId is RDM.Verholy or RDM.Verflare;
-		bool isFinishing3 = comboTime > 0 && lastComboActionId is RDM.Scorch;
+		bool isFinishing1 = gauge.ManaStacks == 3; // Mana stacks are only unlocked at the same level as Verflare, so we don't need a check for that here
+		bool isFinishing2 = lastComboActionId is RDM.Verholy or RDM.Verflare && level >= RDM.Levels.Scorch;
+		bool isFinishing3 = lastComboActionId is RDM.Scorch && level >= RDM.Levels.Resolution;
+		bool isFinishingAny = isFinishing1 || isFinishing2 || isFinishing3;
 		bool canFinishWhite = level >= RDM.Levels.Verholy;
-		bool canFinishBlack = level >= RDM.Levels.Verflare;
-		int blackThreshold = white + IMBALANCE_DIFF_MAX;
-		int whiteThreshold = black + IMBALANCE_DIFF_MAX;
-		int minManaForEnchantedMelee = RDM.ManaCostRiposte + (level >= RDM.Levels.Zwerchhau ? RDM.ManaCostZwerchhau : 0) + (level >= RDM.Levels.Redoublement ? RDM.ManaCostRedoublement : 0);
-		bool inMelee = lastComboActionId is RDM.EnchantedRiposte or RDM.Riposte or RDM.EnchantedZwerchhau or RDM.Zwerchhau;
-		bool canStartMelee = black >= minManaForEnchantedMelee && white >= minManaForEnchantedMelee && (black != white || black is 100);
 
-		// No matter what this is (opener or combat), follow the finisher combo chains.
-		// There is never a reason to NOT use the finishers when you have them.
-		if (isFinishing3 && level >= RDM.Levels.Resolution)
-			return RDM.Resolution;
-		if (isFinishing2 && level >= RDM.Levels.Scorch)
-			return RDM.Scorch;
+		bool meleeCombo = IsEnabled(CustomComboPreset.RedMageSmartcastSingleMeleeCombo) && lastComboActionId is RDM.EnchantedRiposte or RDM.Riposte or RDM.EnchantedZwerchhau or RDM.Zwerchhau;
+		bool startMelee = canMelee && IsEnabled(CustomComboPreset.RedMageSmartcastSingleMeleeComboStarter) && black >= minManaForEnchantedMelee && white >= minManaForEnchantedMelee && (black != white || black is 100);
 
-		if (actionID is RDM.Veraero or RDM.Verthunder) {
+		bool smartWeave = IsEnabled(CustomComboPreset.RedMageSmartcastSingleWeave) && weaving;
+		bool smartMove = IsEnabled(CustomComboPreset.RedMageSmartcastSingleMovement) && moving;
 
-			if (level < RDM.Levels.Verthunder)
-				return RDM.Jolt;
+		bool accelerate = level >= Common.Levels.Swiftcast
+			&& !instacasting
+			&& !isFinishingAny
+			&& !meleeCombo
+			&& !verfireUp
+			&& !verstoneUp
+			&& IsEnabled(CustomComboPreset.RedMageSmartcastSingleAcceleration);
+		bool accelLimitCombat = IsEnabled(CustomComboPreset.RedMageSmartcastSingleAccelerationCombat);
+		bool allowAccel = accelerate && (fighting || !accelLimitCombat);
+		bool accelWeave = allowAccel && IsEnabled(CustomComboPreset.RedMageSmartcastSingleAccelerationWeave);
+		bool accelMove = allowAccel && IsEnabled(CustomComboPreset.RedMageSmartcastSingleAccelerationMoving);
+		bool accelNoNormal = IsEnabled(CustomComboPreset.RedMageSmartcastSingleAccelerationNoOverride);
+
+		if (smartWeave) {
+			// This is basically universal.
+			// I know it's a mess. Moving it into another method was basically the best I could do, since the whole thing is duplicated for weaving and moving but with different variables.
+			bool
+				engageCheck = IsEnabled(CustomComboPreset.RedMageSmartcastSingleWeaveMelee) && weaving,
+				holdOneEngageCharge = IsEnabled(CustomComboPreset.RedMageSmartcastSingleWeaveMeleeHoldOne),
+				engageEarly = IsEnabled(CustomComboPreset.RedMageSmartcastSingleWeaveMeleeFirst);
+			uint alt = noCastingSubCheck(level, engageCheck, holdOneEngageCharge, engageEarly, canMelee, accelWeave);
+			if (alt > 0)
+				return alt;
+		}
+		if (instacasting) {
+			// TODO: need to account for hardcasting spells with no cast time!
 
 			if (level is < RDM.Levels.Veraero and >= RDM.Levels.Verthunder)
+				return RDM.Verthunder;
+
+			if (verfireUp == verstoneUp) {
+
+				// Either both procs are already up or neither is - use whatever gives us the mana we need
+				if (black < white || Math.Min(100, white + LONG_DELTA) == black)
+					return OriginalHook(RDM.Verthunder);
+
+				if (white < black || Math.Min(100, black + LONG_DELTA) == white)
+					return OriginalHook(RDM.Veraero);
+
+				// If mana levels are equal, prioritise the colour that the original button was
+				return actionID is RDM.Verstone
+					? OriginalHook(RDM.Veraero)
+					: OriginalHook(RDM.Verthunder);
+			}
+
+			if (verfireUp) {
+
+				// If Veraero is feasible, use it
+				if (white + LONG_DELTA <= whiteThreshold && Math.Min(100, white + LONG_DELTA) != black)
+					return OriginalHook(RDM.Veraero);
+
 				return OriginalHook(RDM.Verthunder);
+			}
 
-			// This is for the long opener only, so we're not bothered about fast casting or finishers or anything like that
-			// However, we DO want to prevent the mana levels from being perfectly even, cause that fucks up Manafication into melee as an opener
+			if (verstoneUp) {
 
-			if (black < white || Math.Min(100, white + LONG_DELTA) == black)
-				return OriginalHook(RDM.Verthunder);
+				// If Verthunder is feasible, use it
+				if (black + LONG_DELTA <= blackThreshold && Math.Min(100, black + LONG_DELTA) != white)
+					return OriginalHook(RDM.Verthunder);
 
-			if (white < black || Math.Min(100, black + LONG_DELTA) == white)
 				return OriginalHook(RDM.Veraero);
+			}
+		}
+		if (meleeCombo) {
+			// If we're out of range while in the combo, become Corps-a-corps to get back in range. Otherwise, just run the combo.
 
+			if (!canMelee)
+				return RDM.Corpsacorps;
+
+			if (lastComboActionId is RDM.EnchantedZwerchhau or RDM.Zwerchhau && level >= RDM.Levels.Redoublement && black >= RDM.ManaCostRedoublement && white >= RDM.ManaCostRedoublement)
+				return OriginalHook(RDM.EnchantedRedoublement);
+			if (lastComboActionId is RDM.EnchantedRiposte or RDM.Riposte && level >= RDM.Levels.Zwerchhau && black >= RDM.ManaCostZwerchhau && white >= RDM.ManaCostZwerchhau)
+				return OriginalHook(RDM.EnchantedZwerchhau);
+		}
+		if (startMelee) {
+			// Do we allow becoming spells from within the combo? They'll break the combo, but sometimes the boss moves out of melee range of the whole arena.
+			// As it's coded now, you can do it, so you have to pay attention to your distance.
+			return RDM.EnchantedRiposte;
+		}
+		if (isFinishing1) {
+			// First finisher - have to make a Smart Decision here. Remember, we do the thinking so you don't have to! :P
+
+			if (black >= white && canFinishWhite) {
+
+				// If we can already Verstone, but we can't Verfire, and Verflare WON'T imbalance us, use Verflare
+				if (verstoneUp && !verfireUp && (black + FINISHER_DELTA <= blackThreshold))
+					return RDM.Verflare;
+
+				return RDM.Verholy;
+			}
+
+			// If we can already Verfire, but we can't Verstone, and we can use Verholy, and it WON'T imbalance us, use Verholy
+			if (verfireUp && !verstoneUp && canFinishWhite && (white + FINISHER_DELTA <= whiteThreshold))
+				return RDM.Verholy;
+
+			// If all else fails, just Verflare
+			return RDM.Verflare;
+		}
+		if (isFinishing2) {
+			// Finisher combo, simple chain.
+			return RDM.Scorch;
+		}
+		if (isFinishing3) {
+			// Second verse, same as the first!
+			return RDM.Resolution;
+		}
+		if (smartMove) {
+			// Can't slowcast spells if you're moving, so we have to fall back to instants.
+			// I know it's a mess. Moving it into another method was basically the best I could do, since the whole thing is duplicated for weaving and moving but with different variables.
+			bool
+				engageCheck = IsEnabled(CustomComboPreset.RedMageSmartcastSingleMovementMelee) && moving,
+				holdOneEngageCharge = IsEnabled(CustomComboPreset.RedMageSmartcastSingleMovementMeleeHoldOne),
+				engageEarly = IsEnabled(CustomComboPreset.RedMageSmartcastSingleMovementMeleeFirst);
+			uint alt = noCastingSubCheck(level, engageCheck, holdOneEngageCharge, engageEarly, canMelee, accelMove);
+			if (alt > 0)
+				return alt;
+		}
+
+		// Stand fast, slow cast!
+
+		if (verfireUp && verstoneUp) {
+
+			// Decide by mana levels
+			if (black < white || Math.Min(100, white + PROC_DELTA) == black)
+				return RDM.Verfire;
+
+			if (white < black || Math.Min(100, black + PROC_DELTA) == white)
+				return RDM.Verstone;
+
+			// If mana levels are equal, prioritise the original button
 			return actionID;
 		}
 
-		if (actionID is RDM.Verstone or RDM.Verfire) {
+		// Only use Verfire if it won't imbalance us
+		if (verfireUp && black + PROC_DELTA <= blackThreshold)
+			return RDM.Verfire;
 
-			bool fastCasting = IsFastcasting;
-			bool accelerated = SelfHasEffect(RDM.Buffs.Acceleration);
+		// Only use Verstone if it won't imbalance us
+		if (verstoneUp && white + PROC_DELTA <= whiteThreshold)
+			return RDM.Verstone;
 
-			if (isFinishing1 && canFinishBlack) {
+		// If there's NOTHING up right to use, should we override with Accleration (or Swiftcast)?
+		if (allowAccel && !accelNoNormal) {
+			bool canAccelerate = level >= RDM.Levels.Acceleration && CanUse(RDM.Acceleration);
+			bool canSwiftcast = IsEnabled(CustomComboPreset.RedMageSmartcastSingleAccelerationSwiftcast) && CanUse(Common.Swiftcast);
 
-				if (black >= white && canFinishWhite) {
-
-					// If we can already Verstone, but we can't Verfire, and Verflare WON'T imbalance us, use Verflare
-					if (verstoneUp && !verfireUp && (black + FINISHER_DELTA <= blackThreshold))
-						return RDM.Verflare;
-
-					return RDM.Verholy;
-				}
-
-				// If we can already Verfire, but we can't Verstone, and we can use Verholy, and it WON'T imbalance us, use Verholy
-				if (verfireUp && !verstoneUp && canFinishWhite && (white + FINISHER_DELTA <= whiteThreshold))
-					return RDM.Verholy;
-
-				return RDM.Verflare;
-			}
-
-			if (IsEnabled(CustomComboPreset.RedMageSmartcastSingleMeleeCombo) && InMeleeRange && (inMelee || (!accelerated && !fastCasting))) {
-
-				if (inMelee) {
-					if (lastComboActionId is RDM.EnchantedZwerchhau or RDM.Zwerchhau && level >= RDM.Levels.Redoublement && black >= RDM.ManaCostRedoublement && white >= RDM.ManaCostRedoublement)
-						return OriginalHook(RDM.EnchantedRedoublement);
-					if (lastComboActionId is RDM.EnchantedRiposte or RDM.Riposte && level >= RDM.Levels.Zwerchhau && black >= RDM.ManaCostZwerchhau && white >= RDM.ManaCostZwerchhau)
-						return OriginalHook(RDM.EnchantedZwerchhau);
-				}
-
-				if (IsEnabled(CustomComboPreset.RedMageSmartcastSingleMeleeComboStarter) && canStartMelee)
-					return RDM.EnchantedRiposte;
-			}
-
-			if (fastCasting || accelerated) {
-
-				if (level is < RDM.Levels.Veraero and >= RDM.Levels.Verthunder)
-					return RDM.Verthunder;
-
-				if (verfireUp == verstoneUp) {
-
-					// Either both procs are already up or neither is - use whatever gives us the mana we need
-					if (black < white || Math.Min(100, white + LONG_DELTA) == black)
-						return OriginalHook(RDM.Verthunder);
-
-					if (white < black || Math.Min(100, black + LONG_DELTA) == white)
-						return OriginalHook(RDM.Veraero);
-
-					// If mana levels are equal, prioritise the colour that the original button was
-					return actionID is RDM.Verstone
-						? OriginalHook(RDM.Veraero)
-						: OriginalHook(RDM.Verthunder);
-				}
-
-				if (verfireUp) {
-
-					// If Veraero is feasible, use it
-					if (white + LONG_DELTA <= whiteThreshold && Math.Min(100, white + LONG_DELTA) != black)
-						return OriginalHook(RDM.Veraero);
-
-					return OriginalHook(RDM.Verthunder);
-				}
-
-				if (verstoneUp) {
-
-					// If Verthunder is feasible, use it
-					if (black + LONG_DELTA <= blackThreshold && Math.Min(100, black + LONG_DELTA) != white)
-						return OriginalHook(RDM.Verthunder);
-
-					return OriginalHook(RDM.Veraero);
-				}
-			}
-
-			if (verfireUp && verstoneUp) {
-
-				// Decide by mana levels
-				if (black < white || Math.Min(100, white + PROC_DELTA) == black)
-					return RDM.Verfire;
-
-				if (white < black || Math.Min(100, black + PROC_DELTA) == white)
-					return RDM.Verstone;
-
-				// If mana levels are equal, prioritise the original button
-				return actionID;
-			}
-
-			// Only use Verfire if it won't imbalance us
-			if (verfireUp && black + PROC_DELTA <= blackThreshold)
-				return RDM.Verfire;
-
-			// Only use Verstone if it won't imbalance us
-			if (verstoneUp && white + PROC_DELTA <= whiteThreshold)
-				return RDM.Verstone;
-
-			// If neither's up or the one that is would imbalance us, should we use Acceleration (or Swiftcast)?
-			// TODO: move the weaving above Fleche/CS weaving for proper prioritisation... somehow.
-			// That'll make everything a lot more complicated though, so it's gonna be some time :/
-			if (IsEnabled(CustomComboPreset.RedMageSmartcastSingleAcceleration)) {
-				// Unfortunately, the fact that you can have one, the other, both (AND), _or_ both (OR) of the restrictions means that this is a bit messy.
-				// Important note: the first two are compatible with each other (you can select both), but are EXCLUSIVE with the third!
-				bool whenCombat = IsEnabled(CustomComboPreset.RedMageSmartcastSingleAccelerationCombat);
-				bool whenWeave = IsEnabled(CustomComboPreset.RedMageSmartcastSingleAccelerationWeave);
-				bool whenBoth = IsEnabled(CustomComboPreset.RedMageSmartcastSingleAccelerationCombatWeave);
-				bool enableFromCombat = whenCombat && InCombat;
-				bool enableFromWeave = whenWeave && weaving;
-				bool enableFromBoth = whenBoth && InCombat && weaving; // if this is true, the above two MUST be false - if either of the above is true, this MUST be false
-
-				if (enableFromCombat || enableFromWeave || enableFromBoth) {
-					if (level >= Common.Levels.Swiftcast) {
-						bool canAccelerate = level >= RDM.Levels.Acceleration && CanUse(RDM.Acceleration);
-						bool canSwiftcast = IsEnabled(CustomComboPreset.RedMageSmartcastSingleAccelerationSwiftcast) && CanUse(Common.Swiftcast);
-
-						if (canSwiftcast && IsEnabled(CustomComboPreset.RedMageSmartcastSingleAccelerationSwiftcastFirst))
-							return Common.Swiftcast;
-						if (canAccelerate)
-							return RDM.Acceleration;
-						if (canSwiftcast)
-							return Common.Swiftcast;
-
-					}
-				}
-			}
-
-			// Finally, if all else fails, become Jolt (II)
-			return OriginalHook(RDM.Jolt2);
+			if (canSwiftcast && IsEnabled(CustomComboPreset.RedMageSmartcastSingleAccelerationSwiftcastFirst))
+				return Common.Swiftcast;
+			if (canAccelerate)
+				return RDM.Acceleration;
+			if (canSwiftcast)
+				return Common.Swiftcast;
 		}
 
-		return actionID;
+		// Finally, if all else fails, become Jolt (II)
+		return OriginalHook(RDM.Jolt2);
 	}
 }
 

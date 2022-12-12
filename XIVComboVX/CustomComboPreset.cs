@@ -759,19 +759,20 @@ public enum CustomComboPreset {
 	RedMageSmartcastSingleAccelerationSwiftcastFirst = 3529,
 
 	[ParentPreset(RedMageSmartcastSingleAcceleration)]
-	[Conflicts(RedMageSmartcastSingleAccelerationCombatWeave)]
-	[CustomComboInfo("Combat Only", "Only become Acceleration (+ Swiftcast if applicable) when in combat.\nDoes not care if you're weaving or not.\nUse both together for a logical-OR join.", RDM.JobID)]
-	RedMageSmartcastSingleAccelerationCombat = 3530,
+	[CustomComboInfo("Combat Only", "Only become Acceleration (+ Swiftcast if applicable) when in combat.\nActs as an override - if you're not in combat, the combo will never become Acceleration/Swiftcast.", RDM.JobID)]
+	RedMageSmartcastSingleAccelerationCombat = 3535,
 
 	[ParentPreset(RedMageSmartcastSingleAcceleration)]
-	[Conflicts(RedMageSmartcastSingleAccelerationCombatWeave)]
-	[CustomComboInfo("Weaving Only", "Only become Acceleration (+ Swiftcast if applicable) when weaving.\nDoes not care if you're in combat or not.\nUse both together for a logical-OR join.", RDM.JobID)]
-	RedMageSmartcastSingleAccelerationWeave = 3533,
+	[CustomComboInfo("When Weaving", "Change into Acceleration (+ Swiftcast if applicable) when you're weaving.\nThis will be prioritised over weaving Fleche/CS/Engagement, if applicable.", RDM.JobID)]
+	RedMageSmartcastSingleAccelerationWeave = 3536,
 
 	[ParentPreset(RedMageSmartcastSingleAcceleration)]
-	[Conflicts(RedMageSmartcastSingleAccelerationCombat, RedMageSmartcastSingleAccelerationWeave)]
-	[CustomComboInfo("Combat/Weaving Only", "Only become Acceleration (+ Swiftcast if applicable) when weaving AND in combat.", RDM.JobID)]
-	RedMageSmartcastSingleAccelerationCombatWeave = 3534,
+	[CustomComboInfo("When Moving", "Change into Acceleration (+ Swiftcast if applicable) when moving.\nThis will be prioritised over weaving Fleche/CS/Engagement, if applicable.", RDM.JobID)]
+	RedMageSmartcastSingleAccelerationMoving = 3537,
+
+	[ParentPreset(RedMageSmartcastSingleAcceleration)]
+	[CustomComboInfo("Don't Override", "Don't override Jolt when you can hardcast it.\nThis will prevent GCD drift at the cost of DPS loss.", RDM.JobID)]
+	RedMageSmartcastSingleAccelerationNoOverride = 3538,
 
 	[Conflicts(RedMageAoECombo)]
 	[CustomComboInfo("Smartcast AoE", "Dynamically replaces Veraero/Verthunder 2 with the appropriate spell based on your job gauge.\nIncludes Impact/Scatter when fastcasting.", RDM.JobID)]
