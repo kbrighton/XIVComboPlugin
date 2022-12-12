@@ -218,14 +218,15 @@ Now sorted by job and combo name!
 | PLD | Royal Authority DoT Saver | The RA/RoH combo chain becomes Goring Blade at the end, if your current target has less than seven seconds (adjustable) on the GB DoT. |
 | PLD | Royal Intervention Feature | Replace the RA/RoH combo with Intervene when NOT in the combo chain, and the current target is out of melee range. |
 | PLD | Stun/Interrupt Feature | Turn Low Blow and Interject into Interject when off CD and your target can be interrupted, Low Blow otherwise. |
-| RDM | Acceleration | Turns the single-target smartcast combo into Acceleration instead of Jolt. |
+| RDM | Acceleration | Turns the single-target smartcast combo into Acceleration instead of Jolt, when possible. |
 | RDM | Acceleration into Swiftcast | Replace Acceleration with Swiftcast when on cooldown or synced. |
 | RDM | Acceleration with Swiftcast first | Replace Acceleration with Swiftcast when neither are on cooldown. |
 | RDM | Auto Start | Turns the single-target smartcast combo into your melee combo when you're ready to execute it and your mana levels AREN'T equal. |
 | RDM | Combat Only | Only become Acceleration (+ Swiftcast if applicable) when in combat. |
+| RDM | Conservative Mode | Replace Manafication with your melee combo if using it would overcap EITHER mana colour. |
 | RDM | Contre Sixte / Fleche Feature | Turns Contre Sixte and Fleche into whichever is available. |
 | RDM | Contre Sixte Weave | Turns the AoE smartcast combo into Contre Sixte when you can weave without clipping. |
-| RDM | Embolden to Manaification | Replace Embolden with Manafication if the former is on cooldown and the latter is not. |
+| RDM | Don't Override | Don't override Jolt when you can hardcast it. |
 | RDM | Engagement | If you're in melee range and Fleche (+ Contra Sixte if applicable) can't be used yet, fall back to Engagement. |
 | RDM | Engagement | If you're in melee range and Fleche (+ Contra Sixte if applicable) can't be used yet, fall back to Engagement. |
 | RDM | Engagement Priority | Try to use Engagement first when in melee range. |
@@ -234,6 +235,9 @@ Now sorted by job and combo name!
 | RDM | Gap Closer | Replaces Redoublement with Corps-a-corps when out of melee range. |
 | RDM | Gap Reverser: Backstep | Replaces Corps-a-corps with Displacement when your taget is in melee range. |
 | RDM | Gap Reverser: Lunge | Replaces Displacement with Corps-a-corps when your taget is NOT in melee range. |
+| RDM | Leave one charge | Always leave one charge of Engagement unused during weaves, to allow using Displacement to backstep out of AoE markers. |
+| RDM | Leave one charge | Always leave one charge of Engagement unused during movement, to allow using Displacement to backstep out of AoE markers. |
+| RDM | Manafication Saver | Replace Manafication with your melee combo if using it would overcap both mana colours. |
 | RDM | Melee Combo | Replaces Redoublement with its combo chain, following enchantment rules. |
 | RDM | Melee Combo Followthrough | Turns the single-target smartcast combo into the rest of the melee combo once you start it, as long as you're in melee range. |
 | RDM | Melee Combo+ | Replaces Redoublement (and Moulinet) with Verflare/Verholy (and then Scorch and Resolution) after 3 mana stacks, whichever is more appropriate. |
@@ -248,7 +252,9 @@ Now sorted by job and combo name!
 | RDM | Verproc into Jolt Plus Verthunder Opener | Turns Verfire into Verthunder when out of combat. |
 | RDM | Walking Contre Sixte | Turns the AoE smartcast combo into Contre Sixte when you're moving and can't instacast. |
 | RDM | Walking Fleche | Turns the single-target smartcast combo into Fleche when you're moving and can't instacast. |
-| RDM | With Swiftcast | Acceleration falls back to Swiftcast if available and out of charges. |
+| RDM | When Moving | Change into Acceleration (+ Swiftcast if applicable) when moving. |
+| RDM | When Weaving | Change into Acceleration (+ Swiftcast if applicable) when you're weaving. |
+| RDM | With Swiftcast | Acceleration falls back to Swiftcast if it's available and Acceleration is out of charges. |
 | RPR | Arcane Harvest Feature | Replace Arcane Circle with Plentiful Harvest when you have enough stacks of Immortal Sacrifice. |
 | RPR | Blood Stalk Gluttony Feature | Replace Blood Stalk with Gluttony when available and Soul Gauge is at least 50. |
 | RPR | Combat Option | Prevent replacing Harpe with Harvest Moon when not in combat. |
