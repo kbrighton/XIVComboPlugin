@@ -644,14 +644,29 @@ internal class RedMageAcceleration: CustomCombo {
 	}
 }
 
-internal class RedMageEmbolden: CustomCombo {
-	public override CustomComboPreset Preset { get; } = CustomComboPreset.RedMageEmboldenFeature;
-	public override uint[] ActionIDs => new[] { RDM.Embolden };
+internal class RedMageManafication: CustomCombo {
+	public override CustomComboPreset Preset { get; } = CustomComboPreset.RedMageManaficationFeature;
+	public override uint[] ActionIDs => new[] { RDM.Manafication };
 
-	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
+		RDMGauge gauge = GetJobGauge<RDMGauge>();
+		byte
+			black = gauge.BlackMana,
+			white = gauge.WhiteMana;
+		bool
+			combo = lastComboActionId is RDM.EnchantedRiposte or RDM.Riposte or RDM.EnchantedZwerchhau or RDM.Zwerchhau;
 
-		if (level >= RDM.Levels.Manafication && IsOffCooldown(RDM.Manafication) && IsOnCooldown(RDM.Embolden))
-			return RDM.Manafication;
+		if (combo || (black > 50 && white > 50) || (IsEnabled(CustomComboPreset.RedMageManaficationFeatureConservative) && (black > 50 || white > 50))) {
+			if (IsEnabled(CustomComboPreset.RedMageMeleeComboCloser) && HasTarget && !InMeleeRange)
+				return RDM.Corpsacorps;
+
+			if (lastComboActionId is RDM.EnchantedZwerchhau or RDM.Zwerchhau && level >= RDM.Levels.Redoublement && black >= RDM.ManaCostRedoublement && white >= RDM.ManaCostRedoublement)
+				return OriginalHook(RDM.EnchantedRedoublement);
+			if (lastComboActionId is RDM.EnchantedRiposte or RDM.Riposte && level >= RDM.Levels.Zwerchhau && black >= RDM.ManaCostZwerchhau && white >= RDM.ManaCostZwerchhau)
+				return OriginalHook(RDM.EnchantedZwerchhau);
+
+			return OriginalHook(RDM.EnchantedRiposte);
+		}
 
 		return actionID;
 	}
