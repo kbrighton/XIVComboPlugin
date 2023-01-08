@@ -223,14 +223,18 @@ internal class SageLucidGCD: CustomCombo {
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-		if (CanWeave(actionID)) {
-			if (actionID is SGE.Dosis && IsEnabled(CustomComboPreset.SageLucidDosis) && level >= Common.Levels.LucidDreaming) {
-				if (CanUse(Common.LucidDreaming) && LocalPlayer.CurrentMp < Service.Configuration.SageLucidDosisManaThreshold)
-					return Common.LucidDreaming;
+		if (level >= Common.Levels.LucidDreaming) {
+			if (actionID is SGE.Dosis && IsEnabled(CustomComboPreset.SageLucidDosis)) {
+				if (LocalPlayer.CurrentMp < Service.Configuration.SageLucidDosisManaThreshold && CanUse(Common.LucidDreaming)) {
+					if (CanWeave(actionID))
+						return Common.LucidDreaming;
+				}
 			}
-			else if (actionID is SGE.Dyskrasia && IsEnabled(CustomComboPreset.SageLucidDyskrasia) && level >= Common.Levels.LucidDreaming) {
-				if (CanUse(Common.LucidDreaming) && LocalPlayer.CurrentMp < Service.Configuration.SageLucidDosisManaThreshold)
-					return Common.LucidDreaming;
+			else if (actionID is SGE.Dyskrasia && IsEnabled(CustomComboPreset.SageLucidDyskrasia)) {
+				if (LocalPlayer.CurrentMp < Service.Configuration.SageLucidDosisManaThreshold && CanUse(Common.LucidDreaming)) {
+					if (CanWeave(actionID))
+						return Common.LucidDreaming;
+				}
 			}
 		}
 
