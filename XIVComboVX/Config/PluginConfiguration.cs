@@ -261,6 +261,26 @@ public class PluginConfiguration: IPluginConfiguration {
 	)]
 	public float SagePhlegmaIcarusDistanceThreshold { get; set; } = 6;
 
+	[ComboDetailSetting(
+		CustomComboPreset.SageLucidDosis,
+		"MP threshold",
+		"When your MP is below this limit, Dosis+ becomes Lucid Dreaming while weaving",
+		1000,
+		7000,
+		0
+	)]
+	public float SageLucidDosisManaThreshold { get; set; } = 6000;
+
+	[ComboDetailSetting(
+		CustomComboPreset.SageLucidDyskrasia,
+		"MP threshold",
+		"When your MP is below this limit, Dyskrasia+ becomes Lucid Dreaming while weaving",
+		1000,
+		7000,
+		0
+	)]
+	public float SageLucidDyskrasiaManaThreshold { get; set; } = 6000;
+
 	#endregion
 
 	#region SMN settings

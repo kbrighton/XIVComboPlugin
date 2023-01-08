@@ -6,7 +6,9 @@ internal class Common {
 		LowBlow = 7540,
 		Interject = 7538,
 		// mages
-		Swiftcast = 7561;
+		Swiftcast = 7561,
+		// healers
+		LucidDreaming = 7562;
 
 	internal class Buffs {
 		public const ushort
@@ -18,6 +20,7 @@ internal class Common {
 
 	internal class Levels {
 		public const uint
+			LucidDreaming = 14,
 			Swiftcast = 18;
 	}
 }

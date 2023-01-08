@@ -197,7 +197,7 @@ internal class SagePhlegma: CustomCombo {
 		}
 
 		if (IsEnabled(CustomComboPreset.SagePhlegmaToxicon) && level >= SGE.Levels.Toxikon) {
-			if (!GetCooldown(phlegma).Available && GetJobGauge<SGEGauge>().Addersting > 0)
+			if (GetJobGauge<SGEGauge>().Addersting > 0 && (!GetCooldown(phlegma).Available || TargetDistance > 6))
 				return OriginalHook(SGE.Toxikon);
 		}
 
@@ -210,6 +210,27 @@ internal class SagePhlegma: CustomCombo {
 			if (level >= SGE.Levels.Icarus && HasTarget && TargetDistance > Service.Configuration.SagePhlegmaIcarusDistanceThreshold) {
 				if (GetCooldown(SGE.Icarus).Available && GetCooldown(phlegma).Available)
 					return SGE.Icarus;
+			}
+		}
+
+		return actionID;
+	}
+}
+
+internal class SageLucidGCD: CustomCombo {
+	public override CustomComboPreset Preset { get; } = CustomComboPreset.SgeAny;
+	public override uint[] ActionIDs => new[] { SGE.Dosis, SGE.Dyskrasia };
+
+	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+
+		if (CanWeave(actionID)) {
+			if (actionID is SGE.Dosis && IsEnabled(CustomComboPreset.SageLucidDosis) && level >= Common.Levels.LucidDreaming) {
+				if (CanUse(Common.LucidDreaming) && LocalPlayer.CurrentMp < Service.Configuration.SageLucidDosisManaThreshold)
+					return Common.LucidDreaming;
+			}
+			else if (actionID is SGE.Dyskrasia && IsEnabled(CustomComboPreset.SageLucidDyskrasia) && level >= Common.Levels.LucidDreaming) {
+				if (CanUse(Common.LucidDreaming) && LocalPlayer.CurrentMp < Service.Configuration.SageLucidDosisManaThreshold)
+					return Common.LucidDreaming;
 			}
 		}
 
