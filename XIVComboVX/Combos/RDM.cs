@@ -392,7 +392,7 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 
 		bool shouldEngage = canEngage
 			&& engageCheck
-			&& (!holdOneEngageCharge ^ engageCharges > 1);
+			&& (!holdOneEngageCharge || engageCharges > 1);
 		bool engagePre = shouldEngage && engageEarly;
 
 		if (canEngage && engagePre)
