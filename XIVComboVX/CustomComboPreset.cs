@@ -1129,14 +1129,17 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Soteria Kardia Feature", "Replace Soteria with Kardia when off cooldown and missing Kardion.", SGE.JobID)]
 	SageSoteriaKardionFeature = 4006,
 
-	[CustomComboInfo("Phlegma into Toxikon", "Replace Phlegma with Toxikon when no charges rmemain and have Addersting.", SGE.JobID)]
+	[CustomComboInfo("Phlegma Gap Closer", "Replace Phlegma with Icarus when at least a configurable distance away from your target and both are off CD.\nOnly applies when Phlegma has at least one charge available.", SGE.JobID)]
+	SagePhlegmaIcarus = 4009,
+
+	[CustomComboInfo("Phlegma into Toxikon", "Replace Phlegma with Toxikon when you have a target and Addersting, and either no charges of Phlegma remain or your target is too far away.\nGap Closer takes priority if enabled and available.", SGE.JobID)]
 	SagePhlegmaToxicon = 4007,
 
-	[CustomComboInfo("Phlegma into Dyskrasia", "Replace Phlegma with Dyskrasia when no charges remain or have no target.", SGE.JobID)]
-	SagePhlegmaDyskrasia = 4008,
+	[CustomComboInfo("Phlegma into Dosis", "Replace Phlegma with Dosis when you have a target in range.\nToxikon takes priority if enabled and available.", SGE.JobID)]
+	SagePhlegmaDosis = 4016,
 
-	[CustomComboInfo("Phlegma Gap Closer", "Replace Phlegma with Icarus when at least a configurable distance away and both are off CD.\nRespects the above two combos - Phlegma only becomes Icarus when NOT becoming one of the others.", SGE.JobID)]
-	SagePhlegmaIcarus = 4009,
+	[CustomComboInfo("Phlegma into Dyskrasia", "Replace Phlegma with Dyskrasia when no charges remain, you have no target, or your target is out of range.\nDosis takes priority if enabled and available.", SGE.JobID)]
+	SagePhlegmaDyskrasia = 4008,
 
 	[CustomComboInfo("Kerachole into Holos", "Turns Kerachole into Holos when your level is high enough, Kerachole is unavailable, and you can use Holos.", SGE.JobID)]
 	SageKeracholeHolos = 4010,
@@ -1144,11 +1147,17 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Holos into Kerachole", "Turns Holos into Kerachole when your level is too low, or when Kerachole is available and Holos is not.", SGE.JobID)]
 	SageHolosKerachole = 4011,
 
-	[CustomComboInfo("Lucid Dosis", "Turns Dosis+ into Lucid Dreaming when it's available, you're weaving, and your MP is below a threshold.", SGE.JobID)]
+	[CustomComboInfo("Lucid Dosis", "Weave Dosis into Lucid Dreaming when it's available and your MP is below a threshold.\nThis also applies when Phlegma becomes Dosis.", SGE.JobID)]
 	SageLucidDosis = 4012,
 
-	[CustomComboInfo("Lucid Dyskrasia", "Turns Dyskrasia+ into Lucid Dreaming when it's available, you're weaving, and your MP is below a threshold.", SGE.JobID)]
+	[CustomComboInfo("Lucid Dyskrasia", "Weave Dyskrasia into Lucid Dreaming when it's available and your MP is below a threshold.\nThis also applies when Phlegma becomes Dyskrasia.", SGE.JobID)]
 	SageLucidDyskrasia = 4013,
+
+	[CustomComboInfo("Lucid Toxikon", "Weave Toxikon into Lucid Dreaming when it's available and your MP is below a threshold.\nThis also applies when Phlegma becomes Toxikon.", SGE.JobID)]
+	SageLucidToxikon = 4014,
+
+	[CustomComboInfo("Lucid Phlegma", "Weave Phlegma into Lucid Dreaming when it's available and your MP is below a configurable threshold.", SGE.JobID)]
+	SageLucidPhlegma = 4015,
 
 	#endregion
 	// ====================================================================================

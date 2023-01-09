@@ -183,33 +183,100 @@ internal class SagePhlegma: CustomCombo {
 	public override uint[] ActionIDs => new[] { SGE.Phlegma, SGE.Phlegma2, SGE.Phlegma3 };
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-		uint phlegma = level >= SGE.Levels.Phlegma3
-			? SGE.Phlegma3
-			: level >= SGE.Levels.Phlegma2
-				? SGE.Phlegma2
-				: level >= SGE.Levels.Phlegma
-					? SGE.Phlegma
-					: 0;
+		uint phlegma = OriginalHook(actionID);
 
-		if (IsEnabled(CustomComboPreset.SagePhlegmaDyskrasia)) {
-			if (!HasTarget)
-				return OriginalHook(SGE.Dyskrasia);
+		// Phlegma, Icarus, Toxikon, and Dosis are all targeted actions, so if you don't have a target, we won't bother checking for any of them
+		if (HasTarget) {
+
+			// First, if you have a target in range for Phlegma and it's usable, we just do that
+			if (TargetDistance <= 6 && CanUse(phlegma)) {
+
+				if (IsEnabled(CustomComboPreset.SageLucidPhlegma) && level >= Common.Levels.LucidDreaming) {
+					if (LocalPlayer.CurrentMp < Service.Configuration.SageLucidPhlegmaManaThreshold) {
+						if (CanUse(Common.LucidDreaming) && CanWeave(actionID))
+							return Common.LucidDreaming;
+					}
+				}
+
+				return phlegma;
+			}
+			// Fallthrough: target out of range OR phlegma down
+
+			// Prioritise Icarus into Phlegma over Toxikon because Phlegma is higher potency
+			if (IsEnabled(CustomComboPreset.SagePhlegmaIcarus) && level >= SGE.Levels.Icarus) {
+				if (TargetDistance > Service.Configuration.SagePhlegmaIcarusDistanceThreshold) {
+					if (CanUse(SGE.Icarus) && CanUse(phlegma))
+						return SGE.Icarus;
+				}
+			}
+			// Fallthrough: target not far enough OR icarus down OR phlegma down
+
+			// Even if you CAN use Phlegma, if you're too far away and Icarus isn't up, fall back to the lower-potency Toxikon cause it's a target-AOE too
+			if (IsEnabled(CustomComboPreset.SagePhlegmaToxicon) && level >= SGE.Levels.Toxikon) {
+				if (GetJobGauge<SGEGauge>().Addersting > 0 && (!CanUse(phlegma) || TargetDistance > 6)) {
+
+					if (IsEnabled(CustomComboPreset.SageLucidToxikon) && level >= Common.Levels.LucidDreaming) {
+						if (LocalPlayer.CurrentMp < Service.Configuration.SageLucidToxikonManaThreshold) {
+							if (CanUse(Common.LucidDreaming) && CanWeave(actionID))
+								return Common.LucidDreaming;
+						}
+					}
+
+					return OriginalHook(SGE.Toxikon);
+				}
+			}
+			// Fallthrough: no addersting AND ((target out of range AND not far enough) OR phlegma down)
+
+			// Prioritise Dosis over Dyskrasia if you have a target in range because it's much higher potency and a targeted attack
+			// It's actually higher potency than Toxikon too, but this is a fallback because the button is MEANT for target-AOE attacks and Dosis is ST
+			// Note that this DOESN'T check for Phlegma being down! If it's up but we got here anyway, then the target must be out of range, so Dyskrasia wouldn't hit them either.
+			// If you want to use Dyskrasia over Dosis, clear your target with escape or clicking on the ground.
+			if (IsEnabled(CustomComboPreset.SagePhlegmaDosis)) {
+				if (TargetDistance <= 25) {
+
+					if (IsEnabled(CustomComboPreset.SageLucidDosis) && level >= Common.Levels.LucidDreaming) {
+						if (LocalPlayer.CurrentMp < Service.Configuration.SageLucidDosisManaThreshold) {
+							if (CanUse(Common.LucidDreaming) && CanWeave(actionID))
+								return Common.LucidDreaming;
+						}
+					}
+
+					return OriginalHook(SGE.Dosis);
+				}
+			}
+			// Fallthrough: no addersting AND target out of range (incl. for icarus)
 		}
+		// Fallthrough: (no addersting AND target out of range (incl. for icarus)) OR no target
 
-		if (IsEnabled(CustomComboPreset.SagePhlegmaToxicon) && level >= SGE.Levels.Toxikon) {
-			if (GetJobGauge<SGEGauge>().Addersting > 0 && (!GetCooldown(phlegma).Available || TargetDistance > 6))
-				return OriginalHook(SGE.Toxikon);
-		}
-
+		// Fall back to Dyskrasia if there's nothing else we can do, because you'd have to be FAIRLY close for Phlegma so hopefully this self-AOE will still hit enough to be worth it
+		// This also triggers if you HAVE a target, but they're out of range for Dosis/Icarus (or you just don't have that stuff enabled)
 		if (IsEnabled(CustomComboPreset.SagePhlegmaDyskrasia) && level >= SGE.Levels.Dyskrasia) {
-			if (!GetCooldown(phlegma).Available)
-				return OriginalHook(SGE.Dyskrasia);
-		}
 
-		if (IsEnabled(CustomComboPreset.SagePhlegmaIcarus)) {
-			if (level >= SGE.Levels.Icarus && HasTarget && TargetDistance > Service.Configuration.SagePhlegmaIcarusDistanceThreshold) {
-				if (GetCooldown(SGE.Icarus).Available && GetCooldown(phlegma).Available)
-					return SGE.Icarus;
+			if (IsEnabled(CustomComboPreset.SageLucidDyskrasia) && level >= Common.Levels.LucidDreaming) {
+				if (LocalPlayer.CurrentMp < Service.Configuration.SageLucidDyskrasiaManaThreshold) {
+					if (CanUse(Common.LucidDreaming) && CanWeave(actionID))
+						return Common.LucidDreaming;
+				}
+			}
+
+			return OriginalHook(SGE.Dyskrasia);
+		}
+		// Fallthrough: none (excluding level too low or combos not enabled)
+
+		return actionID;
+	}
+}
+
+internal class SageDosis: CustomCombo {
+	public override CustomComboPreset Preset { get; } = CustomComboPreset.SageLucidDosis;
+	public override uint[] ActionIDs => new[] { SGE.Dosis };
+
+	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+
+		if (level >= Common.Levels.LucidDreaming) {
+			if (LocalPlayer.CurrentMp < Service.Configuration.SageLucidDosisManaThreshold) {
+				if (CanUse(Common.LucidDreaming) && CanWeave(actionID))
+					return Common.LucidDreaming;
 			}
 		}
 
@@ -217,24 +284,33 @@ internal class SagePhlegma: CustomCombo {
 	}
 }
 
-internal class SageLucidGCD: CustomCombo {
-	public override CustomComboPreset Preset { get; } = CustomComboPreset.SgeAny;
-	public override uint[] ActionIDs => new[] { SGE.Dosis, SGE.Dyskrasia };
+internal class SageDyskrasia: CustomCombo {
+	public override CustomComboPreset Preset { get; } = CustomComboPreset.SageLucidDyskrasia;
+	public override uint[] ActionIDs => new[] { SGE.Dyskrasia };
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
 		if (level >= Common.Levels.LucidDreaming) {
-			if (actionID is SGE.Dosis && IsEnabled(CustomComboPreset.SageLucidDosis)) {
-				if (LocalPlayer.CurrentMp < Service.Configuration.SageLucidDosisManaThreshold && CanUse(Common.LucidDreaming)) {
-					if (CanWeave(actionID))
-						return Common.LucidDreaming;
-				}
+			if (LocalPlayer.CurrentMp < Service.Configuration.SageLucidDyskrasiaManaThreshold) {
+				if (CanUse(Common.LucidDreaming) && CanWeave(actionID))
+					return Common.LucidDreaming;
 			}
-			else if (actionID is SGE.Dyskrasia && IsEnabled(CustomComboPreset.SageLucidDyskrasia)) {
-				if (LocalPlayer.CurrentMp < Service.Configuration.SageLucidDosisManaThreshold && CanUse(Common.LucidDreaming)) {
-					if (CanWeave(actionID))
-						return Common.LucidDreaming;
-				}
+		}
+
+		return actionID;
+	}
+}
+
+internal class SageToxikon: CustomCombo {
+	public override CustomComboPreset Preset { get; } = CustomComboPreset.SageLucidToxikon;
+	public override uint[] ActionIDs => new[] { SGE.Toxikon };
+
+	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+
+		if (level >= Common.Levels.LucidDreaming) {
+			if (LocalPlayer.CurrentMp < Service.Configuration.SageLucidToxikonManaThreshold) {
+				if (CanUse(Common.LucidDreaming) && CanWeave(actionID))
+					return Common.LucidDreaming;
 			}
 		}
 
