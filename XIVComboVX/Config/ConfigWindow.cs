@@ -359,7 +359,7 @@ public class ConfigWindow: Window {
 		ImGui.Spacing();
 
 		if (hasDetails && enabled) {
-			const int MEM_WIDTH = 4;
+			const int MEM_WIDTH = sizeof(int);
 			IntPtr ptrVal = Marshal.AllocHGlobal(MEM_WIDTH);
 			IntPtr ptrMin = Marshal.AllocHGlobal(MEM_WIDTH);
 			IntPtr ptrMax = Marshal.AllocHGlobal(MEM_WIDTH);
@@ -373,14 +373,14 @@ public class ConfigWindow: Window {
 							Marshal.Copy(BitConverter.GetBytes(detail.Val), 0, ptrVal, MEM_WIDTH);
 							Marshal.Copy(BitConverter.GetBytes(detail.Min), 0, ptrMin, MEM_WIDTH);
 							Marshal.Copy(BitConverter.GetBytes(detail.Max), 0, ptrMax, MEM_WIDTH);
-							Marshal.Copy(BitConverter.GetBytes((float)1), 0, ptrStep, MEM_WIDTH);
+							Marshal.Copy(BitConverter.GetBytes(1f), 0, ptrStep, MEM_WIDTH);
 							break;
 						case ImGuiDataType.U32:
 							fmt = "%u";
 							Marshal.Copy(BitConverter.GetBytes((uint)detail.Val), 0, ptrVal, MEM_WIDTH);
 							Marshal.Copy(BitConverter.GetBytes((uint)detail.Min), 0, ptrMin, MEM_WIDTH);
 							Marshal.Copy(BitConverter.GetBytes((uint)detail.Max), 0, ptrMax, MEM_WIDTH);
-							Marshal.Copy(BitConverter.GetBytes((uint)1), 0, ptrStep, MEM_WIDTH);
+							Marshal.Copy(BitConverter.GetBytes(1u), 0, ptrStep, MEM_WIDTH);
 							break;
 						case ImGuiDataType.S32:
 							fmt = "%i";
@@ -393,7 +393,7 @@ public class ConfigWindow: Window {
 							throw new FormatException($"Invalid detail type {detail.ImGuiType}");
 					}
 					Service.Logger.debug(
-						$"{detail.Label} ({detail.Type.Name}/{detail.ImGuiType}) {detail.Min} <= {detail.Val} <= {detail.Max}"
+						$"{detail.Label} ({detail.Type.Name}/{detail.ImGuiType}) {detail.Min} <= [{detail.Val}] <= {detail.Max}"
 					);
 					bool changed = detail.Max - detail.Min > 40
 						? ImGui.InputScalar(
@@ -414,10 +414,14 @@ public class ConfigWindow: Window {
 							fmt,
 							ImGuiSliderFlags.AlwaysClamp
 						);
-					if (!string.IsNullOrEmpty(detail.Description) && ImGui.IsItemHovered()) {
+					if (ImGui.IsItemHovered()) {
 						ImGui.BeginTooltip();
 						ImGui.PushTextWrapPos(300);
-						ImGui.TextUnformatted(detail.Description);
+						if (!string.IsNullOrEmpty(detail.Description)) {
+							ImGui.TextUnformatted(detail.Description);
+							ImGui.TextUnformatted("");
+						}
+						ImGui.TextUnformatted($"Range: [{detail.Min}, {detail.Max}] (inclusive)");
 						ImGui.PopTextWrapPos();
 						ImGui.EndTooltip();
 					}
