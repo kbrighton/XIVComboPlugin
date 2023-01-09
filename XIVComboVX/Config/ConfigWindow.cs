@@ -32,6 +32,7 @@ public class ConfigWindow: Window {
 	public ConfigWindow() : base($"Custom Combo Setup - {Service.Plugin.ShortPluginSignature}, {Service.Plugin.PluginBuildType}###{Service.Plugin.Name} Custom Combo Setup", ImGuiWindowFlags.MenuBar) {
 		this.RespectCloseHotkey = true;
 
+#pragma warning disable CS8619 // Nullability of reference types in value doesn't match target type.
 		List<(CustomComboPreset preset, CustomComboInfoAttribute info)> realPresets = Enum
 			.GetValues<CustomComboPreset>()
 			.Where(preset => (int)preset >= 100)
@@ -39,9 +40,10 @@ public class ConfigWindow: Window {
 				preset,
 				info: preset.GetAttribute<CustomComboInfoAttribute>()
 			))
-			.Where(preset => preset.info is not null)
-			.OrderBy(preset => preset.info.Order)
+			.Where(preset => preset.info is not null) // warning is voided by this line - the CCIA will never be null
+			.OrderBy(preset => preset.info!.Order)
 			.ToList();
+#pragma warning restore CS8619 // Nullability of reference types in value doesn't match target type.
 
 		this.groupedPresets = realPresets
 			.GroupBy(data => data.info.JobName)
@@ -276,7 +278,7 @@ public class ConfigWindow: Window {
 		string conflictWarning = string.Empty;
 		if (conflicts.Length > 0) {
 			string[] conflictNames = conflicts
-				.Select(p => p.GetAttribute<CustomComboInfoAttribute>().FancyName)
+				.Select(p => p.GetAttribute<CustomComboInfoAttribute>()!.FancyName)
 				.ToArray();
 			conflictWarning = $"Conflicts with: {string.Join(", ", conflictNames)}";
 		}

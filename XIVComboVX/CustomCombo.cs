@@ -34,7 +34,7 @@ internal abstract class CustomCombo {
 	};
 
 	protected CustomCombo() {
-		CustomComboInfoAttribute presetInfo = this.Preset.GetAttribute<CustomComboInfoAttribute>();
+		CustomComboInfoAttribute presetInfo = this.Preset.GetAttribute<CustomComboInfoAttribute>()!;
 		this.JobID = presetInfo.JobID;
 		this.ModuleName = this.GetType().Name;
 		this.AffectedIDs = new(this.ActionIDs);
