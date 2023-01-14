@@ -27,13 +27,13 @@ internal class PluginAddressResolver: BaseAddressResolver {
 
 	protected override void Setup64Bit(SigScanner scanner) {
 		try {
-			PluginLog.Debug("Scanning for ComboTimer signature");
+			PluginLog.Information("Scanning for ComboTimer signature");
 			this.ComboTimer = scanner.GetStaticAddressFromSig("F3 0F 11 05 ?? ?? ?? ?? F3 0F 10 45 ?? E8");
 
-			PluginLog.Debug("Scanning for GetAdjustedActionId signature");
+			PluginLog.Information("Scanning for GetAdjustedActionId signature");
 			this.GetAdjustedActionId = scanner.ScanText("E8 ?? ?? ?? ?? 8B F8 3B DF");  // Client::Game::ActionManager.GetAdjustedActionId
 
-			PluginLog.Debug("Scanning for IsActionIdReplaceable signature");
+			PluginLog.Information("Scanning for IsActionIdReplaceable signature");
 			this.IsActionIdReplaceable = scanner.ScanText("E8 ?? ?? ?? ?? 84 C0 74 4C 8B D3");
 		}
 		catch (Exception ex) {
@@ -55,11 +55,11 @@ internal class PluginAddressResolver: BaseAddressResolver {
 			return;
 		}
 
-		Service.Logger.debug("Address resolution successful");
+		PluginLog.Information("Address resolution successful");
 
-		PluginLog.Verbose($"GetAdjustedActionId 0x{this.GetAdjustedActionIdAddr}");
-		PluginLog.Verbose($"IsIconReplaceable   0x{this.IsActionIdReplaceableAddr}");
-		PluginLog.Verbose($"ComboTimer          0x{this.ComboTimerAddr}");
-		PluginLog.Verbose($"LastComboMove       0x{this.LastComboMoveAddr}");
+		PluginLog.Information($"GetAdjustedActionId 0x{this.GetAdjustedActionIdAddr}");
+		PluginLog.Information($"IsIconReplaceable   0x{this.IsActionIdReplaceableAddr}");
+		PluginLog.Information($"ComboTimer          0x{this.ComboTimerAddr}");
+		PluginLog.Information($"LastComboMove       0x{this.LastComboMoveAddr}");
 	}
 }
