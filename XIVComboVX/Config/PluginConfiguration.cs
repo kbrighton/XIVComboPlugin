@@ -181,14 +181,7 @@ public class PluginConfiguration: IPluginConfiguration {
 
 	#region PLD settings
 
-	[ComboDetailSetting(
-		CustomComboPreset.PaladinRoyalAuthorityDoTSaver,
-		"RA/RoH buff threshold",
-		"When the Goring Blade DoT only has this many seconds left, switch to Goring Blade to renew it",
-		0,
-		30
-	)]
-	public float PaladinGoringBladeDoTSaverDebuffTime { get; set; } = 7;
+	// placeholder
 
 	#endregion
 

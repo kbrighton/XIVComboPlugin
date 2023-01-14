@@ -647,53 +647,55 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Stun/Interrupt Feature", "Turn Low Blow and Interject into Interject when off CD and your target can be interrupted, Low Blow otherwise.", PLD.JobID)]
 	PaladinStunInterruptFeature = 1907,
 
-	[CustomComboInfo("Goring Blade Combo", "Replace Goring Blade with its combo chain.", PLD.JobID)]
-	PaladinGoringBladeCombo = 1900,
+	[CustomComboInfo("Intervene Level Sync", "Replace Intervene with Shield Lob when under level.", PLD.JobID)]
+	PaladinInterveneSyncFeature = 1906,
 
-	[ParentPreset(PaladinGoringBladeCombo)]
-	[CustomComboInfo("Intervening Blade Feature", "Replace the GB combo with Intervene when NOT in the combo chain, and the current target is out of melee range.", PLD.JobID)]
-	PaladinGoringBladeRangeSwapFeature = 1910,
+	[CustomComboInfo("Prominence Combo", "Replace Prominence with its combo chain.", PLD.JobID)]
+	PaladinProminenceCombo = 1903,
 
-	[ParentPreset(PaladinGoringBladeRangeSwapFeature)]
-	[CustomComboInfo("Level Sync", "Replace Intervene with Shield Lob when under level.", PLD.JobID)]
-	PaladinGoringBladeRangeSwapSyncFeature = 1911,
+	[ParentPreset(PaladinRoyalAuthorityCombo)]
+	[CustomComboInfo("Weave: Fight or Flight", "Weave in Fight or Flight on Prominence/TE when doing so will not clip your GCD window.", PLD.JobID)]
+	PaladinHolyWeaveFightOrFlight = 1921,
+
+	[ParentPreset(PaladinProminenceCombo)]
+	[CustomComboInfo("Weave: Circle of Scorn", "Weave in Circle of Scorn on Prominence/TE when doing so will not clip your GCD window.", PLD.JobID)]
+	PaladinProminenceWeaveCircleOfScorn = 1920,
+
+	[ParentPreset(PaladinProminenceCombo)]
+	[CustomComboInfo("Prominent Confiteor Feature", "Replace the Prominence combo with Confiteor (and chains) when Requiescat is up.", PLD.JobID)]
+	PaladinProminentConfiteor = 1916,
 
 	[CustomComboInfo("Royal Authority Combo", "Replace Royal Authority/Rage of Halone with its combo chain.", PLD.JobID)]
 	PaladinRoyalAuthorityCombo = 1901,
 
 	[ParentPreset(PaladinRoyalAuthorityCombo)]
-	[CustomComboInfo("Royal Intervention Feature", "Replace the RA/RoH combo with Intervene when NOT in the combo chain, and the current target is out of melee range.", PLD.JobID)]
-	PaladinRoyalAuthorityRangeSwapFeature = 1912,
-
-	[ParentPreset(PaladinRoyalAuthorityRangeSwapFeature)]
-	[CustomComboInfo("Level Sync", "Replace Intervene with Shield Lob when under level.", PLD.JobID)]
-	PaladinRoyalAuthorityRangeSwapSyncFeature = 1913,
+	[CustomComboInfo("Weave: Fight or Flight", "Weave in Fight or Flight on RA/RoH when doing so will not clip your GCD window.", PLD.JobID)]
+	PaladinRoyalWeaveFightOrFlight = 1918,
 
 	[ParentPreset(PaladinRoyalAuthorityCombo)]
-	[CustomComboInfo("Royal Authority DoT Saver", "The RA/RoH combo chain becomes Goring Blade at the end, if your current target has less than seven seconds (adjustable) on the GB DoT.\nThis includes when your target doesn't have the DoT.", PLD.JobID)]
-	PaladinRoyalAuthorityDoTSaver = 1909,
+	[CustomComboInfo("Weave: Spirits Within", "Weave in Spirits Within / Expiacion on RA/RoH when doing so will not clip your GCD window.", PLD.JobID)]
+	PaladinRoyalWeaveSpiritsWithin = 1919,
 
-	[CustomComboInfo("Atonement Feature", "Replace the Royal Authority and Goring Blade combos with Atonement when under the effect of Sword Oath.", PLD.JobID)]
+	[ParentPreset(PaladinRoyalAuthorityCombo)]
+	[CustomComboInfo("Royal Intervention Feature", "Replace the RA/RoH combo with Intervene when NOT in the combo chain, and the current target is out of melee range.\nRespects Intervene Level Sync if enabled.", PLD.JobID)]
+	PaladinRoyalAuthorityRangeSwapFeature = 1912,
+
+	[ParentPreset(PaladinRoyalAuthorityCombo)]
+	[CustomComboInfo("Atonement Feature", "Replace the RA/RoH combo with Atonement when NOT in the combo chain, and under the effect of Sword Oath.", PLD.JobID)]
 	PaladinAtonementFeature = 1902,
 
-	[CustomComboInfo("Prominence Combo", "Replace Prominence with its combo chain.", PLD.JobID)]
-	PaladinProminenceCombo = 1903,
+	[ParentPreset(PaladinRoyalAuthorityCombo)]
+	[CustomComboInfo("Royal Confiteor Feature", "Replace the RA/RoH combo with Confiteor (and chains) when Requiescat is up.", PLD.JobID)]
+	PaladinRoyalConfiteor = 1915,
 
-	[CustomComboInfo("Requiescat Confiteor", "Replace Requiescat with Confiteor while under the effect of Requiescat.", PLD.JobID)]
-	PaladinRequiescatConfiteorCombo = 1904,
+	[CustomComboInfo("Requiescat Confiteor", "Replace Requiescat with Confiteor (and chains) while under the effect of Requiescat.", PLD.JobID)]
+	PaladinRequiescatConfiteor = 1904,
 
-	[CustomComboInfo("Requiescat Feature", "Replace Royal Authority/Goring Blade combos with Holy Spirit, and Prominence combo with Holy Circle, while Requiescat is active.", PLD.JobID)]
-	PaladinRequiescatFeature = 1905,
+	[CustomComboInfo("Holy Confiteor", "Replace Holy Spirit/Circle with Confiteor (and chains) when Requiescat is up.", PLD.JobID)]
+	PaladinHolyConfiteor = 1908,
 
-	[CustomComboInfo("Confiteor Feature", "Replace Holy Spirit/Circle with Confiteor when Requiescat is up and MP is under 2000 or only one stack remains.\nAlso changes the RA/GB/Prominence-into-HS/HC-combos into Confiteor.", PLD.JobID)]
-	PaladinConfiteorFeature = 1908,
-
-	[ParentPreset(PaladinConfiteorFeature)]
-	[CustomComboInfo("Post-Confiteor Chain", "Include the Blade of Faith/Truth/Valor chain after Confiteor.", PLD.JobID)]
-	PaladinConfiteorChainFeature = 1914,
-
-	[CustomComboInfo("Intervene Level Sync", "Replace Intervene with Shield Lob when under level.", PLD.JobID)]
-	PaladinInterveneSyncFeature = 1906,
+	[CustomComboInfo("Sheltron Sentinel", "Replace Sheltron with Sentinel when available.", PLD.JobID)]
+	PaladinSheltronSentinel = 1917,
 
 	#endregion
 	// ====================================================================================
