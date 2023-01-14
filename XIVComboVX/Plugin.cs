@@ -41,7 +41,6 @@ public sealed class Plugin: IDalamudPlugin {
 
 	public Plugin(DalamudPluginInterface pluginInterface) {
 
-		FFXIVClientStructs.Resolver.Initialize();
 		pluginInterface.Create<Service>();
 
 		Service.Plugin = this;
