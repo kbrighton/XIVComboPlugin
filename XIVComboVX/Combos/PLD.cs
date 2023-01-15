@@ -179,7 +179,7 @@ internal class PaladinHolySpiritHolyCircle: CustomCombo {
 	}
 }
 
-internal class PaladinRequiescatCombo: CustomCombo {
+internal class PaladinRequiescat: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.PaladinRequiescatConfiteor;
 	public override uint[] ActionIDs { get; } = new[] { PLD.Requiescat };
 

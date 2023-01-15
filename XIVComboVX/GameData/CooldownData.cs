@@ -26,7 +26,7 @@ internal readonly struct CooldownData {
 	/// <summary>
 	/// Elapsed time on the cooldown, covering only the number of max charges available at current level (if applicable)
 	/// </summary>
-	public float CooldownElapsed => this.cooldownElapsed == 0 || this.cooldownElapsed >= this.CooldownTotal
+	public float CooldownElapsed => this.cooldownElapsed <= 0 || this.cooldownElapsed >= this.CooldownTotal
 		? 0
 		: this.cooldownElapsed;
 
@@ -35,7 +35,7 @@ internal readonly struct CooldownData {
 	/// </summary>
 	public float CooldownTotal {
 		get {
-			if (this.cooldownTotal == 0)
+			if (this.cooldownTotal <= 0)
 				return 0;
 
 			(ushort cur, ushort max) = Service.DataCache.GetMaxCharges(this.ActionID);
