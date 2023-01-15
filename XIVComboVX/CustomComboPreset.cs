@@ -748,6 +748,10 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Auto Start", "Turns the single-target smartcast combo into your melee combo when you're ready to execute it and your mana levels AREN'T equal.", RDM.JobID)]
 	RedMageSmartcastSingleMeleeComboStarter = 3522,
 
+	[ParentPreset(RedMageSmartcastSingleMeleeComboStarter)]
+	[CustomComboInfo("Gap Close", "If you're ready to start your melee combo, but you aren't in range, become Corps-a-corps to gap close.", RDM.JobID)]
+	RedMageSmartcastSingleMeleeComboStarterCloser = 3541,
+
 	[ParentPreset(RedMageSmartcastSingleFeature)]
 	[CustomComboInfo("Acceleration", "Turns the single-target smartcast combo into Acceleration instead of Jolt, when possible.", RDM.JobID)]
 	RedMageSmartcastSingleAcceleration = 3527,

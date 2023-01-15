@@ -434,7 +434,7 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 		bool moving = IsMoving;
 		bool targeting = HasTarget;
 		bool fighting = InCombat;
-		bool canMelee = targeting && InMeleeRange;
+		bool isClose = InMeleeRange;
 
 		RDMGauge gauge = GetJobGauge<RDMGauge>();
 
@@ -444,6 +444,7 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 		int whiteThreshold = black + IMBALANCE_DIFF_MAX;
 
 		int minManaForEnchantedMelee = RDM.ManaCostRiposte + (level >= RDM.Levels.Zwerchhau ? RDM.ManaCostZwerchhau : 0) + (level >= RDM.Levels.Redoublement ? RDM.ManaCostRedoublement : 0);
+		bool hasMeleeMana = black >= minManaForEnchantedMelee && white >= minManaForEnchantedMelee && (black != white || black is 100);
 
 		bool verfireUp = SelfHasEffect(RDM.Buffs.VerfireReady);
 		bool verstoneUp = SelfHasEffect(RDM.Buffs.VerstoneReady);
@@ -453,8 +454,12 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 		bool isFinishingAny = isFinishing1 || isFinishing2 || isFinishing3;
 		bool canFinishWhite = level >= RDM.Levels.Verholy;
 
-		bool meleeCombo = IsEnabled(CustomComboPreset.RedMageSmartcastSingleMeleeCombo) && lastComboActionId is RDM.EnchantedRiposte or RDM.Riposte or RDM.EnchantedZwerchhau or RDM.Zwerchhau;
-		bool startMelee = canMelee && IsEnabled(CustomComboPreset.RedMageSmartcastSingleMeleeComboStarter) && black >= minManaForEnchantedMelee && white >= minManaForEnchantedMelee && (black != white || black is 100);
+		bool meleeCombo = IsEnabled(CustomComboPreset.RedMageSmartcastSingleMeleeCombo)
+			&& lastComboActionId is RDM.EnchantedRiposte or RDM.Riposte or RDM.EnchantedZwerchhau or RDM.Zwerchhau;
+		bool startMelee = IsEnabled(CustomComboPreset.RedMageSmartcastSingleMeleeComboStarter)
+			&& targeting && isClose && hasMeleeMana;
+		bool shouldCloseGap = IsEnabled(CustomComboPreset.RedMageSmartcastSingleMeleeComboStarterCloser)
+			&& targeting && !isClose && hasMeleeMana;
 
 		bool smartWeave = IsEnabled(CustomComboPreset.RedMageSmartcastSingleWeave) && weaving;
 		bool smartMove = IsEnabled(CustomComboPreset.RedMageSmartcastSingleMovement) && moving;
@@ -479,7 +484,7 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 				engageCheck = IsEnabled(CustomComboPreset.RedMageSmartcastSingleWeaveMelee) && weaving,
 				holdOneEngageCharge = IsEnabled(CustomComboPreset.RedMageSmartcastSingleWeaveMeleeHoldOne),
 				engageEarly = IsEnabled(CustomComboPreset.RedMageSmartcastSingleWeaveMeleeFirst);
-			uint alt = noCastingSubCheck(level, engageCheck, holdOneEngageCharge, engageEarly, canMelee, accelWeave);
+			uint alt = noCastingSubCheck(level, engageCheck, holdOneEngageCharge, engageEarly, targeting && isClose, accelWeave);
 			if (alt > 0)
 				return alt;
 		}
@@ -525,13 +530,18 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 		if (meleeCombo) {
 			// If we're out of range while in the combo, become Corps-a-corps to get back in range. Otherwise, just run the combo.
 
-			if (!canMelee)
+			if (!(targeting && isClose))
 				return RDM.Corpsacorps;
 
 			if (lastComboActionId is RDM.EnchantedZwerchhau or RDM.Zwerchhau && level >= RDM.Levels.Redoublement && black >= RDM.ManaCostRedoublement && white >= RDM.ManaCostRedoublement)
 				return OriginalHook(RDM.EnchantedRedoublement);
 			if (lastComboActionId is RDM.EnchantedRiposte or RDM.Riposte && level >= RDM.Levels.Zwerchhau && black >= RDM.ManaCostZwerchhau && white >= RDM.ManaCostZwerchhau)
 				return OriginalHook(RDM.EnchantedZwerchhau);
+		}
+		if (shouldCloseGap) {
+			// If this is the case, then startMelee CANNOT be, because one requires isClose and one requires !isClose, so the order of these two doesn't really matter.
+			// I decided to put it here because logically, you need to close before you can melee.
+			return RDM.Corpsacorps;
 		}
 		if (startMelee) {
 			// Do we allow becoming spells from within the combo? They'll break the combo, but sometimes the boss moves out of melee range of the whole arena.
@@ -572,7 +582,7 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 				engageCheck = IsEnabled(CustomComboPreset.RedMageSmartcastSingleMovementMelee) && moving,
 				holdOneEngageCharge = IsEnabled(CustomComboPreset.RedMageSmartcastSingleMovementMeleeHoldOne),
 				engageEarly = IsEnabled(CustomComboPreset.RedMageSmartcastSingleMovementMeleeFirst);
-			uint alt = noCastingSubCheck(level, engageCheck, holdOneEngageCharge, engageEarly, canMelee, accelMove);
+			uint alt = noCastingSubCheck(level, engageCheck, holdOneEngageCharge, engageEarly, targeting && isClose, accelMove);
 			if (alt > 0)
 				return alt;
 		}
