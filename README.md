@@ -1,7 +1,7 @@
-# XIVComboPlugin
-This plugin condenses combos and mutually exclusive abilities onto a single button. Thanks to Meli for the initial start, attick and daemitus for continuing, and obviously goat for making any of this possible.
+# XIVComboVX
+_Finally, hotbar space..._
 
-![GitHub build status](https://img.shields.io/github/workflow/status/PrincessRTFM/XIVComboPlugin/Build?logo=github)
+![GitHub build status](https://img.shields.io/github/actions/workflow/status/PrincessRTFM/XIVComboPlugin/build.yml?logo=github)
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/PrincessRTFM/XIVComboPlugin?label=version&color=informational)
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/PrincessRTFM/XIVComboPlugin/master?label=updated)
 [![GitHub issues](https://img.shields.io/github/issues-raw/PrincessRTFM/XIVComboPlugin?label=known%20issues)](https://github.com/PrincessRTFM/XIVComboPlugin/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc)
@@ -9,7 +9,7 @@ This plugin condenses combos and mutually exclusive abilities onto a single butt
 ## About
 [![License](https://img.shields.io/github/license/PrincessRTFM/XIVComboPlugin?logo=github&color=informational&cacheSeconds=86400)](https://github.com/PrincessRTFM/XIVComboPlugin/blob/master/LICENSE)
 
-XIVCombo is a plugin to allow for "one-button" combo chains, as well as implementing various other mutually-exclusive button consolidation and quality of life replacements.
+XIVCombo is a plugin to allow for "one-button" combo chains, as well as implementing various other mutually-exclusive button consolidation and quality of life replacements. Thanks to Meli for the initial start, attick and daemitus for continuing, and obviously goat for making any of this possible.
 
 For some jobs, this frees a massive amount of hotbar space (looking at you, DRG). For most, it removes a lot of mindless tedium associated with having to press various buttons that have little logical reason to be separate.
 
