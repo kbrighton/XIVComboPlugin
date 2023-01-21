@@ -233,7 +233,7 @@ internal class FisherSwapFeatures: CustomCombo {
 			else if (actionID is FSH.FishEyes && LocalPlayer.CurrentGp < 550)
 				return FSH.ThaliaksFavour;
 
-			else if (actionID is FSH.Mooch2 && LocalPlayer.CurrentGp < 100)
+			else if (actionID is FSH.Mooch2 && LocalPlayer.CurrentGp < 100 && CanUse(FSH.Mooch2))
 				return FSH.ThaliaksFavour;
 
 			else if (actionID is FSH.VeteranTrade && LocalPlayer.CurrentGp < 200)
