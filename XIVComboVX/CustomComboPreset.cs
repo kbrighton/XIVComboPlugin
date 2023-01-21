@@ -1323,8 +1323,53 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Ignore node detection skills", "Do not replace skills like Triangulate / Prospect, Lay of the Land / Arbor Call, and Truth of Mountains/Forests.", DOL.JobID)]
 	GatherJobCorrectionIgnoreDetectionsFeature = 9910,
 
-	[CustomComboInfo("Cast / Hook Feature", "Replace Cast with Hook when fishing.", DOL.JobID)]
+	[CustomComboInfo("Hook / Cast Feature", "Replace Hook with Cast when fishing, and vice-versa when not fishing.", DOL.JobID)]
 	FisherCastHookFeature = 9901,
+
+	[CustomComboInfo("Double Cast Feature", "Replace Double Hook with Cast with when not fishing.", DOL.JobID)]
+	FisherCastDoubleHookFeature = 9911,
+
+	[CustomComboInfo("Triple Cast Feature", "Replace Triple Hook with Cast with when not fishing.", DOL.JobID)]
+	FisherCastTripleHookFeature = 9912,
+
+	[CustomComboInfo("Multi Hook Feature: 3/2", "Replace Triple Hook with Double Hook when fishing but not enough GP.", DOL.JobID)]
+	FisherCastMultiHookFeature32 = 9913,
+
+	[CustomComboInfo("Multi Hook Feature: 2/1", "Replace Double Hook with normal Hook when fishing but not enough GP.", DOL.JobID)]
+	FisherCastMultiHookFeature21 = 9914,
+
+	[CustomComboInfo("Thaliak's Chum", "Replace Chum with Thaliak's Favour when less than 100 GP and at least three stacks of Angler's Art.", DOL.JobID)]
+	FisherAutoFavourChum = 9915,
+
+	[CustomComboInfo("Thaliak's Patience", "Replace Patience with Thaliak's Favour when less than 200 GP and at least three stacks of Angler's Art.", DOL.JobID)]
+	FisherAutoFavourPatience = 9916,
+
+	[CustomComboInfo("Thaliak's Patience II", "Replace Patience II with Thaliak's Favour when less than 560 GP and at least three stacks of Angler's Art.", DOL.JobID)]
+	FisherAutoFavourPatience2 = 9917,
+
+	[CustomComboInfo("Thaliak's Eyes", "Replace Fish Eyes with Thaliak's Favour when less than 550 GP and at least three stacks of Angler's Art.", DOL.JobID)]
+	FisherAutoFavourFishEyes = 9918,
+
+	[CustomComboInfo("Thaliak's Mooch II", "Replace Mooch II with Thaliak's Favour when less than 100 GP and at least three stacks of Angler's Art.", DOL.JobID)]
+	FisherAutoFavourMooch2 = 9919,
+
+	[CustomComboInfo("Thaliak's Trade", "Replace Veteran Trade with Thaliak's Favour when less than 200 GP and at least three stacks of Angler's Art.", DOL.JobID)]
+	FisherAutoFavourVeteranTrade = 9920,
+
+	[CustomComboInfo("Thaliak's Bounty", "Replace Nature's Bounty with Thaliak's Favour when less than 100 GP and at least three stacks of Angler's Art.", DOL.JobID)]
+	FisherAutoFavourNaturesBounty = 9921,
+
+	[CustomComboInfo("Thaliak's Slap", "Replace Surface Slap with Thaliak's Favour when less than 200 GP and at least three stacks of Angler's Art.", DOL.JobID)]
+	FisherAutoFavourSurfaceSlap = 9922,
+
+	[CustomComboInfo("Thaliak's Cast", "Replace Identical Cast with Thaliak's Favour when less than 350 GP and at least three stacks of Angler's Art.", DOL.JobID)]
+	FisherAutoFavourIdenticalCast = 9923,
+
+	[CustomComboInfo("Thaliak's Breath", "Replace Baited Breath with Thaliak's Favour when less than 300 GP and at least three stacks of Angler's Art.", DOL.JobID)]
+	FisherAutoFavourBaitedBreath = 9924,
+
+	[CustomComboInfo("Thaliak's Catch", "Replace Prize Catch with Thaliak's Favour when less than 200 GP and at least three stacks of Angler's Art.", DOL.JobID)]
+	FisherAutoFavourPrizeCatch = 9925,
 
 	[CustomComboInfo("Cast / Gig Feature", "Replace Cast with Gig when swimming.", DOL.JobID)]
 	FisherCastGigFeature = 9902,

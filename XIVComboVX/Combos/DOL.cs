@@ -95,23 +95,35 @@ public static class MIN {
 }
 public static class FSH {
 	public const uint
+		Mooch2 = 268,
+		DoubleHook = 269,
 		Bait = 288,
 		Cast = 289,
 		Hook = 296,
 		Quit = 299,
 		Snagging = 4100,
+		Patience = 4102,
 		Chum = 4104,
+		FishEyes = 4105,
+		Patience2 = 4106,
 		SurfaceSlap = 4595,
 		IdenticalCast = 4596,
 		Gig = 7632,
 		VeteranTrade = 7906,
 		NaturesBounty = 7909,
 		Salvage = 7910,
+		ThaliaksFavour = 26804,
 		MakeshiftBait = 26805,
 		PrizeCatch = 26806,
 		VitalSight = 26870,
 		BaitedBreath = 26871,
-		ElectricCurrent = 26872;
+		ElectricCurrent = 26872,
+		TripleHook = 27523;
+
+	public static class Buffs {
+		public const ushort
+			AnglersArt = 2778;
+	}
 }
 
 internal class NonFishingFeatures: CustomCombo {
@@ -206,12 +218,57 @@ internal class FisherSwapFeatures: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.DolAny;
 	// No ActionIDs are set because this applies to a wide enough variety of actions that it's too much duplication
 
+	private static uint thaliak(uint actionID, byte level) {
+		if (level >= 15 && SelfEffectStacks(FSH.Buffs.AnglersArt) >= 3) {
+
+			if (actionID is FSH.Chum && LocalPlayer.CurrentGp < 100)
+				return FSH.ThaliaksFavour;
+
+			else if (actionID is FSH.Patience && LocalPlayer.CurrentGp < 200)
+				return FSH.ThaliaksFavour;
+
+			else if (actionID is FSH.Patience2 && LocalPlayer.CurrentGp < 560)
+				return FSH.ThaliaksFavour;
+
+			else if (actionID is FSH.FishEyes && LocalPlayer.CurrentGp < 550)
+				return FSH.ThaliaksFavour;
+
+			else if (actionID is FSH.Mooch2 && LocalPlayer.CurrentGp < 100)
+				return FSH.ThaliaksFavour;
+
+			else if (actionID is FSH.VeteranTrade && LocalPlayer.CurrentGp < 200)
+				return FSH.ThaliaksFavour;
+
+			else if (actionID is FSH.NaturesBounty && LocalPlayer.CurrentGp < 100)
+				return FSH.ThaliaksFavour;
+
+			else if (actionID is FSH.SurfaceSlap && LocalPlayer.CurrentGp < 200)
+				return FSH.ThaliaksFavour;
+
+			else if (actionID is FSH.IdenticalCast && LocalPlayer.CurrentGp < 350)
+				return FSH.ThaliaksFavour;
+
+			else if (actionID is FSH.BaitedBreath && LocalPlayer.CurrentGp < 300)
+				return FSH.ThaliaksFavour;
+
+			else if (actionID is FSH.PrizeCatch && LocalPlayer.CurrentGp < 200)
+				return FSH.ThaliaksFavour;
+
+		}
+		return actionID;
+	}
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
 		if (HasCondition(ConditionFlag.Fishing)) {
 
 			if (actionID is FSH.Cast && IsEnabled(CustomComboPreset.FisherCastHookFeature))
 				return FSH.Hook;
+
+			else if (actionID is FSH.DoubleHook && IsEnabled(CustomComboPreset.FisherCastMultiHookFeature21) && LocalPlayer.CurrentGp < 400)
+				return FSH.Hook;
+
+			else if (actionID is FSH.TripleHook && IsEnabled(CustomComboPreset.FisherCastMultiHookFeature32) && LocalPlayer.CurrentGp < 700)
+				return IsEnabled(CustomComboPreset.FisherCastMultiHookFeature21) && LocalPlayer.CurrentGp < 400 ? FSH.Hook : FSH.DoubleHook;
 
 		}
 		else if (HasCondition(ConditionFlag.Diving)) {
@@ -220,10 +277,10 @@ internal class FisherSwapFeatures: CustomCombo {
 				return FSH.Gig;
 
 			else if (actionID is FSH.SurfaceSlap && IsEnabled(CustomComboPreset.FisherSurfaceTradeFeature))
-				return FSH.VeteranTrade;
+				return thaliak(FSH.VeteranTrade, level);
 
 			else if (actionID is FSH.PrizeCatch && IsEnabled(CustomComboPreset.FisherPrizeBountyFeature))
-				return FSH.NaturesBounty;
+				return thaliak(FSH.NaturesBounty, level);
 
 			else if (actionID is FSH.Snagging && IsEnabled(CustomComboPreset.FisherSnaggingSalvageFeature))
 				return FSH.Salvage;
@@ -232,13 +289,25 @@ internal class FisherSwapFeatures: CustomCombo {
 				return FSH.VitalSight;
 
 			else if (actionID is FSH.MakeshiftBait && IsEnabled(CustomComboPreset.FisherMakeshiftBreathFeature))
-				return FSH.BaitedBreath;
+				return thaliak(FSH.BaitedBreath, level);
 
 			else if (actionID is FSH.Chum && IsEnabled(CustomComboPreset.FisherElectricChumFeature))
 				return FSH.ElectricCurrent;
 
 		}
+		else {
 
-		return actionID;
+			if (actionID is FSH.Hook && IsEnabled(CustomComboPreset.FisherCastHookFeature))
+				return FSH.Cast;
+
+			else if (actionID is FSH.TripleHook && IsEnabled(CustomComboPreset.FisherCastTripleHookFeature))
+				return FSH.Cast;
+
+			else if (actionID is FSH.DoubleHook && IsEnabled(CustomComboPreset.FisherCastDoubleHookFeature))
+				return FSH.Cast;
+
+		}
+
+		return thaliak(actionID, level);
 	}
 }
