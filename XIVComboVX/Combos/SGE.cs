@@ -85,7 +85,7 @@ internal class SageSoteria: CustomCombo {
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-		if (SelfHasEffect(SGE.Buffs.Kardion) && IsOffCooldown(SGE.Soteria))
+		if (SelfHasEffect(SGE.Buffs.Kardion))
 			return SGE.Soteria;
 
 		return SGE.Kardia;
