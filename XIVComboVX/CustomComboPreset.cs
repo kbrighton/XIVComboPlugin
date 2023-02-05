@@ -653,7 +653,7 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Prominence Combo", "Replace Prominence with its combo chain.", PLD.JobID)]
 	PaladinProminenceCombo = 1903,
 
-	[ParentPreset(PaladinRoyalAuthorityCombo)]
+	[ParentPreset(PaladinProminenceCombo)]
 	[CustomComboInfo("Weave: Fight or Flight", "Weave in Fight or Flight on Prominence/TE when doing so will not clip your GCD window.", PLD.JobID)]
 	PaladinHolyWeaveFightOrFlight = 1921,
 
