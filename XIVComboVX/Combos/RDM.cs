@@ -543,11 +543,6 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 			// I decided to put it here because logically, you need to close before you can melee.
 			return RDM.Corpsacorps;
 		}
-		if (startMelee) {
-			// Do we allow becoming spells from within the combo? They'll break the combo, but sometimes the boss moves out of melee range of the whole arena.
-			// As it's coded now, you can do it, so you have to pay attention to your distance.
-			return RDM.EnchantedRiposte;
-		}
 		if (isFinishing1) {
 			// First finisher - have to make a Smart Decision here. Remember, we do the thinking so you don't have to! :P
 
@@ -574,6 +569,11 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 		if (isFinishing3) {
 			// Second verse, same as the first!
 			return RDM.Resolution;
+		}
+		if (startMelee) {
+			// Do we allow becoming spells from within the combo? They'll break the combo, but sometimes the boss moves out of melee range of the whole arena.
+			// As it's coded now, you can do it, so you have to pay attention to your distance.
+			return RDM.EnchantedRiposte;
 		}
 		if (smartMove) {
 			// Can't slowcast spells if you're moving, so we have to fall back to instants.
