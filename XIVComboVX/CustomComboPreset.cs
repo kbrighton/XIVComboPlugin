@@ -673,6 +673,10 @@ public enum CustomComboPreset {
 	PaladinRoyalWeaveFightOrFlight = 1918,
 
 	[ParentPreset(PaladinRoyalAuthorityCombo)]
+	[CustomComboInfo("Weave: Goring Blade", "Weave in Goring Blade on RA/RoH when doing so will not clip your GCD window.", PLD.JobID)]
+	PaladinRoyalWeaveGoringBlade = 1922,
+
+	[ParentPreset(PaladinRoyalAuthorityCombo)]
 	[CustomComboInfo("Weave: Spirits Within", "Weave in Spirits Within / Expiacion on RA/RoH when doing so will not clip your GCD window.", PLD.JobID)]
 	PaladinRoyalWeaveSpiritsWithin = 1919,
 

@@ -86,6 +86,11 @@ internal class PaladinRoyalAuthorityCombo: CustomCombo {
 					return PLD.FightOrFlight;
 			}
 
+			if (IsEnabled(CustomComboPreset.PaladinRoyalWeaveGoringBlade) && level >= PLD.Levels.GoringBlade) {
+				if (CanUse(PLD.GoringBlade))
+					return PLD.GoringBlade;
+			}
+
 			if (IsEnabled(CustomComboPreset.PaladinRoyalWeaveSpiritsWithin) && level >= PLD.Levels.SpiritsWithin) {
 				uint actual = OriginalHook(PLD.SpiritsWithin);
 				if (CanUse(actual))
