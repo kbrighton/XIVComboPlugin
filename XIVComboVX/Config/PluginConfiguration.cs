@@ -20,6 +20,23 @@ public class PluginConfiguration: IPluginConfiguration {
 		this.IsFirstRun = firstRun;
 	}
 
+	/* HOW IT WORKS:
+	 *
+	 *      The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
+	 *      NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED",  "MAY", and
+	 *      "OPTIONAL" are to be interpreted as described in RFC 2119.
+	 *
+	 *      Yeah, I'm going there. I'm autistic, sue me.
+	 *
+	 * Detail settings MUST be one of three numeric types: float, int, or uint. Using any other type for a tagged property will crash the plugin.
+	 * Each detail MUST have a getter and a setter, which MAY perform validation or transformation, but remember that the getter's returned value will be displayed to the user in the config window.
+	 * Each detail MUST be linked to ONE AND ONLY ONE preset, and will be displayed below that preset IFF it is enabled.
+	 * Values are persisted and accessible even when the linked preset is disabled, but SHOULD NOT be used in any code that does not depend on the linked preset being enabled.
+	 * Details MAY be given a minimum and maximum value, which are both inclusive. If no range is given, it defaults to the minimum and maximum representable values of the detail's type.
+	 * If the range of a detail's acceptable values is not greater than 40, it will be represented as a slider. Otherwise, it will be a "spinner"-type writable input.
+	 * Details MAY be given a precision level, which is the number of decimal places that will be displayed for float values. There is no effect on int and uint values.
+	 */
+
 	#region AST settings
 
 	// placeholder

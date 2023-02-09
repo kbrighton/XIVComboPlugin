@@ -24,7 +24,8 @@ public class ConfigWindow: Window {
 
 	private readonly string[] sortedJobs;
 
-	private static readonly Vector4 shadedColour = new(0.69f, 0.69f, 0.69f, 1.0f); // NICE (x3 COMBO)
+	private static readonly Vector4 shadedColour = new(0.69f, 0.69f, 0.69f, 1f); // NICE (x3 COMBO)
+	private static readonly Vector4 activeColour = new(0f, 139f / 255f, 69f / 255f, 1f);
 	private static readonly Vector4 warningColour = new(200f / 255f, 25f / 255f, 35f / 255f, 1f);
 
 	private const int minWidth = 900;
@@ -364,8 +365,15 @@ public class ConfigWindow: Window {
 			IntPtr ptrMin = Marshal.AllocHGlobal(MEM_WIDTH);
 			IntPtr ptrMax = Marshal.AllocHGlobal(MEM_WIDTH);
 			IntPtr ptrStep = Marshal.AllocHGlobal(MEM_WIDTH);
+			bool shift = ImGui.IsKeyDown(ImGuiKey.ModShift);
+			bool ctrl = ImGui.IsKeyDown(ImGuiKey.ModCtrl);
+			byte multShift = (byte)(shift ? 100 : 1);
+			byte multCtrl = (byte)(ctrl ? 10 : 1);
+			ushort mult = (ushort)(multShift * multCtrl);
 			foreach (ComboDetailSetting? detail in details!) {
 				if (detail is not null) {
+					float range = detail.Max - detail.Min;
+					bool tooBigForSlider = range > 40;
 					string fmt;
 					switch (detail.ImGuiType) {
 						case ImGuiDataType.Float:
@@ -373,29 +381,29 @@ public class ConfigWindow: Window {
 							Marshal.Copy(BitConverter.GetBytes(detail.Val), 0, ptrVal, MEM_WIDTH);
 							Marshal.Copy(BitConverter.GetBytes(detail.Min), 0, ptrMin, MEM_WIDTH);
 							Marshal.Copy(BitConverter.GetBytes(detail.Max), 0, ptrMax, MEM_WIDTH);
-							Marshal.Copy(BitConverter.GetBytes(1f), 0, ptrStep, MEM_WIDTH);
+							Marshal.Copy(BitConverter.GetBytes((float)mult), 0, ptrStep, MEM_WIDTH);
 							break;
 						case ImGuiDataType.U32:
 							fmt = "%u";
 							Marshal.Copy(BitConverter.GetBytes((uint)detail.Val), 0, ptrVal, MEM_WIDTH);
 							Marshal.Copy(BitConverter.GetBytes((uint)detail.Min), 0, ptrMin, MEM_WIDTH);
 							Marshal.Copy(BitConverter.GetBytes((uint)detail.Max), 0, ptrMax, MEM_WIDTH);
-							Marshal.Copy(BitConverter.GetBytes(1u), 0, ptrStep, MEM_WIDTH);
+							Marshal.Copy(BitConverter.GetBytes((uint)mult), 0, ptrStep, MEM_WIDTH);
 							break;
 						case ImGuiDataType.S32:
 							fmt = "%i";
 							Marshal.Copy(BitConverter.GetBytes((int)detail.Val), 0, ptrVal, MEM_WIDTH);
 							Marshal.Copy(BitConverter.GetBytes((int)detail.Min), 0, ptrMin, MEM_WIDTH);
 							Marshal.Copy(BitConverter.GetBytes((int)detail.Max), 0, ptrMax, MEM_WIDTH);
-							Marshal.Copy(BitConverter.GetBytes(1), 0, ptrStep, MEM_WIDTH);
+							Marshal.Copy(BitConverter.GetBytes((int)mult), 0, ptrStep, MEM_WIDTH);
 							break;
 						default:
 							throw new FormatException($"Invalid detail type {detail.ImGuiType}");
 					}
 					Service.Logger.debug(
-						$"{detail.Label} ({detail.Type.Name}/{detail.ImGuiType}) {detail.Min} <= [{detail.Val}] <= {detail.Max}"
+						$"{detail.Label} ({detail.Type.Name}/{detail.ImGuiType}) {detail.Min} <= [{detail.Val}] <= {detail.Max} ({range})"
 					);
-					bool changed = detail.Max - detail.Min > 40
+					bool changed = tooBigForSlider
 						? ImGui.InputScalar(
 							detail.Label + $"##{detail.Combo}",
 							detail.ImGuiType,
@@ -416,12 +424,23 @@ public class ConfigWindow: Window {
 						);
 					if (ImGui.IsItemHovered()) {
 						ImGui.BeginTooltip();
-						ImGui.PushTextWrapPos(300);
+						ImGui.PushTextWrapPos(400);
 						if (!string.IsNullOrEmpty(detail.Description)) {
 							ImGui.TextUnformatted(detail.Description);
 							ImGui.TextUnformatted("");
 						}
 						ImGui.TextUnformatted($"Range: [{detail.Min}, {detail.Max}] (inclusive)");
+						if (tooBigForSlider) {
+							ImGui.PushStyleColor(ImGuiCol.Text, ctrl && !shift ? activeColour : shadedColour);
+							ImGui.TextUnformatted("[CTRL] Buttons move x10");
+							ImGui.PopStyleColor();
+							ImGui.PushStyleColor(ImGuiCol.Text, shift && !ctrl ? activeColour : shadedColour);
+							ImGui.TextUnformatted("[SHFT] Buttons move x100");
+							ImGui.PopStyleColor();
+							ImGui.PushStyleColor(ImGuiCol.Text, ctrl && shift ? activeColour : shadedColour);
+							ImGui.TextUnformatted("[BOTH] Buttons move x1000");
+							ImGui.PopStyleColor();
+						}
 						ImGui.PopTextWrapPos();
 						ImGui.EndTooltip();
 					}
@@ -434,7 +453,7 @@ public class ConfigWindow: Window {
 							ImGuiDataType.S32 => BitConverter.ToInt32(value),
 							_ => throw new FormatException($"Invalid detail type {detail.ImGuiType}"), // theoretically unpossible
 						};
-						detail.Val = (float)Math.Round(val, detail.Precision);
+						detail.Val = MathF.Max(MathF.Min(MathF.Round(val, detail.Precision), detail.Max), detail.Min);
 						Service.Configuration.Save();
 					}
 				}

@@ -19,8 +19,12 @@ internal class ComboDetailSetting {
 	public float Val {
 		get => Convert.ToSingle(this.Property.GetValue(Service.Configuration) ?? default(float));
 		set {
-			if (float.IsNaN(value) || float.IsInfinity(value) || value > this.Max || value < this.Min)
+			if (float.IsNaN(value) || float.IsInfinity(value))
 				return;
+			if (value > this.Max)
+				value = this.Max;
+			if (value < this.Min)
+				value = this.Min;
 			// Apparently these can't be switch/case'd, because the `typeof(type)` expression isn't a constant
 			if (this.Type == typeof(int))
 				this.Property.SetValue(Service.Configuration, (int)value);
