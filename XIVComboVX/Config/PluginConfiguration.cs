@@ -276,40 +276,36 @@ public class PluginConfiguration: IPluginConfiguration {
 		"MP threshold",
 		"When your MP is below this limit, Dosis+ becomes Lucid Dreaming while weaving\n(LD restores about one third of maximum MP, for reference)",
 		1000,
-		8000,
-		0
+		8000
 	)]
-	public float SageLucidDosisManaThreshold { get; set; } = 7000;
+	public uint SageLucidDosisManaThreshold { get; set; } = 7000;
 
 	[ComboDetailSetting(
 		CustomComboPreset.SageLucidDyskrasia,
 		"MP threshold",
 		"When your MP is below this limit, Dyskrasia+ becomes Lucid Dreaming while weaving\n(LD restores about one third of maximum MP, for reference)",
 		1000,
-		8000,
-		0
+		8000
 	)]
-	public float SageLucidDyskrasiaManaThreshold { get; set; } = 7000;
+	public uint SageLucidDyskrasiaManaThreshold { get; set; } = 7000;
 
 	[ComboDetailSetting(
 		CustomComboPreset.SageLucidPhlegma,
 		"MP threshold",
 		"When your MP is below this limit, Phlegma+ becomes Lucid Dreaming while weaving\n(LD restores about one third of maximum MP, for reference)",
 		1000,
-		8000,
-		0
+		8000
 	)]
-	public float SageLucidPhlegmaManaThreshold { get; set; } = 7000;
+	public uint SageLucidPhlegmaManaThreshold { get; set; } = 7000;
 
 	[ComboDetailSetting(
 		CustomComboPreset.SageLucidToxikon,
 		"MP threshold",
 		"When your MP is below this limit, Toxikon+ becomes Lucid Dreaming while weaving\n(LD restores about one third of maximum MP, for reference)",
 		1000,
-		8000,
-		0
+		8000
 	)]
-	public float SageLucidToxikonManaThreshold { get; set; } = 7000;
+	public uint SageLucidToxikonManaThreshold { get; set; } = 7000;
 
 	#endregion
 
