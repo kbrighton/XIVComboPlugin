@@ -1139,13 +1139,16 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Soteria Kardia Feature", "Replace Soteria with Kardia when missing Kardion.", SGE.JobID)]
 	SageSoteriaKardionFeature = 4006,
 
+	[CustomComboInfo("Flying Phlegma", "Turns Icarus into Phlegma when Phlegma is up and you're in range of your target to use it.", SGE.JobID)]
+	SageIcarusPhlegma = 4019,
+
 	[CustomComboInfo("Phlegma Gap Closer", "Replace Phlegma with Icarus when at least a configurable distance away from your target and both are off CD.\nOnly applies when Phlegma has at least one charge available.", SGE.JobID)]
 	SagePhlegmaIcarus = 4009,
 
 	[CustomComboInfo("Phlegma into Toxikon", "Replace Phlegma with Toxikon when you have a target and Addersting, and either no charges of Phlegma remain or your target is too far away.\nGap Closer takes priority if enabled and available.", SGE.JobID)]
 	SagePhlegmaToxicon = 4007,
 
-	[CustomComboInfo("Phlegma into Dosis", "Replace Phlegma with Dosis when you have a target in range.\nToxikon takes priority if enabled and available.", SGE.JobID)]
+	[CustomComboInfo("Phlegma into Dosis", "Replace Phlegma with Dosis when you have a target in range and either no charges of Phlegma remain or your target is too far away.\nToxikon takes priority if enabled and available.", SGE.JobID)]
 	SagePhlegmaDosis = 4016,
 
 	[CustomComboInfo("Phlegma into Dyskrasia", "Replace Phlegma with Dyskrasia when no charges remain, you have no target, or your target is out of range.\nDosis takes priority if enabled and available.", SGE.JobID)]
@@ -1156,6 +1159,15 @@ public enum CustomComboPreset {
 
 	[CustomComboInfo("Holos into Kerachole", "Turns Holos into Kerachole when your level is too low, or when Kerachole is available and Holos is not.", SGE.JobID)]
 	SageHolosKerachole = 4011,
+
+	[CustomComboInfo("Dosis into Phlegma", "Turns Dosis into Phlegma while moving and have a target and Phlegma is up and you're in range.\nDoes not apply if you have Eukrasia active.", SGE.JobID)]
+	SageDosisPhlegma = 4020,
+
+	[CustomComboInfo("Dosis into Toxikon", "Turns Dosis into Toxikon while moving and have a target and Addersting.\nDoes not apply if you have Eukrasia active.", SGE.JobID)]
+	SageDosisToxikon = 4017,
+
+	[CustomComboInfo("Dosis into Dyskrasia", "Turns Dosis into Dyskrasia while moving and not becoming Phlegma or Toxikon.\nDoes not apply if you have Eukrasia active.", SGE.JobID)]
+	SageDosisDyskrasia = 4018,
 
 	[CustomComboInfo("Lucid Dosis", "Weave Dosis into Lucid Dreaming when it's available and your MP is below a threshold.\nThis also applies when Phlegma becomes Dosis.", SGE.JobID)]
 	SageLucidDosis = 4012,

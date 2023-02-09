@@ -268,16 +268,62 @@ internal class SagePhlegma: CustomCombo {
 }
 
 internal class SageDosis: CustomCombo {
-	public override CustomComboPreset Preset { get; } = CustomComboPreset.SageLucidDosis;
+	public override CustomComboPreset Preset { get; } = CustomComboPreset.SgeAny;
 	public override uint[] ActionIDs => new[] { SGE.Dosis };
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-		if (level >= Common.Levels.LucidDreaming) {
-			if (LocalPlayer.CurrentMp < Service.Configuration.SageLucidDosisManaThreshold) {
-				if (CanUse(Common.LucidDreaming) && CanWeave(actionID))
-					return Common.LucidDreaming;
+		if (IsEnabled(CustomComboPreset.SageLucidDosis)) {
+			if (level >= Common.Levels.LucidDreaming) {
+				if (LocalPlayer.CurrentMp < Service.Configuration.SageLucidDosisManaThreshold) {
+					if (CanUse(Common.LucidDreaming) && CanWeave(actionID))
+						return Common.LucidDreaming;
+				}
 			}
+		}
+
+		SGEGauge gauge = GetJobGauge<SGEGauge>();
+
+		if (IsMoving && !gauge.Eukrasia) { // if eukrasia is active, eudosis is an instacast so we don't change up
+
+			if (HasTarget) {
+
+				if (IsEnabled(CustomComboPreset.SageDosisPhlegma)) {
+					if (level >= SGE.Levels.Phlegma && TargetDistance <= 6) {
+						uint phlegma = OriginalHook(SGE.Phlegma);
+						if (CanUse(phlegma))
+							return phlegma;
+					}
+				}
+
+				if (IsEnabled(CustomComboPreset.SageDosisToxikon)) {
+					if (level >= SGE.Levels.Toxikon && gauge.Addersting > 0)
+						return OriginalHook(SGE.Toxikon);
+				}
+
+			}
+
+			if (IsEnabled(CustomComboPreset.SageDosisDyskrasia)) {
+				if (level >= SGE.Levels.Dyskrasia)
+					return OriginalHook(SGE.Dyskrasia);
+			}
+
+		}
+
+		return actionID;
+	}
+}
+
+internal class SageIcarus: CustomCombo {
+	public override CustomComboPreset Preset { get; } = CustomComboPreset.SageIcarusPhlegma;
+	public override uint[] ActionIDs => new[] { SGE.Icarus };
+
+	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
+
+		if (level >= SGE.Levels.Phlegma && HasTarget && TargetDistance <= 6) {
+			uint phlegma = OriginalHook(SGE.Phlegma);
+			if (CanUse(phlegma))
+				return phlegma;
 		}
 
 		return actionID;
