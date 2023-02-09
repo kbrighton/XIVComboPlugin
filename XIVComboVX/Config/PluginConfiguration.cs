@@ -85,6 +85,24 @@ public class PluginConfiguration: IPluginConfiguration {
 	)]
 	public uint DancerPirouetteYellowActionID { get; set; } = DNC.Fountainfall;
 
+	[ComboDetailSetting(
+		CustomComboPreset.DancerSingleTargetGaugeSpender,
+		"Minimum Espirit",
+		"When you have AT LEAST this much Esprit, the single-target multibutton combo will become Saber Dance",
+		50,
+		100
+	)]
+	public uint DancerSingleTargetGaugeThreshold { get; set; } = 80;
+
+	[ComboDetailSetting(
+		CustomComboPreset.DancerAoeGaugeSpender,
+		"Minimum Espirit",
+		"When you have AT LEAST this much Esprit, the AoE multibutton combo will become Saber Dance",
+		50,
+		100
+	)]
+	public uint DancerAoeGaugeThreshold { get; set; } = 80;
+
 	#endregion
 
 	#region DRG settings

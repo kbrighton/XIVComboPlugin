@@ -192,6 +192,10 @@ public enum CustomComboPreset {
 	DancerSingleTargetMultibutton = 3800,
 
 	[ParentPreset(DancerSingleTargetMultibutton)]
+	[CustomComboInfo("Gauge Spender", "Also change into Saber Dance when you have at least the set amount of Esprit Gauge.", DNC.JobID)]
+	DancerSingleTargetGaugeSpender = 3819,
+
+	[ParentPreset(DancerSingleTargetMultibutton)]
 	[CustomComboInfo("Flourish Weaving", "Also change into Flourish when you can weave without clipping AND have none of the effects Flourish grants.", DNC.JobID)]
 	DancerSingleTargetFlourishWeave = 3817,
 
@@ -205,6 +209,10 @@ public enum CustomComboPreset {
 
 	[CustomComboInfo("AoE Multibutton", "Change Windmill into procs and combos as available.", DNC.JobID)]
 	DancerAoeMultibutton = 3801,
+
+	[ParentPreset(DancerAoeMultibutton)]
+	[CustomComboInfo("Gauge Spender", "Also change into Saber Dance when you have at least the set amount of Esprit Gauge.", DNC.JobID)]
+	DancerAoeGaugeSpender = 3820,
 
 	[ParentPreset(DancerAoeMultibutton)]
 	[CustomComboInfo("Flourish Weaving", "Also change into Flourish when you can weave without clipping AND have none of the effects Flourish grants.", DNC.JobID)]

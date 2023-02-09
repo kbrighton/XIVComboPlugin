@@ -69,6 +69,7 @@ internal static class DNC {
 			FanDance3 = 66,
 			TechnicalStep = 70,
 			Flourish = 72,
+			SaberDance = 76, // [sic] - should be Sabre but america
 			Tillana = 82,
 			FanDance4 = 86,
 			StarfallDance = 90;
@@ -167,6 +168,8 @@ internal class DancerSingleTargetMultibutton: CustomCombo {
 				return danceStep;
 		}
 
+		DNCGauge gauge = GetJobGauge<DNCGauge>();
+
 		if (CanWeave(actionID)) {
 
 			if (IsEnabled(CustomComboPreset.DancerSingleTargetFanDanceWeave)) {
@@ -174,7 +177,7 @@ internal class DancerSingleTargetMultibutton: CustomCombo {
 				if (level >= DNC.Levels.FanDance1) {
 					if (level >= DNC.Levels.FanDance3 && SelfHasEffect(DNC.Buffs.ThreefoldFanDance))
 						return DNC.FanDance3;
-					else if (GetJobGauge<DNCGauge>().Feathers > 0)
+					else if (gauge.Feathers > 0)
 						return DNC.FanDance1;
 				}
 
@@ -182,7 +185,7 @@ internal class DancerSingleTargetMultibutton: CustomCombo {
 					if (level >= DNC.Levels.FanDance2) {
 						if (level >= DNC.Levels.FanDance4 && SelfHasEffect(DNC.Buffs.FourfoldFanDance))
 							return DNC.FanDance4;
-						else if (GetJobGauge<DNCGauge>().Feathers > 0)
+						else if (gauge.Feathers > 0)
 							return DNC.FanDance2;
 					}
 				}
@@ -203,6 +206,9 @@ internal class DancerSingleTargetMultibutton: CustomCombo {
 			}
 
 		}
+
+		if (IsEnabled(CustomComboPreset.DancerSingleTargetGaugeSpender) && level >= DNC.Levels.SaberDance && gauge.Esprit >= Service.Configuration.DancerSingleTargetGaugeThreshold)
+			return DNC.SaberDance;
 
 		if (level >= DNC.Levels.Fountainfall && (SelfHasEffect(DNC.Buffs.FlourishingFlow) || SelfHasEffect(DNC.Buffs.SilkenFlow)))
 			return DNC.Fountainfall;
@@ -227,6 +233,8 @@ internal class DancerAoeMultibutton: CustomCombo {
 				return danceStep;
 		}
 
+		DNCGauge gauge = GetJobGauge<DNCGauge>();
+
 		if (CanWeave(actionID)) {
 
 			if (IsEnabled(CustomComboPreset.DancerAoeFanDanceWeave)) {
@@ -234,7 +242,7 @@ internal class DancerAoeMultibutton: CustomCombo {
 				if (level >= DNC.Levels.FanDance2) {
 					if (level >= DNC.Levels.FanDance4 && SelfHasEffect(DNC.Buffs.FourfoldFanDance))
 						return DNC.FanDance4;
-					else if (GetJobGauge<DNCGauge>().Feathers > 0)
+					else if (gauge.Feathers > 0)
 						return DNC.FanDance2;
 				}
 
@@ -242,7 +250,7 @@ internal class DancerAoeMultibutton: CustomCombo {
 					if (level >= DNC.Levels.FanDance1) {
 						if (level >= DNC.Levels.FanDance3 && SelfHasEffect(DNC.Buffs.ThreefoldFanDance))
 							return DNC.FanDance3;
-						else if (GetJobGauge<DNCGauge>().Feathers > 0)
+						else if (gauge.Feathers > 0)
 							return DNC.FanDance1;
 					}
 				}
@@ -263,6 +271,9 @@ internal class DancerAoeMultibutton: CustomCombo {
 			}
 
 		}
+
+		if (IsEnabled(CustomComboPreset.DancerAoeGaugeSpender) && level >= DNC.Levels.SaberDance && gauge.Esprit >= Service.Configuration.DancerAoeGaugeThreshold)
+			return DNC.SaberDance;
 
 		if (level >= DNC.Levels.Bloodshower && (SelfHasEffect(DNC.Buffs.FlourishingFlow) || SelfHasEffect(DNC.Buffs.SilkenFlow)))
 			return DNC.Bloodshower;
