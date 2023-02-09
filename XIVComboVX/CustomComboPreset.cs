@@ -192,6 +192,10 @@ public enum CustomComboPreset {
 	DancerSingleTargetMultibutton = 3800,
 
 	[ParentPreset(DancerSingleTargetMultibutton)]
+	[CustomComboInfo("Flourish Weaving", "Also change into Flourish when you can weave without clipping AND have none of the effects Flourish grants.", DNC.JobID)]
+	DancerSingleTargetFlourishWeave = 3817,
+
+	[ParentPreset(DancerSingleTargetMultibutton)]
 	[CustomComboInfo("Fan Dance 1/3 Weaving", "Also change into Fan Dance 1/3 when you can weave without clipping.", DNC.JobID)]
 	DancerSingleTargetFanDanceWeave = 3810,
 
@@ -201,6 +205,10 @@ public enum CustomComboPreset {
 
 	[CustomComboInfo("AoE Multibutton", "Change Windmill into procs and combos as available.", DNC.JobID)]
 	DancerAoeMultibutton = 3801,
+
+	[ParentPreset(DancerAoeMultibutton)]
+	[CustomComboInfo("Flourish Weaving", "Also change into Flourish when you can weave without clipping AND have none of the effects Flourish grants.", DNC.JobID)]
+	DancerAoeFlourishWeave = 3818,
 
 	[ParentPreset(DancerAoeMultibutton)]
 	[CustomComboInfo("Fan Dance 2/4 Weaving", "Also change into Fan Dance 2/4 when you can weave without clipping.", DNC.JobID)]

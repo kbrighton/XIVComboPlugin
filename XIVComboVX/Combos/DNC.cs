@@ -68,6 +68,7 @@ internal static class DNC {
 			CuringWaltz = 52,
 			FanDance3 = 66,
 			TechnicalStep = 70,
+			Flourish = 72,
 			Tillana = 82,
 			FanDance4 = 86,
 			StarfallDance = 90;
@@ -166,25 +167,37 @@ internal class DancerSingleTargetMultibutton: CustomCombo {
 				return danceStep;
 		}
 
-		if (IsEnabled(CustomComboPreset.DancerSingleTargetFanDanceWeave)) {
-			bool weaving = CanWeave(actionID);
+		if (CanWeave(actionID)) {
 
-			if (level >= DNC.Levels.FanDance1) {
-				if (weaving) {
+			if (IsEnabled(CustomComboPreset.DancerSingleTargetFanDanceWeave)) {
+
+				if (level >= DNC.Levels.FanDance1) {
 					if (level >= DNC.Levels.FanDance3 && SelfHasEffect(DNC.Buffs.ThreefoldFanDance))
 						return DNC.FanDance3;
 					else if (GetJobGauge<DNCGauge>().Feathers > 0)
 						return DNC.FanDance1;
 				}
-			}
 
-			if (IsEnabled(CustomComboPreset.DancerSingleTargetFanDanceFallback)) {
-				if (level >= DNC.Levels.FanDance2) {
-					if (weaving) {
+				if (IsEnabled(CustomComboPreset.DancerSingleTargetFanDanceFallback)) {
+					if (level >= DNC.Levels.FanDance2) {
 						if (level >= DNC.Levels.FanDance4 && SelfHasEffect(DNC.Buffs.FourfoldFanDance))
 							return DNC.FanDance4;
 						else if (GetJobGauge<DNCGauge>().Feathers > 0)
 							return DNC.FanDance2;
+					}
+				}
+
+			}
+
+			if (IsEnabled(CustomComboPreset.DancerSingleTargetFlourishWeave)) {
+				if (level >= DNC.Levels.Flourish && InCombat) {
+					if (!(
+						SelfHasEffect(DNC.Buffs.FlourishingSymmetry)
+						|| SelfHasEffect(DNC.Buffs.FlourishingFlow)
+						|| SelfHasEffect(DNC.Buffs.ThreefoldFanDance)
+						|| SelfHasEffect(DNC.Buffs.FourfoldFanDance)
+					)) {
+						return DNC.Flourish;
 					}
 				}
 			}
@@ -214,25 +227,37 @@ internal class DancerAoeMultibutton: CustomCombo {
 				return danceStep;
 		}
 
-		if (IsEnabled(CustomComboPreset.DancerAoeFanDanceWeave)) {
-			bool weaving = CanWeave(actionID);
+		if (CanWeave(actionID)) {
 
-			if (level >= DNC.Levels.FanDance2) {
-				if (weaving) {
+			if (IsEnabled(CustomComboPreset.DancerAoeFanDanceWeave)) {
+
+				if (level >= DNC.Levels.FanDance2) {
 					if (level >= DNC.Levels.FanDance4 && SelfHasEffect(DNC.Buffs.FourfoldFanDance))
 						return DNC.FanDance4;
 					else if (GetJobGauge<DNCGauge>().Feathers > 0)
 						return DNC.FanDance2;
 				}
-			}
 
-			if (IsEnabled(CustomComboPreset.DancerAoeFanDanceFallback)) {
-				if (level >= DNC.Levels.FanDance1) {
-					if (weaving) {
+				if (IsEnabled(CustomComboPreset.DancerAoeFanDanceFallback)) {
+					if (level >= DNC.Levels.FanDance1) {
 						if (level >= DNC.Levels.FanDance3 && SelfHasEffect(DNC.Buffs.ThreefoldFanDance))
 							return DNC.FanDance3;
 						else if (GetJobGauge<DNCGauge>().Feathers > 0)
 							return DNC.FanDance1;
+					}
+				}
+
+			}
+
+			if (IsEnabled(CustomComboPreset.DancerAoeFlourishWeave)) {
+				if (level >= DNC.Levels.Flourish && InCombat) {
+					if (!(
+						SelfHasEffect(DNC.Buffs.FlourishingSymmetry)
+						|| SelfHasEffect(DNC.Buffs.FlourishingFlow)
+						|| SelfHasEffect(DNC.Buffs.ThreefoldFanDance)
+						|| SelfHasEffect(DNC.Buffs.FourfoldFanDance)
+					)) {
+						return DNC.Flourish;
 					}
 				}
 			}
