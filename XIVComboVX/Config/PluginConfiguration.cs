@@ -103,6 +103,24 @@ public class PluginConfiguration: IPluginConfiguration {
 	)]
 	public uint DancerAoeGaugeThreshold { get; set; } = 80;
 
+	[ComboDetailSetting(
+		CustomComboPreset.DancerSingleTargetStarfall,
+		"Maximum buff time",
+		"When you have NO MORE than this much time left on Flourishing Starfall, the single-target multibutton will become Starfall Dance",
+		3,
+		20
+	)]
+	public float DancerSingleTargetStarfallBuffThreshold { get; set; } = 10;
+
+	[ComboDetailSetting(
+		CustomComboPreset.DancerAoeStarfall,
+		"Maximum buff time",
+		"When you have NO MORE than this much time left on Flourishing Starfall, the AoE multibutton will become Starfall Dance",
+		3,
+		20
+	)]
+	public float DancerAoeStarfallBuffThreshold { get; set; } = 10;
+
 	#endregion
 
 	#region DRG settings

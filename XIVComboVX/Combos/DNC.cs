@@ -1,6 +1,7 @@
 namespace XIVComboVX.Combos;
 
 using Dalamud.Game.ClientState.JobGauge.Types;
+using Dalamud.Game.ClientState.Statuses;
 
 internal static class DNC {
 	public const byte JobID = 38;
@@ -207,6 +208,12 @@ internal class DancerSingleTargetMultibutton: CustomCombo {
 
 		}
 
+		if (IsEnabled(CustomComboPreset.DancerSingleTargetStarfall) && level >= DNC.Levels.StarfallDance) {
+			Status? starfall = SelfFindEffect(DNC.Buffs.FlourishingStarfall);
+			if (starfall is not null && starfall.RemainingTime <= Service.Configuration.DancerSingleTargetStarfallBuffThreshold)
+				return DNC.StarfallDance;
+		}
+
 		if (IsEnabled(CustomComboPreset.DancerSingleTargetGaugeSpender) && level >= DNC.Levels.SaberDance && gauge.Esprit >= Service.Configuration.DancerSingleTargetGaugeThreshold)
 			return DNC.SaberDance;
 
@@ -270,6 +277,12 @@ internal class DancerAoeMultibutton: CustomCombo {
 				}
 			}
 
+		}
+
+		if (IsEnabled(CustomComboPreset.DancerAoeStarfall) && level >= DNC.Levels.StarfallDance) {
+			Status? starfall = SelfFindEffect(DNC.Buffs.FlourishingStarfall);
+			if (starfall is not null && starfall.RemainingTime <= Service.Configuration.DancerAoeStarfallBuffThreshold)
+				return DNC.StarfallDance;
 		}
 
 		if (IsEnabled(CustomComboPreset.DancerAoeGaugeSpender) && level >= DNC.Levels.SaberDance && gauge.Esprit >= Service.Configuration.DancerAoeGaugeThreshold)

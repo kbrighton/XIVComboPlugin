@@ -196,6 +196,10 @@ public enum CustomComboPreset {
 	DancerSingleTargetGaugeSpender = 3819,
 
 	[ParentPreset(DancerSingleTargetMultibutton)]
+	[CustomComboInfo("Starfall Saver", "Also change into Starfall Dance when your Flourishing Starfall effect has no more than a certain duration left.", DNC.JobID)]
+	DancerSingleTargetStarfall = 3821,
+
+	[ParentPreset(DancerSingleTargetMultibutton)]
 	[CustomComboInfo("Flourish Weaving", "Also change into Flourish when you can weave without clipping AND have none of the effects Flourish grants.", DNC.JobID)]
 	DancerSingleTargetFlourishWeave = 3817,
 
@@ -213,6 +217,10 @@ public enum CustomComboPreset {
 	[ParentPreset(DancerAoeMultibutton)]
 	[CustomComboInfo("Gauge Spender", "Also change into Saber Dance when you have at least the set amount of Esprit Gauge.", DNC.JobID)]
 	DancerAoeGaugeSpender = 3820,
+
+	[ParentPreset(DancerAoeMultibutton)]
+	[CustomComboInfo("Starfall Saver", "Also change into Starfall Dance when your Flourishing Starfall effect has no more than a certain duration left.", DNC.JobID)]
+	DancerAoeStarfall = 3822,
 
 	[ParentPreset(DancerAoeMultibutton)]
 	[CustomComboInfo("Flourish Weaving", "Also change into Flourish when you can weave without clipping AND have none of the effects Flourish grants.", DNC.JobID)]
