@@ -1154,10 +1154,10 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Phlegma into Dyskrasia", "Replace Phlegma with Dyskrasia when no charges remain, you have no target, or your target is out of range.\nDosis takes priority if enabled and available.", SGE.JobID)]
 	SagePhlegmaDyskrasia = 4008,
 
-	[CustomComboInfo("Kerachole into Holos", "Turns Kerachole into Holos when your level is high enough, Kerachole is unavailable, and you can use Holos.", SGE.JobID)]
+	[CustomComboInfo("Kerachole into Holos", "Turns Kerachole into Holos when your level is high enough, Kerachole is unavailable, and you can use Holos.\nSupports Kerachole into Rhizomata, prioritises being Rhizomata.", SGE.JobID)]
 	SageKeracholeHolos = 4010,
 
-	[CustomComboInfo("Holos into Kerachole", "Turns Holos into Kerachole when your level is too low, or when Kerachole is available and Holos is not.", SGE.JobID)]
+	[CustomComboInfo("Holos into Kerachole", "Turns Holos into Kerachole when your level is too low, or when Kerachole is available and Holos is not.\nSupports Kerachole into Rhizomata, prioritises being Holos.", SGE.JobID)]
 	SageHolosKerachole = 4011,
 
 	[CustomComboInfo("Dosis into Phlegma", "Turns Dosis into Phlegma while moving and have a target and Phlegma is up and you're in range.\nDoes not apply if you have Eukrasia active.", SGE.JobID)]
