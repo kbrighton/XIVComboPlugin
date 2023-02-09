@@ -3,6 +3,8 @@ namespace XIVComboVX.Config;
 using System;
 using System.Reflection;
 
+using Dalamud.Logging;
+
 using ImGuiNET;
 
 using XIVComboVX.Attributes;
@@ -14,12 +16,12 @@ internal class ComboDetailSetting {
 	public ImGuiDataType ImGuiType { get; }
 
 	public int Precision { get; }
-	public float Max { get; }
-	public float Min { get; }
-	public float Val {
-		get => Convert.ToSingle(this.Property.GetValue(Service.Configuration) ?? default(float));
+	public double Max { get; }
+	public double Min { get; }
+	public double Val {
+		get => Convert.ToDouble(this.Property.GetValue(Service.Configuration) ?? default(double));
 		set {
-			if (float.IsNaN(value) || float.IsInfinity(value))
+			if (double.IsNaN(value) || double.IsInfinity(value))
 				return;
 			if (value > this.Max)
 				value = this.Max;
@@ -31,7 +33,7 @@ internal class ComboDetailSetting {
 			else if (this.Type == typeof(uint))
 				this.Property.SetValue(Service.Configuration, (uint)value);
 			else if (this.Type == typeof(float))
-				this.Property.SetValue(Service.Configuration, value);
+				this.Property.SetValue(Service.Configuration, (float)value);
 			else
 				throw new ArgumentException($"Cannot assign value ({value.GetType().Name} {value}) to property ({this.Type.Name} {this.Property.Name})");
 		}
@@ -41,34 +43,51 @@ internal class ComboDetailSetting {
 	public string? Description { get; }
 
 	internal ComboDetailSetting(PropertyInfo prop, ComboDetailSettingAttribute attr) {
-		this.Property = prop;
-		this.Type = prop.PropertyType;
-		this.ImGuiType = this.Type == typeof(int)
-			? ImGuiDataType.S32
-			: this.Type == typeof(uint)
-			? ImGuiDataType.U32
-			: ImGuiDataType.Float;
-		this.Min = Math.Max(
-			attr.Min,
-			this.ImGuiType switch {
-				ImGuiDataType.S32 => int.MinValue,
-				ImGuiDataType.U32 => uint.MinValue,
-				ImGuiDataType.Float => float.MinValue,
-				_ => 0,
-			}
-		);
-		this.Max = Math.Min(
-			attr.Max,
-			this.ImGuiType switch {
-				ImGuiDataType.S32 => int.MaxValue,
-				ImGuiDataType.U32 => uint.MaxValue,
-				ImGuiDataType.Float => float.MaxValue,
-				_ => 0,
-			}
-		);
 		this.Combo = attr.Combo;
 		this.Label = attr.Label;
 		this.Description = attr.Description;
+		this.Property = prop;
+		this.Type = prop.PropertyType;
+		this.ImGuiType = this.Type == typeof(int)
+			? ImGuiDataType.S64
+			: this.Type == typeof(uint)
+			? ImGuiDataType.U64
+			: ImGuiDataType.Double;
 		this.Precision = this.ImGuiType == ImGuiDataType.Float ? attr.Precision : 0;
+
+		double typeMin = this.ImGuiType switch {
+			ImGuiDataType.S64 => int.MinValue,
+			ImGuiDataType.U64 => uint.MinValue,
+			ImGuiDataType.Double => (double)float.MinValue,
+			_ => 0,
+		};
+		double typeMax = this.ImGuiType switch {
+			ImGuiDataType.S64 => int.MaxValue,
+			ImGuiDataType.U64 => uint.MaxValue,
+			ImGuiDataType.Double => (double)float.MaxValue,
+			_ => 0,
+		};
+		if (attr.Min < typeMin) {
+			PluginLog.Warning($"{this.Combo}:{this.Property.Name} has minimum value {attr.Min} below {this.Type.Name}.MinValue, bounding to {typeMin}");
+			this.Min = typeMin;
+		}
+		else if (attr.Min > typeMax) {
+			PluginLog.Warning($"{this.Combo}:{this.Property.Name} has minimum value {attr.Min} above {this.Type.Name}.MaxValue, bounding to {typeMax}");
+			this.Min = typeMax;
+		}
+		else {
+			this.Min = attr.Min;
+		}
+		if (attr.Max > typeMax) {
+			PluginLog.Warning($"{this.Combo}:{this.Property.Name} has maximum value {attr.Max} above {this.Type.Name}.MaxValue, bounding to {typeMax}");
+			this.Max = typeMax;
+		}
+		else if (attr.Max < typeMin) {
+			PluginLog.Warning($"{this.Combo}:{this.Property.Name} has maximum value {attr.Max} below {this.Type.Name}.MinValue, bounding to {typeMin}");
+			this.Max = typeMin;
+		}
+		else {
+			this.Max = attr.Max;
+		}
 	}
 }

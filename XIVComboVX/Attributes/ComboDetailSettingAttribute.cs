@@ -5,14 +5,14 @@ using System;
 [AttributeUsage(AttributeTargets.Property)]
 internal class ComboDetailSettingAttribute: Attribute {
 	public CustomComboPreset Combo { get; }
-	public float Min { get; } = float.MinValue;
-	public float Max { get; } = float.MaxValue;
+	public double Min { get; } = float.MinValue;
+	public double Max { get; } = float.MaxValue;
 	public int Precision { get; } = 0;
 
 	public string Label { get; }
 	public string? Description { get; }
 
-	public ComboDetailSettingAttribute(CustomComboPreset combo, string lbl, string? tooltip, float minimum, float maximum, int decimals) {
+	public ComboDetailSettingAttribute(CustomComboPreset combo, string lbl, string? tooltip, double minimum, double maximum, int decimals) {
 		this.Combo = combo;
 		this.Label = lbl;
 		this.Description = tooltip;
@@ -23,10 +23,10 @@ internal class ComboDetailSettingAttribute: Attribute {
 		if (!double.IsNaN(maximum) && double.IsFinite(maximum))
 			this.Max = maximum;
 	}
-	public ComboDetailSettingAttribute(CustomComboPreset combo, string lbl, string? tooltip, float minimum, float maximum)
+	public ComboDetailSettingAttribute(CustomComboPreset combo, string lbl, string? tooltip, double minimum, double maximum)
 		: this(combo, lbl, tooltip, minimum, maximum, 2) { }
 	public ComboDetailSettingAttribute(CustomComboPreset combo, string lbl, string? tooltip) :
-		this(combo, lbl, tooltip, float.NaN, float.NaN) { }
+		this(combo, lbl, tooltip, double.NaN, double.NaN) { }
 	public ComboDetailSettingAttribute(CustomComboPreset combo, string lbl) :
 		this(combo, lbl, null) { }
 }

@@ -360,7 +360,7 @@ public class ConfigWindow: Window {
 		ImGui.Spacing();
 
 		if (hasDetails && enabled) {
-			const int MEM_WIDTH = sizeof(int);
+			const int MEM_WIDTH = sizeof(double);
 			IntPtr ptrVal = Marshal.AllocHGlobal(MEM_WIDTH);
 			IntPtr ptrMin = Marshal.AllocHGlobal(MEM_WIDTH);
 			IntPtr ptrMax = Marshal.AllocHGlobal(MEM_WIDTH);
@@ -372,30 +372,30 @@ public class ConfigWindow: Window {
 			ushort mult = (ushort)(multShift * multCtrl);
 			foreach (ComboDetailSetting? detail in details!) {
 				if (detail is not null) {
-					float range = detail.Max - detail.Min;
-					bool tooBigForSlider = range > 40;
+					double range = detail.Max - detail.Min;
+					bool useSlider = range <= 40;
 					string fmt;
 					switch (detail.ImGuiType) {
-						case ImGuiDataType.Float:
+						case ImGuiDataType.Double:
 							fmt = $"%.{detail.Precision}f";
-							Marshal.Copy(BitConverter.GetBytes(detail.Val), 0, ptrVal, MEM_WIDTH);
-							Marshal.Copy(BitConverter.GetBytes(detail.Min), 0, ptrMin, MEM_WIDTH);
-							Marshal.Copy(BitConverter.GetBytes(detail.Max), 0, ptrMax, MEM_WIDTH);
-							Marshal.Copy(BitConverter.GetBytes((float)mult), 0, ptrStep, MEM_WIDTH);
+							Marshal.Copy(BitConverter.GetBytes((double)detail.Val), 0, ptrVal, MEM_WIDTH);
+							Marshal.Copy(BitConverter.GetBytes((double)detail.Min), 0, ptrMin, MEM_WIDTH);
+							Marshal.Copy(BitConverter.GetBytes((double)detail.Max), 0, ptrMax, MEM_WIDTH);
+							Marshal.Copy(BitConverter.GetBytes((double)mult), 0, ptrStep, MEM_WIDTH);
 							break;
-						case ImGuiDataType.U32:
+						case ImGuiDataType.U64:
 							fmt = "%u";
-							Marshal.Copy(BitConverter.GetBytes((uint)detail.Val), 0, ptrVal, MEM_WIDTH);
-							Marshal.Copy(BitConverter.GetBytes((uint)detail.Min), 0, ptrMin, MEM_WIDTH);
-							Marshal.Copy(BitConverter.GetBytes((uint)detail.Max), 0, ptrMax, MEM_WIDTH);
-							Marshal.Copy(BitConverter.GetBytes((uint)mult), 0, ptrStep, MEM_WIDTH);
+							Marshal.Copy(BitConverter.GetBytes((ulong)detail.Val), 0, ptrVal, MEM_WIDTH);
+							Marshal.Copy(BitConverter.GetBytes((ulong)detail.Min), 0, ptrMin, MEM_WIDTH);
+							Marshal.Copy(BitConverter.GetBytes((ulong)detail.Max), 0, ptrMax, MEM_WIDTH);
+							Marshal.Copy(BitConverter.GetBytes((ulong)mult), 0, ptrStep, MEM_WIDTH);
 							break;
-						case ImGuiDataType.S32:
+						case ImGuiDataType.S64:
 							fmt = "%i";
-							Marshal.Copy(BitConverter.GetBytes((int)detail.Val), 0, ptrVal, MEM_WIDTH);
-							Marshal.Copy(BitConverter.GetBytes((int)detail.Min), 0, ptrMin, MEM_WIDTH);
-							Marshal.Copy(BitConverter.GetBytes((int)detail.Max), 0, ptrMax, MEM_WIDTH);
-							Marshal.Copy(BitConverter.GetBytes((int)mult), 0, ptrStep, MEM_WIDTH);
+							Marshal.Copy(BitConverter.GetBytes((long)detail.Val), 0, ptrVal, MEM_WIDTH);
+							Marshal.Copy(BitConverter.GetBytes((long)detail.Min), 0, ptrMin, MEM_WIDTH);
+							Marshal.Copy(BitConverter.GetBytes((long)detail.Max), 0, ptrMax, MEM_WIDTH);
+							Marshal.Copy(BitConverter.GetBytes((long)mult), 0, ptrStep, MEM_WIDTH);
 							break;
 						default:
 							throw new FormatException($"Invalid detail type {detail.ImGuiType}");
@@ -403,17 +403,8 @@ public class ConfigWindow: Window {
 					Service.Logger.debug(
 						$"{detail.Label} ({detail.Type.Name}/{detail.ImGuiType}) {detail.Min} <= [{detail.Val}] <= {detail.Max} ({range})"
 					);
-					bool changed = tooBigForSlider
-						? ImGui.InputScalar(
-							detail.Label + $"##{detail.Combo}",
-							detail.ImGuiType,
-							ptrVal,
-							ptrStep,
-							ptrStep,
-							fmt,
-							ImGuiInputTextFlags.AutoSelectAll
-						)
-						: ImGui.SliderScalar(
+					bool changed = useSlider
+						? ImGui.SliderScalar(
 							detail.Label + $"##{detail.Combo}",
 							detail.ImGuiType,
 							ptrVal,
@@ -421,6 +412,15 @@ public class ConfigWindow: Window {
 							ptrMax,
 							fmt,
 							ImGuiSliderFlags.AlwaysClamp
+						)
+						: ImGui.InputScalar(
+							detail.Label + $"##{detail.Combo}",
+							detail.ImGuiType,
+							ptrVal,
+							ptrStep,
+							ptrStep,
+							fmt,
+							ImGuiInputTextFlags.AutoSelectAll
 						);
 					if (ImGui.IsItemHovered()) {
 						ImGui.BeginTooltip();
@@ -430,7 +430,7 @@ public class ConfigWindow: Window {
 							ImGui.TextUnformatted("");
 						}
 						ImGui.TextUnformatted($"Range: [{detail.Min}, {detail.Max}] (inclusive)");
-						if (tooBigForSlider) {
+						if (!useSlider) {
 							ImGui.PushStyleColor(ImGuiCol.Text, ctrl && !shift ? activeColour : shadedColour);
 							ImGui.TextUnformatted("[CTRL] Buttons move x10");
 							ImGui.PopStyleColor();
@@ -447,13 +447,13 @@ public class ConfigWindow: Window {
 					if (changed) {
 						byte[] value = new byte[MEM_WIDTH];
 						Marshal.Copy(ptrVal, value, 0, MEM_WIDTH);
-						float val = detail.ImGuiType switch {
-							ImGuiDataType.Float => BitConverter.ToSingle(value),
-							ImGuiDataType.U32 => BitConverter.ToUInt32(value),
-							ImGuiDataType.S32 => BitConverter.ToInt32(value),
+						double val = detail.ImGuiType switch {
+							ImGuiDataType.Double => BitConverter.ToDouble(value),
+							ImGuiDataType.U64 => BitConverter.ToUInt64(value),
+							ImGuiDataType.S64 => BitConverter.ToInt64(value),
 							_ => throw new FormatException($"Invalid detail type {detail.ImGuiType}"), // theoretically unpossible
 						};
-						detail.Val = MathF.Max(MathF.Min(MathF.Round(val, detail.Precision), detail.Max), detail.Min);
+						detail.Val = Math.Round(val, detail.Precision); // setter handles min/max bounding
 						Service.Configuration.Save();
 					}
 				}
