@@ -194,7 +194,7 @@ internal class DancerSingleTargetMultibutton: CustomCombo {
 			}
 
 			if (IsEnabled(CustomComboPreset.DancerSingleTargetFlourishWeave)) {
-				if (level >= DNC.Levels.Flourish && InCombat) {
+				if (level >= DNC.Levels.Flourish && InCombat && CanUse(DNC.Flourish)) {
 					if (!(
 						SelfHasEffect(DNC.Buffs.FlourishingSymmetry)
 						|| SelfHasEffect(DNC.Buffs.FlourishingFlow)
@@ -265,7 +265,7 @@ internal class DancerAoeMultibutton: CustomCombo {
 			}
 
 			if (IsEnabled(CustomComboPreset.DancerAoeFlourishWeave)) {
-				if (level >= DNC.Levels.Flourish && InCombat) {
+				if (level >= DNC.Levels.Flourish && InCombat && CanUse(DNC.Flourish)) {
 					if (!(
 						SelfHasEffect(DNC.Buffs.FlourishingSymmetry)
 						|| SelfHasEffect(DNC.Buffs.FlourishingFlow)
