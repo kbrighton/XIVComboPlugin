@@ -267,6 +267,7 @@ public enum CustomComboPreset {
 	DancerCuringWaltzCooldownSwap = 3816,
 
 	[Conflicts(DancerDanceStepCombo)]
+	[Deprecated(DancerDanceStepCombo, DancerSmartDanceFeature)]
 	[CustomComboInfo("Dance Step Feature", "Change custom actions into dance steps while dancing." +
 		"\nYou can get Action IDs with Garland Tools by searching for the action and clicking the cog.", DNC.JobID)]
 	DancerDanceComboCompatibility = 3806,
@@ -836,6 +837,7 @@ public enum CustomComboPreset {
 	RedMageAoECombo = 3501,
 
 	[Conflicts(RedMageSmartcastSingleFeature)]
+	[Deprecated(RedMageSmartcastSingleFeature)]
 	[CustomComboInfo("Verproc into Jolt", "Replaces Verstone/Verfire with Jolt (2) when no proc is available.", RDM.JobID)]
 	RedMageVerprocCombo = 3504,
 
@@ -881,7 +883,6 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Slice Combo", "Replace Infernal Slice with its combo chain.", RPR.JobID)]
 	ReaperSliceCombo = 3901,
 
-	[Experimental]
 	[CustomComboInfo("Slice Weave Assist", "Replace Infernal Slice with Blood Stalk (or variants) when available and weaving wouldn't clip your GCD.", RPR.JobID)]
 	ReaperSliceWeaveAssist = 3942,
 
@@ -892,7 +893,6 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Slice of Death Feature", "Replace Infernal Slice with Shadow of Death when the target's Death's Design debuff is low.", RPR.JobID)]
 	ReaperSliceShadowFeature = 3940,
 
-	[Experimental]
 	[CustomComboInfo("Soulful Slice", "Replace Infernal Slice with Soul Slice when available and Soul Gauge is no more than 50.", RPR.JobID)]
 	ReaperSoulOnSliceFeature = 3946,
 
@@ -965,7 +965,6 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Scythe Combo", "Replace Nightmare Scythe with its combo chain.", RPR.JobID)]
 	ReaperScytheCombo = 3902,
 
-	[Experimental]
 	[CustomComboInfo("Scythe Weave Assist", "Replace Nightmare Scythe with Grim Swathe (or variants) when available and weaving wouldn't clip your GCD.", RPR.JobID)]
 	ReaperScytheWeaveAssist = 3943,
 
@@ -976,7 +975,6 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Scythe of Death Feature", "Replace Nightmare Scythe with Whorl of Death when the target's Death's Design debuff is low.", RPR.JobID)]
 	ReaperScytheWhorlFeature = 3941,
 
-	[Experimental]
 	[CustomComboInfo("Soulful Scythe", "Replace Nightmare Scythe with Soul Scythe when available and Soul Gauge is no more than 50.", RPR.JobID)]
 	ReaperSoulOnScytheFeature = 3947,
 
@@ -1437,6 +1435,7 @@ public enum CustomComboPreset {
 }
 public static class CustomComboPresetExtensions {
 	public static CustomComboPreset[] GetConflicts(this CustomComboPreset preset) => preset.GetAttribute<ConflictsAttribute>()?.Conflicts ?? Array.Empty<CustomComboPreset>();
+	public static CustomComboPreset[] GetAlternatives(this CustomComboPreset preset) => preset.GetAttribute<DeprecatedAttribute>()?.Recommended ?? Array.Empty<CustomComboPreset>();
 	public static CustomComboPreset? GetParent(this CustomComboPreset preset) => preset.GetAttribute<ParentPresetAttribute>()?.Parent;
 	public static string GetDebugLabel(this CustomComboPreset preset) => $"{Enum.GetName(preset)!}#{(int)preset}";
 }

@@ -6,9 +6,11 @@ using System.Linq;
 using System.Numerics;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Text;
 
 using Dalamud.Game.ClientState.Objects.SubKinds;
 using Dalamud.Interface.Windowing;
+using Dalamud.Logging;
 using Dalamud.Utility;
 
 using ImGuiNET;
@@ -18,8 +20,9 @@ using XIVComboVX.Attributes;
 public class ConfigWindow: Window {
 
 	private readonly Dictionary<string, List<(CustomComboPreset preset, CustomComboInfoAttribute info)>> groupedPresets;
-	private readonly Dictionary<CustomComboPreset, HashSet<(CustomComboPreset Preset, CustomComboInfoAttribute Info)>> parentToChildrenPresets = new();
+	private readonly Dictionary<CustomComboPreset, List<(CustomComboPreset Preset, CustomComboInfoAttribute Info)>> parentToChildrenPresets = new();
 	private readonly Dictionary<CustomComboPreset, (CustomComboPreset Preset, CustomComboInfoAttribute Info)> childToParentPresets = new();
+	private readonly Dictionary<CustomComboPreset, int> presetOrdinals = new();
 	private readonly Dictionary<CustomComboPreset, List<ComboDetailSetting>> detailSettings = new();
 
 	private readonly string[] sortedJobs;
@@ -27,6 +30,7 @@ public class ConfigWindow: Window {
 	private static readonly Vector4 shadedColour = new(0.69f, 0.69f, 0.69f, 1f); // NICE (x3 COMBO)
 	private static readonly Vector4 activeColour = new(0f, 139f / 255f, 69f / 255f, 1f);
 	private static readonly Vector4 warningColour = new(200f / 255f, 25f / 255f, 35f / 255f, 1f);
+	private static readonly Vector4 deprecatedColour = new(0f / 255f, 95f / 255f, 190f / 255f, 1f);
 
 	private const int minWidth = 900;
 
@@ -88,6 +92,45 @@ public class ConfigWindow: Window {
 					.Where(j => j.StartsWith("Disciple of the "))
 			)
 			.ToArray();
+
+		int ord = 0;
+		foreach (string job in this.sortedJobs) {
+			foreach ((CustomComboPreset preset, CustomComboInfoAttribute info) in this.groupedPresets[job]) {
+				if (this.childToParentPresets.ContainsKey(preset))
+					continue; // if this IS a child preset, it'll be handled when we reach the parent (which may have already happened)
+
+				this.presetOrdinals[preset] = ++ord;
+
+				PluginLog.Information($"Indexed {preset} as {ord}");
+
+				// if this preset has children, iterate and index them immediately because they'll be grouped under it in the config window
+				if (this.parentToChildrenPresets.TryGetValue(preset, out List<(CustomComboPreset Preset, CustomComboInfoAttribute Info)>? children) && children?.Count > 0) {
+					// but we can't recurse here, so we make a queue to process
+					// and since we need to be tricky with the ordering, it's actually a linked list
+					LinkedList<CustomComboPreset> queue = new();
+					queue.AddLast(preset);
+
+					while (queue.Count > 0) {
+						LinkedListNode<CustomComboPreset>? head = queue.First;
+						if (head is null)
+							break;
+						queue.RemoveFirst();
+						CustomComboPreset next = head.Value;
+						if (!this.presetOrdinals.ContainsKey(next))
+							this.presetOrdinals[next] = ++ord;
+
+						PluginLog.Information($"Indexed {next} as {ord}");
+
+						// if the current preset being indexed has children, they need to be added to the FRONT of the queue (but still in the order they're presented)
+						if (this.parentToChildrenPresets.TryGetValue(next, out List<(CustomComboPreset Preset, CustomComboInfoAttribute Info)>? subchildren)) {
+							// to that end, we reverse the list of children, and then add each to the front of the list, effectively doing queue.unshift(children.pop()) until the list is emptied
+							foreach ((CustomComboPreset Preset, CustomComboInfoAttribute _) in subchildren.ToArray().Reverse())
+								queue.AddFirst(Preset);
+						}
+					}
+				}
+			}
+		}
 
 		this.SizeCondition = ImGuiCond.FirstUseEver;
 		this.Size = new(minWidth, 800);
@@ -233,7 +276,6 @@ public class ConfigWindow: Window {
 			ImGui.EndMenuBar();
 		}
 
-		int i = 1;
 		foreach (string jobName in this.sortedJobs) {
 			if (ImGui.CollapsingHeader(jobName)) {
 
@@ -243,30 +285,29 @@ public class ConfigWindow: Window {
 					if (this.childToParentPresets.ContainsKey(preset))
 						continue;
 
-					this.drawPreset(preset, info, ref i);
+					this.drawPreset(preset, info);
 				}
 
 				ImGui.PopID();
 
 			}
-			else {
-				i += this.groupedPresets[jobName].Count;
-			}
 		}
 
 	}
 
-	private void drawPreset(CustomComboPreset preset, CustomComboInfoAttribute info, ref int i) {
+	private void drawPreset(CustomComboPreset preset, CustomComboInfoAttribute info) {
 
 		bool compactMode = Service.Configuration.CompactSettingsWindow;
 		bool enabled = Service.Configuration.IsEnabled(preset);
-		CustomComboPreset[] conflicts = preset.GetConflicts();
-		CustomComboPreset? parent = preset.GetParent();
 		bool dangerous = preset.GetAttribute<DangerousAttribute>() is not null;
 		bool experimental = preset.GetAttribute<ExperimentalAttribute>() is not null;
+		bool deprecated = preset.GetAttribute<DeprecatedAttribute>() is not null;
+		CustomComboPreset[] conflicts = preset.GetConflicts();
+		CustomComboPreset[] alternatives = deprecated ? preset.GetAlternatives() : Array.Empty<CustomComboPreset>();
+		CustomComboPreset? parent = preset.GetParent();
 		bool hideChildren = Service.Configuration.HideDisabledFeaturesChildren;
-		bool hasChildren = this.parentToChildrenPresets.TryGetValue(preset, out HashSet<(CustomComboPreset Preset, CustomComboInfoAttribute Info)>? children)
-			&& children is not null;
+		bool hasChildren = this.parentToChildrenPresets.TryGetValue(preset, out List<(CustomComboPreset Preset, CustomComboInfoAttribute Info)>? children)
+			&& children is not null && children.Count > 0;
 		int childCount = hasChildren ? children!.Count : 0;
 		bool hasDetails = this.detailSettings.TryGetValue(preset, out List<ComboDetailSetting>? details)
 			&& details is not null;
@@ -285,7 +326,7 @@ public class ConfigWindow: Window {
 		}
 
 		ImGui.PushItemWidth(200);
-		bool toggled = ImGui.Checkbox($"{i}: {info.FancyName}", ref enabled);
+		bool toggled = ImGui.Checkbox($"{this.presetOrdinals[preset]}: {info.FancyName}", ref enabled);
 		ImGui.PopItemWidth();
 
 		if (compactMode && ImGui.IsItemHovered()) {
@@ -331,7 +372,7 @@ public class ConfigWindow: Window {
 		if (!compactMode)
 			ImGui.TextUnformatted(info.Description);
 		if (dangerous) {
-			ImGui.TextColored(warningColour, "UNSAFE - use at your own risk!");
+			ImGui.TextColored(warningColour, $"UNSAFE - use {info.FancyName} at your own risk!");
 			if (ImGui.IsItemHovered()) {
 				ImGui.BeginTooltip();
 				ImGui.TextUnformatted("Unsafe replacers use internal mechanisms that may carry a risk of crashing,"
@@ -340,11 +381,38 @@ public class ConfigWindow: Window {
 			}
 		}
 		else if (experimental) {
-			ImGui.TextColored(warningColour, "EXPERIMENTAL - may change without warning!");
+			ImGui.TextColored(warningColour, $"EXPERIMENTAL - {info.FancyName} may change without warning!");
 			if (ImGui.IsItemHovered()) {
 				ImGui.BeginTooltip();
 				ImGui.TextUnformatted("Experimental replacers are not fully tested, may cause unwanted or unexpected behaviour,"
 					+ "\nmight not be complete, and should only be used if you accept these risks.");
+				ImGui.EndTooltip();
+			}
+		}
+		else if (deprecated) {
+			ImGui.TextColored(enabled ? warningColour : deprecatedColour, $"DEPRECATED - {info.FancyName} is not recommended for use!");
+			if (ImGui.IsItemHovered()) {
+				ImGui.BeginTooltip();
+				ImGui.TextUnformatted("Deprecated replacers are no longer being actively updated, and should be"
+					+ " considered outdated. They may be removed in future versions.");
+				if (alternatives.Length > 0) {
+					ImGui.TextUnformatted("");
+					if (alternatives.Length == 1) {
+						ImGui.TextUnformatted("The developer suggests replacing this preset"
+							+ (hasChildren ? " and its children" : string.Empty)
+							+ $" with #{this.presetOrdinals[alternatives[0]]}: {alternatives[0].GetAttribute<CustomComboInfoAttribute>()!.FancyName}");
+					}
+					else {
+						string initial = "The developer suggests replacing this preset"
+							+ (hasChildren ? " and its children" : string.Empty)
+							+ " with one or more of the following:";
+						StringBuilder msg = new(initial, initial.Length + (alternatives.Length * 25));
+						foreach (CustomComboPreset p in alternatives) {
+							msg.Append($"\n      #{this.presetOrdinals[p]}: {p.GetAttribute<CustomComboInfoAttribute>()!.FancyName}");
+						}
+						ImGui.TextUnformatted(msg.ToString());
+					}
+				}
 				ImGui.EndTooltip();
 			}
 		}
@@ -356,8 +424,6 @@ public class ConfigWindow: Window {
 			ImGui.TextColored(shadedColour, "This preset has additional configurable options.");
 
 		ImGui.PopTextWrapPos();
-
-		ImGui.Spacing();
 
 		if (hasDetails && enabled) {
 			const int MEM_WIDTH = sizeof(double);
@@ -464,36 +530,23 @@ public class ConfigWindow: Window {
 			Marshal.FreeHGlobal(ptrStep);
 		}
 
+		ImGui.Spacing();
+		//ImGui.Spacing();
+
 		if (hasChildren) {
 			if (!hideChildren || enabled) {
-				++i;
-
 				ImGui.Indent();
 				if (!compactMode)
 					ImGui.Indent();
 
 				foreach ((CustomComboPreset childPreset, CustomComboInfoAttribute childInfo) in children!) {
-					this.drawPreset(childPreset, childInfo, ref i);
+					this.drawPreset(childPreset, childInfo);
 				}
 
 				ImGui.Unindent();
 				if (!compactMode)
 					ImGui.Unindent();
 			}
-			else {
-				Queue<CustomComboPreset> queue = new();
-				queue.Enqueue(preset);
-				while (queue.TryDequeue(out CustomComboPreset next)) {
-					++i;
-					if (this.parentToChildrenPresets.TryGetValue(next, out HashSet<(CustomComboPreset Preset, CustomComboInfoAttribute Info)>? subchildren)) {
-						foreach ((CustomComboPreset Preset, CustomComboInfoAttribute _) in subchildren)
-							queue.Enqueue(Preset);
-					}
-				}
-			}
-		}
-		else {
-			++i;
 		}
 	}
 
