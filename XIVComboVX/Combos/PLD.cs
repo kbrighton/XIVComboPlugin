@@ -86,11 +86,6 @@ internal class PaladinRoyalAuthorityCombo: CustomCombo {
 					return PLD.FightOrFlight;
 			}
 
-			if (IsEnabled(CustomComboPreset.PaladinRoyalWeaveGoringBlade) && level >= PLD.Levels.GoringBlade) {
-				if (CanUse(PLD.GoringBlade))
-					return PLD.GoringBlade;
-			}
-
 			if (IsEnabled(CustomComboPreset.PaladinRoyalWeaveSpiritsWithin) && level >= PLD.Levels.SpiritsWithin) {
 				uint actual = OriginalHook(PLD.SpiritsWithin);
 				if (CanUse(actual))
@@ -102,6 +97,11 @@ internal class PaladinRoyalAuthorityCombo: CustomCombo {
 		if (IsEnabled(CustomComboPreset.PaladinRoyalConfiteor) && level >= PLD.Levels.Confiteor) {
 			if (SelfHasEffect(PLD.Buffs.Requiescat))
 				return OriginalHook(PLD.Confiteor);
+		}
+
+		if (IsEnabled(CustomComboPreset.PaladinRoyalAuthorityGoringBlade) && level >= PLD.Levels.GoringBlade) {
+			if (CanUse(PLD.GoringBlade))
+				return PLD.GoringBlade;
 		}
 
 		if (lastComboMove is PLD.FastBlade) {

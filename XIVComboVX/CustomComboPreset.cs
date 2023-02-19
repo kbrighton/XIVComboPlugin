@@ -698,12 +698,12 @@ public enum CustomComboPreset {
 	PaladinRoyalWeaveFightOrFlight = 1918,
 
 	[ParentPreset(PaladinRoyalAuthorityCombo)]
-	[CustomComboInfo("Weave: Goring Blade", "Weave in Goring Blade on RA/RoH when doing so will not clip your GCD window.", PLD.JobID)]
-	PaladinRoyalWeaveGoringBlade = 1922,
-
-	[ParentPreset(PaladinRoyalAuthorityCombo)]
 	[CustomComboInfo("Weave: Spirits Within", "Weave in Spirits Within / Expiacion on RA/RoH when doing so will not clip your GCD window.", PLD.JobID)]
 	PaladinRoyalWeaveSpiritsWithin = 1919,
+
+	[ParentPreset(PaladinRoyalAuthorityCombo)]
+	[CustomComboInfo("Goring Authority", "Change RA/RoH into Goring Blade when off CD.", PLD.JobID)]
+	PaladinRoyalAuthorityGoringBlade = 1922,
 
 	[ParentPreset(PaladinRoyalAuthorityCombo)]
 	[CustomComboInfo("Royal Intervention Feature", "Replace the RA/RoH combo with Intervene when NOT in the combo chain, and the current target is out of melee range.\nRespects Intervene Level Sync if enabled.", PLD.JobID)]
