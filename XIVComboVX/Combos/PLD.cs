@@ -1,4 +1,5 @@
 namespace XIVComboVX.Combos;
+
 internal static class PLD {
 	public const byte JobID = 19;
 
