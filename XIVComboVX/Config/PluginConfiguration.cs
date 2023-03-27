@@ -408,10 +408,10 @@ public class PluginConfiguration: IPluginConfiguration {
 	public bool ShowUpdateMessage { get; set; } = true;
 
 	[JsonProperty("EnabledActionsV5")]
-	public HashSet<CustomComboPreset> EnabledActions = new();
+	public HashSet<CustomComboPreset> EnabledActions { get; set; } = new();
 
 	[Obsolete("Use the explicit 'Dancer*ActionID' ushorts instead")]
-	public uint[] DancerDanceCompatActionIDs = Array.Empty<uint>();
+	public uint[] DancerDanceCompatActionIDs { get; set; } = Array.Empty<uint>();
 
 	#endregion
 
