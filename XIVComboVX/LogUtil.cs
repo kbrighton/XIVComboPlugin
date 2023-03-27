@@ -2,6 +2,7 @@ namespace XIVComboVX;
 
 using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
 using Dalamud.Game;
 using Dalamud.Logging;
@@ -31,14 +32,17 @@ internal class LogUtil: IDisposable {
 		this.EnabledNextTick = false;
 	}
 
+	[SuppressMessage("Usage", "CA2201:Do not raise reserved exception types", Justification = "Exception is used ONLY to provide a stack trace, never thrown")]
 	internal void fatal(string msg, Exception? cause = null) {
 		if (this.Enabled)
 			PluginLog.Fatal($"{msg}\n{cause ?? new Exception(STACK_TRACE_MSG)}");
 	}
+	[SuppressMessage("Usage", "CA2201:Do not raise reserved exception types", Justification = "Exception is used ONLY to provide a stack trace, never thrown")]
 	internal void error(string msg, Exception? cause = null) {
 		if (this.Enabled)
 			PluginLog.Error($"{msg}\n{cause ?? new Exception(STACK_TRACE_MSG)}");
 	}
+	[SuppressMessage("Usage", "CA2201:Do not raise reserved exception types", Justification = "Exception is used ONLY to provide a stack trace, never thrown")]
 	internal void warning(string msg, Exception? cause = null) {
 		if (this.Enabled)
 			PluginLog.Warning($"{msg}\n{cause ?? new Exception(STACK_TRACE_MSG)}");
