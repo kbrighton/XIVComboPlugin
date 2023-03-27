@@ -1,4 +1,4 @@
-namespace XIVComboVX.Combos;
+namespace PrincessRTFM.XIVComboVX.Combos;
 
 using System;
 using System.Linq;

@@ -1,9 +1,9 @@
-namespace XIVComboVX.Combos;
+namespace PrincessRTFM.XIVComboVX.Combos;
 
 using Dalamud.Game.ClientState.JobGauge.Enums;
 using Dalamud.Game.ClientState.JobGauge.Types;
 
-using global::XIVComboVX.GameData;
+using PrincessRTFM.XIVComboVX.GameData;
 
 internal static class AST {
 	public const byte JobID = 33;

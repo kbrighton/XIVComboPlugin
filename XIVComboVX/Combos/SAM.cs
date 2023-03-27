@@ -1,4 +1,4 @@
-namespace XIVComboVX.Combos;
+namespace PrincessRTFM.XIVComboVX.Combos;
 
 using Dalamud.Game.ClientState.JobGauge.Enums;
 using Dalamud.Game.ClientState.JobGauge.Types;

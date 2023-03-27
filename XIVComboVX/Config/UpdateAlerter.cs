@@ -1,4 +1,4 @@
-namespace XIVComboVX.Config;
+namespace PrincessRTFM.XIVComboVX.Config;
 
 using System;
 using System.Collections.Generic;

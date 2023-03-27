@@ -1,4 +1,4 @@
-namespace XIVComboVX;
+namespace PrincessRTFM.XIVComboVX;
 
 using Dalamud.Data;
 using Dalamud.Game;

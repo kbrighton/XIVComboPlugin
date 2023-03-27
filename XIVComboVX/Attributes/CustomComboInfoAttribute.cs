@@ -1,4 +1,4 @@
-namespace XIVComboVX.Attributes;
+namespace PrincessRTFM.XIVComboVX.Attributes;
 
 using System;
 using System.Runtime.CompilerServices;

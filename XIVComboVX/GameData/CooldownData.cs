@@ -1,4 +1,4 @@
-namespace XIVComboVX.GameData;
+namespace PrincessRTFM.XIVComboVX.GameData;
 
 using System.Runtime.InteropServices;
 
