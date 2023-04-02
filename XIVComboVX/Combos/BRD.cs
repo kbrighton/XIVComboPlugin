@@ -128,21 +128,6 @@ internal class BardHeavyBurstShot: CustomCombo {
 
 		}
 
-		if (IsEnabled(CustomComboPreset.BardApexFeature)) {
-
-			if (level >= BRD.Levels.BlastShot && SelfHasEffect(BRD.Buffs.BlastShotReady))
-				return BRD.BlastArrow;
-
-			if (level >= BRD.Levels.ApexArrow && GetJobGauge<BRDGauge>().SoulVoice == 100)
-				return BRD.ApexArrow;
-
-		}
-
-		if (IsEnabled(CustomComboPreset.BardStraightShotUpgradeFeature)) {
-			if (level >= BRD.Levels.StraightShot && SelfHasEffect(BRD.Buffs.StraightShotReady))
-				return OriginalHook(BRD.StraightShot);
-		}
-
 		if (IsEnabled(CustomComboPreset.BardStraightShotIronJaws) && level >= BRD.Levels.VenomousBite) {
 			ushort poisonStatusId = level >= BRD.Levels.BiteUpgrade
 				? BRD.Debuffs.CausticBite
@@ -179,6 +164,21 @@ internal class BardHeavyBurstShot: CustomCombo {
 					: poisonActionId;
 			}
 
+		}
+
+		if (IsEnabled(CustomComboPreset.BardApexFeature)) {
+
+			if (level >= BRD.Levels.BlastShot && SelfHasEffect(BRD.Buffs.BlastShotReady))
+				return BRD.BlastArrow;
+
+			if (level >= BRD.Levels.ApexArrow && GetJobGauge<BRDGauge>().SoulVoice == 100)
+				return BRD.ApexArrow;
+
+		}
+
+		if (IsEnabled(CustomComboPreset.BardStraightShotUpgradeFeature)) {
+			if (level >= BRD.Levels.StraightShot && SelfHasEffect(BRD.Buffs.StraightShotReady))
+				return OriginalHook(BRD.StraightShot);
 		}
 
 		return actionID;
