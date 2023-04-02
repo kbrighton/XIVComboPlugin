@@ -53,7 +53,23 @@ public class PluginConfiguration: IPluginConfiguration {
 
 	#region BRD settings
 
-	// placeholder
+	[ComboDetailSetting(
+		CustomComboPreset.BardWeavePitchPerfect,
+		"Minimum song time left",
+		"When the Wanderer's Minuet has no more than this much time left, weave into Pitch Perfect",
+		3,
+		45
+	)]
+	public float BardWanderersMinuetBuffThreshold { get; set; } = 5;
+
+	[ComboDetailSetting(
+		CustomComboPreset.BardStraightShotIronJaws,
+		"Debuff time threshold",
+		"When your bite DoTs have less than this much time left, Heavy/Burst shot becomes Iron Jaws",
+		3,
+		45
+	)]
+	public float BardBiteDebuffThreshold { get; set; } = 10;
 
 	#endregion
 

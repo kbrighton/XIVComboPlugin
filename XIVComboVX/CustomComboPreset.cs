@@ -150,36 +150,53 @@ public enum CustomComboPreset {
 	// ====================================================================================
 	#region BARD (23xx)
 
+	[CustomComboInfo("Weave: Pitch Perfect", "Replaces Heavy Shot with Pitch Perfect when weaving and either Wanderer's Minuet is about to expire or Pitch Perfect reaches three stacks.", BRD.JobID)]
+	BardWeavePitchPerfect = 2314,
+
+	[CustomComboInfo("Weave: Battle Voice", "Replaces Heavy Shot with Battle Voice when weaving.", BRD.JobID)]
+	BardWeaveBattleVoice = 2315,
+
+	[CustomComboInfo("Weave: Raging Strikes", "Replaces Heavy Shot with Raging Strikes when weaving.", BRD.JobID)]
+	BardWeaveRagingStrikes = 2316,
+
+	[CustomComboInfo("Weave: Sidewinder", "Replaces Heavy Shot with Sidewinder when weaving.", BRD.JobID)]
+	BardWeaveSidewinder = 2317,
+
+	[CustomComboInfo("Weave: Empyreal Arrow", "Replaces Heavy Shot with Empyreal Arrow when weaving.", BRD.JobID)]
+	BardWeaveEmpyrealArrow = 2318,
+
+	[CustomComboInfo("Weave: Bloodletter", "Replaces Heavy Shot with Bloodletter when weaving.", BRD.JobID)]
+	BardWeaveBloodletter = 2319,
+
+	[CustomComboInfo("Weave: Rain of Death", "Replaces Heavy Shot with Rain of Death when weaving.", BRD.JobID)]
+	BardWeaveDeathRain = 2320,
+
 	[CustomComboInfo("Heavy Shot into Straight Shot", "Replaces Heavy Shot/Burst Shot with Straight Shot/Refulgent Arrow when procced.", BRD.JobID)]
 	BardStraightShotUpgradeFeature = 2301,
 
-	[CustomComboInfo("Iron Jaws Feature", "Iron Jaws is replaced with Caustic Bite/Stormbite if one or both are not up.\nAlternates between the two if Iron Jaws isn't available.", BRD.JobID)]
-	BardIronJawsFeature = 2302,
+	[CustomComboInfo("Heavy Jaws", "Replaces Heavy Shot/Burst Shot with Iron Jaws when your DoTs are below a configurable threshold.", BRD.JobID)]
+	BardStraightShotIronJaws = 2322,
 
-	[CustomComboInfo("Apex Arrow Feature", "Replaces Heavy Shot, Burst Shot, Quick Nock, and Ladonsbit\nwith Blast Arrow when available, or Apex Arrow if gauge is full.", BRD.JobID)]
+	[CustomComboInfo("Iron Bites", "Iron Jaws is replaced with Caustic Bite/Stormbite if one or both are not up.\nAlternates between the two if Iron Jaws isn't available.", BRD.JobID)]
+	BardIronBites = 2302,
+
+	[CustomComboInfo("Apex Arrow Feature", "Replaces Heavy Shot/Burst Shot, Quick Nock/Ladonsbite, and Shadowbite\nwith Blast Arrow when available, or Apex Arrow if gauge is full.", BRD.JobID)]
 	BardApexFeature = 2303,
 
 	[CustomComboInfo("Quick Nock / Ladonsbite into Shadowbite", "Replaces Quick Nock and Ladonsbite with Shadowbite when available.", BRD.JobID)]
-	BardShadowbiteFeature = 2304,
+	BardQuickNockLadonsbiteShadowbite = 2304,
 
-	[CustomComboInfo("Bloodletter Feature", "Replaces Bloodletter with Empyreal Arrow and Sidewinder depending on which is available.", BRD.JobID)]
-	BardBloodletterFeature = 2305,
+	[CustomComboInfo("Rain of Shadows", "Replaces Shadowbite with Rain of Death when weaving or under level.", BRD.JobID)]
+	BardShadowbiteDeathRain = 2321,
 
-	[Conflicts(BardBloodletterFeature)]
-	[CustomComboInfo("Bloodletter to Rain of Death", "Replace Bloodletter with Rain of Death if there are no self-applied DoTs on your target.", BRD.JobID)]
-	BardBloodRainFeature = 2313,
-
-	[CustomComboInfo("Rain of Death Feature", "Replaces Rain of Death with Empyreal Arrow and Sidewinder depending on which is available.", BRD.JobID)]
-	BardRainOfDeathFeature = 2306,
-
-	[CustomComboInfo("Sidewinder Feature", "Replace Sidewinder with Empyreal Arrow depending on which is available.", BRD.JobID)]
-	BardSidewinderFeature = 2309,
-
-	[CustomComboInfo("Radiant Voice Feature", "Replace Radiant Finale with Battle Voice if Battle Voice is available.", BRD.JobID)]
-	BardRadiantVoiceFeature = 2310,
+	[CustomComboInfo("Empyreal Sidewinder", "Replace Sidewinder and Empyreal Arrow with each other depending on which is available.", BRD.JobID)]
+	BardEmpyrealSidewinder = 2309,
 
 	[CustomComboInfo("Radiant Strikes Feature", "Replace Radiant Finale with Raging Strikes if Raging Strikes is available.\nThis takes priority over Battle Voice if Radiant Voice is enabled.", BRD.JobID)]
 	BardRadiantStrikesFeature = 2311,
+
+	[CustomComboInfo("Radiant Voice Feature", "Replace Radiant Finale with Battle Voice if Battle Voice is available.", BRD.JobID)]
+	BardRadiantVoiceFeature = 2310,
 
 	[CustomComboInfo("Barrage Feature", "Replace Barrage with Straight Shot if you have Straight Shot Ready (unless Shadowbite is ready).", BRD.JobID)]
 	BardBarrageFeature = 2312,
