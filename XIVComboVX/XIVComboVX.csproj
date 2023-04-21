@@ -9,5 +9,5 @@
 		<Copyright>Copyleft attick 2020 baybeeee</Copyright>
 	</PropertyGroup>
 
-	<Import Project="dalamud.targets" />
+	<Import Project="dalamud.props" />
 </Project>
