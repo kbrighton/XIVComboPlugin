@@ -2,6 +2,7 @@ namespace PrincessRTFM.XIVComboVX;
 
 using System;
 using System.Collections.Concurrent;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -24,7 +25,7 @@ internal class Ipc: IDisposable {
 	internal bool tippyLoaded {
 		get {
 			if (!this.tippyFound)
-				this.tippyFound = Service.Interface.PluginInternalNames.Contains(tippyPluginId);
+				this.tippyFound = Service.Interface.InstalledPlugins.Where(state => state.InternalName == tippyPluginId).Any();
 			return this.tippyFound;
 		}
 	}
