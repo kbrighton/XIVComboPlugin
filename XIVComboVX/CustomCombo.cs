@@ -103,9 +103,7 @@ internal abstract class CustomCombo {
 
 	protected static uint PickByCooldown(uint preference, params uint[] actions) {
 
-		static (uint ActionID, CooldownData Data) Selector(uint actionID) {
-			return (actionID, GetCooldown(actionID));
-		}
+		static (uint ActionID, CooldownData Data) Selector(uint actionID) => (actionID, GetCooldown(actionID));
 
 		static (uint ActionID, CooldownData Data) Compare(uint preference, (uint ActionID, CooldownData Data) a, (uint ActionID, CooldownData Data) b) {
 
@@ -183,13 +181,6 @@ internal abstract class CustomCombo {
 
 		// If nothing is found, then return false to indicate that this case doesn't apply
 		return false;
-	}
-
-	[Obsolete("Makes advanced logic MUCH harder to implement, use PartialChainCombo if absolutely necessary", true)]
-	protected static uint SimpleChainCombo(byte level, uint last, float time, params (byte lvl, uint id)[] sequence) {
-		if (time > 0 && PartialChainCombo(level, last, out uint next, sequence))
-			return next;
-		return sequence[0].id;
 	}
 
 	protected static bool IsJob(params uint[] jobs) {
@@ -350,10 +341,9 @@ internal abstract class CustomCombo {
 			bool fast = SelfHasEffect(DNC.Buffs.StandardStep);
 			int max = fast ? 2 : 4;
 
-			if (gauge.CompletedSteps >= max)
-				return OriginalHook(fast ? DNC.StandardStep : DNC.TechnicalStep);
-
-			return gauge.NextStep;
+			return gauge.CompletedSteps >= max
+				? OriginalHook(fast ? DNC.StandardStep : DNC.TechnicalStep)
+				: gauge.NextStep;
 		}
 
 		return 0;

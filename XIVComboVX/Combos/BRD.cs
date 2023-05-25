@@ -199,10 +199,9 @@ internal class BardIronJaws: CustomCombo {
 			Status? venomous = TargetFindOwnEffect(BRD.Debuffs.VenomousBite);
 			Status? windbite = TargetFindOwnEffect(BRD.Debuffs.Windbite);
 
-			if (venomous is null)
-				return BRD.VenomousBite;
-
-			return windbite is null
+			return venomous is null
+				? BRD.VenomousBite
+				: windbite is null
 				? BRD.Windbite
 				: venomous.RemainingTime < windbite.RemainingTime
 				? BRD.VenomousBite

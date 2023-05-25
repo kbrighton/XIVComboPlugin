@@ -39,10 +39,9 @@ internal readonly struct CooldownData {
 				return 0;
 
 			(ushort cur, ushort max) = Service.DataCache.GetMaxCharges(this.ActionID);
-			if (cur == max)
-				return this.cooldownTotal;
-
-			return this.cooldownTotal / max * cur;
+			return cur == max
+				? this.cooldownTotal
+				: this.cooldownTotal / max * cur;
 		}
 	}
 
