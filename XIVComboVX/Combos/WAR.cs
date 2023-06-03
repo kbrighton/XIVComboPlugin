@@ -84,8 +84,10 @@ internal class WarriorStormsPathCombo: CustomCombo {
 
 		if (IsEnabled(CustomComboPreset.WarriorSmartWeaveSingleTargetPath)) {
 			if (level >= WAR.Levels.Upheaval) {
-				if (CanWeave(actionID) && CanUse(WAR.Upheaval))
-					return WAR.Upheaval;
+				if (SelfHasEffect(WAR.Buffs.SurgingTempest) || !IsEnabled(CustomComboPreset.WarriorSmartWeaveSingleTargetPathOnlyBuffed)) {
+					if (CanWeave(actionID) && CanUse(WAR.Upheaval))
+						return WAR.Upheaval;
+				}
 			}
 		}
 
@@ -133,8 +135,10 @@ internal class WarriorStormsEyeCombo: CustomCombo {
 
 		if (IsEnabled(CustomComboPreset.WarriorSmartWeaveSingleTargetEye)) {
 			if (level >= WAR.Levels.Upheaval) {
-				if (CanWeave(actionID) && CanUse(WAR.Upheaval))
-					return WAR.Upheaval;
+				if (SelfHasEffect(WAR.Buffs.SurgingTempest) || !IsEnabled(CustomComboPreset.WarriorSmartWeaveSingleTargetEyeOnlyBuffed)) {
+					if (CanWeave(actionID) && CanUse(WAR.Upheaval))
+						return WAR.Upheaval;
+				}
 			}
 		}
 

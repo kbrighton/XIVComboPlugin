@@ -1295,6 +1295,10 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Smart Weave", "Automatically turn into Upheaval when weaving won't drift your GCD.", WAR.JobID)]
 	WarriorSmartWeaveSingleTargetPath = 2116,
 
+	[ParentPreset(WarriorSmartWeaveSingleTargetPath)]
+	[CustomComboInfo("Buffed Weave", "Wait until you have Surging Tempest active.", WAR.JobID)]
+	WarriorSmartWeaveSingleTargetPathOnlyBuffed = 2119,
+
 	[ParentPreset(WarriorStormsPathCombo)]
 	[CustomComboInfo("Gauge Overcap Saver: Storm's Path", "Replace the Storm's Path combo with gauge spender if completing the combo would overcap you.", WAR.JobID)]
 	WarriorGaugeOvercapPathFeature = 2103,
@@ -1309,6 +1313,10 @@ public enum CustomComboPreset {
 	[ParentPreset(WarriorStormsEyeCombo)]
 	[CustomComboInfo("Smart Weave", "Automatically turn into Upheaval when weaving won't drift your GCD.", WAR.JobID)]
 	WarriorSmartWeaveSingleTargetEye = 2117,
+
+	[ParentPreset(WarriorSmartWeaveSingleTargetEye)]
+	[CustomComboInfo("Buffed Weave", "Wait until you have Surging Tempest active.", WAR.JobID)]
+	WarriorSmartWeaveSingleTargetEyeOnlyBuffed = 2120,
 
 	[ParentPreset(WarriorStormsEyeCombo)]
 	[CustomComboInfo("Gauge Overcap Saver: Storm's Eye", "Replace the Storm's Eye combo with gauge spender if completing the combo would overcap you.", WAR.JobID)]
