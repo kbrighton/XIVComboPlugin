@@ -1,5 +1,7 @@
 namespace PrincessRTFM.XIVComboVX.Combos;
 
+using System.Diagnostics.CodeAnalysis;
+
 using Dalamud.Game.ClientState.JobGauge.Types;
 
 internal static class WAR {
@@ -212,6 +214,7 @@ internal class WarriorNascentFlashFeature: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.WarriorNascentFlashFeature;
 	public override uint[] ActionIDs { get; } = new[] { WAR.NascentFlash };
 
+	[SuppressMessage("Style", "IDE0046:Convert to conditional expression", Justification = "Standard formatting layout")]
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
 		if (level < WAR.Levels.NascentFlash)
@@ -254,7 +257,8 @@ internal class WarriorFellCleaveDecimate: CustomCombo {
 internal class WarriorBerserkInnerRelease: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.WarriorPrimalReleaseFeature;
 	public override uint[] ActionIDs { get; } = new[] { WAR.Berserk, WAR.InnerRelease };
-
+	
+	[SuppressMessage("Style", "IDE0046:Convert to conditional expression", Justification = "Standard formatting layout")]
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
 		if (level >= WAR.Levels.PrimalRend && SelfHasEffect(WAR.Buffs.PrimalRendReady))
@@ -267,7 +271,8 @@ internal class WarriorBerserkInnerRelease: CustomCombo {
 internal class WarriorBloodwhetting: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.WarriorHealthyBalancedDietFeature;
 	public override uint[] ActionIDs { get; } = new[] { WAR.Bloodwhetting, WAR.RawIntuition };
-
+	
+	[SuppressMessage("Style", "IDE0046:Convert to conditional expression", Justification = "Standard formatting layout")]
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
 		if (level >= WAR.Levels.Bloodwhetting && IsOffCooldown(WAR.Bloodwhetting))
