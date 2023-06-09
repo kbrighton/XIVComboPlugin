@@ -697,7 +697,7 @@ public enum CustomComboPreset {
 
 	[ParentPreset(PaladinProminenceCombo)]
 	[CustomComboInfo("Weave: Fight or Flight", "Weave in Fight or Flight on Prominence/TE when doing so will not clip your GCD window.", PLD.JobID)]
-	PaladinHolyWeaveFightOrFlight = 1921,
+	PaladinProminenceWeaveFightOrFlight = 1921,
 
 	[ParentPreset(PaladinProminenceCombo)]
 	[CustomComboInfo("Weave: Circle of Scorn", "Weave in Circle of Scorn on Prominence/TE when doing so will not clip your GCD window.", PLD.JobID)]
@@ -705,7 +705,11 @@ public enum CustomComboPreset {
 
 	[ParentPreset(PaladinProminenceCombo)]
 	[CustomComboInfo("Prominent Confiteor Feature", "Replace the Prominence combo with Confiteor (and chains) when Requiescat is up.", PLD.JobID)]
-	PaladinProminentConfiteor = 1916,
+	PaladinProminenceConfiteor = 1916,
+
+	[ParentPreset(PaladinProminenceCombo)]
+	[CustomComboInfo("Prominent Circle", "Change Prominence/TE into Holy Circle when under the effect of Divine Might.", PLD.JobID)]
+	PaladinProminenceHolyCircle = 1924,
 
 	[CustomComboInfo("Royal Authority Combo", "Replace Royal Authority/Rage of Halone with its combo chain.", PLD.JobID)]
 	PaladinRoyalAuthorityCombo = 1901,
@@ -719,6 +723,10 @@ public enum CustomComboPreset {
 	PaladinRoyalWeaveSpiritsWithin = 1919,
 
 	[ParentPreset(PaladinRoyalAuthorityCombo)]
+	[CustomComboInfo("Royal Confiteor Feature", "Replace the RA/RoH combo with Confiteor (and chains) when Requiescat is up.", PLD.JobID)]
+	PaladinRoyalConfiteor = 1915,
+
+	[ParentPreset(PaladinRoyalAuthorityCombo)]
 	[CustomComboInfo("Goring Authority", "Change RA/RoH into Goring Blade when off CD.", PLD.JobID)]
 	PaladinRoyalAuthorityGoringBlade = 1922,
 
@@ -727,12 +735,12 @@ public enum CustomComboPreset {
 	PaladinRoyalAuthorityRangeSwapFeature = 1912,
 
 	[ParentPreset(PaladinRoyalAuthorityCombo)]
-	[CustomComboInfo("Atonement Feature", "Replace the RA/RoH combo with Atonement when NOT in the combo chain, and under the effect of Sword Oath.", PLD.JobID)]
-	PaladinAtonementFeature = 1902,
+	[CustomComboInfo("Holy Authority", "Change RA/RoH into Holy Spirit when under the effect of Divine Might.", PLD.JobID)]
+	PaladinRoyalAuthorityHolySpirit = 1923,
 
 	[ParentPreset(PaladinRoyalAuthorityCombo)]
-	[CustomComboInfo("Royal Confiteor Feature", "Replace the RA/RoH combo with Confiteor (and chains) when Requiescat is up.", PLD.JobID)]
-	PaladinRoyalConfiteor = 1915,
+	[CustomComboInfo("Atonement Feature", "Replace the RA/RoH combo with Atonement when NOT in the combo chain, and under the effect of Sword Oath.", PLD.JobID)]
+	PaladinAtonementFeature = 1902,
 
 	[CustomComboInfo("Requiescat Confiteor", "Replace Requiescat with Confiteor (and chains) while under the effect of Requiescat.", PLD.JobID)]
 	PaladinRequiescatConfiteor = 1904,

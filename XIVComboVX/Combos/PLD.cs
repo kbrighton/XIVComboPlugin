@@ -127,6 +127,13 @@ internal class PaladinRoyalAuthorityCombo: CustomCombo {
 			}
 		}
 
+		if (IsEnabled(CustomComboPreset.PaladinRoyalAuthorityHolySpirit)) {
+			if (level >= PLD.Levels.HolySpirit) {
+				if (SelfHasEffect(PLD.Buffs.DivineMight))
+					return PLD.HolySpirit;
+			}
+		}
+
 		if (IsEnabled(CustomComboPreset.PaladinAtonementFeature)) {
 			if (level >= PLD.Levels.Atonement) {
 				if (SelfHasEffect(PLD.Buffs.SwordOath))
@@ -146,7 +153,7 @@ internal class PaladinProminenceCombo: CustomCombo {
 
 		if (CanWeave(actionID)) {
 
-			if (IsEnabled(CustomComboPreset.PaladinHolyWeaveFightOrFlight) && level >= PLD.Levels.FightOrFlight) {
+			if (IsEnabled(CustomComboPreset.PaladinProminenceWeaveFightOrFlight) && level >= PLD.Levels.FightOrFlight) {
 				if (CanUse(PLD.FightOrFlight))
 					return PLD.FightOrFlight;
 			}
@@ -158,13 +165,20 @@ internal class PaladinProminenceCombo: CustomCombo {
 
 		}
 
-		if (IsEnabled(CustomComboPreset.PaladinProminentConfiteor) && level >= PLD.Levels.Confiteor) {
+		if (IsEnabled(CustomComboPreset.PaladinProminenceConfiteor) && level >= PLD.Levels.Confiteor) {
 			if (SelfHasEffect(PLD.Buffs.Requiescat))
 				return OriginalHook(PLD.Confiteor);
 		}
 
 		if (lastComboMove is PLD.TotalEclipse && level >= PLD.Levels.Prominence)
 			return PLD.Prominence;
+
+		if (IsEnabled(CustomComboPreset.PaladinProminenceHolyCircle)) {
+			if (level >= PLD.Levels.HolyCircle) {
+				if (SelfHasEffect(PLD.Buffs.DivineMight))
+					return PLD.HolyCircle;
+			}
+		}
 
 		return PLD.TotalEclipse;
 	}
@@ -204,24 +218,12 @@ internal class PaladinInterveneSyncFeature: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.PaladinInterveneSyncFeature;
 	public override uint[] ActionIDs { get; } = new[] { PLD.Intervene };
 
-	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-
-		if (level < PLD.Levels.Intervene)
-			return PLD.ShieldLob;
-
-		return actionID;
-	}
+	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) => level < PLD.Levels.Intervene ? PLD.ShieldLob : actionID;
 }
 
 internal class PaladinSheltron: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.PaladinSheltronSentinel;
 	public override uint[] ActionIDs { get; } = new[] { PLD.Sheltron };
 
-	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-
-		if (level > PLD.Levels.Sentinel && CanUse(PLD.Sentinel))
-			return PLD.Sentinel;
-
-		return actionID;
-	}
+	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) => level > PLD.Levels.Sentinel && CanUse(PLD.Sentinel) ? PLD.Sentinel : actionID;
 }
