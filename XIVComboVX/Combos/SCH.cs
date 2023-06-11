@@ -12,21 +12,26 @@ internal static class SCH {
 		SacredSoil = 188,
 		Lustrate = 189,
 		Indomitability = 3583,
+		Broil = 3584,
 		DeploymentTactics = 3585,
 		EmergencyTactics = 3586,
 		Dissipation = 3587,
 		Excogitation = 7434,
+		Broil2 = 7435,
 		ChainStratagem = 7436,
 		Aetherpact = 7437,
 		WhisperingDawn = 16537,
 		FeyIllumination = 16538,
+		Broil3 = 16541,
 		Recitation = 16542,
 		FeyBless = 16543,
 		SummonSeraph = 16545,
 		Consolation = 16546,
 		SummonEos = 17215,
 		SummonSelene = 17216,
-		Ruin2 = 17870;
+		Ruin = 17869,
+		Ruin2 = 17870,
+		Broil4 = 25865;
 
 	public static class Buffs {
 		public const ushort
@@ -128,7 +133,7 @@ internal class ScholarLustrate: CustomCombo {
 
 internal class ScholarIndomitability: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.ScholarIndomAetherflowFeature;
-	public override uint[] ActionIDs { get; } = new[] { SCH.EnergyDrain };
+	public override uint[] ActionIDs { get; } = new[] { SCH.Indomitability };
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
