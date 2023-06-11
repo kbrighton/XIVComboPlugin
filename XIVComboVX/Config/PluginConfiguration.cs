@@ -407,7 +407,14 @@ public class PluginConfiguration: IPluginConfiguration {
 
 	#region WHM settings
 
-	// placeholder
+	[ComboDetailSetting(
+		CustomComboPreset.WhiteMageLucidWeave,
+		"MP threshold",
+		"When your MP is below this limit, weave into Lucid Dreaming\n(LD restores about one third of maximum MP, for reference)",
+		1000,
+		8000
+	)]
+	public uint WhiteMageLucidWeaveManaThreshold { get; set; } = 7000;
 
 	#endregion
 

@@ -1384,6 +1384,9 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Swiftcast Raise", "Raise turns into Swiftcast when available and reasonable.", WHM.JobID)]
 	WhiteMageSwiftcastRaiserFeature = 2400,
 
+	[CustomComboInfo("Lucid Weaving", "When MP is below a set threshold, weave Lucid Dreaming onto Aero/Dia, Stone/Glare, and Holy.", WHM.JobID)]
+	WhiteMageLucidWeave = 2406,
+
 	[CustomComboInfo("Solace into Misery", "Replaces Afflatus Solace with Afflatus Misery when Misery is ready to be used.", WHM.JobID)]
 	WhiteMageSolaceMiseryFeature = 2401,
 

@@ -6,21 +6,30 @@ internal static class WHM {
 	public const byte JobID = 24;
 
 	public const uint
-		Raise = 125,
+		Stone = 119,
 		Cure = 120,
+		Aero = 121,
 		Medica = 124,
+		Raise = 125,
+		Stone2 = 127,
+		Aero2 = 132,
 		Cure2 = 135,
 		PresenceOfMind = 136,
 		Holy = 139,
 		Benediction = 140,
+		Stone3 = 3568,
 		Asylum = 3569,
 		Tetragrammaton = 3570,
 		Assize = 3571,
+		Stone4 = 7431,
 		PlenaryIndulgence = 7433,
 		AfflatusSolace = 16531,
+		Dia = 16532,
+		Glare = 16533,
 		AfflatusRapture = 16534,
 		AfflatusMisery = 16535,
 		Temperance = 16536,
+		Glare3 = 25859,
 		Holy3 = 25860,
 		Aquaveil = 25861,
 		LiturgyOfTheBell = 25862;
@@ -45,6 +54,32 @@ internal static class WHM {
 internal class WhiteMageSwiftcastRaiserFeature: SwiftRaiseCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.WhiteMageSwiftcastRaiserFeature;
 	public override uint[] ActionIDs { get; } = new[] { WHM.Raise };
+}
+
+internal class WhiteMageAero: CustomCombo {
+	public override CustomComboPreset Preset => CustomComboPreset.WhmAny;
+	public override uint[] ActionIDs {get; } = new[] { WHM.Aero, WHM.Aero2, WHM.Dia };
+
+	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
+		
+		if (Common.checkLucidWeave(CustomComboPreset.WhiteMageLucidWeave, level, Service.Configuration.WhiteMageLucidWeaveManaThreshold, actionID))
+			return Common.LucidDreaming;
+
+		return actionID;
+	}
+}
+
+internal class WhiteMageStone: CustomCombo {
+	public override CustomComboPreset Preset => CustomComboPreset.WhmAny;
+	public override uint[] ActionIDs {get; } = new[] { WHM.Stone, WHM.Stone2, WHM.Stone3, WHM.Stone4, WHM.Glare, WHM.Glare3 };
+
+	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
+		
+		if (Common.checkLucidWeave(CustomComboPreset.WhiteMageLucidWeave, level, Service.Configuration.WhiteMageLucidWeaveManaThreshold, actionID))
+			return Common.LucidDreaming;
+
+		return actionID;
+	}
 }
 
 internal class WhiteMageSolaceMiseryFeature: CustomCombo {
@@ -74,13 +109,18 @@ internal class WhiteMageRaptureMiseryFeature: CustomCombo {
 }
 
 internal class WhiteMageHoly: CustomCombo {
-	public override CustomComboPreset Preset { get; } = CustomComboPreset.WhiteMageHolyMiseryFeature;
+	public override CustomComboPreset Preset { get; } = CustomComboPreset.WhmAny;
 	public override uint[] ActionIDs { get; } = new[] { WHM.Holy, WHM.Holy3 };
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-		if (level >= WHM.Levels.AfflatusMisery && GetJobGauge<WHMGauge>().BloodLily == 3 && HasTarget)
-			return WHM.AfflatusMisery;
+		if (Common.checkLucidWeave(CustomComboPreset.WhiteMageLucidWeave, level, Service.Configuration.WhiteMageLucidWeaveManaThreshold, actionID))
+			return Common.LucidDreaming;
+
+		if (IsEnabled(CustomComboPreset.WhiteMageHolyMiseryFeature)) {
+			if (level >= WHM.Levels.AfflatusMisery && GetJobGauge<WHMGauge>().BloodLily == 3 && HasTarget)
+				return WHM.AfflatusMisery;
+		}
 
 		return actionID;
 	}
