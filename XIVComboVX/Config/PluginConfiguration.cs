@@ -258,7 +258,23 @@ public class PluginConfiguration: IPluginConfiguration {
 
 	#region RDM settings
 
-	// placeholder
+	[ComboDetailSetting(
+		CustomComboPreset.RedMageSmartcastAoEWeaveLucid,
+		"MP threshold",
+		"When your MP is below this limit, your AoE button becomes Lucid Dreaming while weaving\n(LD restores about one third of maximum MP, for reference)",
+		1000,
+		8000
+	)]
+	public uint RedMageSmartcastAoEWeaveLucidManaThreshold { get; set; } = 7000;
+
+	[ComboDetailSetting(
+		CustomComboPreset.RedMageSmartcastSingleWeaveLucid,
+		"MP threshold",
+		"When your MP is below this limit, your AoE button becomes Lucid Dreaming while weaving\n(LD restores about one third of maximum MP, for reference)",
+		1000,
+		8000
+	)]
+	public uint RedMageSmartcastSingleWeaveLucidManaThreshold { get; set; } = 7000;
 
 	#endregion
 

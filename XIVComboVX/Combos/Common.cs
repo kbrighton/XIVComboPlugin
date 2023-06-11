@@ -1,6 +1,6 @@
 namespace PrincessRTFM.XIVComboVX.Combos;
 
-internal class Common {
+internal static class Common {
 	public const uint
 		// tanks
 		LowBlow = 7540,
@@ -10,18 +10,34 @@ internal class Common {
 		// healers
 		LucidDreaming = 7562;
 
-	internal class Buffs {
+	internal static class Buffs {
 		public const ushort
-		Swiftcast1 = 167,
-		Swiftcast2 = 1325,
-		Swiftcast3 = 1987,
-		LostChainspell = 2560;
+			Swiftcast1 = 167,
+			Swiftcast2 = 1325,
+			Swiftcast3 = 1987,
+			LostChainspell = 2560;
 	}
 
-	internal class Levels {
+	internal static class Levels {
 		public const uint
 			LucidDreaming = 14,
 			Swiftcast = 18;
+	}
+
+	internal static bool checkLucidWeave(CustomComboPreset preset, byte level, uint manaThreshold, uint baseAction) {
+
+		if (CustomCombo.IsEnabled(preset)) {
+			if (level >= Levels.LucidDreaming) {
+				if (CustomCombo.LocalPlayer.CurrentMp < manaThreshold) {
+					if (CustomCombo.CanWeave(baseAction)) {
+						if (CustomCombo.CanUse(Common.LucidDreaming))
+							return true;
+					}
+				}
+			}
+		}
+
+		return false;
 	}
 }
 

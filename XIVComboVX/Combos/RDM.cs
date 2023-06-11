@@ -279,6 +279,10 @@ internal class RedMageSmartcastAoECombo: CustomCombo {
 		bool canFinishBlack = level >= RDM.Levels.Verflare;
 		int blackThreshold = white + IMBALANCE_DIFF_MAX;
 		int whiteThreshold = black + IMBALANCE_DIFF_MAX;
+		bool weaving = CanWeave(actionID);
+
+		if (Common.checkLucidWeave(CustomComboPreset.RedMageSmartcastAoEWeaveLucid, level, Service.Configuration.RedMageSmartcastAoEWeaveLucidManaThreshold, actionID))
+			return Common.LucidDreaming;
 
 		// There is never a reason to NOT use the finishers when you have them.
 		if (isFinishing3 && level >= RDM.Levels.Resolution)
@@ -307,7 +311,7 @@ internal class RedMageSmartcastAoECombo: CustomCombo {
 
 		bool fastCast = IsFastcasting;
 
-		if ((IsEnabled(CustomComboPreset.RedMageSmartcastAoEWeave) && CanWeave(actionID)) || (IsEnabled(CustomComboPreset.RedMageSmartcastAoEMovement) && IsMoving && !fastCast)) {
+		if ((IsEnabled(CustomComboPreset.RedMageSmartcastAoEWeaveAttack) && weaving) || (IsEnabled(CustomComboPreset.RedMageSmartcastAoEMovement) && IsMoving && !fastCast)) {
 			if (level >= RDM.Levels.ContreSixte) {
 				if (IsEnabled(CustomComboPreset.RedMageContreFlecheFeature)) {
 					uint chosen = PickByCooldown(RDM.ContreSixte, RDM.Fleche, RDM.ContreSixte);
@@ -461,7 +465,7 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 		bool shouldCloseGap = IsEnabled(CustomComboPreset.RedMageSmartcastSingleMeleeComboStarterCloser)
 			&& targeting && !isClose && hasMeleeMana;
 
-		bool smartWeave = IsEnabled(CustomComboPreset.RedMageSmartcastSingleWeave) && weaving;
+		bool smartWeave = IsEnabled(CustomComboPreset.RedMageSmartcastSingleWeaveAttack) && weaving;
 		bool smartMove = IsEnabled(CustomComboPreset.RedMageSmartcastSingleMovement) && moving;
 
 		bool accelerate = level >= Common.Levels.Swiftcast
@@ -476,6 +480,9 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 		bool accelWeave = allowAccel && IsEnabled(CustomComboPreset.RedMageSmartcastSingleAccelerationWeave);
 		bool accelMove = allowAccel && IsEnabled(CustomComboPreset.RedMageSmartcastSingleAccelerationMoving);
 		bool accelNoNormal = IsEnabled(CustomComboPreset.RedMageSmartcastSingleAccelerationNoOverride);
+
+		if (Common.checkLucidWeave(CustomComboPreset.RedMageSmartcastSingleWeaveLucid, level, Service.Configuration.RedMageSmartcastSingleWeaveLucidManaThreshold, actionID))
+			return Common.LucidDreaming;
 
 		if (smartWeave) {
 			// This is basically universal.

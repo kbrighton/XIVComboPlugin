@@ -763,10 +763,14 @@ public enum CustomComboPreset {
 	RedMageSmartcastSingleFeature = 3509,
 
 	[ParentPreset(RedMageSmartcastSingleFeature)]
-	[CustomComboInfo("Fleche Weave", "Turns the single-target smartcast combo into Fleche when you can weave without clipping.\nAffected by the Contre Sixte / Fleche feature.", RDM.JobID)]
-	RedMageSmartcastSingleWeave = 3518,
+	[CustomComboInfo("Lucid Weave", "Weave into Lucid Dreaming when under a set MP threshold.", RDM.JobID)]
+	RedMageSmartcastSingleWeaveLucid = 3543,
 
-	[ParentPreset(RedMageSmartcastSingleWeave)]
+	[ParentPreset(RedMageSmartcastSingleFeature)]
+	[CustomComboInfo("Fleche Weave", "Turns the single-target smartcast combo into Fleche when you can weave without clipping.\nAffected by the Contre Sixte / Fleche feature.", RDM.JobID)]
+	RedMageSmartcastSingleWeaveAttack = 3518,
+
+	[ParentPreset(RedMageSmartcastSingleWeaveAttack)]
 	[CustomComboInfo("Engagement", "If you're in melee range and Fleche (+ Contra Sixte if applicable) can't be used yet, fall back to Engagement.", RDM.JobID)]
 	RedMageSmartcastSingleWeaveMelee = 3523,
 
@@ -839,8 +843,12 @@ public enum CustomComboPreset {
 	RedMageSmartcastAoEFeature = 3508,
 
 	[ParentPreset(RedMageSmartcastAoEFeature)]
+	[CustomComboInfo("Lucid Weave", "Weave into Lucid Dreaming when under a set MP threshold.", RDM.JobID)]
+	RedMageSmartcastAoEWeaveLucid = 3542,
+
+	[ParentPreset(RedMageSmartcastAoEFeature)]
 	[CustomComboInfo("Contre Sixte Weave", "Turns the AoE smartcast combo into Contre Sixte when you can weave without clipping.\nAffected by the Contre Sixte / Fleche feature.", RDM.JobID)]
-	RedMageSmartcastAoEWeave = 3517,
+	RedMageSmartcastAoEWeaveAttack = 3517,
 
 	[ParentPreset(RedMageSmartcastAoEFeature)]
 	[CustomComboInfo("Walking Contre Sixte", "Turns the AoE smartcast combo into Contre Sixte when you're moving and can't instacast.\nAffected by the Contre Sixte / Fleche feature.", RDM.JobID)]

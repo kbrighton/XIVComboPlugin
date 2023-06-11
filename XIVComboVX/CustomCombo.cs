@@ -205,7 +205,7 @@ internal abstract class CustomCombo {
 
 	#region Player details/stats
 
-	protected static PlayerCharacter LocalPlayer
+	protected internal static PlayerCharacter LocalPlayer
 		=> Service.Client.LocalPlayer!;
 
 	protected internal static bool HasCondition(ConditionFlag flag)
