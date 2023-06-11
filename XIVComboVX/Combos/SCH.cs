@@ -66,16 +66,8 @@ internal class ScholarRuinBoilSeries: CustomCombo {
 
 	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
 
-		if (IsEnabled(CustomComboPreset.ScholarLucidRuinBroil)) {
-			if (level >= Common.Levels.LucidDreaming) {
-				if (LocalPlayer.CurrentMp < Service.Configuration.ScholarLucidRuinBroilManaThreshold) {
-					if (CanWeave(actionID)) {
-						if (CanUse(Common.LucidDreaming))
-							return Common.LucidDreaming;
-					}
-				}
-			}
-		}
+		if (Common.checkLucidWeave(CustomComboPreset.ScholarLucidRuinBroil, level, Service.Configuration.ScholarLucidRuinBroilManaThreshold, actionID))
+			return Common.LucidDreaming;
 
 		if (IsEnabled(CustomComboPreset.ScholarMobileRuinBroil)) {
 			if (IsMoving)
