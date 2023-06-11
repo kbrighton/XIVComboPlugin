@@ -105,6 +105,13 @@ internal class PaladinRoyalAuthorityCombo: CustomCombo {
 				return PLD.GoringBlade;
 		}
 
+		if (IsEnabled(CustomComboPreset.PaladinRoyalAuthorityHolySpirit)) {
+			if (level >= PLD.Levels.HolySpirit) {
+				if (SelfHasEffect(PLD.Buffs.DivineMight))
+					return PLD.HolySpirit;
+			}
+		}
+
 		if (lastComboMove is PLD.FastBlade) {
 			if (level >= PLD.Levels.RiotBlade)
 				return PLD.RiotBlade;
@@ -124,13 +131,6 @@ internal class PaladinRoyalAuthorityCombo: CustomCombo {
 					if (TargetDistance is > 3 and <= 20)
 						return PLD.ShieldLob;
 				}
-			}
-		}
-
-		if (IsEnabled(CustomComboPreset.PaladinRoyalAuthorityHolySpirit)) {
-			if (level >= PLD.Levels.HolySpirit) {
-				if (SelfHasEffect(PLD.Buffs.DivineMight))
-					return PLD.HolySpirit;
 			}
 		}
 
@@ -170,15 +170,15 @@ internal class PaladinProminenceCombo: CustomCombo {
 				return OriginalHook(PLD.Confiteor);
 		}
 
-		if (lastComboMove is PLD.TotalEclipse && level >= PLD.Levels.Prominence)
-			return PLD.Prominence;
-
 		if (IsEnabled(CustomComboPreset.PaladinProminenceHolyCircle)) {
 			if (level >= PLD.Levels.HolyCircle) {
 				if (SelfHasEffect(PLD.Buffs.DivineMight))
 					return PLD.HolyCircle;
 			}
 		}
+
+		if (lastComboMove is PLD.TotalEclipse && level >= PLD.Levels.Prominence)
+			return PLD.Prominence;
 
 		return PLD.TotalEclipse;
 	}
