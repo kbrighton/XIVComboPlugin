@@ -1134,6 +1134,12 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Swiftcast Resurrection", "Resurrection turns into Swiftcast when available and reasonable.", SCH.JobID)]
 	ScholarSwiftcastRaiserFeature = 2800,
 
+	[CustomComboInfo("Mobile Ruin & Broil", "Changes Ruin 1 and all variants of Broil into Ruin 2 while moving.", SCH.JobID)]
+	ScholarMobileRuinBroil = 2810,
+
+	[CustomComboInfo("Lucid Ruin & Broil", "Changes Ruin 1 and all variants of Broil into Lucid Dreaming when MP is below a certain level.", SCH.JobID)]
+	ScholarLucidRuinBroil = 2811,
+
 	[CustomComboInfo("Seraph Fey Blessing/Consolation", "Change Fey Blessing into Consolation when Seraph is out.", SCH.JobID)]
 	ScholarSeraphConsolationFeature = 2801,
 

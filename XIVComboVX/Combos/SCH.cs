@@ -60,6 +60,32 @@ internal class ScholarSwiftcastRaiserFeature: SwiftRaiseCombo {
 	public override uint[] ActionIDs { get; } = new[] { SCH.Resurrection };
 }
 
+internal class ScholarRuinBoilSeries: CustomCombo {
+	public override CustomComboPreset Preset => CustomComboPreset.SchAny;
+	public override uint[] ActionIDs { get; } = new[] { SCH.Ruin, SCH.Broil, SCH.Broil2, SCH.Broil3, SCH.Broil4 };
+
+	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
+
+		if (IsEnabled(CustomComboPreset.ScholarLucidRuinBroil)) {
+			if (level >= Common.Levels.LucidDreaming) {
+				if (LocalPlayer.CurrentMp < Service.Configuration.ScholarLucidRuinBroilManaThreshold) {
+					if (CanWeave(actionID)) {
+						if (CanUse(Common.LucidDreaming))
+							return Common.LucidDreaming;
+					}
+				}
+			}
+		}
+
+		if (IsEnabled(CustomComboPreset.ScholarMobileRuinBroil)) {
+			if (IsMoving)
+				return SCH.Ruin2;
+		}
+
+		return actionID;
+	}
+}
+
 internal class ScholarFeyBless: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.ScholarSeraphConsolationFeature;
 	public override uint[] ActionIDs { get; } = new[] { SCH.FeyBless };

@@ -310,7 +310,14 @@ public class PluginConfiguration: IPluginConfiguration {
 
 	#region SCH settings
 
-	// placeholder
+	[ComboDetailSetting(
+		CustomComboPreset.ScholarLucidRuinBroil,
+		"MP threshold",
+		"When your MP is below this limit, Ruin/Broil becomes Lucid Dreaming while weaving\n(LD restores about one third of maximum MP, for reference)",
+		1000,
+		8000
+	)]
+	public uint ScholarLucidRuinBroilManaThreshold { get; set; } = 7000;
 
 	#endregion
 
