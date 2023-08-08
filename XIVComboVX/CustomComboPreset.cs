@@ -1148,6 +1148,9 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Lucid Ruin & Broil", "Changes Ruin 1 and all variants of Broil into Lucid Dreaming when MP is below a certain level.", SCH.JobID)]
 	ScholarLucidRuinBroil = 2811,
 
+	[CustomComboInfo("Lucid Art of War", "Changes Art of War into Lucid Dreaming when MP is below a certain level.", SCH.JobID)]
+	ScholarLucidArtOfWar = 2812,
+
 	[CustomComboInfo("Seraph Fey Blessing/Consolation", "Change Fey Blessing into Consolation when Seraph is out.", SCH.JobID)]
 	ScholarSeraphConsolationFeature = 2801,
 

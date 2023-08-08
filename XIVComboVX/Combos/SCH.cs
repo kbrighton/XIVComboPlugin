@@ -22,6 +22,7 @@ internal static class SCH {
 		Aetherpact = 7437,
 		WhisperingDawn = 16537,
 		FeyIllumination = 16538,
+		ArtOfWar = 16539,
 		Broil3 = 16541,
 		Recitation = 16542,
 		FeyBless = 16543,
@@ -31,7 +32,8 @@ internal static class SCH {
 		SummonSelene = 17216,
 		Ruin = 17869,
 		Ruin2 = 17870,
-		Broil4 = 25865;
+		Broil4 = 25865,
+		ArtOfWar2 = 25866;
 
 	public static class Buffs {
 		public const ushort
@@ -60,7 +62,20 @@ internal class ScholarSwiftcastRaiserFeature: SwiftRaiseCombo {
 	public override uint[] ActionIDs { get; } = new[] { SCH.Resurrection };
 }
 
-internal class ScholarRuinBoilSeries: CustomCombo {
+internal class ScholarArtOfWar: CustomCombo {
+	public override CustomComboPreset Preset => CustomComboPreset.ScholarLucidArtOfWar;
+	public override uint[] ActionIDs { get; } = new[] { SCH.ArtOfWar, SCH.ArtOfWar2 };
+
+	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
+
+		if (Common.checkLucidWeave(this.Preset, level, Service.Configuration.ScholarLucidArtOfWarManaThreshold, actionID))
+			return Common.LucidDreaming;
+
+		return actionID;
+	}
+}
+
+internal class ScholarRuinBoil: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.SchAny;
 	public override uint[] ActionIDs { get; } = new[] { SCH.Ruin, SCH.Broil, SCH.Broil2, SCH.Broil3, SCH.Broil4 };
 

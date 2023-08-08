@@ -335,6 +335,15 @@ public class PluginConfiguration: IPluginConfiguration {
 	)]
 	public uint ScholarLucidRuinBroilManaThreshold { get; set; } = 7000;
 
+	[ComboDetailSetting(
+		CustomComboPreset.ScholarLucidArtOfWar,
+		"MP threshold",
+		"When your MP is below this limit, Art of War 1/2 becomes Lucid Dreaming while weaving\n(LD restores about one third of maximum MP, for reference)",
+		1000,
+		8000
+	)]
+	public uint ScholarLucidArtOfWarManaThreshold { get; set; } = 7000;
+
 	#endregion
 
 	#region SGE settings
