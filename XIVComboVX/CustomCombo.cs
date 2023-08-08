@@ -215,7 +215,7 @@ internal abstract class CustomCombo {
 		=> Service.Conditions[ConditionFlag.InCombat];
 
 	protected internal static bool HasPetPresent
-		=> Service.BuddyList.PetBuddyPresent;
+		=> Service.BuddyList.PetBuddy is not null;
 
 	protected static double PlayerHealthPercentage
 		=> (double)LocalPlayer.CurrentHp / LocalPlayer.MaxHp * 100.0;
