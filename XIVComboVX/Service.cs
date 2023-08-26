@@ -1,16 +1,12 @@
 namespace PrincessRTFM.XIVComboVX;
 
-using Dalamud.Data;
 using Dalamud.Game;
-using Dalamud.Game.ClientState;
-using Dalamud.Game.ClientState.Buddy;
 using Dalamud.Game.ClientState.Conditions;
-using Dalamud.Game.ClientState.JobGauge;
 using Dalamud.Game.ClientState.Objects;
-using Dalamud.Game.Command;
 using Dalamud.Game.Gui;
 using Dalamud.IoC;
 using Dalamud.Plugin;
+using Dalamud.Plugin.Services;
 
 using XIVComboVX.Config;
 using XIVComboVX.GameData;
@@ -40,33 +36,33 @@ internal class Service {
 	public static DalamudPluginInterface Interface { get; private set; } = null!;
 
 	[PluginService]
-	public static BuddyList BuddyList { get; private set; } = null!;
+	public static IBuddyList BuddyList { get; private set; } = null!;
 
 	[PluginService]
 	public static ChatGui ChatGui { get; private set; } = null!;
 
 	[PluginService]
-	public static ClientState Client { get; private set; } = null!;
+	public static IClientState Client { get; private set; } = null!;
 
 	[PluginService]
-	public static CommandManager Commands { get; private set; } = null!;
+	public static ICommandManager Commands { get; private set; } = null!;
 
 	[PluginService]
 	public static Condition Conditions { get; private set; } = null!;
 
 	[PluginService]
-	public static DataManager GameData { get; private set; } = null!;
+	public static IDataManager GameData { get; private set; } = null!;
 
 	[PluginService]
 	public static Framework Framework { get; private set; } = null!;
 
 	[PluginService]
-	public static JobGauges JobGauge { get; private set; } = null!;
+	public static IJobGauges JobGauge { get; private set; } = null!;
 
 	[PluginService]
-	public static TargetManager Targets { get; private set; } = null!;
+	public static ITargetManager Targets { get; private set; } = null!;
 
 	[PluginService]
-	public static GameGui GameGui { get; private set; } = null!;
+	public static IGameGui GameGui { get; private set; } = null!;
 
 }
