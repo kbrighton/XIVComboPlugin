@@ -1,6 +1,7 @@
 namespace PrincessRTFM.XIVComboVX;
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
@@ -16,14 +17,15 @@ internal class ChatUtil: IDisposable {
 		clplOpenConfig;
 
 	internal const ushort
+		clfgDeprecationCount = 32,
 		clfgOpenConfig = 34,
-		clbgOpenConfig = 502;
+		clbgOpenConfig = 37;
 
 	internal ChatUtil() {
 		this.clplOpenConfig = Service.Interface.AddChatLinkHandler(clidOpenConfig, this.onClickChatLink);
 	}
 
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Convention")]
+	[SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Convention")]
 	internal void print(XivChatType type, params Payload[] payloads) {
 		if (payloads.Length > 0) {
 			Service.ChatGui.PrintChat(new XivChatEntry() {

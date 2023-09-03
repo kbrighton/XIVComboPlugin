@@ -2,6 +2,7 @@ namespace PrincessRTFM.XIVComboVX;
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 
 using Dalamud.Game.Command;
@@ -11,6 +12,9 @@ using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Interface.Windowing;
 using Dalamud.Logging;
 using Dalamud.Plugin;
+using Dalamud.Utility;
+
+using PrincessRTFM.XIVComboVX.Attributes;
 
 using XIVComboVX.Config;
 
@@ -84,7 +88,9 @@ public sealed class Plugin: IDalamudPlugin {
 		Service.Ipc = new();
 
 		Service.Ipc.addTips(
-			$"{this.Name} - better than a broken leg!" // I will not be serious and you cannot make me.
+			$"{this.Name} - better than a broken leg!", // I will not be serious and you cannot make me.
+			$"It looks like {this.Name} is installed. Do you hate pressing buttons?",
+			$"I see you're using {this.Name}. Have you tried being good at the game instead?"
 		);
 
 		PluginLog.Information($"{this.FullPluginSignature} initialised {(Service.Address.LoadSuccessful ? "" : "un")}successfully");
@@ -93,6 +99,38 @@ public sealed class Plugin: IDalamudPlugin {
 
 			Service.Configuration.LastVersion = Version;
 			Service.Configuration.Save();
+		}
+
+		int deprecated = 0;
+		foreach (CustomComboPreset active in Service.Configuration.EnabledActions) {
+			if (active.GetAttribute<DeprecatedAttribute>() is not null)
+				++deprecated;
+		}
+		if (deprecated > 0) {
+			SeStringBuilder msg = new();
+
+			msg.AddUiForeground(ChatUtil.clfgOpenConfig);
+			msg.Add(Service.ChatUtils.clplOpenConfig);
+			msg.AddText($"[{this.Name}] ");
+			msg.Add(RawPayload.LinkTerminator);
+			msg.AddUiForegroundOff();
+			msg.AddText("You currently have ");
+			msg.AddUiForeground(ChatUtil.clfgDeprecationCount);
+			msg.AddText($"{deprecated} deprecated combo{(deprecated == 1 ? "" : "s")}");
+			msg.AddUiForegroundOff();
+			msg.AddText(" enabled. It is recommended to ");
+			msg.AddUiForeground(ChatUtil.clfgOpenConfig);
+			msg.AddUiGlow(ChatUtil.clbgOpenConfig);
+			msg.Add(Service.ChatUtils.clplOpenConfig);
+			msg.AddText("open the settings");
+			msg.Add(RawPayload.LinkTerminator);
+			msg.AddUiGlowOff();
+			msg.AddUiForegroundOff();
+			msg.AddText($" and replace {(deprecated == 1 ? "it" : "them")} with the recommended alternatives.");
+			Service.ChatGui.PrintChat(new XivChatEntry() {
+				Type = XivChatType.ErrorMessage,
+				Message = msg.Build(),
+			});
 		}
 
 	}
