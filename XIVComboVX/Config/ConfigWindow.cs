@@ -297,11 +297,12 @@ public class ConfigWindow: Window {
 
 	private void drawPreset(CustomComboPreset preset, CustomComboInfoAttribute info) {
 
+		DeprecatedAttribute? deprecation = preset.GetAttribute<DeprecatedAttribute>();
 		bool compactMode = Service.Configuration.CompactSettingsWindow;
 		bool enabled = Service.Configuration.IsEnabled(preset);
 		bool dangerous = preset.GetAttribute<DangerousAttribute>() is not null;
 		bool experimental = preset.GetAttribute<ExperimentalAttribute>() is not null;
-		bool deprecated = preset.GetAttribute<DeprecatedAttribute>() is not null;
+		bool deprecated = deprecation is not null;
 		CustomComboPreset[] conflicts = preset.GetConflicts();
 		CustomComboPreset[] alternatives = deprecated ? preset.GetAlternatives() : Array.Empty<CustomComboPreset>();
 		CustomComboPreset? parent = preset.GetParent();
@@ -393,8 +394,7 @@ public class ConfigWindow: Window {
 			ImGui.TextColored(enabled ? warningColour : deprecatedColour, $"DEPRECATED - {info.FancyName} is not recommended for use!");
 			if (ImGui.IsItemHovered()) {
 				ImGui.BeginTooltip();
-				ImGui.TextUnformatted("Deprecated replacers are no longer being actively updated, and should be"
-					+ " considered outdated. They may be removed in future versions.");
+				ImGui.TextUnformatted(DeprecatedAttribute.Explanation);
 				if (alternatives.Length > 0) {
 					ImGui.TextUnformatted("");
 					if (alternatives.Length == 1) {
@@ -413,6 +413,8 @@ public class ConfigWindow: Window {
 						ImGui.TextUnformatted(msg.ToString());
 					}
 				}
+				if (!string.IsNullOrWhiteSpace(deprecation?.Information))
+					ImGui.TextUnformatted(deprecation.Information);
 				ImGui.EndTooltip();
 			}
 		}
