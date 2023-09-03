@@ -579,6 +579,18 @@ public enum CustomComboPreset {
 	NinjaArmorCrushCombo = 3000,
 
 	[ParentPreset(NinjaArmorCrushCombo)]
+	[CustomComboInfo("Smart Weave: Bunshin", "Weave into Bunshin when available.", NIN.JobID)]
+	NinjaArmorCrushBunshinFeature = 3030,
+
+	[ParentPreset(NinjaArmorCrushCombo)]
+	[CustomComboInfo("Smart Weave: Bhavacakra", "Weave into Bhavacakra when available and Bunshin is on cooldown.\nAlso applies if Smart Weave: Bunshin is not enabled.", NIN.JobID)]
+	NinjaArmorCrushBhavacakraFeature = 3031,
+
+	[ParentPreset(NinjaArmorCrushCombo)]
+	[CustomComboInfo("Smart Weave: Assassinate/DWaD", "Weave into Assassinate / Dream Within a Dream when available.", NIN.JobID)]
+	NinjaArmorCrushAssasinateFeature = 3032,
+
+	[ParentPreset(NinjaArmorCrushCombo)]
 	[CustomComboInfo("Phantom Kamaitachi Feature", "Replaces the combo with Phantom Kamaitachi when you have no stacks of Bunshin.", NIN.JobID)]
 	NinjaArmorCrushKamaitachiFeature = 3028,
 
@@ -611,6 +623,18 @@ public enum CustomComboPreset {
 
 	[CustomComboInfo("Aeolian Edge Combo", "Replace Aeolian Edge with its combo chain.", NIN.JobID)]
 	NinjaAeolianEdgeCombo = 3001,
+
+	[ParentPreset(NinjaAeolianEdgeCombo)]
+	[CustomComboInfo("Smart Weave: Bunshin", "Weave into Bunshin when available.", NIN.JobID)]
+	NinjaAeolianEdgeBunshinFeature = 3033,
+
+	[ParentPreset(NinjaAeolianEdgeCombo)]
+	[CustomComboInfo("Smart Weave: Bhavacakra", "Weave into Bhavacakra when available and Bunshin is on cooldown.\nAlso applies if Smart Weave: Bunshin is not enabled.", NIN.JobID)]
+	NinjaAeolianEdgeBhavacakraFeature = 3034,
+
+	[ParentPreset(NinjaAeolianEdgeCombo)]
+	[CustomComboInfo("Smart Weave: Assassinate/DWaD", "Weave into Assassinate / Dream Within a Dream when available.", NIN.JobID)]
+	NinjaAeolianEdgeAssasinateFeature = 3035,
 
 	[ParentPreset(NinjaAeolianEdgeCombo)]
 	[CustomComboInfo("Phantom Kamaitachi Feature", "Replaces the combo with Phantom Kamaitachi when you have no stacks of Bunshin.", NIN.JobID)]
@@ -676,7 +700,12 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Huraijin / Crush Feature", "Replaces Huraijin with Armor Crush after Gust Slash.", NIN.JobID)]
 	NinjaHuraijinCrushFeature = 3013,
 
-	[CustomComboInfo("Single Target Smart Weave", "Replaces both Aeolian Edge and Armor Crush combos with the following when weaving and available:\n- Assassinate or DWAD\n- Bhavacakra\n- Bunshin\n- Phantom Kamaitachi.", NIN.JobID)]
+	[Deprecated("This option will OVERRIDE the listed alternatives, preventing fine-grained control. If you want the existing functionality, enable all six recommended alternatives.",
+		NinjaArmorCrushAssasinateFeature, NinjaAeolianEdgeAssasinateFeature,
+		NinjaArmorCrushBunshinFeature, NinjaAeolianEdgeBunshinFeature,
+		NinjaArmorCrushBhavacakraFeature, NinjaAeolianEdgeBhavacakraFeature
+	)]
+	[CustomComboInfo("Single Target Smart Weave", "Replaces both Aeolian Edge and Armor Crush combos with the following when weaving and available:\n- Assassinate or DWAD\n- Bhavacakra\n- Bunshin", NIN.JobID)]
 	NinjaSingleTargetSmartWeaveFeature = 3026,
 
 	[CustomComboInfo("AoE Smart Weave", "Replaces Death Blossom / Hakke Mujinsatsu with Hellfrog Medium when weaving and available.", NIN.JobID)]

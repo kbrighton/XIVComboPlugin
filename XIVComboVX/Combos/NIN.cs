@@ -87,13 +87,17 @@ internal class NinjaArmorCrushCombo: CustomCombo {
 				return OriginalHook(NIN.Ninjutsu);
 		}
 
-		if (IsEnabled(CustomComboPreset.NinjaSingleTargetSmartWeaveFeature) && CanWeave(actionID)) {
+		if (CanWeave(actionID)) {
+			bool weaveAll = IsEnabled(CustomComboPreset.NinjaSingleTargetSmartWeaveFeature);
+			bool weaveBunshin = weaveAll || IsEnabled(CustomComboPreset.NinjaArmorCrushBunshinFeature);
+			bool weaveBhavacakra = weaveAll || IsEnabled(CustomComboPreset.NinjaArmorCrushBhavacakraFeature);
+			bool weaveAssassinate = weaveAll || IsEnabled(CustomComboPreset.NinjaArmorCrushAssasinateFeature);
 
-			if (level >= NIN.Levels.Bunshin && IsOffCooldown(NIN.Bunshin) && GetJobGauge<NINGauge>().Ninki >= 50)
+			if (weaveBunshin && level >= NIN.Levels.Bunshin && IsOffCooldown(NIN.Bunshin) && GetJobGauge<NINGauge>().Ninki >= 50)
 				return NIN.Bunshin;
-			if (level >= NIN.Levels.Bhavacakra && IsOffCooldown(NIN.Bhavacakra) && GetJobGauge<NINGauge>().Ninki >= 50 && !isDistant)
+			if (weaveBhavacakra && level >= NIN.Levels.Bhavacakra && IsOffCooldown(NIN.Bhavacakra) && GetJobGauge<NINGauge>().Ninki >= 50 && !isDistant)
 				return NIN.Bhavacakra;
-			if (level >= NIN.Levels.Assassinate && IsOffCooldown(OriginalHook(NIN.DreamWithinADream)) && !isDistant)
+			if (weaveAssassinate && level >= NIN.Levels.Assassinate && IsOffCooldown(OriginalHook(NIN.DreamWithinADream)) && !isDistant)
 				return OriginalHook(NIN.DreamWithinADream);
 
 		}
@@ -154,13 +158,17 @@ internal class NinjaAeolianEdgeCombo: CustomCombo {
 			}
 		}
 
-		if (IsEnabled(CustomComboPreset.NinjaSingleTargetSmartWeaveFeature) && CanWeave(actionID)) {
+		if (CanWeave(actionID)) {
+			bool weaveAll = IsEnabled(CustomComboPreset.NinjaSingleTargetSmartWeaveFeature);
+			bool weaveBunshin = weaveAll || IsEnabled(CustomComboPreset.NinjaAeolianEdgeBunshinFeature);
+			bool weaveBhavacakra = weaveAll || IsEnabled(CustomComboPreset.NinjaAeolianEdgeBhavacakraFeature);
+			bool weaveAssassinate = weaveAll || IsEnabled(CustomComboPreset.NinjaAeolianEdgeAssasinateFeature);
 
-			if (level >= NIN.Levels.Bunshin && IsOffCooldown(NIN.Bunshin) && GetJobGauge<NINGauge>().Ninki >= 50)
+			if (weaveBunshin && level >= NIN.Levels.Bunshin && IsOffCooldown(NIN.Bunshin) && GetJobGauge<NINGauge>().Ninki >= 50)
 				return NIN.Bunshin;
-			if (level >= NIN.Levels.Bhavacakra && IsOffCooldown(NIN.Bhavacakra) && GetJobGauge<NINGauge>().Ninki >= 50 && !isDistant)
+			if (weaveBhavacakra && level >= NIN.Levels.Bhavacakra && IsOffCooldown(NIN.Bhavacakra) && GetJobGauge<NINGauge>().Ninki >= 50 && !isDistant)
 				return NIN.Bhavacakra;
-			if (level >= NIN.Levels.Assassinate && IsOffCooldown(OriginalHook(NIN.DreamWithinADream)) && !isDistant)
+			if (weaveAssassinate && level >= NIN.Levels.Assassinate && IsOffCooldown(OriginalHook(NIN.DreamWithinADream)) && !isDistant)
 				return OriginalHook(NIN.DreamWithinADream);
 
 		}
