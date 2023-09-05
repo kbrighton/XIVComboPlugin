@@ -23,11 +23,9 @@ internal class UpdateAlerter: IDisposable {
 	private CancellationTokenSource? realAborter;
 	private CancellationTokenSource? aborter {
 		get {
-			CancellationTokenSource? src;
 			lock (this) {
-				src = this.realAborter;
+				return this.realAborter;
 			}
-			return src;
 		}
 		set {
 			lock (this) {
@@ -56,17 +54,6 @@ internal class UpdateAlerter: IDisposable {
 		if (this.seenUpdateMessage) {
 			this.unregister();
 			PluginLog.Information("Message already displayed, unregistering");
-			return;
-		}
-		try {
-			if (!Service.GameState.isChatVisible) {
-				PluginLog.Information("Chat is not visible, cannot display message yet");
-				return;
-			}
-		}
-		catch (Exception e) {
-			PluginLog.Error(e, "Failed to check chat visibility state");
-			this.unregister();
 			return;
 		}
 
@@ -127,9 +114,9 @@ internal class UpdateAlerter: IDisposable {
 			this.checkMessage();
 	}
 	private async void onLogin(object? sender, EventArgs e) {
-		await Task.Delay(messageDelayMs + 1000);
-		while (!Service.Client.IsLoggedIn)
+		do {
 			await Task.Delay(loginDelayMs);
+		} while (!Service.Client.IsLoggedIn || Service.Client.LocalContentId == 0 || Service.Client.LocalPlayer is null);
 		this.checkMessage();
 	}
 
