@@ -61,7 +61,7 @@ internal class WhiteMageAero: CustomCombo {
 	public override uint[] ActionIDs {get; } = new[] { WHM.Aero, WHM.Aero2, WHM.Dia };
 
 	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
-		
+
 		if (Common.checkLucidWeave(CustomComboPreset.WhiteMageLucidWeave, level, Service.Configuration.WhiteMageLucidWeaveManaThreshold, actionID))
 			return Common.LucidDreaming;
 
@@ -74,7 +74,7 @@ internal class WhiteMageStone: CustomCombo {
 	public override uint[] ActionIDs {get; } = new[] { WHM.Stone, WHM.Stone2, WHM.Stone3, WHM.Stone4, WHM.Glare, WHM.Glare3 };
 
 	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
-		
+
 		if (Common.checkLucidWeave(CustomComboPreset.WhiteMageLucidWeave, level, Service.Configuration.WhiteMageLucidWeaveManaThreshold, actionID))
 			return Common.LucidDreaming;
 

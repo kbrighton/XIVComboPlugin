@@ -145,7 +145,7 @@ internal class BardHeavyBurstShot: CustomCombo {
 			Status? wind = level >= BRD.Levels.Windbite
 				? TargetFindOwnEffect(windStatusId)
 				: null;
-			
+
 			if (wind is null && level >= BRD.Levels.Windbite)
 				return windActionId;
 
