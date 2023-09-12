@@ -11,6 +11,7 @@ internal static class AST {
 	public const uint
 		Ascend = 3603,
 		Draw = 3590,
+		Redraw = 3593,
 		Benefic = 3594,
 		Malefic = 3596,
 		Malefic2 = 3598,
@@ -45,7 +46,8 @@ internal static class AST {
 	public static class Buffs {
 		public const ushort
 			LordOfCrownsDrawn = 2054,
-			LadyOfCrownsDrawn = 2055;
+			LadyOfCrownsDrawn = 2055,
+			ClarifyingDraw = 2713;
 	}
 
 	public static class Debuffs {
@@ -75,14 +77,14 @@ internal class AstrologianPlay: CustomCombo {
 
 		ASTGauge gauge = GetJobGauge<ASTGauge>();
 
-		if (IsEnabled(CustomComboPreset.AstrologianPlayAstrodyneFeature)) {
+		if (IsEnabled(CustomComboPreset.AstrologianPlayAstrodyne)) {
 			if (level >= AST.Levels.Astrodyne && !gauge.ContainsSeal(SealType.NONE))
 				return AST.Astrodyne;
 		}
 
-		if (IsEnabled(CustomComboPreset.AstrologianPlayDrawFeature)) {
+		if (IsEnabled(CustomComboPreset.AstrologianPlayDraw)) {
 
-			if (IsEnabled(CustomComboPreset.AstrologianPlayDrawAstrodyneFeature)) {
+			if (IsEnabled(CustomComboPreset.AstrologianPlayDrawAstrodyne)) {
 				CooldownData draw = GetCooldown(AST.Draw);
 
 				if (level >= AST.Levels.Astrodyne && !gauge.ContainsSeal(SealType.NONE) && draw.RemainingCharges == 0)
@@ -98,15 +100,20 @@ internal class AstrologianPlay: CustomCombo {
 }
 
 internal class AstrologianDraw: CustomCombo {
-	public override CustomComboPreset Preset { get; } = CustomComboPreset.AstrologianDrawLockoutFeature;
+	public override CustomComboPreset Preset { get; } = CustomComboPreset.AstAny;
 	public override uint[] ActionIDs { get; } = new[] { AST.Draw };
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-
 		ASTGauge gauge = GetJobGauge<ASTGauge>();
 
-		if (gauge.DrawnCard is not CardType.NONE)
-			return OriginalHook(AST.Malefic);
+		if (IsEnabled(CustomComboPreset.AstrologianDrawRedraw)) {
+			if (gauge.DrawnCard is not CardType.NONE && SelfHasEffect(AST.Buffs.ClarifyingDraw))
+				return AST.Redraw;
+		}
+		if (IsEnabled(CustomComboPreset.AstrologianDrawMalefic)) {
+			if (gauge.DrawnCard is not CardType.NONE)
+				return OriginalHook(AST.Malefic);
+		}
 
 		return actionID;
 	}
