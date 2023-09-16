@@ -193,7 +193,14 @@ public class PluginConfiguration: IPluginConfiguration {
 
 	#region MCH settings
 
-	// placeholder
+	[ComboDetailSetting(
+		CustomComboPreset.MachinistMainComboWeaveHypercharge,
+		"Minimum heat gauge",
+		"When you have at least this much heat built up, weave into Hypercharge",
+		50,
+		100
+	)]
+	public uint MachinistMainComboWeaveHyperchargeHeatThreshold { get; set; } = 100;
 
 	#endregion
 

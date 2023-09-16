@@ -493,8 +493,24 @@ public enum CustomComboPreset {
 	MachinistMainCombo = 3100,
 
 	[ParentPreset(MachinistMainCombo)]
-	[CustomComboInfo("Hypercharge Combo", "Replace Clean Shot combo with Heat Blast while overheated.", MCH.JobID)]
-	MachinistHypercombo = 3108,
+	[CustomComboInfo("Barrel Stabilizer Weaving", "Replace Clean Shot combo with Barrel Stabilizer when heat is not more than 50, you're in combat, and you're weaving.", MCH.JobID)]
+	MachinistMainComboWeaveBarrelStabiliser = 3116,
+
+	[ParentPreset(MachinistMainCombo)]
+	[CustomComboInfo("Hypercharge Weaving", "Replace Clean Shot combo with Hypercharge when heat is at least a certain amount and you're weaving.\nAlso respects the Hyperfire feature.", MCH.JobID)]
+	MachinistMainComboWeaveHypercharge = 3111,
+
+	[ParentPreset(MachinistMainCombo)]
+	[CustomComboInfo("Heat Blast override", "Replace Clean Shot combo with Heat Blast while overheated.\nAlso respects the Heat Blast weaving option under the Gauss Round / Riccochet feature.", MCH.JobID)]
+	MachinistMainComboHeatBlast = 3108,
+
+	[ParentPreset(MachinistMainCombo)]
+	[CustomComboInfo("Smart reassembly", "Replace Clean Shot combo with Drill or Air Anchor when Reassembled.\nTries to avoid overcapping battery if possible.\nWill also become Hot Shot when you are under level for Clean Shot, which is a potency increase in combos.", MCH.JobID)]
+	MachinistMainComboReassembledOverride = 3113,
+
+	[ParentPreset(MachinistMainComboReassembledOverride)]
+	[CustomComboInfo("With Chain Saw", "Also allow using Chain Saw when Reassembled.", MCH.JobID)]
+	MachinistMainComboReassembledOverridePlus = 3114,
 
 	[CustomComboInfo("Spread Shot Heat", "Replace Spread Shot with Auto Crossbow when overheated.", MCH.JobID)]
 	MachinistSpreadShot = 3101,
@@ -515,12 +531,19 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Gauss Round / Ricochet Overheat Option", "Replace Gauss Round and Ricochet with one or the other only while overheated.", MCH.JobID)]
 	MachinistGaussRoundRicochetLimiter = 3110,
 
+	[ParentPreset(MachinistGaussRoundRicochet)]
+	[CustomComboInfo("Heat Blast weaving", "Replace Heat Blast with Gauss Round or Riccochet while weaving.", MCH.JobID)]
+	MachinistGaussRoundRicochetDirectWeave = 3115,
+
 	[CustomComboInfo("Hot Shot / Air Anchor / Drill Feature", "Replace Hot Shot (Air Anchor) and Drill with whichever is available.\nTries to avoid overcapping battery, but only if that would NOT present a potency loss.", MCH.JobID)]
 	MachinistDrillAirAnchor = 3105,
 
 	[ParentPreset(MachinistDrillAirAnchor)]
 	[CustomComboInfo("HS/AA/D + Chain Saw Feature", "Also allow the above to become Chain Saw.\nChain Saw itself will not change.", MCH.JobID)]
 	MachinistDrillAirAnchorPlus = 3106,
+
+	[CustomComboInfo("Tactical Dismantle", "Change Tactician and Dismantle into each other when one is on cooldown.", MCH.JobID)]
+	MAchinistTacticianDismantle = 3112,
 
 	#endregion
 	// ====================================================================================
