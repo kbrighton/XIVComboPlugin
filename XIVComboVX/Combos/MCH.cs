@@ -78,15 +78,10 @@ internal class MachinistCleanShot: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.MachinistMainCombo;
 	public override uint[] ActionIDs { get; } = new[] { MCH.CleanShot, MCH.HeatedCleanShot };
 
-	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) { // XXX all of this needs to be ripped out and rewritten from scratch
 		MCHGauge gauge = GetJobGauge<MCHGauge>();
 
 		if (CanWeave(actionID)) {
-
-			if (IsEnabled(CustomComboPreset.MachinistMainComboWeaveBarrelStabiliser) && level >= MCH.Levels.BarrelStabiliser) {
-				if (gauge.Heat <= 50 && InCombat && CanUse(MCH.BarrelStabiliser))
-					return MCH.BarrelStabiliser;
-			}
 
 			if (IsEnabled(CustomComboPreset.MachinistMainComboWeaveHypercharge) && level >= MCH.Levels.Hypercharge) {
 				if (gauge.Heat >= Service.Configuration.MachinistMainComboWeaveHyperchargeHeatThreshold && !gauge.IsOverheated) {
@@ -102,7 +97,7 @@ internal class MachinistCleanShot: CustomCombo {
 
 			if (IsEnabled(CustomComboPreset.MachinistGaussRoundRicochetDirectWeave) && level >= MCH.Levels.GaussRound) {
 				if (gauge.IsOverheated) {
-					if (level < MCH.Levels.HeatBlast || CanWeave(MCH.HeatBlast)) {// Heat Blast has a 1.5s cooldown instead of the normal GCD
+					if (level < MCH.Levels.HeatBlast || CanWeave(MCH.HeatBlast)) { // Heat Blast has a 1.5s cooldown instead of the normal GCD
 
 						if (level >= MCH.Levels.Ricochet)
 							return PickByCooldown(MCH.GaussRound, MCH.GaussRound, MCH.Ricochet);
@@ -111,6 +106,12 @@ internal class MachinistCleanShot: CustomCombo {
 					}
 				}
 			}
+
+			if (IsEnabled(CustomComboPreset.MachinistMainComboWeaveBarrelStabiliser) && level >= MCH.Levels.BarrelStabiliser) {
+				if (!gauge.IsOverheated && gauge.Heat <= 50 && InCombat && CanUse(MCH.BarrelStabiliser))
+					return MCH.BarrelStabiliser;
+			}
+
 		}
 
 		if (IsEnabled(CustomComboPreset.MachinistMainComboReassembledOverride)) {
@@ -127,17 +128,17 @@ internal class MachinistCleanShot: CustomCombo {
 
 					if (level >= MCH.Levels.Chainsaw && IsEnabled(CustomComboPreset.MachinistMainComboReassembledOverridePlus)) {
 						return gauge.Battery > 80
-							? PickByCooldown(MCH.Drill, MCH.Chainsaw, MCH.AirAnchor, MCH.Drill)
-							: PickByCooldown(MCH.AirAnchor, MCH.Chainsaw, MCH.Drill, MCH.AirAnchor);
+							? PickByCooldown(MCH.Drill, actionID, MCH.Chainsaw, MCH.AirAnchor, MCH.Drill)
+							: PickByCooldown(MCH.AirAnchor, actionID, MCH.Chainsaw, MCH.Drill, MCH.AirAnchor);
 					}
 
 					if (level >= MCH.Levels.AirAnchor) {
 						return gauge.Battery > 80
-							? PickByCooldown(MCH.Drill, MCH.AirAnchor, MCH.Drill)
-							: PickByCooldown(MCH.AirAnchor, MCH.Drill, MCH.AirAnchor);
+							? PickByCooldown(MCH.Drill, actionID, MCH.AirAnchor, MCH.Drill)
+							: PickByCooldown(MCH.AirAnchor, actionID, MCH.Drill, MCH.AirAnchor);
 					}
 
-					return MCH.Drill;
+					return CanUse(MCH.Drill) ? MCH.Drill : actionID;
 				}
 			}
 		}
