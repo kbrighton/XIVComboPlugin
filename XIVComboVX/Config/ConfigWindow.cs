@@ -85,11 +85,12 @@ public class ConfigWindow: Window {
 			}
 		}
 
-		this.sortedJobs = this.groupedPresets.Keys
-			.Where(j => !j.StartsWith("Disciple of the "))
-			.Concat(
-				this.groupedPresets.Keys
-					.Where(j => j.StartsWith("Disciple of the "))
+		this.sortedJobs = new string[] { "Universal" }
+			.Concat(this.groupedPresets.Keys
+				.Where(j => !j.StartsWith("Disciple of the ") && j != "Universal")
+			)
+			.Concat(this.groupedPresets.Keys
+				.Where(j => j.StartsWith("Disciple of the "))
 			)
 			.ToArray();
 

@@ -22,6 +22,7 @@ internal class CustomComboInfoAttribute: Attribute {
 
 	private static string jobIdToName(byte key) {
 		return key switch {
+			0 => "Universal",
 			1 => "Gladiator",
 			2 => "Pugilist",
 			3 => "Marauder",

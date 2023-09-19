@@ -8,7 +8,6 @@ using XIVComboVX.Attributes;
 using XIVComboVX.Combos;
 
 public enum CustomComboPreset {
-	// ====================================================================================
 	#region Universal
 	[CustomComboInfo("Any", "This should not be displayed. This always returns true when used with IsEnabled.", 0)]
 	AdvAny = 0,
@@ -1465,7 +1464,7 @@ public enum CustomComboPreset {
 	#region DoH (98xx)
 
 	// [CustomComboInfo("Placeholder", "Placeholder.", DOH.JobID)]
-	// DohPlaceholder = 9801,
+	// DohPlaceholder = 9800,
 
 	#endregion
 	// ====================================================================================
@@ -1552,6 +1551,16 @@ public enum CustomComboPreset {
 
 	#endregion
 	// ====================================================================================
+	#region Common (100xx)
+
+	[CustomComboInfo("Smart Peloton/Sprint swap", "Changes Peloton and Peloton as follows:\n- Sprint when in combat or not a ranged DPS\n- Peloton when out of combat and you are a ranged DPS", 0)]
+	CommonSmartPelotonSprint = 10000,
+
+	[ParentPreset(CommonSmartPelotonSprint)]
+	[CustomComboInfo("Priority sprint", "Only become Peloton when Sprint is also on cooldown.\nSprint is (VERY) slightly faster than Peloton.", 0)]
+	CommonSmartPelotonSprintPrioritySprint = 10001,
+
+	#endregion
 }
 public static class CustomComboPresetExtensions {
 	public static CustomComboPreset[] GetConflicts(this CustomComboPreset preset) => preset.GetAttribute<ConflictsAttribute>()?.Conflicts ?? Array.Empty<CustomComboPreset>();
