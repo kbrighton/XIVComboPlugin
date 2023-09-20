@@ -3,7 +3,7 @@ namespace PrincessRTFM.XIVComboVX.Combos;
 internal static class Common {
 	public const uint
 		// everyone
-		Sprint = 29057,
+		Sprint = 4,
 		// ranged DPS
 		Peloton = 7557,
 		// tanks
@@ -46,6 +46,7 @@ internal static class Common {
 	}
 }
 
+#if DEBUG
 internal class PelotonSprintCombo: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.CommonSmartPelotonSprint;
 	public override uint[] ActionIDs => new uint[] { Common.Sprint, Common.Peloton };
@@ -64,6 +65,7 @@ internal class PelotonSprintCombo: CustomCombo {
 		return Common.Peloton;
 	}
 }
+#endif
 
 internal abstract class SwiftRaiseCombo: CustomCombo {
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
