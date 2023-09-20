@@ -223,6 +223,10 @@ public enum CustomComboPreset {
 	DancerSingleTargetFlourishWeave = 3817,
 
 	[ParentPreset(DancerSingleTargetMultibutton)]
+	[CustomComboInfo("Devilment Weaving", "Also change into Devilment when you can weave without clipping and Devilment is off cooldown.", DNC.JobID)]
+	DancerSingleTargetDevilmentWeave = 3823,
+
+	[ParentPreset(DancerSingleTargetMultibutton)]
 	[CustomComboInfo("Fan Dance 1/3 Weaving", "Also change into Fan Dance 1/3 when you can weave without clipping.", DNC.JobID)]
 	DancerSingleTargetFanDanceWeave = 3810,
 

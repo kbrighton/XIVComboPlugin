@@ -67,6 +67,7 @@ internal static class DNC {
 			Bloodshower = 45,
 			FanDance2 = 50,
 			CuringWaltz = 52,
+			Devilment = 62,
 			FanDance3 = 66,
 			TechnicalStep = 70,
 			Flourish = 72,
@@ -204,6 +205,11 @@ internal class DancerSingleTargetMultibutton: CustomCombo {
 						return DNC.Flourish;
 					}
 				}
+			}
+
+			if (IsEnabled(CustomComboPreset.DancerSingleTargetDevilmentWeave) && level >= DNC.Levels.Devilment) {
+				if (CanUse(DNC.Devilment))
+					return DNC.Devilment;
 			}
 
 		}
