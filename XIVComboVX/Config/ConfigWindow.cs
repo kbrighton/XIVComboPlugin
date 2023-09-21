@@ -96,6 +96,8 @@ public class ConfigWindow: Window {
 
 		int ord = 0;
 		foreach (string job in this.sortedJobs) {
+			if (!this.groupedPresets.ContainsKey(job))
+				continue;
 			foreach ((CustomComboPreset preset, CustomComboInfoAttribute info) in this.groupedPresets[job]) {
 				if (this.childToParentPresets.ContainsKey(preset))
 					continue; // if this IS a child preset, it'll be handled when we reach the parent (which may have already happened)

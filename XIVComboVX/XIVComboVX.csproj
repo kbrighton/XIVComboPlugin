@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<Product>XIVComboVX</Product>
 		<Authors>attick, daemitus, VariableVixen</Authors>
-		<Version>9.10.0</Version>
+		<Version>9.10.1</Version>
 		<Description>This plugin condenses various abilities onto single buttons.</Description>
 		<PackageProjectUrl>https://github.com/PrincessRTFM/XIVComboPlugin</PackageProjectUrl>
 		<Copyright>Copyleft attick 2020 baybeeee</Copyright>
