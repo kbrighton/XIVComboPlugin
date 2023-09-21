@@ -280,6 +280,8 @@ public class ConfigWindow: Window {
 		}
 
 		foreach (string jobName in this.sortedJobs) {
+			if (!this.groupedPresets.ContainsKey(jobName))
+				continue;
 			if (ImGui.CollapsingHeader(jobName)) {
 
 				ImGui.PushID($"settings-{jobName}");
