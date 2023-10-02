@@ -546,7 +546,7 @@ public enum CustomComboPreset {
 	MachinistDrillAirAnchorPlus = 3106,
 
 	[CustomComboInfo("Tactical Dismantle", "Change Tactician and Dismantle into each other when one is on cooldown.", MCH.JobID)]
-	MAchinistTacticianDismantle = 3112,
+	MachinistTacticianDismantle = 3112,
 
 	#endregion
 	// ====================================================================================

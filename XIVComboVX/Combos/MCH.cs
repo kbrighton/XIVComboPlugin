@@ -282,7 +282,7 @@ internal class MachinistDrillAirAnchorFeature: CustomCombo {
 }
 
 internal class MachinistTacticianDismantle: CustomCombo {
-	public override CustomComboPreset Preset { get; } = CustomComboPreset.MAchinistTacticianDismantle;
+	public override CustomComboPreset Preset { get; } = CustomComboPreset.MachinistTacticianDismantle;
 	public override uint[] ActionIDs { get; } = new uint[] { MCH.Tactician, MCH.Dismantle };
 
 	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
