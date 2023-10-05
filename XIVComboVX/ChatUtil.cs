@@ -28,7 +28,7 @@ internal class ChatUtil: IDisposable {
 	[SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Convention")]
 	internal void print(XivChatType type, params Payload[] payloads) {
 		if (payloads.Length > 0) {
-			Service.ChatGui.PrintChat(new XivChatEntry() {
+			Service.ChatGui.Print(new XivChatEntry() {
 				Type = type,
 				Message = new SeString(payloads),
 			});
@@ -41,7 +41,7 @@ internal class ChatUtil: IDisposable {
 				Service.Plugin.onPluginCommand("", "");
 				break;
 			default:
-				Service.ChatGui.PrintChat(new XivChatEntry() {
+				Service.ChatGui.Print(new XivChatEntry() {
 					Type = XivChatType.SystemError,
 					Message = new SeString(
 						new TextPayload($"An internal error has occured: no handler is registered for id {id}.")

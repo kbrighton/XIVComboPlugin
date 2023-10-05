@@ -48,14 +48,14 @@ public sealed class Plugin: IDalamudPlugin {
 		pluginInterface.Create<Service>();
 
 		Service.Plugin = this;
-		Service.Logger = new();
+		Service.TickLogger = new();
 		Service.Configuration = pluginInterface.GetPluginConfig() as PluginConfiguration ?? new(true);
 		Service.Address = new();
 
 		Service.Configuration.Active = true;
 		Service.Configuration.UpgradeIfNeeded();
 
-		Service.Address.Setup();
+		Service.Address.setup();
 
 		if (Service.Address.LoadSuccessful) {
 			Service.DataCache = new();
@@ -93,7 +93,7 @@ public sealed class Plugin: IDalamudPlugin {
 			$"I see you're using {this.Name}. Have you tried being good at the game instead?"
 		);
 
-		PluginLog.Information($"{this.FullPluginSignature} initialised {(Service.Address.LoadSuccessful ? "" : "un")}successfully");
+		Service.Log.Information($"{this.FullPluginSignature} initialised {(Service.Address.LoadSuccessful ? "" : "un")}successfully");
 		if (Service.Configuration.IsFirstRun || !Service.Configuration.LastVersion.Equals(Version)) {
 			Service.UpdateAlert = new(Version, Service.Configuration.IsFirstRun);
 
@@ -127,7 +127,7 @@ public sealed class Plugin: IDalamudPlugin {
 			msg.AddUiGlowOff();
 			msg.AddUiForegroundOff();
 			msg.AddText($" and replace {(deprecated == 1 ? "it" : "them")} with the recommended alternatives.");
-			Service.ChatGui.PrintChat(new XivChatEntry() {
+			Service.ChatGui.Print(new XivChatEntry() {
 				Type = XivChatType.ErrorMessage,
 				Message = msg.Build(),
 			});
@@ -162,7 +162,7 @@ public sealed class Plugin: IDalamudPlugin {
 			Service.ChatUtils?.Dispose();
 			Service.GameState?.Dispose();
 			Service.Ipc?.Dispose();
-			Service.Logger?.Dispose();
+			Service.TickLogger?.Dispose();
 		}
 	}
 
@@ -173,7 +173,7 @@ public sealed class Plugin: IDalamudPlugin {
 			this.configWindow.IsOpen = !this.configWindow.IsOpen;
 		}
 		else {
-			PluginLog.Error("Cannot toggle configuration window, reference does not exist");
+			Service.Log.Error("Cannot toggle configuration window, reference does not exist");
 		}
 	}
 
@@ -230,7 +230,7 @@ public sealed class Plugin: IDalamudPlugin {
 				}
 				break;
 			case "debug": {
-					Service.Logger.EnableNextTick();
+					Service.TickLogger.EnableNextTick();
 					Service.ChatGui.Print("Enabled debug message snapshot");
 				}
 				break;

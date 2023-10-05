@@ -32,7 +32,7 @@ internal unsafe class GameState: IDisposable {
 		Service.Client.Logout += this.clearCacheOnLogout;
 	}
 
-	private void clearCacheOnLogout(object? sender, EventArgs args) => this.chatLogPointer = null;
+	private void clearCacheOnLogout() => this.chatLogPointer = null;
 
 	public void Dispose() {
 		if (this.disposed)

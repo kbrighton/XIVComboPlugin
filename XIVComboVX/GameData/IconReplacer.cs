@@ -24,19 +24,19 @@ internal class IconReplacer: IDisposable {
 	private readonly List<CustomCombo> customCombos;
 
 	public IconReplacer() {
-		PluginLog.Information("Loading registered combos");
+		Service.Log.Information("Loading registered combos");
 		this.customCombos = Assembly.GetAssembly(this.GetType())!.GetTypes()
 			.Where(t => !t.IsAbstract && (t.BaseType == typeof(CustomCombo) || t.BaseType?.BaseType == typeof(CustomCombo)))
-			.Select(t => Activator.CreateInstance(t))
+			.Select(Activator.CreateInstance)
 			.Cast<CustomCombo>()
 			.ToList();
-		PluginLog.Information($"Loaded {this.customCombos.Count} replacers");
+		Service.Log.Information($"Loaded {this.customCombos.Count} replacers");
 #if DEBUG
-		PluginLog.Information(string.Join(", ", this.customCombos.Select(combo => combo.GetType().Name)));
+		Service.Log.Information(string.Join(", ", this.customCombos.Select(combo => combo.GetType().Name)));
 #endif
 
-		this.getIconHook = Hook<GetIconDelegate>.FromAddress(Service.Address.GetAdjustedActionId, this.getIconDetour);
-		this.isIconReplaceableHook = Hook<IsIconReplaceableDelegate>.FromAddress(Service.Address.IsActionIdReplaceable, this.isIconReplaceableDetour);
+		this.getIconHook = Service.Interop.HookFromAddress<GetIconDelegate>(Service.Address.GetAdjustedActionId, this.getIconDetour);
+		this.isIconReplaceableHook = Service.Interop.HookFromAddress<IsIconReplaceableDelegate>(Service.Address.IsActionIdReplaceable, this.isIconReplaceableDetour);
 
 		this.getIconHook.Enable();
 		this.isIconReplaceableHook.Enable();
@@ -81,7 +81,7 @@ internal class IconReplacer: IDisposable {
 			return this.OriginalHook(actionID);
 		}
 		catch (Exception ex) {
-			Service.Logger.error("Don't crash the game", ex);
+			Service.TickLogger.error("Don't crash the game", ex);
 			return this.getIconHook.Original(actionManager, actionID);
 		}
 	}

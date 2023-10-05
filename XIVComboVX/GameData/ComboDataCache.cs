@@ -8,6 +8,7 @@ using Dalamud.Game.ClientState.JobGauge.Types;
 using Dalamud.Game.ClientState.Objects.SubKinds;
 using Dalamud.Game.ClientState.Objects.Types;
 using Dalamud.Game.ClientState.Statuses;
+using Dalamud.Plugin.Services;
 
 using XIVComboVX.Combos;
 
@@ -36,7 +37,7 @@ internal class ComboDataCache: ManagedCache {
 		this.jobGaugeCache?.Clear();
 	}
 
-	protected override unsafe void InvalidateCache(Framework framework) {
+	protected override unsafe void InvalidateCache(IFramework framework) {
 		this.statusCache.Clear();
 		this.cooldownCache.Clear();
 		this.canInterruptTarget = null;
@@ -106,7 +107,7 @@ internal class ComboDataCache: ManagedCache {
 		cooldownPtr->ActionID = actionID;
 
 		CooldownData cd = this.cooldownCache[actionID] = *(CooldownData*)cooldownPtr;
-		Service.Logger.debug($"Retrieved cooldown data for action #{actionID}: {cd.DebugLabel}");
+		Service.TickLogger.debug($"Retrieved cooldown data for action #{actionID}: {cd.DebugLabel}");
 		return cd;
 	}
 

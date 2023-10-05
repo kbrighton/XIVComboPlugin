@@ -45,19 +45,19 @@ internal class UpdateAlerter: IDisposable {
 	}
 
 	internal void checkMessage() {
-		PluginLog.Information("Checking whether to display update message");
+		Service.Log.Information("Checking whether to display update message");
 		if (this.disposed) {
 			this.unregister();
-			PluginLog.Information("Update alerter already disposed");
+			Service.Log.Information("Update alerter already disposed");
 			return;
 		}
 		if (this.seenUpdateMessage) {
 			this.unregister();
-			PluginLog.Information("Message already displayed, unregistering");
+			Service.Log.Information("Message already displayed, unregistering");
 			return;
 		}
 
-		PluginLog.Information($"Checks passed, delaying message by {messageDelayMs}ms - may be reset if message is triggered again within that time");
+		Service.Log.Information($"Checks passed, delaying message by {messageDelayMs}ms - may be reset if message is triggered again within that time");
 
 		this.aborter = new();
 
@@ -73,7 +73,7 @@ internal class UpdateAlerter: IDisposable {
 		this.seenUpdateMessage = true;
 		this.unregister();
 
-		PluginLog.Information("Displaying update alert in game chat");
+		Service.Log.Information("Displaying update alert in game chat");
 
 		List<Payload> parts = new();
 		if (!(Plugin.Debug && Service.Interface.IsDev)) {
@@ -98,13 +98,13 @@ internal class UpdateAlerter: IDisposable {
 	}
 
 	internal void register() {
-		PluginLog.Information("Registering update alerter");
+		Service.Log.Information("Registering update alerter");
 		Service.ChatGui.ChatMessage += this.onChatMessage;
 		Service.Client.Login += this.onLogin;
 	}
 
 	internal void unregister() {
-		PluginLog.Information("Unregistering update alerter");
+		Service.Log.Information("Unregistering update alerter");
 		Service.ChatGui.ChatMessage -= this.onChatMessage;
 		Service.Client.Login -= this.onLogin;
 	}
@@ -113,7 +113,7 @@ internal class UpdateAlerter: IDisposable {
 		if (type is XivChatType.Urgent or XivChatType.Notice or XivChatType.SystemMessage)
 			this.checkMessage();
 	}
-	private async void onLogin(object? sender, EventArgs e) {
+	private async void onLogin() {
 		do {
 			await Task.Delay(loginDelayMs);
 		} while (!Service.Client.IsLoggedIn || Service.Client.LocalContentId == 0 || Service.Client.LocalPlayer is null);

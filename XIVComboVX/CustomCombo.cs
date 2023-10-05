@@ -70,20 +70,20 @@ internal abstract class CustomCombo {
 		if (comboTime <= 0)
 			lastComboActionId = 0;
 
-		Service.Logger.debug($"{this.ModuleName}.Invoke({actionID}, {lastComboActionId}, {comboTime}, {level})");
+		Service.TickLogger.debug($"{this.ModuleName}.Invoke({actionID}, {lastComboActionId}, {comboTime}, {level})");
 		try {
 			uint resultingActionID = this.Invoke(actionID, lastComboActionId, comboTime, level);
 			if (resultingActionID == 0 || actionID == resultingActionID) {
-				Service.Logger.debug("NO REPLACEMENT");
+				Service.TickLogger.debug("NO REPLACEMENT");
 				return false;
 			}
 
-			Service.Logger.debug($"Became #{resultingActionID}");
+			Service.TickLogger.debug($"Became #{resultingActionID}");
 			newActionID = resultingActionID;
 			return true;
 		}
 		catch (Exception ex) {
-			Service.Logger.error($"Error in {this.ModuleName}.Invoke({actionID}, {lastComboActionId}, {comboTime}, {level})", ex);
+			Service.TickLogger.error($"Error in {this.ModuleName}.Invoke({actionID}, {lastComboActionId}, {comboTime}, {level})", ex);
 			return false;
 		}
 	}
@@ -91,11 +91,11 @@ internal abstract class CustomCombo {
 
 	protected internal static bool IsEnabled(CustomComboPreset preset) {
 		if ((int)preset < 100) {
-			Service.Logger.debug($"Bypassing is-enabled check for preset #{(int)preset}");
+			Service.TickLogger.debug($"Bypassing is-enabled check for preset #{(int)preset}");
 			return true;
 		}
 		bool enabled = Service.Configuration.IsEnabled(preset);
-		Service.Logger.debug($"Checking status of preset #{(int)preset} - {enabled}");
+		Service.TickLogger.debug($"Checking status of preset #{(int)preset} - {enabled}");
 		return enabled;
 	}
 
@@ -149,7 +149,7 @@ internal abstract class CustomCombo {
 			// And they've got a TTS-style voice just constantly repeating "PAIN. PAIN. PAIN. PAIN. PAIN." from it?
 			// Yeah.
 
-			Service.Logger.debug($"CDCMP: {a.ActionID}, {b.ActionID}: {choice.ActionID}\n{a.Data.DebugLabel}\n{b.Data.DebugLabel}");
+			Service.TickLogger.debug($"CDCMP: {a.ActionID}, {b.ActionID}: {choice.ActionID}\n{a.Data.DebugLabel}\n{b.Data.DebugLabel}");
 			return choice;
 		}
 
@@ -157,7 +157,7 @@ internal abstract class CustomCombo {
 			.Select(Selector)
 			.Aggregate((a1, a2) => Compare(preference, a1, a2))
 			.ActionID;
-		Service.Logger.debug($"Final selection: {id}");
+		Service.TickLogger.debug($"Final selection: {id}");
 		return id;
 	}
 

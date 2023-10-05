@@ -1,9 +1,7 @@
 namespace PrincessRTFM.XIVComboVX;
 
 using Dalamud.Game;
-using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.ClientState.Objects;
-using Dalamud.Game.Gui;
 using Dalamud.IoC;
 using Dalamud.Plugin;
 using Dalamud.Plugin.Services;
@@ -22,7 +20,7 @@ internal class Service {
 
 	public static ComboDataCache DataCache { get; set; } = null!;
 
-	public static LogUtil Logger { get; set; } = null!;
+	public static LogUtil TickLogger { get; set; } = null!;
 
 	public static GameState GameState { get; set; } = null!;
 
@@ -32,37 +30,19 @@ internal class Service {
 
 	public static Ipc Ipc { get; set; } = null!;
 
-	[PluginService]
-	public static DalamudPluginInterface Interface { get; private set; } = null!;
-
-	[PluginService]
-	public static IBuddyList BuddyList { get; private set; } = null!;
-
-	[PluginService]
-	public static ChatGui ChatGui { get; private set; } = null!;
-
-	[PluginService]
-	public static IClientState Client { get; private set; } = null!;
-
-	[PluginService]
-	public static ICommandManager Commands { get; private set; } = null!;
-
-	[PluginService]
-	public static Condition Conditions { get; private set; } = null!;
-
-	[PluginService]
-	public static IDataManager GameData { get; private set; } = null!;
-
-	[PluginService]
-	public static Framework Framework { get; private set; } = null!;
-
-	[PluginService]
-	public static IJobGauges JobGauge { get; private set; } = null!;
-
-	[PluginService]
-	public static ITargetManager Targets { get; private set; } = null!;
-
-	[PluginService]
-	public static IGameGui GameGui { get; private set; } = null!;
+	[PluginService] public static IPluginLog Log { get; private set; } = null!;
+	[PluginService] public static DalamudPluginInterface Interface { get; private set; } = null!;
+	[PluginService] public static ISigScanner SigScanner { get; private set; } = null!;
+	[PluginService] public static IBuddyList BuddyList { get; private set; } = null!;
+	[PluginService] public static IChatGui ChatGui { get; private set; } = null!;
+	[PluginService] public static IClientState Client { get; private set; } = null!;
+	[PluginService] public static ICommandManager Commands { get; private set; } = null!;
+	[PluginService] public static ICondition Conditions { get; private set; } = null!;
+	[PluginService] public static IDataManager GameData { get; private set; } = null!;
+	[PluginService] public static IFramework Framework { get; private set; } = null!;
+	[PluginService] public static IJobGauges JobGauge { get; private set; } = null!;
+	[PluginService] public static ITargetManager Targets { get; private set; } = null!;
+	[PluginService] public static IGameGui GameGui { get; private set; } = null!;
+	[PluginService] public static IGameInteropProvider Interop { get; private set; } = null!;
 
 }

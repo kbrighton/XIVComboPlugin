@@ -2,7 +2,7 @@ namespace PrincessRTFM.XIVComboVX;
 
 using System;
 
-using Dalamud.Game;
+using Dalamud.Plugin.Services;
 
 internal abstract class ManagedCache: IDisposable {
 	#region IDisposable
@@ -27,5 +27,5 @@ internal abstract class ManagedCache: IDisposable {
 		Service.Framework.Update += this.InvalidateCache;
 	}
 
-	protected abstract void InvalidateCache(Framework framework);
+	protected abstract void InvalidateCache(IFramework framework);
 }

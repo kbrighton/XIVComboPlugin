@@ -6,7 +6,7 @@ using System.Text;
 using Dalamud.Game;
 using Dalamud.Logging;
 
-internal class PluginAddressResolver: BaseAddressResolver {
+internal class PluginAddressResolver {
 	private const string addrFmtSpec = "X16";
 
 	public Exception? LoadFailReason { get; private set; }
@@ -25,16 +25,16 @@ internal class PluginAddressResolver: BaseAddressResolver {
 	public string IsActionIdReplaceableAddr => this.IsActionIdReplaceable.ToInt64().ToString(addrFmtSpec);
 
 
-	protected override void Setup64Bit(SigScanner scanner) {
+	internal void setup() {
 		try {
-			PluginLog.Information("Scanning for ComboTimer signature");
-			this.ComboTimer = scanner.GetStaticAddressFromSig("F3 0F 11 05 ?? ?? ?? ?? 48 83 C7 08");
+			Service.Log.Information("Scanning for ComboTimer signature");
+			this.ComboTimer = Service.SigScanner.GetStaticAddressFromSig("F3 0F 11 05 ?? ?? ?? ?? 48 83 C7 08");
 
-			PluginLog.Information("Scanning for GetAdjustedActionId signature");
-			this.GetAdjustedActionId = scanner.ScanText("E8 ?? ?? ?? ?? 89 03 8B 03");  // Client::Game::ActionManager.GetAdjustedActionId
+			Service.Log.Information("Scanning for GetAdjustedActionId signature");
+			this.GetAdjustedActionId = Service.SigScanner.ScanText("E8 ?? ?? ?? ?? 89 03 8B 03");  // Client::Game::ActionManager.GetAdjustedActionId
 
-			PluginLog.Information("Scanning for IsActionIdReplaceable signature");
-			this.IsActionIdReplaceable = scanner.ScanText("E8 ?? ?? ?? ?? 84 C0 74 4C 8B D3");
+			Service.Log.Information("Scanning for IsActionIdReplaceable signature");
+			this.IsActionIdReplaceable = Service.SigScanner.ScanText("E8 ?? ?? ?? ?? 84 C0 74 4C 8B D3");
 		}
 		catch (Exception ex) {
 			this.LoadFailReason = ex;
@@ -51,15 +51,15 @@ internal class PluginAddressResolver: BaseAddressResolver {
 				msg.Append("IsActionIdReplaceable");
 			msg.AppendLine(":");
 			msg.Append(ex.ToString());
-			PluginLog.Fatal(msg.ToString());
+			Service.Log.Fatal(msg.ToString());
 			return;
 		}
 
-		PluginLog.Information("Address resolution successful");
+		Service.Log.Information("Address resolution successful");
 
-		PluginLog.Information($"GetAdjustedActionId 0x{this.GetAdjustedActionIdAddr}");
-		PluginLog.Information($"IsIconReplaceable   0x{this.IsActionIdReplaceableAddr}");
-		PluginLog.Information($"ComboTimer          0x{this.ComboTimerAddr}");
-		PluginLog.Information($"LastComboMove       0x{this.LastComboMoveAddr}");
+		Service.Log.Information($"GetAdjustedActionId 0x{this.GetAdjustedActionIdAddr}");
+		Service.Log.Information($"IsIconReplaceable   0x{this.IsActionIdReplaceableAddr}");
+		Service.Log.Information($"ComboTimer          0x{this.ComboTimerAddr}");
+		Service.Log.Information($"LastComboMove       0x{this.LastComboMoveAddr}");
 	}
 }
