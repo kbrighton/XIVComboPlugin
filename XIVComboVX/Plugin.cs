@@ -2,7 +2,7 @@ namespace PrincessRTFM.XIVComboVX;
 
 using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Linq;
 using System.Reflection;
 
 using Dalamud.Game.Command;
@@ -10,7 +10,6 @@ using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Interface.Windowing;
-using Dalamud.Logging;
 using Dalamud.Plugin;
 using Dalamud.Utility;
 
@@ -21,11 +20,11 @@ using XIVComboVX.Config;
 public sealed class Plugin: IDalamudPlugin {
 	private bool disposed = false;
 
-	internal const string command = "/pcombo";
+	internal const string commandBase = "/pcombo";
+	internal const string commandCustom = commandBase + "vx";
 
 	private readonly WindowSystem? windowSystem;
 	private readonly ConfigWindow? configWindow;
-	private readonly bool registeredDefaultCommand = false;
 
 	public static readonly Version Version = Assembly.GetExecutingAssembly().GetName().Version!;
 	public const bool Debug =
@@ -42,6 +41,8 @@ public sealed class Plugin: IDalamudPlugin {
 	public string ShortPluginSignature => $"{this.Name} v{Version}";
 	public string FullPluginSignature => $"{this.ShortPluginSignature} ({this.PluginBuildType}, {this.PluginInstallType})";
 #pragma warning restore CA1822 // Mark members as static
+
+	public static bool AcquiredBaseCommand { get; private set; } = false;
 
 	public Plugin(DalamudPluginInterface pluginInterface) {
 
@@ -79,11 +80,9 @@ public sealed class Plugin: IDalamudPlugin {
 			ShowInHelp = true
 		};
 
-		Service.Commands.AddHandler(command + "vx", handler);
-		if (Service.Configuration.RegisterCommonCommand) {
-			Service.Commands.AddHandler(command, handler);
-			this.registeredDefaultCommand = true;
-		}
+		Service.Commands.AddHandler(commandCustom, handler);
+		if (Service.Configuration.RegisterCommonCommand)
+			AcquiredBaseCommand = Service.Commands.AddHandler(commandBase, handler);
 
 		Service.Ipc = new();
 
@@ -109,30 +108,107 @@ public sealed class Plugin: IDalamudPlugin {
 		if (deprecated > 0) {
 			SeStringBuilder msg = new();
 
-			msg.AddUiForeground(ChatUtil.clfgOpenConfig);
-			msg.Add(Service.ChatUtils.clplOpenConfig);
-			msg.AddText($"[{this.Name}] ");
-			msg.Add(RawPayload.LinkTerminator);
-			msg.AddUiForegroundOff();
+			Service.ChatUtils.addOpenConfigLink(msg, $"[{this.Name}] ");
 			msg.AddText("You currently have ");
-			msg.AddUiForeground(ChatUtil.clfgDeprecationCount);
+			msg.AddUiForeground(ChatUtil.colourForeWarning);
 			msg.AddText($"{deprecated} deprecated combo{(deprecated == 1 ? "" : "s")}");
 			msg.AddUiForegroundOff();
 			msg.AddText(" enabled. It is recommended to ");
-			msg.AddUiForeground(ChatUtil.clfgOpenConfig);
-			msg.AddUiGlow(ChatUtil.clbgOpenConfig);
-			msg.Add(Service.ChatUtils.clplOpenConfig);
-			msg.AddText("open the settings");
-			msg.Add(RawPayload.LinkTerminator);
-			msg.AddUiGlowOff();
-			msg.AddUiForegroundOff();
+			Service.ChatUtils.addOpenConfigLink(msg, "open the settings");
 			msg.AddText($" and replace {(deprecated == 1 ? "it" : "them")} with the recommended alternatives.");
+
 			Service.ChatGui.Print(new XivChatEntry() {
 				Type = XivChatType.ErrorMessage,
 				Message = msg.Build(),
 			});
 		}
 
+		CheckForOtherComboPlugins();
+		Service.Interface.ActivePluginsChanged += this.onActivePluginsChanged;
+	}
+
+	private void onActivePluginsChanged(PluginListInvalidationKind kind, bool affectedThisPlugin) => CheckForOtherComboPlugins();
+
+	public static int CheckForOtherComboPlugins() {
+		string[] otherComboPlugins = Service.Interface.InstalledPlugins
+			.Where(p => p.IsLoaded)
+			.Select(p => p.Name)
+			.Where(n => n != Service.Interface.InternalName)
+			.Where(n => n.Contains("combo", StringComparison.OrdinalIgnoreCase))
+			.ToArray();
+
+		if (otherComboPlugins.Length > 0) {
+			// it is a Bad Idea to run more than one combo fork at the same time, but that's never stopped users before
+			otherComboPluginsDetected(otherComboPlugins);
+		}
+
+		return otherComboPlugins.Length;
+	}
+
+	private static void otherComboPluginsDetected(params string[] otherComboPluginNames) {
+		Service.Configuration.Active = false;
+		Service.Configuration.RegisterCommonCommand = false;
+		if (AcquiredBaseCommand)
+			Service.Commands.RemoveHandler(commandBase);
+		AcquiredBaseCommand = false;
+		Service.Configuration.Save();
+
+		SeStringBuilder msg = new();
+		string s = otherComboPluginNames.Length == 1 ? string.Empty : "s";
+
+		msg.AddText("You appear to have installed ");
+		msg.AddUiForeground(ChatUtil.colourForeWarning);
+		msg.AddText($"{otherComboPluginNames.Length} other combo plugin{s}");
+		msg.AddUiForegroundOff();
+		msg.AddText($" as well as {Service.Interface.InternalName}. This is generally considered a ");
+		msg.AddUiForeground(ChatUtil.colourForeError);
+		msg.AddText("Very Bad Idea.");
+		msg.AddUiForegroundOff();
+		msg.AddText(" Running more than one combo plugin is known to cause problems with your game as they fight each other for control.");
+		msg.AddText($"\nFor your safety, {Service.Interface.InternalName} has ");
+		msg.AddUiForeground(ChatUtil.colourForeWarning);
+		msg.AddText("automatically disabled itself");
+		msg.AddUiForegroundOff();
+		msg.AddText(" and only registered its custom ");
+		Service.ChatUtils.addOpenConfigLink(msg, commandCustom);
+		msg.AddText($" command to allow the other combo plugin{s} to use ");
+		msg.AddUiForeground(ChatUtil.colourForeWarning);
+		msg.AddText(commandBase);
+		msg.AddUiForegroundOff();
+		msg.AddText(" instead.");
+		msg.AddText("\nIf you are ");
+		msg.AddItalics("determined");
+		msg.AddText(" to use multiple combo plugins at once, ");
+		msg.AddUiForeground(ChatUtil.colourForeError);
+		msg.AddText("no support will be provided");
+		msg.AddUiForegroundOff();
+		msg.AddText(" but you can ");
+		Service.ChatUtils.addOpenConfigLink(msg, $"open {Service.Interface.InternalName}'s settings");
+		msg.AddText(" and re-enable it from the menu bar.");
+		msg.AddText("\nHowever, you are ");
+		msg.AddItalics("very strongly");
+		msg.AddText(" recommended to disable the all except one of your ");
+		msg.AddUiForeground(ChatUtil.colourForeError);
+		msg.AddText($"{otherComboPluginNames.Length + 1}");
+		msg.AddUiForegroundOff();
+		msg.AddText(" combo plugins: ");
+		msg.AddUiForeground(ChatUtil.colourForeWarning);
+		msg.AddText(Service.Interface.InternalName);
+		msg.AddUiForegroundOff();
+		foreach (string other in otherComboPluginNames) {
+			msg.AddText(", ");
+			msg.AddUiForeground(ChatUtil.colourForeWarning);
+			msg.AddText(other);
+			msg.AddUiForegroundOff();
+		}
+		msg.AddText("\nIf this is a false positive, please open a report on the ");
+		Service.ChatUtils.addOpenIssueTrackerLink(msg, "issue tracker");
+		msg.AddText(" with the plugin name.");
+
+		Service.ChatGui.Print(new XivChatEntry() {
+			Type = XivChatType.ErrorMessage,
+			Message = msg.Build(),
+		});
 	}
 
 	#region Disposable
@@ -148,9 +224,9 @@ public sealed class Plugin: IDalamudPlugin {
 		this.disposed = true;
 
 		if (disposing) {
-			Service.Commands.RemoveHandler(command + "vx");
-			if (this.registeredDefaultCommand)
-				Service.Commands.RemoveHandler(command);
+			Service.Commands.RemoveHandler(commandCustom);
+			if (AcquiredBaseCommand)
+				Service.Commands.RemoveHandler(commandBase);
 
 			Service.Interface.UiBuilder.OpenConfigUi -= this.toggleConfigUi;
 			if (this.windowSystem is not null)
@@ -186,6 +262,11 @@ public sealed class Plugin: IDalamudPlugin {
 		string[] argumentsParts = arguments.Split();
 
 		switch (argumentsParts[0].ToLower()) {
+#if DEBUG
+			case "test-conflict":
+				otherComboPluginsDetected("FakeXivCombo", "ConflictMessageTest");
+				break;
+#endif
 			case "enable": {
 					Service.Configuration.Active = true;
 					Service.ChatUtils.print(XivChatType.Notice,
@@ -254,9 +335,9 @@ public sealed class Plugin: IDalamudPlugin {
 					if (this.configWindow is not null && !this.configWindow.IsOpen) {
 						parts.AddRange(new Payload[] {
 							new TextPayload("\nYou will need to "),
-							new UIForegroundPayload(ChatUtil.clfgOpenConfig),
-							new UIGlowPayload(ChatUtil.clbgOpenConfig),
-							Service.ChatUtils.clplOpenConfig,
+							new UIForegroundPayload(ChatUtil.colourForeOpenConfig),
+							new UIGlowPayload(ChatUtil.colourGlowOpenConfig),
+							Service.ChatUtils.openConfig,
 							new TextPayload($"[open the settings]"),
 							RawPayload.LinkTerminator,
 							new UIGlowPayload(0),

@@ -1,6 +1,7 @@
 namespace PrincessRTFM.XIVComboVX;
 
 using System;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
 using Dalamud.Game.Text;
@@ -11,18 +12,41 @@ internal class ChatUtil: IDisposable {
 	private bool disposed;
 
 	private const uint
-		clidOpenConfig = 0;
+		openConfigId = 0,
+		openIssueTrackerId = 1;
 
 	internal readonly DalamudLinkPayload
-		clplOpenConfig;
+		openConfig,
+		openIssueTracker;
 
 	internal const ushort
-		clfgDeprecationCount = 32,
-		clfgOpenConfig = 34,
-		clbgOpenConfig = 37;
+		colourForeWarning = 32,
+		colourForeError = 17,
+		colourForeOpenConfig = 34,
+		colourGlowOpenConfig = 37;
 
 	internal ChatUtil() {
-		this.clplOpenConfig = Service.Interface.AddChatLinkHandler(clidOpenConfig, this.onClickChatLink);
+		this.openConfig = Service.Interface.AddChatLinkHandler(openConfigId, this.onClickChatLink);
+		this.openIssueTracker = Service.Interface.AddChatLinkHandler(openIssueTrackerId, this.onClickChatLink);
+	}
+
+	internal void addOpenConfigLink(SeStringBuilder sb, string label) {
+		sb.AddUiForeground(colourForeOpenConfig);
+		sb.AddUiGlow(colourGlowOpenConfig);
+		sb.Add(this.openConfig);
+		sb.AddText(label);
+		sb.Add(RawPayload.LinkTerminator);
+		sb.AddUiGlowOff();
+		sb.AddUiForegroundOff();
+	}
+	internal void addOpenIssueTrackerLink(SeStringBuilder sb, string label) {
+		sb.AddUiForeground(colourForeOpenConfig);
+		sb.AddUiGlow(colourGlowOpenConfig);
+		sb.Add(this.openIssueTracker);
+		sb.AddText(label);
+		sb.Add(RawPayload.LinkTerminator);
+		sb.AddUiGlowOff();
+		sb.AddUiForegroundOff();
 	}
 
 	[SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Convention")]
@@ -37,8 +61,11 @@ internal class ChatUtil: IDisposable {
 
 	private void onClickChatLink(uint id, SeString source) {
 		switch (id) {
-			case clidOpenConfig:
+			case openConfigId:
 				Service.Plugin.onPluginCommand("", "");
+				break;
+			case openIssueTrackerId:
+				Process.Start(new ProcessStartInfo("https://github.com/PrincessRTFM/XIVComboPlugin/issues") { UseShellExecute = true });
 				break;
 			default:
 				Service.ChatGui.Print(new XivChatEntry() {

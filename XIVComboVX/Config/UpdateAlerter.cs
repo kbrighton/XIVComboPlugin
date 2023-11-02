@@ -84,9 +84,9 @@ internal class UpdateAlerter: IDisposable {
 			));
 		}
 		parts.AddRange(new Payload[] {
-			new UIForegroundPayload(ChatUtil.clfgOpenConfig),
-			new UIGlowPayload(ChatUtil.clbgOpenConfig),
-			Service.ChatUtils.clplOpenConfig,
+			new UIForegroundPayload(ChatUtil.colourForeOpenConfig),
+			new UIGlowPayload(ChatUtil.colourGlowOpenConfig),
+			Service.ChatUtils.openConfig,
 			new TextPayload($"[Open {Service.Plugin.Name} Settings]"),
 			RawPayload.LinkTerminator,
 			new UIGlowPayload(0),
