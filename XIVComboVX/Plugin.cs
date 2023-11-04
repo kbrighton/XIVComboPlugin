@@ -20,6 +20,14 @@ using XIVComboVX.Config;
 public sealed class Plugin: IDalamudPlugin {
 	private bool disposed = false;
 
+	private static readonly string[] nonConflictingPluginIds = Array.Empty<string>();
+	private static readonly string[] conflictingPluginNameSubstrings = new string[] {
+		"combo",
+	};
+	private static readonly string[] conflictingPluginIdSubstrings = new string[] {
+		"combo",
+	};
+
 	internal const string commandBase = "/pcombo";
 	internal const string commandCustom = commandBase + "vx";
 
@@ -131,10 +139,17 @@ public sealed class Plugin: IDalamudPlugin {
 
 	public static int CheckForOtherComboPlugins() {
 		string[] otherComboPlugins = Service.Interface.InstalledPlugins
+			// ignore unloaded plugins, they have no effect
 			.Where(p => p.IsLoaded)
+			// ignore us, we don't conflict with ourselves
+			.Where(p => p.InternalName != Service.Interface.InternalName)
+			// any false positives reported go in here to be ignored
+			.Where(p => !nonConflictingPluginIds.Any(s => p.InternalName == s))
+			// check the internal and display names for any (case-insensitive) substrings that look like problems
+			.Where(p => conflictingPluginIdSubstrings.Any(s => p.InternalName.Contains(s, StringComparison.OrdinalIgnoreCase)))
+			.Where(p => conflictingPluginNameSubstrings.Any(s => p.Name.Contains(s, StringComparison.OrdinalIgnoreCase)))
+			// the list is used for user-facing display, so we only need the display name
 			.Select(p => p.Name)
-			.Where(n => n != Service.Interface.InternalName)
-			.Where(n => n.Contains("combo", StringComparison.OrdinalIgnoreCase))
 			.ToArray();
 
 		if (otherComboPlugins.Length > 0) {
@@ -146,9 +161,6 @@ public sealed class Plugin: IDalamudPlugin {
 	}
 
 	private static void otherComboPluginsDetected(params string[] otherComboPluginNames) {
-		#if !DEBUG
-		return; // I fucked something up somewhere
-		#endif
 		Service.Configuration.Active = false;
 		Service.Configuration.RegisterCommonCommand = false;
 		if (AcquiredBaseCommand)
