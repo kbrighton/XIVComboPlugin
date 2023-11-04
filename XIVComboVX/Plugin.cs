@@ -146,6 +146,9 @@ public sealed class Plugin: IDalamudPlugin {
 	}
 
 	private static void otherComboPluginsDetected(params string[] otherComboPluginNames) {
+		#if !DEBUG
+		return; // I fucked something up somewhere
+		#endif
 		Service.Configuration.Active = false;
 		Service.Configuration.RegisterCommonCommand = false;
 		if (AcquiredBaseCommand)
