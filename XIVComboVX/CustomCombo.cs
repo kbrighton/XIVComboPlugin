@@ -226,6 +226,7 @@ internal abstract class CustomCombo {
 			|| SelfHasEffect(Common.Buffs.Swiftcast3)
 			|| SelfHasEffect(RDM.Buffs.Dualcast)
 			|| SelfHasEffect(Common.Buffs.LostChainspell);
+	protected internal static bool IsHardcasting => !IsFastcasting;
 
 	protected internal static T GetJobGauge<T>() where T : JobGaugeBase
 		=> Service.DataCache.GetJobGauge<T>();

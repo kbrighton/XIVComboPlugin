@@ -276,28 +276,34 @@ internal class SageDosis: CustomCombo {
 			if (HasTarget) {
 
 				if (IsEnabled(CustomComboPreset.SageDosisPhlegma)) {
-					if (!IsEnabled(CustomComboPreset.SageDosisPhlegmaCombatOnly) || InCombat) {
-						if (level >= SGE.Levels.Phlegma && TargetDistance <= 6) {
-							uint phlegma = OriginalHook(SGE.Phlegma);
-							if (CanUse(phlegma))
-								return phlegma;
+					if (!IsEnabled(CustomComboPreset.SageDosisPhlegmaHardcastOnly) || IsHardcasting) {
+						if (!IsEnabled(CustomComboPreset.SageDosisPhlegmaCombatOnly) || InCombat) {
+							if (level >= SGE.Levels.Phlegma && TargetDistance <= 6) {
+								uint phlegma = OriginalHook(SGE.Phlegma);
+								if (CanUse(phlegma))
+									return phlegma;
+							}
 						}
 					}
 				}
 
 				if (IsEnabled(CustomComboPreset.SageDosisToxikon)) {
-					if (!IsEnabled(CustomComboPreset.SageDosisToxikonCombatOnly) || InCombat) {
-						if (level >= SGE.Levels.Toxikon && gauge.Addersting > 0)
-							return OriginalHook(SGE.Toxikon);
+					if (!IsEnabled(CustomComboPreset.SageDosisToxikonHardcastOnly) || IsHardcasting) {
+						if (!IsEnabled(CustomComboPreset.SageDosisToxikonCombatOnly) || InCombat) {
+							if (level >= SGE.Levels.Toxikon && gauge.Addersting > 0)
+								return OriginalHook(SGE.Toxikon);
+						}
 					}
 				}
 
 			}
 
 			if (IsEnabled(CustomComboPreset.SageDosisDyskrasia)) {
-				if (!IsEnabled(CustomComboPreset.SageDosisDyskrasiaCombatOnly) || InCombat) {
-					if (level >= SGE.Levels.Dyskrasia)
-						return OriginalHook(SGE.Dyskrasia);
+				if (!IsEnabled(CustomComboPreset.SageDosisDyskrasiaHardcastOnly) || IsHardcasting) {
+					if (!IsEnabled(CustomComboPreset.SageDosisDyskrasiaCombatOnly) || InCombat) {
+						if (level >= SGE.Levels.Dyskrasia)
+							return OriginalHook(SGE.Dyskrasia);
+					}
 				}
 			}
 

@@ -1289,6 +1289,10 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Combat Only", "Only change Dosis into Phlegma when already in combat.", SGE.JobID)]
 	SageDosisPhlegmaCombatOnly = 4021,
 
+	[ParentPreset(SageDosisPhlegma)]
+	[CustomComboInfo("Only when hardcasting", "Only change Dosis into Phlegma when hardcasting.", SGE.JobID)]
+	SageDosisPhlegmaHardcastOnly = 4024,
+
 	[CustomComboInfo("Dosis into Toxikon", "Turns Dosis into Toxikon while moving and have a target and Addersting.\nDoes not apply if you have Eukrasia active.", SGE.JobID)]
 	SageDosisToxikon = 4017,
 
@@ -1296,12 +1300,20 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Combat Only", "Only change Dosis into Toxikon when already in combat.", SGE.JobID)]
 	SageDosisToxikonCombatOnly = 4022,
 
+	[ParentPreset(SageDosisToxikon)]
+	[CustomComboInfo("Only when hardcasting", "Only change Dosis into Toxikon when hardcasting.", SGE.JobID)]
+	SageDosisToxikonHardcastOnly = 4025,
+
 	[CustomComboInfo("Dosis into Dyskrasia", "Turns Dosis into Dyskrasia while moving and not becoming Phlegma or Toxikon.\nDoes not apply if you have Eukrasia active.", SGE.JobID)]
 	SageDosisDyskrasia = 4018,
 
 	[ParentPreset(SageDosisDyskrasia)]
 	[CustomComboInfo("Combat Only", "Only change Dosis into Dyskrasia when already in combat.", SGE.JobID)]
 	SageDosisDyskrasiaCombatOnly = 4023,
+
+	[ParentPreset(SageDosisDyskrasia)]
+	[CustomComboInfo("Only when hardcasting", "Only change Dosis into Dyskrasia when hardcasting.", SGE.JobID)]
+	SageDosisDyskrasiaHardcastOnly = 4026,
 
 	[CustomComboInfo("Lucid Dosis", "Weave Dosis into Lucid Dreaming when it's available and your MP is below a threshold.\nThis also applies when Phlegma becomes Dosis.", SGE.JobID)]
 	SageLucidDosis = 4012,
