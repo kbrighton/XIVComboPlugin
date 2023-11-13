@@ -1,5 +1,7 @@
 namespace PrincessRTFM.XIVComboVX.Combos;
 
+using PrincessRTFM.XIVComboVX;
+
 internal static class Common {
 	public const uint
 		// everyone
@@ -68,6 +70,8 @@ internal class PelotonSprintCombo: CustomCombo {
 #endif
 
 internal abstract class SwiftRaiseCombo: CustomCombo {
+	public override uint[] ActionIDs { get; } = new[] { AST.Ascend, RDM.Verraise, SCH.Resurrection, SGE.Egeiro, SMN.Resurrection, WHM.Raise };
+
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		return level >= Common.Levels.Swiftcast && ShouldSwiftcast
 			? Common.Swiftcast

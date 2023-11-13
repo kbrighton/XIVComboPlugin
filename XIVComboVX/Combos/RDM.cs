@@ -5,6 +5,8 @@ using System;
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.ClientState.JobGauge.Types;
 
+using PrincessRTFM.XIVComboVX;
+
 internal static class RDM {
 	public const byte JobID = 35;
 
@@ -89,7 +91,6 @@ internal static class RDM {
 
 internal class RedMageSwiftcastRaiserFeature: SwiftRaiseCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.RedMageSwiftcastRaiserFeature;
-	public override uint[] ActionIDs { get; } = new[] { RDM.Verraise };
 }
 
 internal class RedMageAoECombo: CustomCombo {

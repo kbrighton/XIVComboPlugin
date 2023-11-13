@@ -2,6 +2,8 @@ namespace PrincessRTFM.XIVComboVX.Combos;
 
 using Dalamud.Game.ClientState.JobGauge.Types;
 
+using PrincessRTFM.XIVComboVX;
+
 internal static class DRG {
 	public const byte JobID = 22;
 

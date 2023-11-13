@@ -333,12 +333,22 @@ public class PluginConfiguration: IPluginConfiguration {
 
 	[ComboDetailSetting(
 		CustomComboPreset.SagePhlegmaIcarus,
-		"Minimum distance threshold",
-		"When you are more than this many yalms away from your current target, Phlegma will become Icarus",
+		"Minimum ENEMY distance threshold",
+		"When you are more than this many yalms away from your HOSTILE current target, Phlegma will become Icarus",
 		6,
 		25
 	)]
-	public float SagePhlegmaIcarusDistanceThreshold { get; set; } = 6;
+	public float SagePhlegmaIcarusDistanceThresholdEnemy { get; set; } = 6;
+
+
+	[ComboDetailSetting(
+		CustomComboPreset.SagePhlegmaIcarus,
+		"Minimum ALLY distance threshold",
+		"When you are more than this many yalms away from your FRIENDLY current target, Phlegma will become Icarus",
+		6,
+		25
+	)]
+	public float SagePhlegmaIcarusDistanceThresholdAlly { get; set; } = 6;
 
 	[LucidWeavingSetting(CustomComboPreset.SageLucidDosis)]
 	public uint SageLucidDosisManaThreshold { get; set; } = 7000;

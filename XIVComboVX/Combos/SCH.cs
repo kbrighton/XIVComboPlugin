@@ -2,6 +2,8 @@ namespace PrincessRTFM.XIVComboVX.Combos;
 
 using Dalamud.Game.ClientState.JobGauge.Types;
 
+using PrincessRTFM.XIVComboVX;
+
 internal static class SCH {
 	public const byte JobID = 28;
 
@@ -59,7 +61,6 @@ internal static class SCH {
 
 internal class ScholarSwiftcastRaiserFeature: SwiftRaiseCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.ScholarSwiftcastRaiserFeature;
-	public override uint[] ActionIDs { get; } = new[] { SCH.Resurrection };
 }
 
 internal class ScholarArtOfWar: CustomCombo {

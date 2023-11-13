@@ -8,6 +8,8 @@ using System.Reflection;
 using Dalamud.Hooking;
 using Dalamud.Logging;
 
+using PrincessRTFM.XIVComboVX;
+
 using XIVComboVX.Combos;
 
 internal class IconReplacer: IDisposable {

@@ -6,6 +6,8 @@ using System.Linq;
 using Dalamud.Game.ClientState.JobGauge.Enums;
 using Dalamud.Game.ClientState.JobGauge.Types;
 
+using PrincessRTFM.XIVComboVX;
+
 internal static class MNK {
 	public const byte ClassID = 2;
 	public const byte JobID = 20;

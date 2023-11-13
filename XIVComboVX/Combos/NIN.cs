@@ -3,6 +3,8 @@ namespace PrincessRTFM.XIVComboVX.Combos;
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.ClientState.JobGauge.Types;
 
+using PrincessRTFM.XIVComboVX;
+
 internal static class NIN {
 	public const byte JobID = 30;
 

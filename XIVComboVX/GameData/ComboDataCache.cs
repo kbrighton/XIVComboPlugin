@@ -10,6 +10,8 @@ using Dalamud.Game.ClientState.Objects.Types;
 using Dalamud.Game.ClientState.Statuses;
 using Dalamud.Plugin.Services;
 
+using PrincessRTFM.XIVComboVX;
+
 using XIVComboVX.Combos;
 
 internal class ComboDataCache: ManagedCache {
@@ -49,9 +51,8 @@ internal class ComboDataCache: ManagedCache {
 	public bool CanInterruptTarget {
 		get {
 			if (!this.canInterruptTarget.HasValue) {
-				GameObject? target = Service.Targets.Target;
-				this.canInterruptTarget = target is not null
-					&& target is BattleChara actor
+				GameObject? target = CustomCombo.CurrentTarget;
+				this.canInterruptTarget = target is BattleChara actor
 					&& actor.IsCasting
 					&& actor.IsCastInterruptible;
 			}

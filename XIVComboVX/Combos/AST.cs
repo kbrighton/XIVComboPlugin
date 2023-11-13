@@ -3,6 +3,7 @@ namespace PrincessRTFM.XIVComboVX.Combos;
 using Dalamud.Game.ClientState.JobGauge.Enums;
 using Dalamud.Game.ClientState.JobGauge.Types;
 
+using PrincessRTFM.XIVComboVX;
 using PrincessRTFM.XIVComboVX.GameData;
 
 internal static class AST {
@@ -66,7 +67,6 @@ internal static class AST {
 
 internal class AstrologianSwiftcastRaiserFeature: SwiftRaiseCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.AstrologianSwiftcastRaiserFeature;
-	public override uint[] ActionIDs { get; } = new[] { AST.Ascend };
 }
 
 internal class AstrologianPlay: CustomCombo {

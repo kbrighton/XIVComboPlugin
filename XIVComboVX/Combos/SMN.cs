@@ -2,6 +2,8 @@ namespace PrincessRTFM.XIVComboVX.Combos;
 
 using Dalamud.Game.ClientState.JobGauge.Types;
 
+using PrincessRTFM.XIVComboVX;
+
 internal static class SMN {
 	public const byte JobID = 27;
 
@@ -65,7 +67,6 @@ internal static class SMN {
 
 internal class SummonerSwiftcastRaiserFeature: SwiftRaiseCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.SummonerSwiftcastRaiserFeature;
-	public override uint[] ActionIDs { get; } = new[] { SMN.Resurrection };
 }
 
 internal class SummonerEDFesterCombo: CustomCombo {

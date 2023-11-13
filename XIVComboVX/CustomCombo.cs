@@ -1,4 +1,4 @@
-namespace PrincessRTFM.XIVComboVX.Combos;
+namespace PrincessRTFM.XIVComboVX;
 
 using System;
 using System.Collections.Generic;
@@ -13,6 +13,8 @@ using Dalamud.Game.ClientState.Statuses;
 using Dalamud.Utility;
 
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
+
+using PrincessRTFM.XIVComboVX.Combos;
 
 using XIVComboVX.Attributes;
 using XIVComboVX.GameData;
@@ -54,18 +56,12 @@ internal abstract class CustomCombo {
 		if (classJobID is >= 16 and <= 18)
 			classJobID = DOL.JobID;
 
-		if (this.JobID != classJobID && this.ClassID != classJobID) {
-			//Service.Logger.debug($"{this.ModuleName} not applied: class/job ID mismatch ({this.ClassID}/{this.JobID} != {classJobID})");
+		if (this.JobID != classJobID && this.ClassID != classJobID)
 			return false;
-		}
-		if (this.AffectedIDs.Count > 0 && !this.AffectedIDs.Contains(actionID)) {
-			//Service.Logger.debug($"{this.ModuleName} not applied: action ID ({actionID}) not affected");
+		if (this.AffectedIDs.Count > 0 && !this.AffectedIDs.Contains(actionID))
 			return false;
-		}
-		if (!IsEnabled(this.Preset)) {
-			//Service.Logger.debug($"{this.ModuleName} not applied: preset not enabled");
+		if (!IsEnabled(this.Preset))
 			return false;
-		}
 
 		if (comboTime <= 0)
 			lastComboActionId = 0;
@@ -241,13 +237,10 @@ internal abstract class CustomCombo {
 
 	#region Target details/stats
 
-	protected static GameObject? CurrentTarget
-		=> Service.Targets.Target;
+	protected internal static GameObject? CurrentTarget => Service.Targets.SoftTarget ?? Service.Targets.Target;
 
-	protected static bool HasTarget
-		=> CurrentTarget is not null;
-	protected internal static bool CanInterrupt
-		=> Service.DataCache.CanInterruptTarget;
+	protected static bool HasTarget => CurrentTarget is not null;
+	protected internal static bool CanInterrupt => Service.DataCache.CanInterruptTarget;
 
 	protected internal static double TargetDistance {
 		get {
@@ -262,15 +255,11 @@ internal abstract class CustomCombo {
 			return Vector2.Distance(tPos, sPos) - target.HitboxRadius - LocalPlayer.HitboxRadius;
 		}
 	}
-	protected internal static bool InMeleeRange
-		=> TargetDistance <= 3;
+	protected internal static bool InMeleeRange => TargetDistance <= 3;
 
-	protected static double TargetCurrentHp
-		=> CurrentTarget is BattleChara npc ? npc.CurrentHp : 0;
-	protected static double TargetMaxHp
-		=> CurrentTarget is BattleChara npc ? npc.MaxHp : 0;
-	protected static double TargetHealthPercentage
-		=> CurrentTarget is BattleChara npc ? npc.CurrentHp / npc.MaxHp * 100 : 0;
+	protected static double TargetCurrentHp => CurrentTarget is BattleChara npc ? npc.CurrentHp : 0;
+	protected static double TargetMaxHp => CurrentTarget is BattleChara npc ? npc.MaxHp : 0;
+	protected static double TargetHealthPercentage => CurrentTarget is BattleChara npc ? npc.CurrentHp / npc.MaxHp * 100 : 0;
 
 	#endregion
 

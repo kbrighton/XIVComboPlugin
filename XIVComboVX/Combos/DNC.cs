@@ -3,6 +3,8 @@ namespace PrincessRTFM.XIVComboVX.Combos;
 using Dalamud.Game.ClientState.JobGauge.Types;
 using Dalamud.Game.ClientState.Statuses;
 
+using PrincessRTFM.XIVComboVX;
+
 internal static class DNC {
 	public const byte JobID = 38;
 

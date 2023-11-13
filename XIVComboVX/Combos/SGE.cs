@@ -1,8 +1,10 @@
 namespace PrincessRTFM.XIVComboVX.Combos;
 
 using Dalamud.Game.ClientState.JobGauge.Types;
+using Dalamud.Game.ClientState.Objects.Enums;
+using Dalamud.Game.ClientState.Objects.Types;
 
-using XIVComboVX;
+using PrincessRTFM.XIVComboVX;
 
 internal static class SGE {
 	public const byte JobID = 40;
@@ -76,7 +78,6 @@ internal static class SGE {
 
 internal class SageSwiftcastRaiserFeature: SwiftRaiseCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.SageSwiftcastRaiserFeature;
-	public override uint[] ActionIDs { get; } = new[] { SGE.Egeiro };
 }
 
 internal class SageSoteria: CustomCombo {
@@ -204,8 +205,12 @@ internal class SagePhlegma: CustomCombo {
 
 			// Prioritise Icarus into Phlegma over Toxikon because Phlegma is higher potency
 			if (IsEnabled(CustomComboPreset.SagePhlegmaIcarus) && level >= SGE.Levels.Icarus) {
-				if (TargetDistance > Service.Configuration.SagePhlegmaIcarusDistanceThreshold) {
-					if (CanUse(SGE.Icarus) && CanUse(phlegma))
+				float maxRange = CurrentTarget is BattleNpc target
+					&& target.BattleNpcKind is BattleNpcSubKind.Enemy or BattleNpcSubKind.BattleNpcPart
+					? Service.Configuration.SagePhlegmaIcarusDistanceThresholdEnemy
+					: Service.Configuration.SagePhlegmaIcarusDistanceThresholdAlly;
+				if (TargetDistance > maxRange) {
+					if (CanUse(SGE.Icarus))
 						return SGE.Icarus;
 				}
 			}
@@ -310,7 +315,7 @@ internal class SageIcarus: CustomCombo {
 
 		if (level >= SGE.Levels.Phlegma && HasTarget && TargetDistance <= 6) {
 			uint phlegma = OriginalHook(SGE.Phlegma);
-			if (CanUse(phlegma))
+			if (CanUse(phlegma) || TargetDistance <= 1)
 				return phlegma;
 		}
 
