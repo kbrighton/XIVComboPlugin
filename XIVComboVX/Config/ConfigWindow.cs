@@ -62,9 +62,9 @@ public class ConfigWindow: Window {
 
 		this.detailSettings = typeof(PluginConfiguration)
 			.GetProperties(BindingFlags.Instance | BindingFlags.Public)
-			.Select(prop => (prop, attr: prop.GetCustomAttribute<ComboDetailSettingAttribute>()))
-			.Where(pair => pair.attr is not null)
-			.Select(pair => new ComboDetailSetting(pair.prop, pair.attr!))
+			.Select(prop => (prop, attrs: prop.GetCustomAttributes<ComboDetailSettingAttribute>().ToArray()))
+			.Where(pair => pair.attrs.Any())
+			.SelectMany(pair => pair.attrs.Select(attr => new ComboDetailSetting(pair.prop, attr)))
 			.GroupBy(detail => detail.Combo)
 			.ToDictionary(
 				group => group.Key,
@@ -78,10 +78,9 @@ public class ConfigWindow: Window {
 			CustomComboInfoAttribute? parentInfo = parent?.GetAttribute<CustomComboInfoAttribute>();
 			if (parent is not null && parentInfo is not null) {
 				this.childToParentPresets.Add(preset, (parent.Value, parentInfo));
-				if (!this.parentToChildrenPresets.ContainsKey(parent.Value)) {
-					this.parentToChildrenPresets[parent.Value] = new();
-				}
-				this.parentToChildrenPresets[parent.Value].Add((preset, info));
+				if (!this.parentToChildrenPresets.TryGetValue(parent.Value, out List<(CustomComboPreset Preset, CustomComboInfoAttribute Info)>? value))
+					this.parentToChildrenPresets[parent.Value] = value = new();
+				value.Add((preset, info));
 			}
 		}
 
