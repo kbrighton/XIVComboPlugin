@@ -39,14 +39,16 @@ internal static class DRG {
 
 	public static class Buffs {
 		public const ushort
-			SharperFangAndClaw = 802,
-			EnhancedWheelingThrust = 803,
+			FangAndClawBared = 802,
+			WheelInMotion = 803,
 			DiveReady = 1243,
+			DraconianFire = 1863,
 			PowerSurge = 2720;
 	}
 
 	public static class Debuffs {
-		// public const ushort placeholder = 0;
+		public const ushort
+			ChaosThrust = 1312; // either 1312 or 118, but I don't know which yet
 	}
 
 	public static class Levels {
@@ -57,8 +59,6 @@ internal static class DRG {
 			SpineshatterDive = 45,
 			DragonfireDive = 50,
 			ChaosThrust = 50,
-			HeavensThrust = 86,
-			ChaoticSpring = 86,
 			FangAndClaw = 56,
 			WheelingThrust = 58,
 			Geirskogul = 60,
@@ -68,7 +68,9 @@ internal static class DRG {
 			CoerthanTorment = 72,
 			HighJump = 74,
 			RaidenThrust = 76,
-			Stardiver = 80;
+			Stardiver = 80,
+			HeavensThrust = 86,
+			ChaoticSpring = 86;
 	}
 }
 
@@ -101,93 +103,119 @@ internal class DragoonCoerthanTorment: CustomCombo {
 	}
 }
 
+internal class DragoonTotalThrust: CustomCombo {
+	public override CustomComboPreset Preset => CustomComboPreset.DragoonTotalThrustCombo;
+	public override uint[] ActionIDs => new uint[] { DRG.TrueThrust };
+	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
+
+		// if currently in skill chain, complete that first
+		if (comboTime > 0) {
+
+			// True/Raiden Thrust -> [Vorpal Thrust -> Full/Heavens' Thrust]
+			if (lastComboActionId is DRG.VorpalThrust && level >= DRG.Levels.FullThrust)
+				return OriginalHook(DRG.FullThrust);
+
+			// True/Raiden Thrust -> [Disembowel -> Chaos Thrust/Spring]
+			if (lastComboActionId is DRG.Disembowel && level >= DRG.Levels.ChaosThrust)
+				return OriginalHook(DRG.ChaosThrust);
+
+			if (lastComboActionId is DRG.TrueThrust or DRG.RaidenThrust) {
+
+				// if Chaos Thrust chain's self-buff OR target-dot is not up-with-minimum-time-left, start Chaos Thrust chain
+				if (IsEnabled(CustomComboPreset.DragoonTotalThrustBuffSaver) && level >= DRG.Levels.Disembowel) {
+					if (SelfEffectDuration(DRG.Buffs.PowerSurge) <= Service.Configuration.DragoonPowerSurgeBuffSaverBuffTime)
+						return DRG.Disembowel;
+				}
+				if (IsEnabled(CustomComboPreset.DragoonTotalThrustDotSaver) && level >= DRG.Levels.ChaosThrust) {
+					if (TargetOwnEffectDuration(DRG.Debuffs.ChaosThrust) <= Service.Configuration.DragoonChaosDotSaverDebuffTime)
+						return DRG.Disembowel;
+				}
+
+				// start Full Thrust chain
+				if (level >= DRG.Levels.VorpalThrust)
+					return DRG.VorpalThrust;
+			}
+		}
+
+		// if able to use Fang and Claw, Wheeling Thrust, or Raiden Thrust, do that
+		if (level >= DRG.Levels.FangAndClaw && SelfHasEffect(DRG.Buffs.FangAndClawBared))
+			return DRG.FangAndClaw;
+		if (level >= DRG.Levels.WheelingThrust && SelfHasEffect(DRG.Buffs.WheelInMotion))
+			return DRG.WheelingThrust;
+		if (level >= DRG.Levels.RaidenThrust && SelfHasEffect(DRG.Buffs.DraconianFire))
+			return DRG.RaidenThrust;
+
+		// fall back to True Thrust, or Vorpal if enabled
+		return IsEnabled(CustomComboPreset.DragoonTotalThrustVorpalSkipFirst) && level >= DRG.Levels.VorpalThrust
+			? DRG.VorpalThrust
+			: DRG.TrueThrust;
+	}
+}
+
 internal class DragoonChaosThrust: CustomCombo {
-	public override CustomComboPreset Preset => CustomComboPreset.DrgAny;
+	public override CustomComboPreset Preset => CustomComboPreset.DragoonChaosThrustCombo;
 	public override uint[] ActionIDs { get; } = new[] { DRG.ChaosThrust, DRG.ChaoticSpring };
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-		if (IsEnabled(CustomComboPreset.DragoonFangThrustFeature)) {
-			if (level >= DRG.Levels.FangAndClaw) {
-				if (SelfHasEffect(DRG.Buffs.SharperFangAndClaw) || SelfHasEffect(DRG.Buffs.EnhancedWheelingThrust))
-					return DRG.WheelingThrust;
-			}
+		if (level >= DRG.Levels.FangAndClaw && SelfHasEffect(DRG.Buffs.FangAndClawBared))
+			return DRG.FangAndClaw;
+
+		if (level >= DRG.Levels.WheelingThrust && SelfHasEffect(DRG.Buffs.WheelInMotion))
+			return DRG.WheelingThrust;
+
+		if (comboTime > 0) {
+
+			if (lastComboMove is DRG.Disembowel && level >= DRG.Levels.ChaosThrust)
+				return OriginalHook(DRG.ChaosThrust);
+
+			if (lastComboMove is DRG.TrueThrust or DRG.RaidenThrust && level >= DRG.Levels.Disembowel)
+				return DRG.Disembowel;
+
 		}
 
-		if (IsEnabled(CustomComboPreset.DragoonChaosThrustCombo)) {
-
-			if (level >= DRG.Levels.FangAndClaw && SelfHasEffect(DRG.Buffs.SharperFangAndClaw))
-				return DRG.FangAndClaw;
-
-			if (level >= DRG.Levels.WheelingThrust && SelfHasEffect(DRG.Buffs.EnhancedWheelingThrust))
-				return DRG.WheelingThrust;
-
-			if (comboTime > 0) {
-
-				if (lastComboMove is DRG.Disembowel && level >= DRG.Levels.ChaosThrust)
-					return OriginalHook(DRG.ChaosThrust);
-
-				if (lastComboMove is DRG.TrueThrust or DRG.RaidenThrust && level >= DRG.Levels.Disembowel)
-					return DRG.Disembowel;
-
-			}
-
-			return IsEnabled(CustomComboPreset.DragoonChaosThrustLateOption)
-				? DRG.Disembowel
-				: OriginalHook(DRG.TrueThrust);
-		}
-
-		return OriginalHook(actionID);
+		return IsEnabled(CustomComboPreset.DragoonChaosThrustLateOption)
+			? DRG.Disembowel
+			: OriginalHook(DRG.TrueThrust);
 	}
 }
 
 internal class DragoonFullThrustCombo: CustomCombo {
-	public override CustomComboPreset Preset => CustomComboPreset.DrgAny;
+	public override CustomComboPreset Preset => CustomComboPreset.DragoonFullThrustCombo;
 	public override uint[] ActionIDs { get; } = new[] { DRG.FullThrust, DRG.HeavensThrust };
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-		if (IsEnabled(CustomComboPreset.DragoonFangThrustFeature)
-			&& level >= DRG.Levels.FangAndClaw
-			&& (SelfHasEffect(DRG.Buffs.SharperFangAndClaw) || SelfHasEffect(DRG.Buffs.EnhancedWheelingThrust))
-		) {
+		if (level >= DRG.Levels.WheelingThrust && SelfHasEffect(DRG.Buffs.WheelInMotion))
+			return DRG.WheelingThrust;
+
+		if (level >= DRG.Levels.FangAndClaw && SelfHasEffect(DRG.Buffs.FangAndClawBared))
 			return DRG.FangAndClaw;
-		}
 
-		if (IsEnabled(CustomComboPreset.DragoonFullThrustCombo)) {
+		if (comboTime > 0) {
 
-			if (level >= DRG.Levels.WheelingThrust && SelfHasEffect(DRG.Buffs.EnhancedWheelingThrust))
-				return DRG.WheelingThrust;
-
-			if (level >= DRG.Levels.FangAndClaw && SelfHasEffect(DRG.Buffs.SharperFangAndClaw))
-				return DRG.FangAndClaw;
-
-			if (comboTime > 0) {
-
-				if (lastComboMove is DRG.TrueThrust or DRG.RaidenThrust) {
-					if (IsEnabled(CustomComboPreset.DragoonFullThrustBuffSaver)) {
-						if (level >= DRG.Levels.Disembowel) {
-							if (SelfEffectDuration(DRG.Buffs.PowerSurge) < Service.Configuration.DragoonFullThrustBuffSaverBuffTime)
-								return DRG.Disembowel;
-						}
-					}
-					if (level >= DRG.Levels.VorpalThrust)
-						return DRG.VorpalThrust;
+			if (lastComboMove is DRG.TrueThrust or DRG.RaidenThrust) {
+				if (IsEnabled(CustomComboPreset.DragoonFullThrustBuffSaver) && level >= DRG.Levels.Disembowel) {
+					if (SelfEffectDuration(DRG.Buffs.PowerSurge) < Service.Configuration.DragoonPowerSurgeBuffSaverBuffTime)
+						return DRG.Disembowel;
 				}
-
-				if (lastComboMove is DRG.VorpalThrust) {
-					if (level >= DRG.Levels.FullThrust)
-						return OriginalHook(DRG.FullThrust);
+				if (IsEnabled(CustomComboPreset.DragoonFullThrustDotSaver) && level >= DRG.Levels.ChaosThrust) {
+					if (TargetOwnEffectDuration(DRG.Debuffs.ChaosThrust) < Service.Configuration.DragoonChaosDotSaverDebuffTime)
+						return DRG.Disembowel;
 				}
-
+				if (level >= DRG.Levels.VorpalThrust)
+					return DRG.VorpalThrust;
 			}
 
-			return IsEnabled(CustomComboPreset.DragoonFullThrustLateOption)
-				? DRG.VorpalThrust
-				: OriginalHook(DRG.TrueThrust);
+			if (lastComboMove is DRG.VorpalThrust) {
+				if (level >= DRG.Levels.FullThrust)
+					return OriginalHook(DRG.FullThrust);
+			}
 		}
 
-		return OriginalHook(actionID);
+		return IsEnabled(CustomComboPreset.DragoonFullThrustLateOption)
+			? DRG.VorpalThrust
+			: OriginalHook(DRG.TrueThrust);
 	}
 }
 
@@ -240,3 +268,4 @@ internal class DragoonMirageJumpFeature: CustomCombo {
 		return actionID;
 	}
 }
+

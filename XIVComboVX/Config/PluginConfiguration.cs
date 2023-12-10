@@ -146,11 +146,34 @@ public class PluginConfiguration: IPluginConfiguration {
 	[ComboDetailSetting(
 		CustomComboPreset.DragoonFullThrustBuffSaver,
 		"Power Surge buff threshold",
-		"When the Power Surge buff only has this many seconds left, switch to the Chaos Thrust combo chain to renew it",
+		"When the Power Surge buff only has this many seconds left, switch to the Chaos Thrust skill chain to renew it",
 		0,
 		30
 	)]
-	public float DragoonFullThrustBuffSaverBuffTime { get; set; } = 7;
+	[ComboDetailSetting(
+		CustomComboPreset.DragoonTotalThrustBuffSaver,
+		"Power Surge buff threshold",
+		"When the Power Surge buff only has this many seconds left, switch to the Chaos Thrust skill chain to renew it",
+		0,
+		30
+	)]
+	public float DragoonPowerSurgeBuffSaverBuffTime { get; set; } = 7;
+
+	[ComboDetailSetting(
+		CustomComboPreset.DragoonTotalThrustDotSaver,
+		"Chaos Thrust DoT threshold",
+		"When the Chaos Thrust DoT only has this many seconds left on your current target, switch to the Chaos Thrust skill chain to renew it",
+		0,
+		30
+	)]
+	[ComboDetailSetting(
+		CustomComboPreset.DragoonFullThrustDotSaver,
+		"Chaos Thrust DoT threshold",
+		"When the Chaos Thrust DoT only has this many seconds left on your current target, switch to the Chaos Thrust skill chain to renew it",
+		0,
+		30
+	)]
+	public float DragoonChaosDotSaverDebuffTime { get; set; } = 7;
 
 	#endregion
 

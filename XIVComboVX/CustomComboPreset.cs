@@ -323,8 +323,25 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Power Surge Buff Saver", "When the Power Surge buff is about to run out (or isn't up), execute the Chaos Thrust chain to use Disembowl.", DRG.JobID)]
 	DragoonFullThrustBuffSaver = 2212,
 
-	[CustomComboInfo("Wheeling Thrust / Fang and Claw Option", "When you have either Enhanced Fang and Claw or Wheeling Thrust, Chaos Thrust becomes Wheeling Thrust and Full Thrust becomes Fang and Claw.", DRG.JobID)]
-	DragoonFangThrustFeature = 2206,
+	[ParentPreset(DragoonFullThrustCombo)]
+	[CustomComboInfo("Chaos Thrust DoT Saver", "When the Chaos Thrust DoT is about to run out on your current target (or isn't up), execute the Chaos Thrust chain.", DRG.JobID)]
+	DragoonFullThrustDotSaver = 2218,
+
+	[Experimental]
+	[CustomComboInfo("Total Thrust Combo", "", DRG.JobID)]
+	DragoonTotalThrustCombo = 2214,
+
+	[ParentPreset(DragoonTotalThrustCombo)]
+	[CustomComboInfo("Power Surge Buff Saver", "When the Power Surge buff is about to run out (or isn't up), execute the Chaos Thrust chain to use Disembowl.", DRG.JobID)]
+	DragoonTotalThrustBuffSaver = 2215,
+
+	[ParentPreset(DragoonTotalThrustCombo)]
+	[CustomComboInfo("Chaos Thrust DoT Saver", "When the Chaos Thrust DoT is about to run out on your current target (or isn't up), execute the Chaos Thrust chain.", DRG.JobID)]
+	DragoonTotalThrustDotSaver = 2216,
+
+	[ParentPreset(DragoonTotalThrustCombo)]
+	[CustomComboInfo("Full Thrust from Vorpal", "Start the Full Thrust combo chain with Vorpal Thrust instead of True Thrust.", DRG.JobID)]
+	DragoonTotalThrustVorpalSkipFirst = 2217,
 
 	[Conflicts(DragoonStardiverDragonfireDiveFeature)]
 	[CustomComboInfo("Stardiver to Nastrond", "Replace Stardiver with Nastrond when Nastrond is off-cooldown, and Geirskogul outside of Life of the Dragon.", DRG.JobID)]
