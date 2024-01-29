@@ -180,8 +180,10 @@ internal class WarriorMythrilTempestCombo: CustomCombo {
 
 		if (IsEnabled(CustomComboPreset.WarriorSmartWeaveAOE)) {
 			if (level >= WAR.Levels.Orogeny) {
-				if (CanWeave(actionID) && CanUse(WAR.Orogeny))
-					return WAR.Orogeny;
+				if (SelfHasEffect(WAR.Buffs.SurgingTempest) || !IsEnabled(CustomComboPreset.WarriorSmartWeaveAOEOnlyBuffed)) {
+					if (CanWeave(actionID) && CanUse(WAR.Orogeny))
+						return WAR.Orogeny;
+				}
 			}
 		}
 

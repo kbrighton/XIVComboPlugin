@@ -1441,6 +1441,10 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Smart Weave", "Automatically turn into Orogeny when weaving won't drift your GCD.", WAR.JobID)]
 	WarriorSmartWeaveAOE = 2118,
 
+	[ParentPreset(WarriorSmartWeaveAOE)]
+	[CustomComboInfo("Buffed Weave", "Wait until you have Surging Tempest active.", WAR.JobID)]
+	WarriorSmartWeaveAOEOnlyBuffed = 2121,
+
 	[ParentPreset(WarriorMythrilTempestCombo)]
 	[CustomComboInfo("Gauge Overcap Saver: Mythril Tempest", "Replace the Mythril Tempest combo with gauge spender if completing the combo would overcap you.", WAR.JobID)]
 	WarriorGaugeOvercapTempestFeature = 2111,
