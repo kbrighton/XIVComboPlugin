@@ -1,5 +1,3 @@
-namespace PrincessRTFM.XIVComboVX;
-
 using System;
 using System.Collections.Concurrent;
 using System.Linq;
@@ -8,6 +6,8 @@ using System.Threading.Tasks;
 
 using Dalamud.Plugin.Ipc;
 using Dalamud.Plugin.Ipc.Exceptions;
+
+namespace PrincessRTFM.XIVComboVX;
 
 internal class Ipc: IDisposable {
 	private const int loopDelaySec = 300;
@@ -60,7 +60,7 @@ internal class Ipc: IDisposable {
 							this.addTips(tippyTip);
 						}
 						catch (IpcError ex) {
-							Service.TickLogger.error("Failed to register tip for Tippy's pool", ex);
+							Service.TickLogger.Error("Failed to register tip for Tippy's pool", ex);
 							this.tippyRegistrationQueue.Clear();
 						}
 					}
@@ -97,7 +97,7 @@ internal class Ipc: IDisposable {
 			return false;
 		}
 		catch (IpcError ex) {
-			Service.TickLogger.error("Failed to register priority message for Tippy", ex);
+			Service.TickLogger.Error("Failed to register priority message for Tippy", ex);
 			return false;
 		}
 	}

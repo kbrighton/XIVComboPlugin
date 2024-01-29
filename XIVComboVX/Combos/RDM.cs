@@ -1,11 +1,9 @@
-namespace PrincessRTFM.XIVComboVX.Combos;
-
 using System;
 
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.ClientState.JobGauge.Types;
 
-using PrincessRTFM.XIVComboVX;
+namespace PrincessRTFM.XIVComboVX.Combos;
 
 internal static class RDM {
 	public const byte JobID = 35;
@@ -118,8 +116,8 @@ internal class RedMageMeleeCombo: CustomCombo {
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		const int
-			FINISHER_DELTA = 11,
-			IMBALANCE_DIFF_MAX = 30;
+			finisherDelta = 11,
+			imbalanceDiffMax = 30;
 
 		if (IsEnabled(CustomComboPreset.RedMageMeleeComboPlus)) {
 			RDMGauge gauge = GetJobGauge<RDMGauge>();
@@ -130,8 +128,8 @@ internal class RedMageMeleeCombo: CustomCombo {
 			bool isFinishing3 = comboTime > 0 && lastComboMove is RDM.Scorch;
 			bool canFinishWhite = level >= RDM.Levels.Verholy;
 			bool canFinishBlack = level >= RDM.Levels.Verflare;
-			int blackThreshold = white + IMBALANCE_DIFF_MAX;
-			int whiteThreshold = black + IMBALANCE_DIFF_MAX;
+			int blackThreshold = white + imbalanceDiffMax;
+			int whiteThreshold = black + imbalanceDiffMax;
 			bool verfireUp = SelfHasEffect(RDM.Buffs.VerfireReady);
 			bool verstoneUp = SelfHasEffect(RDM.Buffs.VerstoneReady);
 
@@ -144,13 +142,13 @@ internal class RedMageMeleeCombo: CustomCombo {
 
 				if (black >= white && canFinishWhite) {
 
-					if (verstoneUp && !verfireUp && (black + FINISHER_DELTA <= blackThreshold))
+					if (verstoneUp && !verfireUp && (black + finisherDelta <= blackThreshold))
 						return RDM.Verflare;
 
 					return RDM.Verholy;
 				}
 
-				if (verfireUp && !verstoneUp && canFinishWhite && (white + FINISHER_DELTA <= whiteThreshold))
+				if (verfireUp && !verstoneUp && canFinishWhite && (white + finisherDelta <= whiteThreshold))
 					return RDM.Verholy;
 
 				return RDM.Verflare;
@@ -266,9 +264,9 @@ internal class RedMageSmartcastAoECombo: CustomCombo {
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		const int
-			DELTA = 7,
-			FINISHER_DELTA = 11,
-			IMBALANCE_DIFF_MAX = 30;
+			normalDelta = 7,
+			finisherDelta = 11,
+			imbalanceDiffMax = 30;
 
 		RDMGauge gauge = GetJobGauge<RDMGauge>();
 		int black = gauge.BlackMana;
@@ -278,11 +276,11 @@ internal class RedMageSmartcastAoECombo: CustomCombo {
 		bool isFinishing3 = comboTime > 0 && lastComboMove is RDM.Scorch;
 		bool canFinishWhite = level >= RDM.Levels.Verholy;
 		bool canFinishBlack = level >= RDM.Levels.Verflare;
-		int blackThreshold = white + IMBALANCE_DIFF_MAX;
-		int whiteThreshold = black + IMBALANCE_DIFF_MAX;
+		int blackThreshold = white + imbalanceDiffMax;
+		int whiteThreshold = black + imbalanceDiffMax;
 		bool weaving = CanWeave(actionID);
 
-		if (Common.checkLucidWeave(CustomComboPreset.RedMageSmartcastAoEWeaveLucid, level, Service.Configuration.RedMageSmartcastAoEWeaveLucidManaThreshold, actionID))
+		if (Common.CheckLucidWeave(CustomComboPreset.RedMageSmartcastAoEWeaveLucid, level, Service.Configuration.RedMageSmartcastAoEWeaveLucidManaThreshold, actionID))
 			return Common.LucidDreaming;
 
 		// There is never a reason to NOT use the finishers when you have them.
@@ -297,14 +295,14 @@ internal class RedMageSmartcastAoECombo: CustomCombo {
 			if (black >= white && canFinishWhite) {
 
 				// If we can already Verstone, but we can't Verfire, and Verflare WON'T imbalance us, use Verflare
-				if (verstoneUp && !verfireUp && (black + FINISHER_DELTA <= blackThreshold))
+				if (verstoneUp && !verfireUp && (black + finisherDelta <= blackThreshold))
 					return RDM.Verflare;
 
 				return RDM.Verholy;
 			}
 
 			// If we can already Verfire, but we can't Verstone, and we can use Verholy, and it WON'T imbalance us, use Verholy
-			if (verfireUp && !verstoneUp && canFinishWhite && (white + FINISHER_DELTA <= whiteThreshold))
+			if (verfireUp && !verstoneUp && canFinishWhite && (white + finisherDelta <= whiteThreshold))
 				return RDM.Verholy;
 
 			return RDM.Verflare;
@@ -335,10 +333,10 @@ internal class RedMageSmartcastAoECombo: CustomCombo {
 		if (level < RDM.Levels.Veraero2)
 			return RDM.Verthunder2;
 
-		if (white < black || Math.Min(100, black + DELTA) == white)
+		if (white < black || Math.Min(100, black + normalDelta) == white)
 			return RDM.Veraero2;
 
-		if (black < white || Math.Min(100, white + DELTA) == black)
+		if (black < white || Math.Min(100, white + normalDelta) == black)
 			return RDM.Verthunder2;
 
 		return actionID;
@@ -350,7 +348,7 @@ internal class RedmageSmartcastSingleComboOpener: CustomCombo {
 	public override uint[] ActionIDs { get; } = new[] { RDM.Veraero, RDM.Verthunder };
 
 	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
-		const int LONG_DELTA = 6;
+		const int longDelta = 6;
 		RDMGauge gauge = GetJobGauge<RDMGauge>();
 		int black = gauge.BlackMana;
 		int white = gauge.WhiteMana;
@@ -364,10 +362,10 @@ internal class RedmageSmartcastSingleComboOpener: CustomCombo {
 		// This is for the long opener only, so we're not bothered about fast casting or finishers or anything like that
 		// However, we DO want to prevent the mana levels from being perfectly even, cause that fucks up Manafication into melee as an opener
 
-		if (black < white || Math.Min(100, white + LONG_DELTA) == black)
+		if (black < white || Math.Min(100, white + longDelta) == black)
 			return OriginalHook(RDM.Verthunder);
 
-		if (white < black || Math.Min(100, black + LONG_DELTA) == white)
+		if (white < black || Math.Min(100, black + longDelta) == white)
 			return OriginalHook(RDM.Veraero);
 
 		return actionID;
@@ -421,10 +419,10 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 
 	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
 		const int
-			LONG_DELTA = 6,
-			PROC_DELTA = 5,
-			FINISHER_DELTA = 11,
-			IMBALANCE_DIFF_MAX = 30;
+			longDelta = 6,
+			procDelta = 5,
+			finisherDelta = 11,
+			imbalanceDiffMax = 30;
 
 		// This algorithm is a bit messy, because.. well, there's no clean way to do it, really.
 		// The same conditions need to be checked at different stages in the flow because of priorities.
@@ -445,8 +443,8 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 
 		int black = gauge.BlackMana;
 		int white = gauge.WhiteMana;
-		int blackThreshold = white + IMBALANCE_DIFF_MAX;
-		int whiteThreshold = black + IMBALANCE_DIFF_MAX;
+		int blackThreshold = white + imbalanceDiffMax;
+		int whiteThreshold = black + imbalanceDiffMax;
 
 		int minManaForEnchantedMelee = RDM.ManaCostRiposte + (level >= RDM.Levels.Zwerchhau ? RDM.ManaCostZwerchhau : 0) + (level >= RDM.Levels.Redoublement ? RDM.ManaCostRedoublement : 0);
 		bool hasMeleeMana = black >= minManaForEnchantedMelee && white >= minManaForEnchantedMelee && (black != white || black is 100);
@@ -482,7 +480,7 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 		bool accelMove = allowAccel && IsEnabled(CustomComboPreset.RedMageSmartcastSingleAccelerationMoving);
 		bool accelNoNormal = IsEnabled(CustomComboPreset.RedMageSmartcastSingleAccelerationNoOverride);
 
-		if (Common.checkLucidWeave(CustomComboPreset.RedMageSmartcastSingleWeaveLucid, level, Service.Configuration.RedMageSmartcastSingleWeaveLucidManaThreshold, actionID))
+		if (Common.CheckLucidWeave(CustomComboPreset.RedMageSmartcastSingleWeaveLucid, level, Service.Configuration.RedMageSmartcastSingleWeaveLucidManaThreshold, actionID))
 			return Common.LucidDreaming;
 
 		if (smartWeave) {
@@ -505,10 +503,10 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 			if (verfireUp == verstoneUp) {
 
 				// Either both procs are already up or neither is - use whatever gives us the mana we need
-				if (black < white || Math.Min(100, white + LONG_DELTA) == black)
+				if (black < white || Math.Min(100, white + longDelta) == black)
 					return OriginalHook(RDM.Verthunder);
 
-				if (white < black || Math.Min(100, black + LONG_DELTA) == white)
+				if (white < black || Math.Min(100, black + longDelta) == white)
 					return OriginalHook(RDM.Veraero);
 
 				// If mana levels are equal, prioritise the colour that the original button was
@@ -520,7 +518,7 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 			if (verfireUp) {
 
 				// If Veraero is feasible, use it
-				if (white + LONG_DELTA <= whiteThreshold && Math.Min(100, white + LONG_DELTA) != black)
+				if (white + longDelta <= whiteThreshold && Math.Min(100, white + longDelta) != black)
 					return OriginalHook(RDM.Veraero);
 
 				return OriginalHook(RDM.Verthunder);
@@ -529,7 +527,7 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 			if (verstoneUp) {
 
 				// If Verthunder is feasible, use it
-				if (black + LONG_DELTA <= blackThreshold && Math.Min(100, black + LONG_DELTA) != white)
+				if (black + longDelta <= blackThreshold && Math.Min(100, black + longDelta) != white)
 					return OriginalHook(RDM.Verthunder);
 
 				return OriginalHook(RDM.Veraero);
@@ -557,14 +555,14 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 			if (black >= white && canFinishWhite) {
 
 				// If we can already Verstone, but we can't Verfire, and Verflare WON'T imbalance us, use Verflare
-				if (verstoneUp && !verfireUp && (black + FINISHER_DELTA <= blackThreshold))
+				if (verstoneUp && !verfireUp && (black + finisherDelta <= blackThreshold))
 					return RDM.Verflare;
 
 				return RDM.Verholy;
 			}
 
 			// If we can already Verfire, but we can't Verstone, and we can use Verholy, and it WON'T imbalance us, use Verholy
-			if (verfireUp && !verstoneUp && canFinishWhite && (white + FINISHER_DELTA <= whiteThreshold))
+			if (verfireUp && !verstoneUp && canFinishWhite && (white + finisherDelta <= whiteThreshold))
 				return RDM.Verholy;
 
 			// If all else fails, just Verflare
@@ -600,10 +598,10 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 		if (verfireUp && verstoneUp) {
 
 			// Decide by mana levels
-			if (black < white || Math.Min(100, white + PROC_DELTA) == black)
+			if (black < white || Math.Min(100, white + procDelta) == black)
 				return RDM.Verfire;
 
-			if (white < black || Math.Min(100, black + PROC_DELTA) == white)
+			if (white < black || Math.Min(100, black + procDelta) == white)
 				return RDM.Verstone;
 
 			// If mana levels are equal, prioritise the original button
@@ -611,11 +609,11 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 		}
 
 		// Only use Verfire if it won't imbalance us
-		if (verfireUp && black + PROC_DELTA <= blackThreshold)
+		if (verfireUp && black + procDelta <= blackThreshold)
 			return RDM.Verfire;
 
 		// Only use Verstone if it won't imbalance us
-		if (verstoneUp && white + PROC_DELTA <= whiteThreshold)
+		if (verstoneUp && white + procDelta <= whiteThreshold)
 			return RDM.Verstone;
 
 		// If there's NOTHING up right to use, should we override with Accleration (or Swiftcast)?

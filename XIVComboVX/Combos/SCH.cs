@@ -1,8 +1,6 @@
-namespace PrincessRTFM.XIVComboVX.Combos;
-
 using Dalamud.Game.ClientState.JobGauge.Types;
 
-using PrincessRTFM.XIVComboVX;
+namespace PrincessRTFM.XIVComboVX.Combos;
 
 internal static class SCH {
 	public const byte JobID = 28;
@@ -69,7 +67,7 @@ internal class ScholarArtOfWar: CustomCombo {
 
 	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
 
-		if (Common.checkLucidWeave(this.Preset, level, Service.Configuration.ScholarLucidArtOfWarManaThreshold, actionID))
+		if (Common.CheckLucidWeave(this.Preset, level, Service.Configuration.ScholarLucidArtOfWarManaThreshold, actionID))
 			return Common.LucidDreaming;
 
 		return actionID;
@@ -82,7 +80,7 @@ internal class ScholarRuinBoil: CustomCombo {
 
 	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
 
-		if (Common.checkLucidWeave(CustomComboPreset.ScholarLucidRuinBroil, level, Service.Configuration.ScholarLucidRuinBroilManaThreshold, actionID))
+		if (Common.CheckLucidWeave(CustomComboPreset.ScholarLucidRuinBroil, level, Service.Configuration.ScholarLucidRuinBroilManaThreshold, actionID))
 			return Common.LucidDreaming;
 
 		if (IsEnabled(CustomComboPreset.ScholarMobileRuinBroil)) {

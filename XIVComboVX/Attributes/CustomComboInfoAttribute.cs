@@ -1,9 +1,9 @@
-namespace PrincessRTFM.XIVComboVX.Attributes;
-
 using System;
 using System.Runtime.CompilerServices;
 
-using XIVComboVX.Combos;
+using PrincessRTFM.XIVComboVX.Combos;
+
+namespace PrincessRTFM.XIVComboVX.Attributes;
 
 [AttributeUsage(AttributeTargets.Field)]
 internal class CustomComboInfoAttribute: Attribute {

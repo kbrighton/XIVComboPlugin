@@ -1,5 +1,3 @@
-namespace PrincessRTFM.XIVComboVX.Config;
-
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -8,11 +6,13 @@ using System.Threading.Tasks;
 using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
-using Dalamud.Logging;
+
+namespace PrincessRTFM.XIVComboVX.Config;
 
 internal class UpdateAlerter: IDisposable {
-	private const int messageDelayMs = 500;
-	private const int loginDelayMs = 500;
+	private const int
+		MessageDelayMs = 500,
+		LoginDelayMs = 500;
 
 	private bool disposed;
 
@@ -39,39 +39,39 @@ internal class UpdateAlerter: IDisposable {
 		this.current = to;
 		this.isFreshInstall = isFresh;
 		if (Service.Configuration.ShowUpdateMessage) {
-			this.register();
-			this.checkMessage();
+			this.Register();
+			this.CheckMessage();
 		}
 	}
 
-	internal void checkMessage() {
+	internal void CheckMessage() {
 		Service.Log.Information("Checking whether to display update message");
 		if (this.disposed) {
-			this.unregister();
+			this.Unregister();
 			Service.Log.Information("Update alerter already disposed");
 			return;
 		}
 		if (this.seenUpdateMessage) {
-			this.unregister();
+			this.Unregister();
 			Service.Log.Information("Message already displayed, unregistering");
 			return;
 		}
 
-		Service.Log.Information($"Checks passed, delaying message by {messageDelayMs}ms - may be reset if message is triggered again within that time");
+		Service.Log.Information($"Checks passed, delaying message by {MessageDelayMs}ms - may be reset if message is triggered again within that time");
 
 		this.aborter = new();
 
-		Task.Delay(messageDelayMs, this.aborter.Token).ContinueWith(waiter => {
+		Task.Delay(MessageDelayMs, this.aborter.Token).ContinueWith(waiter => {
 			if (waiter.Status is TaskStatus.RanToCompletion)
-				this.displayMessage();
+				this.DisplayMessage();
 		});
 	}
 
-	internal void displayMessage() {
+	internal void DisplayMessage() {
 
 		this.aborter?.Cancel();
 		this.seenUpdateMessage = true;
-		this.unregister();
+		this.Unregister();
 
 		Service.Log.Information("Displaying update alert in game chat");
 
@@ -84,8 +84,8 @@ internal class UpdateAlerter: IDisposable {
 			));
 		}
 		parts.AddRange(new Payload[] {
-			new UIForegroundPayload(ChatUtil.colourForeOpenConfig),
-			new UIGlowPayload(ChatUtil.colourGlowOpenConfig),
+			new UIForegroundPayload(ChatUtil.ColourForeOpenConfig),
+			new UIGlowPayload(ChatUtil.ColourGlowOpenConfig),
 			Service.ChatUtils.openConfig,
 			new TextPayload($"[Open {Service.Plugin.Name} Settings]"),
 			RawPayload.LinkTerminator,
@@ -93,17 +93,17 @@ internal class UpdateAlerter: IDisposable {
 			new UIForegroundPayload(0),
 		});
 
-		Service.ChatUtils.print(XivChatType.Notice, parts.ToArray());
+		Service.ChatUtils.Print(XivChatType.Notice, parts.ToArray());
 
 	}
 
-	internal void register() {
+	internal void Register() {
 		Service.Log.Information("Registering update alerter");
 		Service.ChatGui.ChatMessage += this.onChatMessage;
 		Service.Client.Login += this.onLogin;
 	}
 
-	internal void unregister() {
+	internal void Unregister() {
 		Service.Log.Information("Unregistering update alerter");
 		Service.ChatGui.ChatMessage -= this.onChatMessage;
 		Service.Client.Login -= this.onLogin;
@@ -111,13 +111,13 @@ internal class UpdateAlerter: IDisposable {
 
 	private void onChatMessage(XivChatType type, uint senderId, ref SeString sender, ref SeString message, ref bool isHandled) {
 		if (type is XivChatType.Urgent or XivChatType.Notice or XivChatType.SystemMessage)
-			this.checkMessage();
+			this.CheckMessage();
 	}
 	private async void onLogin() {
 		do {
-			await Task.Delay(loginDelayMs);
+			await Task.Delay(LoginDelayMs);
 		} while (!Service.Client.IsLoggedIn || Service.Client.LocalContentId == 0 || Service.Client.LocalPlayer is null);
-		this.checkMessage();
+		this.CheckMessage();
 	}
 
 
@@ -128,7 +128,7 @@ internal class UpdateAlerter: IDisposable {
 			return;
 		this.disposed = true;
 
-		this.unregister();
+		this.Unregister();
 	}
 
 	#endregion

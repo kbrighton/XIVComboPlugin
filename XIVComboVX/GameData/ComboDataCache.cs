@@ -1,18 +1,13 @@
-namespace PrincessRTFM.XIVComboVX.GameData;
-
 using System;
 using System.Collections.Generic;
 
-using Dalamud.Game;
 using Dalamud.Game.ClientState.JobGauge.Types;
 using Dalamud.Game.ClientState.Objects.SubKinds;
 using Dalamud.Game.ClientState.Objects.Types;
 using Dalamud.Game.ClientState.Statuses;
 using Dalamud.Plugin.Services;
 
-using PrincessRTFM.XIVComboVX;
-
-using XIVComboVX.Combos;
+namespace PrincessRTFM.XIVComboVX.GameData;
 
 internal class ComboDataCache: ManagedCache {
 	protected const uint InvalidObjectID = 0xE000_0000;
@@ -108,7 +103,7 @@ internal class ComboDataCache: ManagedCache {
 		cooldownPtr->ActionID = actionID;
 
 		CooldownData cd = this.cooldownCache[actionID] = *(CooldownData*)cooldownPtr;
-		Service.TickLogger.debug($"Retrieved cooldown data for action #{actionID}: {cd.DebugLabel}");
+		Service.TickLogger.Debug($"Retrieved cooldown data for action #{actionID}: {cd.DebugLabel}");
 		return cd;
 	}
 

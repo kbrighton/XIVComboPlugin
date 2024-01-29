@@ -1,8 +1,6 @@
-namespace PrincessRTFM.XIVComboVX.Combos;
-
 using Dalamud.Game.ClientState.Conditions;
 
-using PrincessRTFM.XIVComboVX;
+namespace PrincessRTFM.XIVComboVX.Combos;
 
 internal static class DOL {
 	public const byte JobID = 99,

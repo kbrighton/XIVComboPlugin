@@ -1,5 +1,3 @@
-namespace PrincessRTFM.XIVComboVX.Config;
-
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -9,8 +7,10 @@ using Dalamud.Interface.Internal.Notifications;
 
 using Newtonsoft.Json;
 
-using XIVComboVX.Attributes;
-using XIVComboVX.Combos;
+using PrincessRTFM.XIVComboVX.Attributes;
+using PrincessRTFM.XIVComboVX.Combos;
+
+namespace PrincessRTFM.XIVComboVX.Config;
 
 [Serializable]
 [SuppressMessage("Maintainability", "CA1507:Use nameof to express symbol names", Justification = "Serialisation names must remain constant even if member names change")]
@@ -18,9 +18,7 @@ public class PluginConfiguration: IPluginConfiguration {
 	public int Version { get; set; } = 6;
 
 	public PluginConfiguration() { }
-	public PluginConfiguration(bool firstRun) {
-		this.IsFirstRun = firstRun;
-	}
+	public PluginConfiguration(bool firstRun) => this.IsFirstRun = firstRun;
 
 	/* HOW IT WORKS:
 	 *

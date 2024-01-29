@@ -1,9 +1,7 @@
-namespace PrincessRTFM.XIVComboVX.Combos;
-
 using Dalamud.Game.ClientState.JobGauge.Enums;
 using Dalamud.Game.ClientState.JobGauge.Types;
 
-using PrincessRTFM.XIVComboVX;
+namespace PrincessRTFM.XIVComboVX.Combos;
 
 internal static class SAM {
 	public const byte JobID = 34;

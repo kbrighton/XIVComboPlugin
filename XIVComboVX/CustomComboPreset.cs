@@ -1,11 +1,11 @@
-namespace PrincessRTFM.XIVComboVX;
-
 using System;
 
 using Dalamud.Utility;
 
-using XIVComboVX.Attributes;
-using XIVComboVX.Combos;
+using PrincessRTFM.XIVComboVX.Attributes;
+using PrincessRTFM.XIVComboVX.Combos;
+
+namespace PrincessRTFM.XIVComboVX;
 
 public enum CustomComboPreset {
 	#region Universal

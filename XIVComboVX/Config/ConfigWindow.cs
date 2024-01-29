@@ -1,5 +1,3 @@
-namespace PrincessRTFM.XIVComboVX.Config;
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,12 +8,13 @@ using System.Text;
 
 using Dalamud.Game.ClientState.Objects.SubKinds;
 using Dalamud.Interface.Windowing;
-using Dalamud.Logging;
 using Dalamud.Utility;
 
 using ImGuiNET;
 
-using XIVComboVX.Attributes;
+using PrincessRTFM.XIVComboVX.Attributes;
+
+namespace PrincessRTFM.XIVComboVX.Config;
 
 public class ConfigWindow: Window {
 
@@ -32,7 +31,7 @@ public class ConfigWindow: Window {
 	private static readonly Vector4 warningColour = new(200f / 255f, 25f / 255f, 35f / 255f, 1f);
 	private static readonly Vector4 deprecatedColour = new(0f / 255f, 95f / 255f, 190f / 255f, 1f);
 
-	private const int minWidth = 900;
+	private const int MinWidth = 900;
 
 	public ConfigWindow() : base($"Custom Combo Setup - {Service.Plugin.ShortPluginSignature}, {Service.Plugin.PluginBuildType}###{Service.Plugin.Name} Custom Combo Setup", ImGuiWindowFlags.MenuBar) {
 		this.RespectCloseHotkey = true;
@@ -126,8 +125,8 @@ public class ConfigWindow: Window {
 						// if the current preset being indexed has children, they need to be added to the FRONT of the queue (but still in the order they're presented)
 						if (this.parentToChildrenPresets.TryGetValue(next, out List<(CustomComboPreset Preset, CustomComboInfoAttribute Info)>? subchildren)) {
 							// to that end, we reverse the list of children, and then add each to the front of the list, effectively doing queue.unshift(children.pop()) until the list is emptied
-							foreach ((CustomComboPreset Preset, CustomComboInfoAttribute _) in subchildren.ToArray().Reverse())
-								queue.AddFirst(Preset);
+							foreach ((CustomComboPreset childPreset, CustomComboInfoAttribute _) in subchildren.ToArray().Reverse())
+								queue.AddFirst(childPreset);
 						}
 					}
 				}
@@ -135,9 +134,9 @@ public class ConfigWindow: Window {
 		}
 
 		this.SizeCondition = ImGuiCond.FirstUseEver;
-		this.Size = new(minWidth, 800);
+		this.Size = new(MinWidth, 800);
 		this.SizeConstraints = new() {
-			MinimumSize = new(minWidth, 400),
+			MinimumSize = new(MinWidth, 400),
 			MaximumSize = new(int.MaxValue, int.MaxValue),
 		};
 	}
@@ -372,7 +371,7 @@ public class ConfigWindow: Window {
 			Service.Configuration.Save();
 		}
 
-		ImGui.PushTextWrapPos((this.Size?.Y ?? minWidth) - 20);
+		ImGui.PushTextWrapPos((this.Size?.Y ?? MinWidth) - 20);
 
 		if (!compactMode)
 			ImGui.TextUnformatted(info.Description);
@@ -432,11 +431,11 @@ public class ConfigWindow: Window {
 		ImGui.PopTextWrapPos();
 
 		if (hasDetails && enabled) {
-			const int MEM_WIDTH = sizeof(double);
-			IntPtr ptrVal = Marshal.AllocHGlobal(MEM_WIDTH);
-			IntPtr ptrMin = Marshal.AllocHGlobal(MEM_WIDTH);
-			IntPtr ptrMax = Marshal.AllocHGlobal(MEM_WIDTH);
-			IntPtr ptrStep = Marshal.AllocHGlobal(MEM_WIDTH);
+			const int memWidth = sizeof(double);
+			IntPtr ptrVal = Marshal.AllocHGlobal(memWidth);
+			IntPtr ptrMin = Marshal.AllocHGlobal(memWidth);
+			IntPtr ptrMax = Marshal.AllocHGlobal(memWidth);
+			IntPtr ptrStep = Marshal.AllocHGlobal(memWidth);
 			bool shift = ImGui.IsKeyDown(ImGuiKey.ModShift);
 			bool ctrl = ImGui.IsKeyDown(ImGuiKey.ModCtrl);
 			byte multShift = (byte)(shift ? 100 : 1);
@@ -450,29 +449,29 @@ public class ConfigWindow: Window {
 					switch (detail.ImGuiType) {
 						case ImGuiDataType.Double:
 							fmt = $"%.{detail.Precision}f";
-							Marshal.Copy(BitConverter.GetBytes((double)detail.Val), 0, ptrVal, MEM_WIDTH);
-							Marshal.Copy(BitConverter.GetBytes((double)detail.Min), 0, ptrMin, MEM_WIDTH);
-							Marshal.Copy(BitConverter.GetBytes((double)detail.Max), 0, ptrMax, MEM_WIDTH);
-							Marshal.Copy(BitConverter.GetBytes((double)mult), 0, ptrStep, MEM_WIDTH);
+							Marshal.Copy(BitConverter.GetBytes((double)detail.Val), 0, ptrVal, memWidth);
+							Marshal.Copy(BitConverter.GetBytes((double)detail.Min), 0, ptrMin, memWidth);
+							Marshal.Copy(BitConverter.GetBytes((double)detail.Max), 0, ptrMax, memWidth);
+							Marshal.Copy(BitConverter.GetBytes((double)mult), 0, ptrStep, memWidth);
 							break;
 						case ImGuiDataType.U64:
 							fmt = "%u";
-							Marshal.Copy(BitConverter.GetBytes((ulong)detail.Val), 0, ptrVal, MEM_WIDTH);
-							Marshal.Copy(BitConverter.GetBytes((ulong)detail.Min), 0, ptrMin, MEM_WIDTH);
-							Marshal.Copy(BitConverter.GetBytes((ulong)detail.Max), 0, ptrMax, MEM_WIDTH);
-							Marshal.Copy(BitConverter.GetBytes((ulong)mult), 0, ptrStep, MEM_WIDTH);
+							Marshal.Copy(BitConverter.GetBytes((ulong)detail.Val), 0, ptrVal, memWidth);
+							Marshal.Copy(BitConverter.GetBytes((ulong)detail.Min), 0, ptrMin, memWidth);
+							Marshal.Copy(BitConverter.GetBytes((ulong)detail.Max), 0, ptrMax, memWidth);
+							Marshal.Copy(BitConverter.GetBytes((ulong)mult), 0, ptrStep, memWidth);
 							break;
 						case ImGuiDataType.S64:
 							fmt = "%i";
-							Marshal.Copy(BitConverter.GetBytes((long)detail.Val), 0, ptrVal, MEM_WIDTH);
-							Marshal.Copy(BitConverter.GetBytes((long)detail.Min), 0, ptrMin, MEM_WIDTH);
-							Marshal.Copy(BitConverter.GetBytes((long)detail.Max), 0, ptrMax, MEM_WIDTH);
-							Marshal.Copy(BitConverter.GetBytes((long)mult), 0, ptrStep, MEM_WIDTH);
+							Marshal.Copy(BitConverter.GetBytes((long)detail.Val), 0, ptrVal, memWidth);
+							Marshal.Copy(BitConverter.GetBytes((long)detail.Min), 0, ptrMin, memWidth);
+							Marshal.Copy(BitConverter.GetBytes((long)detail.Max), 0, ptrMax, memWidth);
+							Marshal.Copy(BitConverter.GetBytes((long)mult), 0, ptrStep, memWidth);
 							break;
 						default:
 							throw new FormatException($"Invalid detail type {detail.ImGuiType}");
 					}
-					Service.TickLogger.debug(
+					Service.TickLogger.Debug(
 						$"{detail.Label} ({detail.Type.Name}/{detail.ImGuiType}) {detail.Min} <= [{detail.Val}] <= {detail.Max} ({range})"
 					);
 					bool changed = useSlider
@@ -517,8 +516,8 @@ public class ConfigWindow: Window {
 						ImGui.EndTooltip();
 					}
 					if (changed) {
-						byte[] value = new byte[MEM_WIDTH];
-						Marshal.Copy(ptrVal, value, 0, MEM_WIDTH);
+						byte[] value = new byte[memWidth];
+						Marshal.Copy(ptrVal, value, 0, memWidth);
 						double val = detail.ImGuiType switch {
 							ImGuiDataType.Double => BitConverter.ToDouble(value),
 							ImGuiDataType.U64 => BitConverter.ToUInt64(value),

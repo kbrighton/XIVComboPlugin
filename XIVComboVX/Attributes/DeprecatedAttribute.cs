@@ -1,7 +1,7 @@
-namespace PrincessRTFM.XIVComboVX.Attributes;
-
 using System;
 using System.Linq;
+
+namespace PrincessRTFM.XIVComboVX.Attributes;
 
 [AttributeUsage(AttributeTargets.Field)]
 internal class DeprecatedAttribute: Attribute {
@@ -13,6 +13,6 @@ internal class DeprecatedAttribute: Attribute {
 		this.Information = label;
 		this.Recommended = suggestions.OrderBy(p => (uint)p).ToArray();
 	}
-	internal DeprecatedAttribute(params CustomComboPreset[] suggestions): this(string.Empty, suggestions) { }
-	internal DeprecatedAttribute(string label): this(label, Array.Empty<CustomComboPreset>()) { }
+	internal DeprecatedAttribute(params CustomComboPreset[] suggestions) : this(string.Empty, suggestions) { }
+	internal DeprecatedAttribute(string label) : this(label, Array.Empty<CustomComboPreset>()) { }
 }

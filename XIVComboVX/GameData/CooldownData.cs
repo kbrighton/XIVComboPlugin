@@ -1,6 +1,6 @@
-namespace PrincessRTFM.XIVComboVX.GameData;
-
 using System.Runtime.InteropServices;
+
+namespace PrincessRTFM.XIVComboVX.GameData;
 
 [StructLayout(LayoutKind.Explicit)]
 internal readonly struct CooldownData {

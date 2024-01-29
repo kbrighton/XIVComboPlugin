@@ -1,6 +1,6 @@
-namespace PrincessRTFM.XIVComboVX.Attributes;
-
 using System;
+
+namespace PrincessRTFM.XIVComboVX.Attributes;
 
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
 internal class ComboDetailSettingAttribute: Attribute {

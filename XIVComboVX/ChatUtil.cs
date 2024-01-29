@@ -1,5 +1,3 @@
-namespace PrincessRTFM.XIVComboVX;
-
 using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -8,40 +6,42 @@ using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
 
+namespace PrincessRTFM.XIVComboVX;
+
 internal class ChatUtil: IDisposable {
 	private bool disposed;
 
 	private const uint
-		openConfigId = 0,
-		openIssueTrackerId = 1;
+		OpenConfigId = 0,
+		OpenIssueTrackerId = 1;
 
 	internal readonly DalamudLinkPayload
 		openConfig,
 		openIssueTracker;
 
 	internal const ushort
-		colourForeWarning = 32,
-		colourForeError = 17,
-		colourForeOpenConfig = 34,
-		colourGlowOpenConfig = 37;
+		ColourForeWarning = 32,
+		ColourForeError = 17,
+		ColourForeOpenConfig = 34,
+		ColourGlowOpenConfig = 37;
 
 	internal ChatUtil() {
-		this.openConfig = Service.Interface.AddChatLinkHandler(openConfigId, this.onClickChatLink);
-		this.openIssueTracker = Service.Interface.AddChatLinkHandler(openIssueTrackerId, this.onClickChatLink);
+		this.openConfig = Service.Interface.AddChatLinkHandler(OpenConfigId, this.onClickChatLink);
+		this.openIssueTracker = Service.Interface.AddChatLinkHandler(OpenIssueTrackerId, this.onClickChatLink);
 	}
 
-	internal void addOpenConfigLink(SeStringBuilder sb, string label) {
-		sb.AddUiForeground(colourForeOpenConfig);
-		sb.AddUiGlow(colourGlowOpenConfig);
+	internal void AddOpenConfigLink(SeStringBuilder sb, string label) {
+		sb.AddUiForeground(ColourForeOpenConfig);
+		sb.AddUiGlow(ColourGlowOpenConfig);
 		sb.Add(this.openConfig);
 		sb.AddText(label);
 		sb.Add(RawPayload.LinkTerminator);
 		sb.AddUiGlowOff();
 		sb.AddUiForegroundOff();
 	}
-	internal void addOpenIssueTrackerLink(SeStringBuilder sb, string label) {
-		sb.AddUiForeground(colourForeOpenConfig);
-		sb.AddUiGlow(colourGlowOpenConfig);
+	internal void AddOpenIssueTrackerLink(SeStringBuilder sb, string label) {
+		sb.AddUiForeground(ColourForeOpenConfig);
+		sb.AddUiGlow(ColourGlowOpenConfig);
 		sb.Add(this.openIssueTracker);
 		sb.AddText(label);
 		sb.Add(RawPayload.LinkTerminator);
@@ -50,7 +50,7 @@ internal class ChatUtil: IDisposable {
 	}
 
 	[SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Convention")]
-	internal void print(XivChatType type, params Payload[] payloads) {
+	internal void Print(XivChatType type, params Payload[] payloads) {
 		if (payloads.Length > 0) {
 			Service.ChatGui.Print(new XivChatEntry() {
 				Type = type,
@@ -61,10 +61,10 @@ internal class ChatUtil: IDisposable {
 
 	private void onClickChatLink(uint id, SeString source) {
 		switch (id) {
-			case openConfigId:
+			case OpenConfigId:
 				Service.Plugin.onPluginCommand("", "");
 				break;
-			case openIssueTrackerId:
+			case OpenIssueTrackerId:
 				Process.Start(new ProcessStartInfo("https://github.com/PrincessRTFM/XIVComboPlugin/issues") { UseShellExecute = true });
 				break;
 			default:

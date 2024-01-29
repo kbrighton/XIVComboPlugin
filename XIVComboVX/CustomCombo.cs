@@ -1,5 +1,3 @@
-namespace PrincessRTFM.XIVComboVX;
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +12,11 @@ using Dalamud.Utility;
 
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 
+using PrincessRTFM.XIVComboVX.Attributes;
 using PrincessRTFM.XIVComboVX.Combos;
+using PrincessRTFM.XIVComboVX.GameData;
 
-using XIVComboVX.Attributes;
-using XIVComboVX.GameData;
+namespace PrincessRTFM.XIVComboVX;
 
 internal abstract class CustomCombo {
 	public const uint InvalidObjectID = 0xE000_0000;
@@ -66,20 +65,20 @@ internal abstract class CustomCombo {
 		if (comboTime <= 0)
 			lastComboActionId = 0;
 
-		Service.TickLogger.debug($"{this.ModuleName}.Invoke({actionID}, {lastComboActionId}, {comboTime}, {level})");
+		Service.TickLogger.Debug($"{this.ModuleName}.Invoke({actionID}, {lastComboActionId}, {comboTime}, {level})");
 		try {
 			uint resultingActionID = this.Invoke(actionID, lastComboActionId, comboTime, level);
 			if (resultingActionID == 0 || actionID == resultingActionID) {
-				Service.TickLogger.debug("NO REPLACEMENT");
+				Service.TickLogger.Debug("NO REPLACEMENT");
 				return false;
 			}
 
-			Service.TickLogger.debug($"Became #{resultingActionID}");
+			Service.TickLogger.Debug($"Became #{resultingActionID}");
 			newActionID = resultingActionID;
 			return true;
 		}
 		catch (Exception ex) {
-			Service.TickLogger.error($"Error in {this.ModuleName}.Invoke({actionID}, {lastComboActionId}, {comboTime}, {level})", ex);
+			Service.TickLogger.Error($"Error in {this.ModuleName}.Invoke({actionID}, {lastComboActionId}, {comboTime}, {level})", ex);
 			return false;
 		}
 	}
@@ -87,11 +86,11 @@ internal abstract class CustomCombo {
 
 	protected internal static bool IsEnabled(CustomComboPreset preset) {
 		if ((int)preset < 100) {
-			Service.TickLogger.debug($"Bypassing is-enabled check for preset #{(int)preset}");
+			Service.TickLogger.Debug($"Bypassing is-enabled check for preset #{(int)preset}");
 			return true;
 		}
 		bool enabled = Service.Configuration.IsEnabled(preset);
-		Service.TickLogger.debug($"Checking status of preset #{(int)preset} - {enabled}");
+		Service.TickLogger.Debug($"Checking status of preset #{(int)preset} - {enabled}");
 		return enabled;
 	}
 
@@ -99,9 +98,9 @@ internal abstract class CustomCombo {
 
 	protected static uint PickByCooldown(uint preference, params uint[] actions) {
 
-		static (uint ActionID, CooldownData Data) Selector(uint actionID) => (actionID, GetCooldown(actionID));
+		static (uint ActionID, CooldownData Data) selector(uint actionID) => (actionID, GetCooldown(actionID));
 
-		static (uint ActionID, CooldownData Data) Compare(uint preference, (uint ActionID, CooldownData Data) a, (uint ActionID, CooldownData Data) b) {
+		static (uint ActionID, CooldownData Data) compare(uint preference, (uint ActionID, CooldownData Data) a, (uint ActionID, CooldownData Data) b) {
 
 			// VS decided that the conditionals could be "simplified" to this.
 			// Someone should maybe teach VS what "simplified" actually means.
@@ -145,15 +144,15 @@ internal abstract class CustomCombo {
 			// And they've got a TTS-style voice just constantly repeating "PAIN. PAIN. PAIN. PAIN. PAIN." from it?
 			// Yeah.
 
-			Service.TickLogger.debug($"CDCMP: {a.ActionID}, {b.ActionID}: {choice.ActionID}\n{a.Data.DebugLabel}\n{b.Data.DebugLabel}");
+			Service.TickLogger.Debug($"CDCMP: {a.ActionID}, {b.ActionID}: {choice.ActionID}\n{a.Data.DebugLabel}\n{b.Data.DebugLabel}");
 			return choice;
 		}
 
 		uint id = actions
-			.Select(Selector)
-			.Aggregate((a1, a2) => Compare(preference, a1, a2))
+			.Select(selector)
+			.Aggregate((a1, a2) => compare(preference, a1, a2))
 			.ActionID;
-		Service.TickLogger.debug($"Final selection: {id}");
+		Service.TickLogger.Debug($"Final selection: {id}");
 		return id;
 	}
 

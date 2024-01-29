@@ -1,13 +1,13 @@
-namespace PrincessRTFM.XIVComboVX;
-
 using Dalamud.Game;
 using Dalamud.Game.ClientState.Objects;
 using Dalamud.IoC;
 using Dalamud.Plugin;
 using Dalamud.Plugin.Services;
 
-using XIVComboVX.Config;
-using XIVComboVX.GameData;
+using PrincessRTFM.XIVComboVX.Config;
+using PrincessRTFM.XIVComboVX.GameData;
+
+namespace PrincessRTFM.XIVComboVX;
 
 internal class Service {
 	public static Plugin Plugin { get; set; } = null!;

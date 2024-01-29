@@ -1,7 +1,5 @@
 namespace PrincessRTFM.XIVComboVX.Combos;
 
-using PrincessRTFM.XIVComboVX;
-
 internal static class Common {
 	public const uint
 		// everyone
@@ -31,7 +29,7 @@ internal static class Common {
 			Swiftcast = 18;
 	}
 
-	internal static bool checkLucidWeave(CustomComboPreset preset, byte level, uint manaThreshold, uint baseAction) {
+	internal static bool CheckLucidWeave(CustomComboPreset preset, byte level, uint manaThreshold, uint baseAction) {
 
 		if (CustomCombo.IsEnabled(preset)) {
 			if (level >= Levels.LucidDreaming) {

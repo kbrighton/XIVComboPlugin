@@ -1,13 +1,11 @@
-namespace PrincessRTFM.XIVComboVX.Config;
-
 using System;
 using System.Reflection;
 
-using Dalamud.Logging;
-
 using ImGuiNET;
 
-using XIVComboVX.Attributes;
+using PrincessRTFM.XIVComboVX.Attributes;
+
+namespace PrincessRTFM.XIVComboVX.Config;
 
 internal class ComboDetailSetting {
 	public PropertyInfo Property { get; }

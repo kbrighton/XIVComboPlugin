@@ -1,5 +1,3 @@
-namespace PrincessRTFM.XIVComboVX;
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,8 +12,9 @@ using Dalamud.Plugin;
 using Dalamud.Utility;
 
 using PrincessRTFM.XIVComboVX.Attributes;
+using PrincessRTFM.XIVComboVX.Config;
 
-using XIVComboVX.Config;
+namespace PrincessRTFM.XIVComboVX;
 
 public sealed class Plugin: IDalamudPlugin {
 	private bool disposed = false;
@@ -116,13 +115,13 @@ public sealed class Plugin: IDalamudPlugin {
 		if (deprecated > 0) {
 			SeStringBuilder msg = new();
 
-			Service.ChatUtils.addOpenConfigLink(msg, $"[{this.Name}] ");
+			Service.ChatUtils.AddOpenConfigLink(msg, $"[{this.Name}] ");
 			msg.AddText("You currently have ");
-			msg.AddUiForeground(ChatUtil.colourForeWarning);
+			msg.AddUiForeground(ChatUtil.ColourForeWarning);
 			msg.AddText($"{deprecated} deprecated combo{(deprecated == 1 ? "" : "s")}");
 			msg.AddUiForegroundOff();
 			msg.AddText(" enabled. It is recommended to ");
-			Service.ChatUtils.addOpenConfigLink(msg, "open the settings");
+			Service.ChatUtils.AddOpenConfigLink(msg, "open the settings");
 			msg.AddText($" and replace {(deprecated == 1 ? "it" : "them")} with the recommended alternatives.");
 
 			Service.ChatGui.Print(new XivChatEntry() {
@@ -172,52 +171,52 @@ public sealed class Plugin: IDalamudPlugin {
 		string s = otherComboPluginNames.Length == 1 ? string.Empty : "s";
 
 		msg.AddText("You appear to have installed ");
-		msg.AddUiForeground(ChatUtil.colourForeWarning);
+		msg.AddUiForeground(ChatUtil.ColourForeWarning);
 		msg.AddText($"{otherComboPluginNames.Length} other combo plugin{s}");
 		msg.AddUiForegroundOff();
 		msg.AddText($" as well as {Service.Interface.InternalName}. This is generally considered a ");
-		msg.AddUiForeground(ChatUtil.colourForeError);
+		msg.AddUiForeground(ChatUtil.ColourForeError);
 		msg.AddText("Very Bad Idea.");
 		msg.AddUiForegroundOff();
 		msg.AddText(" Running more than one combo plugin is known to cause problems with your game as they fight each other for control.");
 		msg.AddText($"\nFor your safety, {Service.Interface.InternalName} has ");
-		msg.AddUiForeground(ChatUtil.colourForeWarning);
+		msg.AddUiForeground(ChatUtil.ColourForeWarning);
 		msg.AddText("automatically disabled itself");
 		msg.AddUiForegroundOff();
 		msg.AddText(" and only registered its custom ");
-		Service.ChatUtils.addOpenConfigLink(msg, commandCustom);
+		Service.ChatUtils.AddOpenConfigLink(msg, commandCustom);
 		msg.AddText($" command to allow the other combo plugin{s} to use ");
-		msg.AddUiForeground(ChatUtil.colourForeWarning);
+		msg.AddUiForeground(ChatUtil.ColourForeWarning);
 		msg.AddText(commandBase);
 		msg.AddUiForegroundOff();
 		msg.AddText(" instead.");
 		msg.AddText("\nIf you are ");
 		msg.AddItalics("determined");
 		msg.AddText(" to use multiple combo plugins at once, ");
-		msg.AddUiForeground(ChatUtil.colourForeError);
+		msg.AddUiForeground(ChatUtil.ColourForeError);
 		msg.AddText("no support will be provided");
 		msg.AddUiForegroundOff();
 		msg.AddText(" but you can ");
-		Service.ChatUtils.addOpenConfigLink(msg, $"open {Service.Interface.InternalName}'s settings");
+		Service.ChatUtils.AddOpenConfigLink(msg, $"open {Service.Interface.InternalName}'s settings");
 		msg.AddText(" and re-enable it from the menu bar.");
 		msg.AddText("\nHowever, you are ");
 		msg.AddItalics("very strongly");
 		msg.AddText(" recommended to disable the all except one of your ");
-		msg.AddUiForeground(ChatUtil.colourForeError);
+		msg.AddUiForeground(ChatUtil.ColourForeError);
 		msg.AddText($"{otherComboPluginNames.Length + 1}");
 		msg.AddUiForegroundOff();
 		msg.AddText(" combo plugins: ");
-		msg.AddUiForeground(ChatUtil.colourForeWarning);
+		msg.AddUiForeground(ChatUtil.ColourForeWarning);
 		msg.AddText(Service.Interface.InternalName);
 		msg.AddUiForegroundOff();
 		foreach (string other in otherComboPluginNames) {
 			msg.AddText(", ");
-			msg.AddUiForeground(ChatUtil.colourForeWarning);
+			msg.AddUiForeground(ChatUtil.ColourForeWarning);
 			msg.AddText(other);
 			msg.AddUiForegroundOff();
 		}
 		msg.AddText("\nIf this is a false positive, please open a report on the ");
-		Service.ChatUtils.addOpenIssueTrackerLink(msg, "issue tracker");
+		Service.ChatUtils.AddOpenIssueTrackerLink(msg, "issue tracker");
 		msg.AddText(" with the plugin name.");
 
 		Service.ChatGui.Print(new XivChatEntry() {
@@ -284,7 +283,7 @@ public sealed class Plugin: IDalamudPlugin {
 #endif
 			case "enable": {
 					Service.Configuration.Active = true;
-					Service.ChatUtils.print(XivChatType.Notice,
+					Service.ChatUtils.Print(XivChatType.Notice,
 						new UIForegroundPayload(35),
 						new TextPayload(Service.Plugin.Name),
 						new UIForegroundPayload(1),
@@ -298,7 +297,7 @@ public sealed class Plugin: IDalamudPlugin {
 				break;
 			case "disable": {
 					Service.Configuration.Active = false;
-					Service.ChatUtils.print(XivChatType.Notice,
+					Service.ChatUtils.Print(XivChatType.Notice,
 						new UIForegroundPayload(35),
 						new TextPayload(Service.Plugin.Name),
 						new UIForegroundPayload(1),
@@ -313,7 +312,7 @@ public sealed class Plugin: IDalamudPlugin {
 			case "toggle": {
 					bool on = !Service.Configuration.Active;
 					Service.Configuration.Active = on;
-					Service.ChatUtils.print(XivChatType.Notice,
+					Service.ChatUtils.Print(XivChatType.Notice,
 						new UIForegroundPayload(35),
 						new TextPayload(Service.Plugin.Name),
 						new UIForegroundPayload(1),
@@ -350,8 +349,8 @@ public sealed class Plugin: IDalamudPlugin {
 					if (this.configWindow is not null && !this.configWindow.IsOpen) {
 						parts.AddRange(new Payload[] {
 							new TextPayload("\nYou will need to "),
-							new UIForegroundPayload(ChatUtil.colourForeOpenConfig),
-							new UIGlowPayload(ChatUtil.colourGlowOpenConfig),
+							new UIForegroundPayload(ChatUtil.ColourForeOpenConfig),
+							new UIGlowPayload(ChatUtil.ColourGlowOpenConfig),
 							Service.ChatUtils.openConfig,
 							new TextPayload($"[open the settings]"),
 							RawPayload.LinkTerminator,
@@ -360,11 +359,11 @@ public sealed class Plugin: IDalamudPlugin {
 							new TextPayload(" to enable your desired features.")
 						});
 					}
-					Service.ChatUtils.print(XivChatType.Notice, parts.ToArray());
+					Service.ChatUtils.Print(XivChatType.Notice, parts.ToArray());
 				}
 				break;
 			case "showupdate": {
-					Service.UpdateAlert?.displayMessage();
+					Service.UpdateAlert?.DisplayMessage();
 				}
 				break;
 			default:

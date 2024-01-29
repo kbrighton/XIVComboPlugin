@@ -1,16 +1,11 @@
-namespace PrincessRTFM.XIVComboVX.GameData;
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
 using Dalamud.Hooking;
-using Dalamud.Logging;
 
-using PrincessRTFM.XIVComboVX;
-
-using XIVComboVX.Combos;
+namespace PrincessRTFM.XIVComboVX.GameData;
 
 internal class IconReplacer: IDisposable {
 
@@ -83,7 +78,7 @@ internal class IconReplacer: IDisposable {
 			return this.OriginalHook(actionID);
 		}
 		catch (Exception ex) {
-			Service.TickLogger.error("Don't crash the game", ex);
+			Service.TickLogger.Error("Don't crash the game", ex);
 			return this.getIconHook.Original(actionManager, actionID);
 		}
 	}

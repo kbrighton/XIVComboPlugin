@@ -1,8 +1,8 @@
-namespace PrincessRTFM.XIVComboVX.GameData;
-
 using System;
 
 using FFXIVClientStructs.FFXIV.Component.GUI;
+
+namespace PrincessRTFM.XIVComboVX.GameData;
 
 internal unsafe class GameState: IDisposable {
 	private bool disposed;
@@ -28,9 +28,7 @@ internal unsafe class GameState: IDisposable {
 
 	#region Registration and cleanup
 
-	internal GameState() {
-		Service.Client.Logout += this.clearCacheOnLogout;
-	}
+	internal GameState() => Service.Client.Logout += this.clearCacheOnLogout;
 
 	private void clearCacheOnLogout() => this.chatLogPointer = null;
 

@@ -1,8 +1,6 @@
-namespace PrincessRTFM.XIVComboVX.Combos;
-
 using Dalamud.Game.ClientState.JobGauge.Types;
 
-using PrincessRTFM.XIVComboVX;
+namespace PrincessRTFM.XIVComboVX.Combos;
 
 internal static class DRG {
 	public const byte JobID = 22;
@@ -268,4 +266,3 @@ internal class DragoonMirageJumpFeature: CustomCombo {
 		return actionID;
 	}
 }
-

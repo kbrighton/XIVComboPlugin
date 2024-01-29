@@ -1,8 +1,8 @@
-namespace PrincessRTFM.XIVComboVX;
-
 using System;
 
 using Dalamud.Plugin.Services;
+
+namespace PrincessRTFM.XIVComboVX;
 
 internal abstract class ManagedCache: IDisposable {
 	#region IDisposable
@@ -23,9 +23,7 @@ internal abstract class ManagedCache: IDisposable {
 
 	#endregion
 
-	protected ManagedCache() {
-		Service.Framework.Update += this.InvalidateCache;
-	}
+	protected ManagedCache() => Service.Framework.Update += this.InvalidateCache;
 
 	protected abstract void InvalidateCache(IFramework framework);
 }

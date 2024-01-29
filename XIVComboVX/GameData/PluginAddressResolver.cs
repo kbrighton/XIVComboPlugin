@@ -1,10 +1,7 @@
-namespace PrincessRTFM.XIVComboVX.GameData;
-
 using System;
 using System.Text;
 
-using Dalamud.Game;
-using Dalamud.Logging;
+namespace PrincessRTFM.XIVComboVX.GameData;
 
 internal class PluginAddressResolver {
 	private const string addrFmtSpec = "X16";
