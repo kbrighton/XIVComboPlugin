@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
 using System.Reflection;
@@ -7,6 +8,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 
 using Dalamud.Game.ClientState.Objects.SubKinds;
+using Dalamud.Interface;
 using Dalamud.Interface.Windowing;
 using Dalamud.Utility;
 
@@ -35,6 +37,22 @@ public class ConfigWindow: Window {
 
 	public ConfigWindow() : base($"Custom Combo Setup - {Service.Plugin.ShortPluginSignature}, {Service.Plugin.PluginBuildType}###{Service.Plugin.Name} Custom Combo Setup", ImGuiWindowFlags.MenuBar) {
 		this.RespectCloseHotkey = true;
+		TitleBarButton kofi = new() {
+			Priority = int.MinValue,
+			Icon = FontAwesomeIcon.Heart,
+			IconOffset = new(2, 1),
+			Click = _ => Process.Start(new ProcessStartInfo("https://ko-fi.com/V7V7IK9UU") { UseShellExecute = true }),
+			ShowTooltip = () => {
+				ImGui.BeginTooltip();
+				ImGui.TextUnformatted("Support me on ko-fi");
+				ImGui.EndTooltip();
+			},
+		};
+		this.TitleBarButtons = new() {
+			kofi,
+		};
+		this.AllowClickthrough = false;
+		this.AllowPinning = true;
 
 #pragma warning disable CS8619 // Nullability of reference types in value doesn't match target type.
 		List<(CustomComboPreset preset, CustomComboInfoAttribute info)> realPresets = Enum
