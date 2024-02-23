@@ -37,19 +37,29 @@ public class ConfigWindow: Window {
 
 	public ConfigWindow() : base($"Custom Combo Setup - {Service.Plugin.ShortPluginSignature}, {Service.Plugin.PluginBuildType}###{Service.Plugin.Name} Custom Combo Setup", ImGuiWindowFlags.MenuBar) {
 		this.RespectCloseHotkey = true;
-		TitleBarButton kofi = new() {
-			Priority = int.MinValue,
-			Icon = FontAwesomeIcon.Heart,
-			IconOffset = new(2, 1),
-			Click = _ => Process.Start(new ProcessStartInfo("https://ko-fi.com/V7V7IK9UU") { UseShellExecute = true }),
-			ShowTooltip = () => {
-				ImGui.BeginTooltip();
-				ImGui.TextUnformatted("Support me on ko-fi");
-				ImGui.EndTooltip();
-			},
-		};
 		this.TitleBarButtons = new() {
-			kofi,
+			new() {
+				Priority = 0,
+				Icon = FontAwesomeIcon.Heart,
+				IconOffset = new(2, 1),
+				Click = _ => Process.Start(new ProcessStartInfo("https://ko-fi.com/V7V7IK9UU") { UseShellExecute = true }),
+				ShowTooltip = () => {
+					ImGui.BeginTooltip();
+					ImGui.TextUnformatted("Support me on ko-fi");
+					ImGui.EndTooltip();
+				},
+			},
+			new() {
+				Priority = 1,
+				Icon = FontAwesomeIcon.Code,
+				IconOffset = new(1, 1),
+				Click = _ => Process.Start(new ProcessStartInfo("https://github.com/PrincessRTFM/XIVComboPlugin") { UseShellExecute = true }),
+				ShowTooltip = () => {
+					ImGui.BeginTooltip();
+					ImGui.TextUnformatted("Browse the github repo");
+					ImGui.EndTooltip();
+				},
+			},
 		};
 		this.AllowClickthrough = false;
 		this.AllowPinning = true;
