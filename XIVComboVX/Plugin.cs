@@ -27,8 +27,8 @@ public sealed class Plugin: IDalamudPlugin {
 		"combo",
 	};
 
-	internal const string commandBase = "/pcombo";
-	internal const string commandCustom = commandBase + "vx";
+	internal const string CommandBase = "/pcombo";
+	internal const string CommandCustom = CommandBase + "vx";
 
 	private readonly WindowSystem? windowSystem;
 	private readonly ConfigWindow? configWindow;
@@ -75,21 +75,21 @@ public sealed class Plugin: IDalamudPlugin {
 			this.windowSystem = new(this.GetType().Namespace!);
 			this.windowSystem.AddWindow(this.configWindow);
 
-			Service.Interface.UiBuilder.OpenConfigUi += this.toggleConfigUi;
+			Service.Interface.UiBuilder.OpenConfigUi += this.ToggleConfigUi;
 			Service.Interface.UiBuilder.Draw += this.windowSystem.Draw;
 		}
 		else {
 			Service.Commands.ProcessCommand("/xllog");
 		}
 
-		CommandInfo handler = new(this.onPluginCommand) {
+		CommandInfo handler = new(this.OnPluginCommand) {
 			HelpMessage = Service.Address.LoadSuccessful ? "Open a window to edit custom combo settings." : "Do nothing, because the plugin failed to initialise.",
 			ShowInHelp = true
 		};
 
-		Service.Commands.AddHandler(commandCustom, handler);
+		Service.Commands.AddHandler(CommandCustom, handler);
 		if (Service.Configuration.RegisterCommonCommand)
-			AcquiredBaseCommand = Service.Commands.AddHandler(commandBase, handler);
+			AcquiredBaseCommand = Service.Commands.AddHandler(CommandBase, handler);
 
 		Service.Ipc = new();
 
@@ -163,7 +163,7 @@ public sealed class Plugin: IDalamudPlugin {
 		Service.Configuration.Active = false;
 		Service.Configuration.RegisterCommonCommand = false;
 		if (AcquiredBaseCommand)
-			Service.Commands.RemoveHandler(commandBase);
+			Service.Commands.RemoveHandler(CommandBase);
 		AcquiredBaseCommand = false;
 		Service.Configuration.Save();
 
@@ -184,10 +184,10 @@ public sealed class Plugin: IDalamudPlugin {
 		msg.AddText("automatically disabled itself");
 		msg.AddUiForegroundOff();
 		msg.AddText(" and only registered its custom ");
-		Service.ChatUtils.AddOpenConfigLink(msg, commandCustom);
+		Service.ChatUtils.AddOpenConfigLink(msg, CommandCustom);
 		msg.AddText($" command to allow the other combo plugin{s} to use ");
 		msg.AddUiForeground(ChatUtil.ColourForeWarning);
-		msg.AddText(commandBase);
+		msg.AddText(CommandBase);
 		msg.AddUiForegroundOff();
 		msg.AddText(" instead.");
 		msg.AddText("\nIf you are ");
@@ -238,11 +238,11 @@ public sealed class Plugin: IDalamudPlugin {
 		this.disposed = true;
 
 		if (disposing) {
-			Service.Commands.RemoveHandler(commandCustom);
+			Service.Commands.RemoveHandler(CommandCustom);
 			if (AcquiredBaseCommand)
-				Service.Commands.RemoveHandler(commandBase);
+				Service.Commands.RemoveHandler(CommandBase);
 
-			Service.Interface.UiBuilder.OpenConfigUi -= this.toggleConfigUi;
+			Service.Interface.UiBuilder.OpenConfigUi -= this.ToggleConfigUi;
 			if (this.windowSystem is not null)
 				Service.Interface.UiBuilder.Draw -= this.windowSystem.Draw;
 
@@ -258,7 +258,7 @@ public sealed class Plugin: IDalamudPlugin {
 
 	#endregion
 
-	internal void toggleConfigUi() {
+	internal void ToggleConfigUi() {
 		if (this.configWindow is not null) {
 			this.configWindow.IsOpen = !this.configWindow.IsOpen;
 		}
@@ -267,7 +267,7 @@ public sealed class Plugin: IDalamudPlugin {
 		}
 	}
 
-	internal void onPluginCommand(string command, string arguments) {
+	internal void OnPluginCommand(string command, string arguments) {
 		if (!Service.Address.LoadSuccessful) {
 			Service.ChatGui.PrintError($"The plugin failed to initialise and cannot run:\n{Service.Address.LoadFailReason!.Message}");
 			return;
@@ -367,7 +367,7 @@ public sealed class Plugin: IDalamudPlugin {
 				}
 				break;
 			default:
-				this.toggleConfigUi();
+				this.ToggleConfigUi();
 				break;
 		}
 

@@ -183,10 +183,10 @@ public class ConfigWindow: Window {
 					Service.Configuration.Save();
 				}
 
-				bool clickRegister = ImGui.MenuItem($"Register {Plugin.commandBase}", "", ref registerNormalCommand);
+				bool clickRegister = ImGui.MenuItem($"Register {Plugin.CommandBase}", "", ref registerNormalCommand);
 				if (ImGui.IsItemHovered()) {
 					ImGui.BeginTooltip();
-					ImGui.Text($"If enabled, {Service.Plugin.Name} will attempt to register the {Plugin.commandBase} command.");
+					ImGui.Text($"If enabled, {Service.Plugin.Name} will attempt to register the {Plugin.CommandBase} command.");
 					ImGui.Text("This is the command generally used by all forks of XIVCombo, which");
 					ImGui.Text("means it will conflict if you have multiple forks installed. This");
 					ImGui.Text("isn't advised to begin with, but this option will allow for slightly");
@@ -242,7 +242,7 @@ public class ConfigWindow: Window {
 					ImGui.EndTooltip();
 				}
 				if (clickReset) {
-					Service.Plugin.onPluginCommand("", "reset");
+					Service.Plugin.OnPluginCommand("", "reset");
 				}
 
 				ImGui.EndMenu();

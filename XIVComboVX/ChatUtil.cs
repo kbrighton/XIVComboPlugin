@@ -62,7 +62,7 @@ internal class ChatUtil: IDisposable {
 	private void onClickChatLink(uint id, SeString source) {
 		switch (id) {
 			case OpenConfigId:
-				Service.Plugin.onPluginCommand("", "");
+				Service.Plugin.OnPluginCommand("", "");
 				break;
 			case OpenIssueTrackerId:
 				Process.Start(new ProcessStartInfo("https://github.com/PrincessRTFM/XIVComboPlugin/issues") { UseShellExecute = true });

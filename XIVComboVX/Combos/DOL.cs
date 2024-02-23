@@ -126,6 +126,7 @@ public static class FSH {
 
 internal class NonFishingFeatures: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.DolAny;
+	// No ActionIDs are set because this applies to a wide enough variety of actions that it's too much duplication
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
