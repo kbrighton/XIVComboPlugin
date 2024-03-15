@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
+using Dalamud.Game.ClientState.Objects.SubKinds;
 using Dalamud.Hooking;
 
 namespace PrincessRTFM.XIVComboVX.GameData;
@@ -62,16 +63,18 @@ internal class IconReplacer: IDisposable {
 	private unsafe uint getIconDetour(IntPtr actionManager, uint actionID) {
 		try {
 			this.actionManager = actionManager;
+			PlayerCharacter? player = Service.Client.LocalPlayer;
 
-			if (Service.Client.LocalPlayer is null)
+			if (player is null)
 				return this.OriginalHook(actionID);
 
-			uint following = *(uint*)Service.Address.LastComboMove;
-			float time = *(float*)Service.Address.ComboTimer;
-			byte level = Service.Client.LocalPlayer?.Level ?? 0;
+			uint lastComboActionId = *(uint*)Service.Address.LastComboMove;
+			float comboTime = *(float*)Service.Address.ComboTimer;
+			byte level = player.Level;
+			uint classJobID = player.ClassJob.Id;
 
 			foreach (CustomCombo combo in this.customCombos) {
-				if (combo.TryInvoke(actionID, following, time, level, out uint newActionID))
+				if (combo.TryInvoke(actionID, lastComboActionId, comboTime, level, classJobID, out uint newActionID))
 					return newActionID;
 			}
 
