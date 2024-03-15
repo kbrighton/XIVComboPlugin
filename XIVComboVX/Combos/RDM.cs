@@ -201,7 +201,7 @@ internal class RedMageVerprocCombo: CustomCombo {
 				return OriginalHook(RDM.Veraero);
 			}
 
-			if (IsEnabled(CustomComboPreset.RedMageVeraeroOpenerFeature)
+			if (IsEnabled(CustomComboPreset.RedMageVeraeroOpener)
 				&& level >= RDM.Levels.Veraero
 				&& !HasCondition(ConditionFlag.InCombat)
 				&& !SelfHasEffect(RDM.Buffs.VerstoneReady)
@@ -225,7 +225,7 @@ internal class RedMageVerprocCombo: CustomCombo {
 				return OriginalHook(RDM.Verthunder);
 			}
 
-			if (IsEnabled(CustomComboPreset.RedMageVerthunderOpenerFeature)
+			if (IsEnabled(CustomComboPreset.RedMageVerthunderOpener)
 				&& level >= RDM.Levels.Verthunder
 				&& !HasCondition(ConditionFlag.InCombat)
 				&& !SelfHasEffect(RDM.Buffs.VerfireReady)
@@ -243,7 +243,7 @@ internal class RedMageVerprocCombo: CustomCombo {
 }
 
 internal class RedMageContreFlecheFeature: CustomCombo {
-	public override CustomComboPreset Preset { get; } = CustomComboPreset.RedMageContreFlecheFeature;
+	public override CustomComboPreset Preset { get; } = CustomComboPreset.RedMageContreFleche;
 	public override uint[] ActionIDs { get; } = new[] { RDM.Fleche, RDM.ContreSixte };
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
@@ -259,7 +259,7 @@ internal class RedMageContreFlecheFeature: CustomCombo {
 }
 
 internal class RedMageSmartcastAoECombo: CustomCombo {
-	public override CustomComboPreset Preset => CustomComboPreset.RedMageSmartcastAoEFeature;
+	public override CustomComboPreset Preset => CustomComboPreset.RedMageSmartcastAoE;
 	public override uint[] ActionIDs { get; } = new[] { RDM.Veraero2, RDM.Verthunder2 };
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
@@ -310,9 +310,12 @@ internal class RedMageSmartcastAoECombo: CustomCombo {
 
 		bool fastCast = IsFastcasting;
 
+		// Yes, this block being below the finisher checks means that you won't get a smart weave while doing the finisher combo.
+		// However, that's available on the ST smartcast option, which means it's still available while the AoE one here will show your GCD.
+		// More importantly, I don't want to duplicate the whole block above the finishers, so deal with it.
 		if ((IsEnabled(CustomComboPreset.RedMageSmartcastAoEWeaveAttack) && weaving) || (IsEnabled(CustomComboPreset.RedMageSmartcastAoEMovement) && IsMoving && !fastCast)) {
 			if (level >= RDM.Levels.ContreSixte) {
-				if (IsEnabled(CustomComboPreset.RedMageContreFlecheFeature)) {
+				if (IsEnabled(CustomComboPreset.RedMageContreFleche)) {
 					uint chosen = PickByCooldown(RDM.ContreSixte, RDM.Fleche, RDM.ContreSixte);
 					if (IsOffCooldown(chosen))
 						return chosen;
@@ -321,7 +324,7 @@ internal class RedMageSmartcastAoECombo: CustomCombo {
 					return RDM.ContreSixte;
 				}
 			}
-			else if (level >= RDM.Levels.Fleche && IsEnabled(CustomComboPreset.RedMageContreFlecheFeature)) {
+			else if (level >= RDM.Levels.Fleche && IsEnabled(CustomComboPreset.RedMageContreFleche)) {
 				if (IsOffCooldown(RDM.Fleche))
 					return RDM.Fleche;
 			}
@@ -344,7 +347,7 @@ internal class RedMageSmartcastAoECombo: CustomCombo {
 }
 
 internal class RedmageSmartcastSingleComboOpener: CustomCombo {
-	public override CustomComboPreset Preset => CustomComboPreset.RedMageSmartcastSingleFeature;
+	public override CustomComboPreset Preset => CustomComboPreset.RedMageSmartcastSingleTarget;
 	public override uint[] ActionIDs { get; } = new[] { RDM.Veraero, RDM.Verthunder };
 
 	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
@@ -373,16 +376,16 @@ internal class RedmageSmartcastSingleComboOpener: CustomCombo {
 }
 
 internal class RedmageSmartcastSingleComboFull: CustomCombo {
-	public override CustomComboPreset Preset => CustomComboPreset.RedMageSmartcastSingleFeature;
+	public override CustomComboPreset Preset => CustomComboPreset.RedMageSmartcastSingleTarget;
 	public override uint[] ActionIDs { get; } = new[] { RDM.Verstone, RDM.Verfire };
 
 	private static uint noCastingSubCheck(byte level, bool engageCheck, bool holdOneEngageCharge, bool engageEarly, bool canMelee, bool allowAccelerate) {
 
 		if (allowAccelerate) {
 			bool canAccelerate = level >= RDM.Levels.Acceleration && CanUse(RDM.Acceleration);
-			bool canSwiftcast = IsEnabled(CustomComboPreset.RedMageSmartcastSingleAccelerationSwiftcast) && CanUse(Common.Swiftcast);
+			bool canSwiftcast = IsEnabled(CustomComboPreset.RedMageSmartcastSingleTargetAccelerationSwiftcast) && CanUse(Common.Swiftcast);
 
-			if (canSwiftcast && IsEnabled(CustomComboPreset.RedMageSmartcastSingleAccelerationSwiftcastFirst))
+			if (canSwiftcast && IsEnabled(CustomComboPreset.RedMageSmartcastSingleTargetAccelerationSwiftcastFirst))
 				return Common.Swiftcast;
 			if (canAccelerate)
 				return RDM.Acceleration;
@@ -402,7 +405,7 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 			return RDM.Engagement;
 
 		if (level >= RDM.Levels.Fleche) {
-			if (IsEnabled(CustomComboPreset.RedMageContreFlecheFeature) && level >= RDM.Levels.ContreSixte) {
+			if (IsEnabled(CustomComboPreset.RedMageContreFleche) && level >= RDM.Levels.ContreSixte) {
 				uint chosen = PickByCooldown(RDM.Fleche, RDM.Fleche, RDM.ContreSixte);
 				if (IsOffCooldown(chosen))
 					return chosen;
@@ -457,15 +460,15 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 		bool isFinishingAny = isFinishing1 || isFinishing2 || isFinishing3;
 		bool canFinishWhite = level >= RDM.Levels.Verholy;
 
-		bool meleeCombo = IsEnabled(CustomComboPreset.RedMageSmartcastSingleMeleeCombo)
+		bool meleeCombo = IsEnabled(CustomComboPreset.RedMageSmartcastSingleTargetMeleeCombo)
 			&& lastComboActionId is RDM.EnchantedRiposte or RDM.Riposte or RDM.EnchantedZwerchhau or RDM.Zwerchhau;
-		bool startMelee = IsEnabled(CustomComboPreset.RedMageSmartcastSingleMeleeComboStarter)
+		bool startMelee = IsEnabled(CustomComboPreset.RedMageSmartcastSingleTargetMeleeComboStarter)
 			&& targeting && isClose && hasMeleeMana;
-		bool shouldCloseGap = IsEnabled(CustomComboPreset.RedMageSmartcastSingleMeleeComboStarterCloser)
+		bool shouldCloseGap = IsEnabled(CustomComboPreset.RedMageSmartcastSingleTargetMeleeComboStarterCloser)
 			&& targeting && !isClose && hasMeleeMana;
 
-		bool smartWeave = IsEnabled(CustomComboPreset.RedMageSmartcastSingleWeaveAttack) && weaving;
-		bool smartMove = IsEnabled(CustomComboPreset.RedMageSmartcastSingleMovement) && moving;
+		bool smartWeave = IsEnabled(CustomComboPreset.RedMageSmartcastSingleTargetWeaveAttack) && weaving;
+		bool smartMove = IsEnabled(CustomComboPreset.RedMageSmartcastSingleTargetMovement) && moving;
 
 		bool accelerate = level >= Common.Levels.Swiftcast
 			&& !instacasting
@@ -473,23 +476,23 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 			&& !meleeCombo
 			&& !verfireUp
 			&& !verstoneUp
-			&& IsEnabled(CustomComboPreset.RedMageSmartcastSingleAcceleration);
-		bool accelLimitCombat = IsEnabled(CustomComboPreset.RedMageSmartcastSingleAccelerationCombat);
+			&& IsEnabled(CustomComboPreset.RedMageSmartcastSingleTargetAcceleration);
+		bool accelLimitCombat = IsEnabled(CustomComboPreset.RedMageSmartcastSingleTargetAccelerationCombat);
 		bool allowAccel = accelerate && (fighting || !accelLimitCombat);
-		bool accelWeave = allowAccel && IsEnabled(CustomComboPreset.RedMageSmartcastSingleAccelerationWeave);
-		bool accelMove = allowAccel && IsEnabled(CustomComboPreset.RedMageSmartcastSingleAccelerationMoving);
-		bool accelNoNormal = IsEnabled(CustomComboPreset.RedMageSmartcastSingleAccelerationNoOverride);
+		bool accelWeave = allowAccel && IsEnabled(CustomComboPreset.RedMageSmartcastSingleTargetAccelerationWeave);
+		bool accelMove = allowAccel && IsEnabled(CustomComboPreset.RedMageSmartcastSingleTargetAccelerationMoving);
+		bool accelNoNormal = IsEnabled(CustomComboPreset.RedMageSmartcastSingleTargetAccelerationNoOverride);
 
-		if (Common.CheckLucidWeave(CustomComboPreset.RedMageSmartcastSingleWeaveLucid, level, Service.Configuration.RedMageSmartcastSingleWeaveLucidManaThreshold, actionID))
+		if (Common.CheckLucidWeave(CustomComboPreset.RedMageSmartcastSingleTargetWeaveLucid, level, Service.Configuration.RedMageSmartcastSingleWeaveLucidManaThreshold, actionID))
 			return Common.LucidDreaming;
 
 		if (smartWeave) {
 			// This is basically universal.
 			// I know it's a mess. Moving it into another method was basically the best I could do, since the whole thing is duplicated for weaving and moving but with different variables.
 			bool
-				engageCheck = IsEnabled(CustomComboPreset.RedMageSmartcastSingleWeaveMelee) && weaving,
-				holdOneEngageCharge = IsEnabled(CustomComboPreset.RedMageSmartcastSingleWeaveMeleeHoldOne),
-				engageEarly = IsEnabled(CustomComboPreset.RedMageSmartcastSingleWeaveMeleeFirst);
+				engageCheck = IsEnabled(CustomComboPreset.RedMageSmartcastSingleTargetWeaveMelee) && weaving,
+				holdOneEngageCharge = IsEnabled(CustomComboPreset.RedMageSmartcastSingleTargetWeaveMeleeHoldOne),
+				engageEarly = IsEnabled(CustomComboPreset.RedMageSmartcastSingleTargetWeaveMeleeFirst);
 			uint alt = noCastingSubCheck(level, engageCheck, holdOneEngageCharge, engageEarly, targeting && isClose, accelWeave);
 			if (alt > 0)
 				return alt;
@@ -585,9 +588,9 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 			// Can't slowcast spells if you're moving, so we have to fall back to instants.
 			// I know it's a mess. Moving it into another method was basically the best I could do, since the whole thing is duplicated for weaving and moving but with different variables.
 			bool
-				engageCheck = IsEnabled(CustomComboPreset.RedMageSmartcastSingleMovementMelee) && moving,
-				holdOneEngageCharge = IsEnabled(CustomComboPreset.RedMageSmartcastSingleMovementMeleeHoldOne),
-				engageEarly = IsEnabled(CustomComboPreset.RedMageSmartcastSingleMovementMeleeFirst);
+				engageCheck = IsEnabled(CustomComboPreset.RedMageSmartcastSingleTargetMovementMelee) && moving,
+				holdOneEngageCharge = IsEnabled(CustomComboPreset.RedMageSmartcastSingleTargetMovementMeleeHoldOne),
+				engageEarly = IsEnabled(CustomComboPreset.RedMageSmartcastSingleTargetMovementMeleeFirst);
 			uint alt = noCastingSubCheck(level, engageCheck, holdOneEngageCharge, engageEarly, targeting && isClose, accelMove);
 			if (alt > 0)
 				return alt;
@@ -635,7 +638,7 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 }
 
 internal class RedMageAcceleration: CustomCombo {
-	public override CustomComboPreset Preset { get; } = CustomComboPreset.RedMageAccelerationSwiftcastFeature;
+	public override CustomComboPreset Preset { get; } = CustomComboPreset.RedMageAccelerationSwiftcast;
 	public override uint[] ActionIDs => new[] { RDM.Acceleration };
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
@@ -644,7 +647,7 @@ internal class RedMageAcceleration: CustomCombo {
 			bool canAccelerate = CanUse(RDM.Acceleration);
 			bool canSwiftcast = CanUse(Common.Swiftcast);
 
-			if (IsEnabled(CustomComboPreset.RedMageAccelerationSwiftcastOption) && canAccelerate && canSwiftcast)
+			if (IsEnabled(CustomComboPreset.RedMageAccelerationSwiftcastFirst) && canAccelerate && canSwiftcast)
 				return Common.Swiftcast;
 
 			if (canAccelerate)
@@ -661,7 +664,7 @@ internal class RedMageAcceleration: CustomCombo {
 }
 
 internal class RedMageManafication: CustomCombo {
-	public override CustomComboPreset Preset { get; } = CustomComboPreset.RedMageManaficationFeature;
+	public override CustomComboPreset Preset { get; } = CustomComboPreset.RedMageManaficationIntoMelee;
 	public override uint[] ActionIDs => new[] { RDM.Manafication };
 
 	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {

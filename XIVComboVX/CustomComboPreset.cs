@@ -835,97 +835,97 @@ public enum CustomComboPreset {
 
 	[Conflicts(RedMageVerprocCombo)]
 	[CustomComboInfo("Smartcast Single Target", "Dynamically replaces Verstone/Verfire with the appropriate spell based on your job gauge.\nVeraero and Verthunder are replaced with one or the other accordingly, for openers.", RDM.JobID)]
-	RedMageSmartcastSingleFeature = 3509,
+	RedMageSmartcastSingleTarget = 3509,
 
-	[ParentPreset(RedMageSmartcastSingleFeature)]
+	[ParentPreset(RedMageSmartcastSingleTarget)]
 	[CustomComboInfo("Lucid Weave", "Weave into Lucid Dreaming when under a set MP threshold.", RDM.JobID)]
-	RedMageSmartcastSingleWeaveLucid = 3543,
+	RedMageSmartcastSingleTargetWeaveLucid = 3543,
 
-	[ParentPreset(RedMageSmartcastSingleFeature)]
+	[ParentPreset(RedMageSmartcastSingleTarget)]
 	[CustomComboInfo("Fleche Weave", "Turns the single-target smartcast combo into Fleche when you can weave without clipping.\nAffected by the Contre Sixte / Fleche feature.", RDM.JobID)]
-	RedMageSmartcastSingleWeaveAttack = 3518,
+	RedMageSmartcastSingleTargetWeaveAttack = 3518,
 
-	[ParentPreset(RedMageSmartcastSingleWeaveAttack)]
+	[ParentPreset(RedMageSmartcastSingleTargetWeaveAttack)]
 	[CustomComboInfo("Engagement", "If you're in melee range and Fleche (+ Contra Sixte if applicable) can't be used yet, fall back to Engagement.", RDM.JobID)]
-	RedMageSmartcastSingleWeaveMelee = 3523,
+	RedMageSmartcastSingleTargetWeaveMelee = 3523,
 
-	[ParentPreset(RedMageSmartcastSingleWeaveMelee)]
+	[ParentPreset(RedMageSmartcastSingleTargetWeaveMelee)]
 	[CustomComboInfo("Engagement Priority", "Try to use Engagement first when in melee range.\nWhile it IS a potency loss, Engagement can ONLY be used in melee range, which keeps the long-distance abilities free for when you're too far away.", RDM.JobID)]
-	RedMageSmartcastSingleWeaveMeleeFirst = 3525,
+	RedMageSmartcastSingleTargetWeaveMeleeFirst = 3525,
 
-	[ParentPreset(RedMageSmartcastSingleWeaveMelee)]
+	[ParentPreset(RedMageSmartcastSingleTargetWeaveMelee)]
 	[CustomComboInfo("Leave one charge", "Always leave one charge of Engagement unused during weaves, to allow using Displacement to backstep out of AoE markers.", RDM.JobID)]
-	RedMageSmartcastSingleWeaveMeleeHoldOne = 3531,
+	RedMageSmartcastSingleTargetWeaveMeleeHoldOne = 3531,
 
-	[ParentPreset(RedMageSmartcastSingleFeature)]
+	[ParentPreset(RedMageSmartcastSingleTarget)]
 	[CustomComboInfo("Walking Fleche", "Turns the single-target smartcast combo into Fleche when you're moving and can't instacast.\nAffected by the Contre Sixte / Fleche feature.", RDM.JobID)]
-	RedMageSmartcastSingleMovement = 3519,
+	RedMageSmartcastSingleTargetMovement = 3519,
 
-	[ParentPreset(RedMageSmartcastSingleMovement)]
+	[ParentPreset(RedMageSmartcastSingleTargetMovement)]
 	[CustomComboInfo("Engagement", "If you're in melee range and Fleche (+ Contra Sixte if applicable) can't be used yet, fall back to Engagement.", RDM.JobID)]
-	RedMageSmartcastSingleMovementMelee = 3524,
+	RedMageSmartcastSingleTargetMovementMelee = 3524,
 
-	[ParentPreset(RedMageSmartcastSingleMovementMelee)]
+	[ParentPreset(RedMageSmartcastSingleTargetMovementMelee)]
 	[CustomComboInfo("Engagement Priority", "Try to use Engagement first when in melee range.\nWhile it IS a potency loss, Engagement can ONLY be used in melee range, which keeps the long-distance abilities free for when you're too far away.", RDM.JobID)]
-	RedMageSmartcastSingleMovementMeleeFirst = 3526,
+	RedMageSmartcastSingleTargetMovementMeleeFirst = 3526,
 
-	[ParentPreset(RedMageSmartcastSingleMovementMelee)]
+	[ParentPreset(RedMageSmartcastSingleTargetMovementMelee)]
 	[CustomComboInfo("Leave one charge", "Always leave one charge of Engagement unused during movement, to allow using Displacement to backstep out of AoE markers.", RDM.JobID)]
-	RedMageSmartcastSingleMovementMeleeHoldOne = 3532,
+	RedMageSmartcastSingleTargetMovementMeleeHoldOne = 3532,
 
-	[ParentPreset(RedMageSmartcastSingleFeature)]
+	[ParentPreset(RedMageSmartcastSingleTarget)]
 	[CustomComboInfo("Melee Combo Followthrough", "Turns the single-target smartcast combo into the rest of the melee combo once you start it, as long as you're in melee range.", RDM.JobID)]
-	RedMageSmartcastSingleMeleeCombo = 3521,
+	RedMageSmartcastSingleTargetMeleeCombo = 3521,
 
-	[ParentPreset(RedMageSmartcastSingleMeleeCombo)]
+	[ParentPreset(RedMageSmartcastSingleTargetMeleeCombo)]
 	[CustomComboInfo("Auto Start", "Turns the single-target smartcast combo into your melee combo when you're ready to execute it and your mana levels AREN'T equal.", RDM.JobID)]
-	RedMageSmartcastSingleMeleeComboStarter = 3522,
+	RedMageSmartcastSingleTargetMeleeComboStarter = 3522,
 
-	[ParentPreset(RedMageSmartcastSingleMeleeComboStarter)]
+	[ParentPreset(RedMageSmartcastSingleTargetMeleeComboStarter)]
 	[CustomComboInfo("Gap Close", "If you're ready to start your melee combo, but you aren't in range, become Corps-a-corps to gap close.", RDM.JobID)]
-	RedMageSmartcastSingleMeleeComboStarterCloser = 3541,
+	RedMageSmartcastSingleTargetMeleeComboStarterCloser = 3541,
 
-	[ParentPreset(RedMageSmartcastSingleFeature)]
+	[ParentPreset(RedMageSmartcastSingleTarget)]
 	[CustomComboInfo("Acceleration", "Turns the single-target smartcast combo into Acceleration instead of Jolt, when possible.", RDM.JobID)]
-	RedMageSmartcastSingleAcceleration = 3527,
+	RedMageSmartcastSingleTargetAcceleration = 3527,
 
-	[ParentPreset(RedMageSmartcastSingleAcceleration)]
+	[ParentPreset(RedMageSmartcastSingleTargetAcceleration)]
 	[CustomComboInfo("With Swiftcast", "Acceleration falls back to Swiftcast if it's available and Acceleration is out of charges.", RDM.JobID)]
-	RedMageSmartcastSingleAccelerationSwiftcast = 3528,
+	RedMageSmartcastSingleTargetAccelerationSwiftcast = 3528,
 
-	[ParentPreset(RedMageSmartcastSingleAccelerationSwiftcast)]
+	[ParentPreset(RedMageSmartcastSingleTargetAccelerationSwiftcast)]
 	[CustomComboInfo("Swiftcast Priority", "Swiftcast is used before Acceleration if it's up.", RDM.JobID)]
-	RedMageSmartcastSingleAccelerationSwiftcastFirst = 3529,
+	RedMageSmartcastSingleTargetAccelerationSwiftcastFirst = 3529,
 
-	[ParentPreset(RedMageSmartcastSingleAcceleration)]
+	[ParentPreset(RedMageSmartcastSingleTargetAcceleration)]
 	[CustomComboInfo("Combat Only", "Only become Acceleration (+ Swiftcast if applicable) when in combat.\nActs as an override - if you're not in combat, the combo will never become Acceleration/Swiftcast.", RDM.JobID)]
-	RedMageSmartcastSingleAccelerationCombat = 3535,
+	RedMageSmartcastSingleTargetAccelerationCombat = 3535,
 
-	[ParentPreset(RedMageSmartcastSingleAcceleration)]
+	[ParentPreset(RedMageSmartcastSingleTargetAcceleration)]
 	[CustomComboInfo("When Weaving", "Change into Acceleration (+ Swiftcast if applicable) when you're weaving.\nThis will be prioritised over weaving Fleche/CS/Engagement, if applicable.", RDM.JobID)]
-	RedMageSmartcastSingleAccelerationWeave = 3536,
+	RedMageSmartcastSingleTargetAccelerationWeave = 3536,
 
-	[ParentPreset(RedMageSmartcastSingleAcceleration)]
+	[ParentPreset(RedMageSmartcastSingleTargetAcceleration)]
 	[CustomComboInfo("When Moving", "Change into Acceleration (+ Swiftcast if applicable) when moving.\nThis will be prioritised over weaving Fleche/CS/Engagement, if applicable.", RDM.JobID)]
-	RedMageSmartcastSingleAccelerationMoving = 3537,
+	RedMageSmartcastSingleTargetAccelerationMoving = 3537,
 
-	[ParentPreset(RedMageSmartcastSingleAcceleration)]
+	[ParentPreset(RedMageSmartcastSingleTargetAcceleration)]
 	[CustomComboInfo("Don't Override", "Don't override Jolt when you can hardcast it.\nThis will prevent GCD drift at the cost of DPS loss.", RDM.JobID)]
-	RedMageSmartcastSingleAccelerationNoOverride = 3538,
+	RedMageSmartcastSingleTargetAccelerationNoOverride = 3538,
 
 	[Conflicts(RedMageAoECombo)]
 	[CustomComboInfo("Smartcast AoE", "Dynamically replaces Veraero/Verthunder 2 with the appropriate spell based on your job gauge.\nIncludes Impact/Scatter when fastcasting.", RDM.JobID)]
-	RedMageSmartcastAoEFeature = 3508,
+	RedMageSmartcastAoE = 3508,
 
-	[ParentPreset(RedMageSmartcastAoEFeature)]
+	[ParentPreset(RedMageSmartcastAoE)]
 	[CustomComboInfo("Lucid Weave", "Weave into Lucid Dreaming when under a set MP threshold.", RDM.JobID)]
 	RedMageSmartcastAoEWeaveLucid = 3542,
 
-	[ParentPreset(RedMageSmartcastAoEFeature)]
+	[ParentPreset(RedMageSmartcastAoE)]
 	[CustomComboInfo("Contre Sixte Weave", "Turns the AoE smartcast combo into Contre Sixte when you can weave without clipping.\nAffected by the Contre Sixte / Fleche feature.", RDM.JobID)]
 	RedMageSmartcastAoEWeaveAttack = 3517,
 
-	[ParentPreset(RedMageSmartcastAoEFeature)]
+	[ParentPreset(RedMageSmartcastAoE)]
 	[CustomComboInfo("Walking Contre Sixte", "Turns the AoE smartcast combo into Contre Sixte when you're moving and can't instacast.\nAffected by the Contre Sixte / Fleche feature.", RDM.JobID)]
 	RedMageSmartcastAoEMovement = 3520,
 
@@ -940,12 +940,12 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Gap Closer", "Replaces Redoublement with Corps-a-corps when out of melee range.", RDM.JobID)]
 	RedMageMeleeComboCloser = 3514,
 
-	[Conflicts(RedMageSmartcastAoEFeature)]
+	[Conflicts(RedMageSmartcastAoE)]
 	[CustomComboInfo("Red Mage AoE Combo", "Replaces Veraero/Verthunder 2 with Impact when under a cast speeder.", RDM.JobID)]
 	RedMageAoECombo = 3501,
 
-	[Conflicts(RedMageSmartcastSingleFeature)]
-	[Deprecated(RedMageSmartcastSingleFeature)]
+	[Conflicts(RedMageSmartcastSingleTarget)]
+	[Deprecated(RedMageSmartcastSingleTarget)]
 	[CustomComboInfo("Verproc into Jolt", "Replaces Verstone/Verfire with Jolt (2) when no proc is available.", RDM.JobID)]
 	RedMageVerprocCombo = 3504,
 
@@ -955,28 +955,28 @@ public enum CustomComboPreset {
 
 	[ParentPreset(RedMageVerprocComboPlus)]
 	[CustomComboInfo("Verproc into Jolt Plus Veraero Opener", "Turns Verstone into Veraero when out of combat.", RDM.JobID)]
-	RedMageVeraeroOpenerFeature = 3506,
+	RedMageVeraeroOpener = 3506,
 
 	[ParentPreset(RedMageVerprocComboPlus)]
 	[CustomComboInfo("Verproc into Jolt Plus Verthunder Opener", "Turns Verfire into Verthunder when out of combat.", RDM.JobID)]
-	RedMageVerthunderOpenerFeature = 3507,
+	RedMageVerthunderOpener = 3507,
 
 	[CustomComboInfo("Contre Sixte / Fleche Feature", "Turns Contre Sixte and Fleche into whichever is available.", RDM.JobID)]
-	RedMageContreFlecheFeature = 3510,
+	RedMageContreFleche = 3510,
 
 	[CustomComboInfo("Acceleration into Swiftcast", "Replace Acceleration with Swiftcast when on cooldown or synced.", RDM.JobID)]
-	RedMageAccelerationSwiftcastFeature = 3511,
+	RedMageAccelerationSwiftcast = 3511,
 
-	[ParentPreset(RedMageAccelerationSwiftcastFeature)]
+	[ParentPreset(RedMageAccelerationSwiftcast)]
 	[CustomComboInfo("Acceleration with Swiftcast first", "Replace Acceleration with Swiftcast when neither are on cooldown.", RDM.JobID)]
-	RedMageAccelerationSwiftcastOption = 3512,
+	RedMageAccelerationSwiftcastFirst = 3512,
 
 	[CustomComboInfo("Manafication Saver", "Replace Manafication with your melee combo if using it would overcap both mana colours.\nAlso changes while you're doing your combo.", RDM.JobID)]
-	RedMageManaficationFeature = 3539,
+	RedMageManaficationIntoMelee = 3539,
 
-	[ParentPreset(RedMageManaficationFeature)]
+	[ParentPreset(RedMageManaficationIntoMelee)]
 	[CustomComboInfo("Conservative Mode", "Replace Manafication with your melee combo if using it would overcap EITHER mana colour.", RDM.JobID)]
-	RedMageManaficationFeatureConservative = 3540,
+	RedMageManaficationIntoMeleeConservative = 3540,
 
 	[CustomComboInfo("Gap Reverser: Backstep", "Replaces Corps-a-corps with Displacement when your taget is in melee range.", RDM.JobID)]
 	RedMageMeleeGapReverserBackstep = 3515,

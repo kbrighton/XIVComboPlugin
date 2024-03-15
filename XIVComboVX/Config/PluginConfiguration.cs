@@ -289,7 +289,7 @@ public class PluginConfiguration: IPluginConfiguration {
 	[LucidWeavingSetting(CustomComboPreset.RedMageSmartcastAoEWeaveLucid)]
 	public uint RedMageSmartcastAoEWeaveLucidManaThreshold { get; set; } = 7000;
 
-	[LucidWeavingSetting(CustomComboPreset.RedMageSmartcastSingleWeaveLucid)]
+	[LucidWeavingSetting(CustomComboPreset.RedMageSmartcastSingleTargetWeaveLucid)]
 	public uint RedMageSmartcastSingleWeaveLucidManaThreshold { get; set; } = 7000;
 
 	#endregion
