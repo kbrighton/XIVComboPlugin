@@ -665,19 +665,25 @@ internal class RedMageManafication: CustomCombo {
 
 	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
 		RDMGauge gauge = GetJobGauge<RDMGauge>();
+		int
+			minManaForEnchantedMelee = RDM.ManaCostRiposte + (level >= RDM.Levels.Zwerchhau ? RDM.ManaCostZwerchhau : 0) + (level >= RDM.Levels.Redoublement ? RDM.ManaCostRedoublement : 0);
 		byte
 			black = gauge.BlackMana,
-			white = gauge.WhiteMana;
+			white = gauge.WhiteMana,
+			least = Math.Min(black, white);
 		bool
+			blackReady = black > minManaForEnchantedMelee,
+			whiteReady = white > minManaForEnchantedMelee,
+			conservative = IsEnabled(CustomComboPreset.RedMageManaficationIntoMeleeConservative),
 			combo = lastComboActionId is RDM.EnchantedRiposte or RDM.Riposte or RDM.EnchantedZwerchhau or RDM.Zwerchhau;
 
-		if (combo || (black > 50 && white > 50) || (IsEnabled(CustomComboPreset.RedMageManaficationFeatureConservative) && (black > 50 || white > 50))) {
+		if (combo || (blackReady && whiteReady) || (conservative && (blackReady || whiteReady))) {
 			if (IsEnabled(CustomComboPreset.RedMageMeleeComboCloser) && HasTarget && !InMeleeRange)
 				return RDM.Corpsacorps;
 
-			if (lastComboActionId is RDM.EnchantedZwerchhau or RDM.Zwerchhau && level >= RDM.Levels.Redoublement && black >= RDM.ManaCostRedoublement && white >= RDM.ManaCostRedoublement)
+			if (lastComboActionId is RDM.EnchantedZwerchhau or RDM.Zwerchhau && level >= RDM.Levels.Redoublement && least >= RDM.ManaCostRedoublement)
 				return OriginalHook(RDM.EnchantedRedoublement);
-			if (lastComboActionId is RDM.EnchantedRiposte or RDM.Riposte && level >= RDM.Levels.Zwerchhau && black >= RDM.ManaCostZwerchhau && white >= RDM.ManaCostZwerchhau)
+			if (lastComboActionId is RDM.EnchantedRiposte or RDM.Riposte && level >= RDM.Levels.Zwerchhau && least >= RDM.ManaCostZwerchhau)
 				return OriginalHook(RDM.EnchantedZwerchhau);
 
 			return OriginalHook(RDM.EnchantedRiposte);
