@@ -46,27 +46,6 @@ internal static class Common {
 	}
 }
 
-#if DEBUG
-internal class PelotonSprintCombo: CustomCombo {
-	public override CustomComboPreset Preset => CustomComboPreset.CommonSmartPelotonSprint;
-	public override uint[] ActionIDs => new uint[] { Common.Sprint, Common.Peloton };
-	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
-
-		if (level < Common.Levels.Peloton) // peloton is not unlocked from level 1
-			return Common.Sprint;
-		if (InCombat) // you can't use peloton in combat
-			return Common.Sprint;
-		if (LocalPlayer.ClassJob.Id is not (BRD.JobID or (BRD.JobID - 18) or MCH.JobID or DNC.JobID)) // peloton is only available to ranged DPS
-			return Common.Sprint;
-
-		if (IsEnabled(CustomComboPreset.CommonSmartPelotonSprintPrioritySprint) && IsOffCooldown(Common.Sprint))
-			return Common.Sprint;
-
-		return Common.Peloton;
-	}
-}
-#endif
-
 internal abstract class SwiftRaiseCombo: CustomCombo {
 	public override uint[] ActionIDs { get; } = new[] { AST.Ascend, RDM.Verraise, SCH.Resurrection, SGE.Egeiro, SMN.Resurrection, WHM.Raise };
 
