@@ -393,15 +393,13 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 				return Common.Swiftcast;
 		}
 
-		ushort engageCharges = GetCooldown(RDM.Engagement).RemainingCharges;
-		bool canEngage = canMelee && engageCharges > 0;
+		ushort engageCharges = engageCheck && canMelee ? GetCooldown(RDM.Engagement).RemainingCharges : (ushort)0;
+		bool canEngage = engageCharges > 0;
 
 		bool shouldEngage = canEngage
-			&& engageCheck
 			&& (!holdOneEngageCharge || engageCharges > 1);
-		bool engagePre = shouldEngage && engageEarly;
 
-		if (canEngage && engagePre)
+		if (shouldEngage && engageEarly)
 			return RDM.Engagement;
 
 		if (level >= RDM.Levels.Fleche) {
@@ -446,11 +444,12 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 
 		int black = gauge.BlackMana;
 		int white = gauge.WhiteMana;
+		int gaugeMin = Math.Min(black, white);
 		int blackThreshold = white + imbalanceDiffMax;
 		int whiteThreshold = black + imbalanceDiffMax;
 
 		int minManaForEnchantedMelee = RDM.ManaCostRiposte + (level >= RDM.Levels.Zwerchhau ? RDM.ManaCostZwerchhau : 0) + (level >= RDM.Levels.Redoublement ? RDM.ManaCostRedoublement : 0);
-		bool hasMeleeMana = black >= minManaForEnchantedMelee && white >= minManaForEnchantedMelee && (black != white || black is 100);
+		bool hasMeleeMana = gaugeMin >= minManaForEnchantedMelee && (black != white || black is 100 || level <= RDM.Levels.Verflare);
 
 		bool verfireUp = SelfHasEffect(RDM.Buffs.VerfireReady);
 		bool verstoneUp = SelfHasEffect(RDM.Buffs.VerstoneReady);
@@ -461,7 +460,10 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 		bool canFinishWhite = level >= RDM.Levels.Verholy;
 
 		bool meleeCombo = IsEnabled(CustomComboPreset.RedMageSmartcastSingleTargetMeleeCombo)
-			&& lastComboActionId is RDM.EnchantedRiposte or RDM.Riposte or RDM.EnchantedZwerchhau or RDM.Zwerchhau;
+			&& ( // if we're too low level for the next step of the combo, then the combo is over
+				(level >= RDM.Levels.Redoublement && lastComboActionId is RDM.EnchantedZwerchhau or RDM.Zwerchhau)
+				|| (level >= RDM.Levels.Zwerchhau && lastComboActionId is RDM.EnchantedRiposte or RDM.Riposte)
+			);
 		bool startMelee = IsEnabled(CustomComboPreset.RedMageSmartcastSingleTargetMeleeComboStarter)
 			&& targeting && isClose && hasMeleeMana;
 		bool shouldCloseGap = IsEnabled(CustomComboPreset.RedMageSmartcastSingleTargetMeleeComboStarterCloser)
@@ -542,7 +544,7 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 			if (!(targeting && isClose))
 				return RDM.Corpsacorps;
 
-			if (lastComboActionId is RDM.EnchantedZwerchhau or RDM.Zwerchhau && level >= RDM.Levels.Redoublement && black >= RDM.ManaCostRedoublement && white >= RDM.ManaCostRedoublement)
+			if (lastComboActionId is RDM.EnchantedZwerchhau or RDM.Zwerchhau && level >= RDM.Levels.Redoublement && gaugeMin >= RDM.ManaCostRedoublement)
 				return OriginalHook(RDM.EnchantedRedoublement);
 			if (lastComboActionId is RDM.EnchantedRiposte or RDM.Riposte && level >= RDM.Levels.Zwerchhau && black >= RDM.ManaCostZwerchhau && white >= RDM.ManaCostZwerchhau)
 				return OriginalHook(RDM.EnchantedZwerchhau);
@@ -621,15 +623,9 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 
 		// If there's NOTHING up right to use, should we override with Accleration (or Swiftcast)?
 		if (allowAccel && !accelNoNormal) {
-			bool canAccelerate = level >= RDM.Levels.Acceleration && CanUse(RDM.Acceleration);
-			bool canSwiftcast = IsEnabled(CustomComboPreset.RedMageSmartcastSingleAccelerationSwiftcast) && CanUse(Common.Swiftcast);
-
-			if (canSwiftcast && IsEnabled(CustomComboPreset.RedMageSmartcastSingleAccelerationSwiftcastFirst))
-				return Common.Swiftcast;
-			if (canAccelerate)
-				return RDM.Acceleration;
-			if (canSwiftcast)
-				return Common.Swiftcast;
+			uint alt = noCastingSubCheck(level, false, false, false, false, allowAccel);
+			if (alt > 0)
+				return alt;
 		}
 
 		// Finally, if all else fails, become Jolt (II)
