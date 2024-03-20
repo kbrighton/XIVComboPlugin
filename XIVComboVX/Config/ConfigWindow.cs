@@ -27,6 +27,7 @@ public class ConfigWindow: Window {
 	private readonly Dictionary<CustomComboPreset, List<ComboDetailSetting>> detailSettings = new();
 
 	private readonly string[] sortedJobs;
+	private static readonly string[] firstJobs = new string[] { "Universal" };
 
 	private static readonly Vector4 shadedColour = new(0.69f, 0.69f, 0.69f, 1f); // NICE (x3 COMBO)
 	private static readonly Vector4 activeColour = new(0f, 139f / 255f, 69f / 255f, 1f);
@@ -35,7 +36,7 @@ public class ConfigWindow: Window {
 
 	private const int MinWidth = 900;
 
-	public ConfigWindow() : base($"Custom Combo Setup - {Service.Plugin.ShortPluginSignature}, {Service.Plugin.PluginBuildType}###{Service.Plugin.Name} Custom Combo Setup", ImGuiWindowFlags.MenuBar) {
+	public ConfigWindow() : base($"Custom Combo Setup - {Service.Plugin.ShortPluginSignature}, {Service.Plugin.PluginBuildType}###{Plugin.Name} Custom Combo Setup", ImGuiWindowFlags.MenuBar) {
 		this.RespectCloseHotkey = true;
 		this.TitleBarButtons = new() {
 			new() {
@@ -90,7 +91,7 @@ public class ConfigWindow: Window {
 		this.detailSettings = typeof(PluginConfiguration)
 			.GetProperties(BindingFlags.Instance | BindingFlags.Public)
 			.Select(prop => (prop, attrs: prop.GetCustomAttributes<ComboDetailSettingAttribute>().ToArray()))
-			.Where(pair => pair.attrs.Any())
+			.Where(pair => pair.attrs.Length > 0)
 			.SelectMany(pair => pair.attrs.Select(attr => new ComboDetailSetting(pair.prop, attr)))
 			.GroupBy(detail => detail.Combo)
 			.ToDictionary(
@@ -111,8 +112,7 @@ public class ConfigWindow: Window {
 			}
 		}
 
-		this.sortedJobs = new string[] { "Universal" }
-			.Concat(this.groupedPresets.Keys
+		this.sortedJobs = firstJobs.Concat(this.groupedPresets.Keys
 				.Where(j => !j.StartsWith("Disciple of the ") && j != "Universal")
 			)
 			.Concat(this.groupedPresets.Keys
@@ -214,7 +214,7 @@ public class ConfigWindow: Window {
 				bool clickRegister = ImGui.MenuItem($"Register {Plugin.CommandBase}", "", ref registerNormalCommand);
 				if (ImGui.IsItemHovered()) {
 					ImGui.BeginTooltip();
-					ImGui.Text($"If enabled, {Service.Plugin.Name} will attempt to register the {Plugin.CommandBase} command.");
+					ImGui.Text($"If enabled, {Plugin.Name} will attempt to register the {Plugin.CommandBase} command.");
 					ImGui.Text("This is the command generally used by all forks of XIVCombo, which");
 					ImGui.Text("means it will conflict if you have multiple forks installed. This");
 					ImGui.Text("isn't advised to begin with, but this option will allow for slightly");
@@ -588,12 +588,10 @@ public class ConfigWindow: Window {
 
 		while (this.childToParentPresets.TryGetValue(preset, out (CustomComboPreset Preset, CustomComboInfoAttribute Info) parent)) {
 
-			if (!Service.Configuration.EnabledActions.Contains(parent.Preset)) {
-				Service.Configuration.EnabledActions.Add(parent.Preset);
+			Service.Configuration.EnabledActions.Add(parent.Preset);
 
-				foreach (CustomComboPreset conflict in parent.Preset.GetConflicts()) {
-					Service.Configuration.EnabledActions.Remove(conflict);
-				}
+			foreach (CustomComboPreset conflict in parent.Preset.GetConflicts()) {
+				Service.Configuration.EnabledActions.Remove(conflict);
 			}
 
 			preset = parent.Preset;

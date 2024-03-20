@@ -17,6 +17,8 @@ using PrincessRTFM.XIVComboVX.Config;
 namespace PrincessRTFM.XIVComboVX;
 
 public sealed class Plugin: IDalamudPlugin {
+	public const string Name = "XIVComboVX";
+
 	private bool disposed = false;
 
 	private static readonly string[] nonConflictingPluginIds = Array.Empty<string>();
@@ -42,10 +44,9 @@ public sealed class Plugin: IDalamudPlugin {
 #endif
 
 #pragma warning disable CA1822 // Mark members as static (some of these shouldn't be used until the plugin is initialised)
-	public string Name { get; } = Assembly.GetExecutingAssembly().GetName().Name!;
 	public string PluginBuildType { get; } = $"{(Debug ? "debug" : "release")} build";
 	public string PluginInstallType => $"{(Service.Interface.IsDev ? "dev" : "standard")} install";
-	public string ShortPluginSignature => $"{this.Name} v{Version}";
+	public string ShortPluginSignature => $"{Plugin.Name} v{Version}";
 	public string FullPluginSignature => $"{this.ShortPluginSignature} ({this.PluginBuildType}, {this.PluginInstallType})";
 #pragma warning restore CA1822 // Mark members as static
 
@@ -94,9 +95,9 @@ public sealed class Plugin: IDalamudPlugin {
 		Service.Ipc = new();
 
 		Service.Ipc.addTips(
-			$"{this.Name} - better than a broken leg!", // I will not be serious and you cannot make me.
-			$"It looks like {this.Name} is installed. Do you hate pressing buttons?",
-			$"I see you're using {this.Name}. Have you tried being good at the game instead?"
+			$"{Name} - better than a broken leg!", // I will not be serious and you cannot make me.
+			$"It looks like {Name} is installed. Do you hate pressing buttons?",
+			$"I see you're using {Name}. Have you tried being good at the game instead?"
 		);
 
 		Service.Log.Information($"{this.FullPluginSignature} initialised {(Service.Address.LoadSuccessful ? "" : "un")}successfully");
@@ -115,7 +116,7 @@ public sealed class Plugin: IDalamudPlugin {
 		if (deprecated > 0) {
 			SeStringBuilder msg = new();
 
-			Service.ChatUtils.AddOpenConfigLink(msg, $"[{this.Name}] ");
+			Service.ChatUtils.AddOpenConfigLink(msg, $"[{Name}] ");
 			msg.AddText("You currently have ");
 			msg.AddUiForeground(ChatUtil.ColourForeWarning);
 			msg.AddText($"{deprecated} deprecated combo{(deprecated == 1 ? "" : "s")}");
@@ -285,7 +286,7 @@ public sealed class Plugin: IDalamudPlugin {
 					Service.Configuration.Active = true;
 					Service.ChatUtils.Print(XivChatType.Notice,
 						new UIForegroundPayload(35),
-						new TextPayload(Service.Plugin.Name),
+						new TextPayload(Plugin.Name),
 						new UIForegroundPayload(1),
 						new TextPayload(" "),
 						new UIGlowPayload(43),
@@ -299,7 +300,7 @@ public sealed class Plugin: IDalamudPlugin {
 					Service.Configuration.Active = false;
 					Service.ChatUtils.Print(XivChatType.Notice,
 						new UIForegroundPayload(35),
-						new TextPayload(Service.Plugin.Name),
+						new TextPayload(Plugin.Name),
 						new UIForegroundPayload(1),
 						new TextPayload(" "),
 						new UIGlowPayload(17),
@@ -314,7 +315,7 @@ public sealed class Plugin: IDalamudPlugin {
 					Service.Configuration.Active = on;
 					Service.ChatUtils.Print(XivChatType.Notice,
 						new UIForegroundPayload(35),
-						new TextPayload(Service.Plugin.Name),
+						new TextPayload(Plugin.Name),
 						new UIForegroundPayload(1),
 						new TextPayload(" "),
 						new UIGlowPayload((ushort)(on ? 43 : 17)),
@@ -342,7 +343,7 @@ public sealed class Plugin: IDalamudPlugin {
 					List<Payload> parts = new(new Payload[] {
 						new TextPayload("Your "),
 						new UIForegroundPayload(35),
-						new TextPayload(Service.Plugin.Name),
+						new TextPayload(Plugin.Name),
 						new UIForegroundPayload(0),
 						new TextPayload("configuration has been reset to the defaults.")
 					});

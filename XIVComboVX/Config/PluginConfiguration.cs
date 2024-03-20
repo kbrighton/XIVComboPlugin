@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 using Dalamud.Configuration;
+using Dalamud.Interface.ImGuiNotification;
 using Dalamud.Interface.Internal.Notifications;
 
 using Newtonsoft.Json;
@@ -15,6 +16,16 @@ namespace PrincessRTFM.XIVComboVX.Config;
 [Serializable]
 [SuppressMessage("Maintainability", "CA1507:Use nameof to express symbol names", Justification = "Serialisation names must remain constant even if member names change")]
 public class PluginConfiguration: IPluginConfiguration {
+	private static readonly Notification disableWillNotPersist = new() {
+		Title = $"{Plugin.Name} temporarily disabled",
+		Content = "This setting will not persist through reloads.",
+		Type = NotificationType.Warning,
+		InitialDuration = TimeSpan.FromSeconds(6),
+		Minimized = false,
+		MinimizedText = "XCVX paused",
+		UserDismissable = true,
+	};
+
 	public int Version { get; set; } = 6;
 
 	public PluginConfiguration() { }
@@ -423,7 +434,7 @@ public class PluginConfiguration: IPluginConfiguration {
 		set {
 			this.enabled = value;
 			if (!value) {
-				Service.Interface.UiBuilder.AddNotification("This setting will not persist through reloads.", $"{Service.Plugin.Name} temporarily disabled", NotificationType.Warning, 6000);
+				Service.Notifications.AddNotification(disableWillNotPersist);
 			}
 		}
 	}

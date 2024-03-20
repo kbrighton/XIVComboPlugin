@@ -80,14 +80,14 @@ internal class UpdateAlerter: IDisposable {
 			parts.Add(new TextPayload(
 				this.isFreshInstall
 					? $"{Service.Plugin.ShortPluginSignature} has been installed. By default, all features are disabled.\n"
-					: $"{Service.Plugin.Name} has been updated to {this.current}. Features may have been added or changed.\n"
+					: $"{Plugin.Name} has been updated to {this.current}. Features may have been added or changed.\n"
 			));
 		}
 		parts.AddRange(new Payload[] {
 			new UIForegroundPayload(ChatUtil.ColourForeOpenConfig),
 			new UIGlowPayload(ChatUtil.ColourGlowOpenConfig),
 			Service.ChatUtils.openConfig,
-			new TextPayload($"[Open {Service.Plugin.Name} Settings]"),
+			new TextPayload($"[Open {Plugin.Name} Settings]"),
 			RawPayload.LinkTerminator,
 			new UIGlowPayload(0),
 			new UIForegroundPayload(0),
