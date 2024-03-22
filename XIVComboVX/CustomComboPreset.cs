@@ -971,12 +971,8 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Acceleration with Swiftcast first", "Replace Acceleration with Swiftcast when neither are on cooldown.", RDM.JobID)]
 	RedMageAccelerationSwiftcastFirst = 3512,
 
-	[CustomComboInfo("Manafication Saver", "Replace Manafication with your melee combo if using it would overcap both mana colours.\nAlso changes while you're doing your combo.", RDM.JobID)]
+	[CustomComboInfo("Manafication Saver", "Replace Manafication with your melee combo if you are ready to do the full combo.", RDM.JobID)]
 	RedMageManaficationIntoMelee = 3539,
-
-	[ParentPreset(RedMageManaficationIntoMelee)]
-	[CustomComboInfo("Conservative Mode", "Replace Manafication with your melee combo if using it would overcap EITHER mana colour.", RDM.JobID)]
-	RedMageManaficationIntoMeleeConservative = 3540,
 
 	[CustomComboInfo("Gap Reverser: Backstep", "Replaces Corps-a-corps with Displacement when your taget is in melee range.", RDM.JobID)]
 	RedMageMeleeGapReverserBackstep = 3515,

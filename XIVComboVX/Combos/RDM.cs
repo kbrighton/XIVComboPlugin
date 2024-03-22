@@ -666,18 +666,17 @@ internal class RedMageManafication: CustomCombo {
 	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
 		RDMGauge gauge = GetJobGauge<RDMGauge>();
 		int
-			minManaForEnchantedMelee = RDM.ManaCostRiposte + (level >= RDM.Levels.Zwerchhau ? RDM.ManaCostZwerchhau : 0) + (level >= RDM.Levels.Redoublement ? RDM.ManaCostRedoublement : 0);
+			minManaForEnchantedMelee = 50;
 		byte
 			black = gauge.BlackMana,
 			white = gauge.WhiteMana,
 			least = Math.Min(black, white);
 		bool
-			blackReady = black > minManaForEnchantedMelee,
-			whiteReady = white > minManaForEnchantedMelee,
-			conservative = IsEnabled(CustomComboPreset.RedMageManaficationIntoMeleeConservative),
+			inequal = black != white,
+			ready = least >= minManaForEnchantedMelee,
 			combo = lastComboActionId is RDM.EnchantedRiposte or RDM.Riposte or RDM.EnchantedZwerchhau or RDM.Zwerchhau;
 
-		if (combo || (blackReady && whiteReady) || (conservative && (blackReady || whiteReady))) {
+		if (combo || (inequal && ready)) {
 			if (IsEnabled(CustomComboPreset.RedMageMeleeComboCloser) && HasTarget && !InMeleeRange)
 				return RDM.Corpsacorps;
 
