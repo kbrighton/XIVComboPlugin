@@ -35,6 +35,7 @@ internal static class BRD {
 
 	public static class Buffs {
 		public const ushort
+			Troubadour = 1934,
 			Repertoire = 3137,
 			WanderersMinuet = 2216,
 			StraightShotReady = 122,

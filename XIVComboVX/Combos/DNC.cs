@@ -38,6 +38,7 @@ internal static class DNC {
 
 	public static class Buffs {
 		public const ushort
+			ShieldSamba = 1826,
 			FlourishingSymmetry = 3017,
 			FlourishingFlow = 3018,
 			FlourishingFinish = 2698,
