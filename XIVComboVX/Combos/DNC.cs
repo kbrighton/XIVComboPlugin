@@ -144,6 +144,19 @@ internal class DancerDanceStepCombo: CustomCombo {
 		if (level >= DNC.Levels.StandardStep && Service.DataCache.DancerSmartDancing(out uint danceStep))
 			return danceStep;
 
+		if (level >= DNC.Levels.TechnicalStep) {
+
+			if (IsEnabled(CustomComboPreset.DancerDanceStepComboSmartStandard) && CanUse(DNC.TechnicalStep) && GetCooldown(DNC.StandardStep).CooldownRemaining > 3)
+				return DNC.TechnicalStep;
+
+			if (IsEnabled(CustomComboPreset.DancerDanceStepComboSmartTechnical) && !CanUse(DNC.TechnicalStep))
+				return DNC.StandardStep;
+
+		}
+		else if (IsEnabled(CustomComboPreset.DancerDanceStepComboSmartTechnical)) {
+			return DNC.StandardStep;
+		}
+
 		return actionID;
 	}
 }
