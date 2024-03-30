@@ -146,10 +146,13 @@ internal class DancerDanceStepCombo: CustomCombo {
 
 		if (level >= DNC.Levels.TechnicalStep) {
 
+			if (SelfHasEffect(DNC.Buffs.FlourishingFinish) && GetCooldown(DNC.StandardStep).CooldownRemaining >= 2)
+				return DNC.Tillana;
+
 			if (IsEnabled(CustomComboPreset.DancerDanceStepComboSmartStandard) && CanUse(DNC.TechnicalStep) && GetCooldown(DNC.StandardStep).CooldownRemaining > 3)
 				return DNC.TechnicalStep;
 
-			if (IsEnabled(CustomComboPreset.DancerDanceStepComboSmartTechnical) && !CanUse(DNC.TechnicalStep))
+			if (IsEnabled(CustomComboPreset.DancerDanceStepComboSmartTechnical) && !CanUse(DNC.TechnicalStep) && CanUse(DNC.StandardStep))
 				return DNC.StandardStep;
 
 		}

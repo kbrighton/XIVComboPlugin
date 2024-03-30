@@ -265,11 +265,11 @@ public enum CustomComboPreset {
 	DancerDanceStepCombo = 3805,
 
 	[ParentPreset(DancerDanceStepCombo)]
-	[CustomComboInfo("Smart Dance: Standard Step", "Also change Standard Step into Technical Step when ready and Standard Step's cooldown has more than 3 seconds left.", DNC.JobID)]
+	[CustomComboInfo("Alternative Dance: Standard Step", "Also change Standard Step into Technical Step when ready and Standard Step's cooldown has more than 3 seconds left.", DNC.JobID)]
 	DancerDanceStepComboSmartStandard = 3824,
 
 	[ParentPreset(DancerDanceStepCombo)]
-	[CustomComboInfo("Smart Dance: Technical Step", "Also change Technical Step into Standard Step when Technical Step is unavailable or on cooldown.", DNC.JobID)]
+	[CustomComboInfo("Alternative Dance: Technical Step", "Also change Technical Step into Standard Step when Technical Step is unavailable or on cooldown.", DNC.JobID)]
 	DancerDanceStepComboSmartTechnical = 3825,
 
 	[ParentPreset(DancerDanceStepCombo)]
