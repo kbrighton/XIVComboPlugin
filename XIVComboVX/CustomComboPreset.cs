@@ -1392,78 +1392,82 @@ public enum CustomComboPreset {
 	// ====================================================================================
 	#region WARRIOR (21xx)
 
-	[CustomComboInfo("Stun/Interrupt Feature", "Turn Low Blow and Interject into Interject when off CD and your target can be interrupted, Low Blow otherwise.", WAR.JobID)]
+	[CustomComboInfo("Stun/Interrupt feature", "Turn Low Blow and Interject into Interject when off CD and your target can be interrupted, Low Blow otherwise.", WAR.JobID)]
 	WarriorStunInterruptFeature = 2109,
 
-	[CustomComboInfo("Storm's Path Combo", "Replace Storm's Path with its combo chain.", WAR.JobID)]
+	[CustomComboInfo("Storm's Path combo", "Replace Storm's Path with its combo chain.", WAR.JobID)]
 	WarriorStormsPathCombo = 2100,
 
 	[ParentPreset(WarriorStormsPathCombo)]
-	[CustomComboInfo("Smart Weave", "Automatically turn into Upheaval when weaving won't drift your GCD.", WAR.JobID)]
+	[CustomComboInfo("Smart weave", "Automatically turn into Upheaval when weaving won't drift your GCD.", WAR.JobID)]
 	WarriorSmartWeaveSingleTargetPath = 2116,
 
 	[ParentPreset(WarriorSmartWeaveSingleTargetPath)]
-	[CustomComboInfo("Buffed Weave", "Wait until you have Surging Tempest active.", WAR.JobID)]
+	[CustomComboInfo("Buffed weave", "Wait until you have Surging Tempest active.", WAR.JobID)]
 	WarriorSmartWeaveSingleTargetPathOnlyBuffed = 2119,
 
 	[ParentPreset(WarriorStormsPathCombo)]
-	[CustomComboInfo("Gauge Overcap Saver: Storm's Path", "Replace the Storm's Path combo with gauge spender if completing the combo would overcap you.", WAR.JobID)]
+	[CustomComboInfo("Gauge overcap saver", "Replace the Storm's Path combo with gauge spender if completing the combo would overcap you.", WAR.JobID)]
 	WarriorGaugeOvercapPathFeature = 2103,
 
 	[ParentPreset(WarriorStormsPathCombo)]
-	[CustomComboInfo("Storm's Path Double Combo", "Replace the Storm's Path combo chain with Storm's Eye if Surging Tempest has less than 7 (default) seconds left.", WAR.JobID)]
+	[CustomComboInfo("Surging Tempest saver", "Replace the Storm's Path combo chain with Storm's Eye if Surging Tempest has less than 7 (default) seconds left.", WAR.JobID)]
 	WarriorSmartStormCombo = 2112,
 
-	[CustomComboInfo("Storm's Eye Combo", "Replace Storm's Eye with its combo chain.", WAR.JobID)]
+	[CustomComboInfo("Storm's Eye combo", "Replace Storm's Eye with its combo chain.", WAR.JobID)]
 	WarriorStormsEyeCombo = 2101,
 
 	[ParentPreset(WarriorStormsEyeCombo)]
-	[CustomComboInfo("Smart Weave", "Automatically turn into Upheaval when weaving won't drift your GCD.", WAR.JobID)]
+	[CustomComboInfo("Smart weave", "Automatically turn into Upheaval when weaving won't drift your GCD.", WAR.JobID)]
 	WarriorSmartWeaveSingleTargetEye = 2117,
 
 	[ParentPreset(WarriorSmartWeaveSingleTargetEye)]
-	[CustomComboInfo("Buffed Weave", "Wait until you have Surging Tempest active.", WAR.JobID)]
+	[CustomComboInfo("Buffed weave", "Wait until you have Surging Tempest active.", WAR.JobID)]
 	WarriorSmartWeaveSingleTargetEyeOnlyBuffed = 2120,
 
 	[ParentPreset(WarriorStormsEyeCombo)]
-	[CustomComboInfo("Gauge Overcap Saver: Storm's Eye", "Replace the Storm's Eye combo with gauge spender if completing the combo would overcap you.", WAR.JobID)]
+	[CustomComboInfo("Gauge overcap saver", "Replace the Storm's Eye combo with gauge spender if completing the combo would overcap you.", WAR.JobID)]
 	WarriorGaugeOvercapEyeFeature = 2110,
 
-	[CustomComboInfo("Mythril Tempest Combo", "Replace Mythril Tempest with its combo chain.", WAR.JobID)]
+	[ParentPreset(WarriorStormsEyeCombo)]
+	[CustomComboInfo("Surging Tempest overcap saver", "Replace Storm's Eye with Storm's Path when Surging Tempest buff has over 30 seconds left.", WAR.JobID)]
+	WarriorStormsEyeBuffOvercapSaver = 2122,
+
+	[CustomComboInfo("Mythril Tempest combo", "Replace Mythril Tempest with its combo chain.", WAR.JobID)]
 	WarriorMythrilTempestCombo = 2102,
 
 	[ParentPreset(WarriorMythrilTempestCombo)]
-	[CustomComboInfo("Smart Weave", "Automatically turn into Orogeny when weaving won't drift your GCD.", WAR.JobID)]
+	[CustomComboInfo("Smart weave", "Automatically turn into Orogeny when weaving won't drift your GCD.", WAR.JobID)]
 	WarriorSmartWeaveAOE = 2118,
 
 	[ParentPreset(WarriorSmartWeaveAOE)]
-	[CustomComboInfo("Buffed Weave", "Wait until you have Surging Tempest active.", WAR.JobID)]
+	[CustomComboInfo("Buffed weave", "Wait until you have Surging Tempest active.", WAR.JobID)]
 	WarriorSmartWeaveAOEOnlyBuffed = 2121,
 
 	[ParentPreset(WarriorMythrilTempestCombo)]
-	[CustomComboInfo("Gauge Overcap Saver: Mythril Tempest", "Replace the Mythril Tempest combo with gauge spender if completing the combo would overcap you.", WAR.JobID)]
+	[CustomComboInfo("Gauge overcap saver", "Replace the Mythril Tempest combo with gauge spender if completing the combo would overcap you.", WAR.JobID)]
 	WarriorGaugeOvercapTempestFeature = 2111,
 
-	[CustomComboInfo("Inner Release Feature", "Replace single-target and AoE combo with Fell Cleave/Decimate during Inner Release.", WAR.JobID)]
+	[CustomComboInfo("Inner Release feature", "Replace single-target and AoE combo with Fell Cleave/Decimate during Inner Release.", WAR.JobID)]
 	WarriorInnerReleaseFeature = 2104,
 
-	[CustomComboInfo("Nascent Flash Feature", "Replace Nascent Flash with Raw Intuition when below level 76.", WAR.JobID)]
+	[CustomComboInfo("Nascent Flash feature", "Replace Nascent Flash with Raw Intuition when below level 76.", WAR.JobID)]
 	WarriorNascentFlashFeature = 2105,
 
-	[CustomComboInfo("Angry Beast Feature", "Replace Inner Beast/Fell Cleave and Steel Cyclone/Decimate with Infuriate when less then 50 Beast Gauge is available.\nWhen you have at least 50 gauge AND the Nascent Chaos buff, they become Inner Chaos and Chaotic Cyclone, respectively.", WAR.JobID)]
+	[CustomComboInfo("Angry Beast feature", "Replace Inner Beast/Fell Cleave and Steel Cyclone/Decimate with Infuriate when less then 50 Beast Gauge is available.\nWhen you have at least 50 gauge AND the Nascent Chaos buff, they become Inner Chaos and Chaotic Cyclone, respectively.", WAR.JobID)]
 	WarriorInfuriateBeastFeature = 2113,
 
 	[ParentPreset(WarriorInfuriateBeastFeature)]
-	[CustomComboInfo("Angry Beast Gauge Saver", "Replace the above with Infuriate when less than 60 Beast Gauge instead of 50.", WAR.JobID)]
+	[CustomComboInfo("Angry Beast gauge saver", "Replace the above with Infuriate when less than 60 Beast Gauge instead of 50.", WAR.JobID)]
 	WarriorInfuriateBeastRaidModeFeature = 2115,
 
-	[CustomComboInfo("Healthy Balanaced Diet Feature", "Replace Bloodwhetting with Thrill of Battle, and then Equilibrium when the preceding is on cooldown.", WAR.JobID)]
+	[CustomComboInfo("Healthy balanaced diet", "Replace Bloodwhetting with Thrill of Battle, and then Equilibrium when the preceding is on cooldown.", WAR.JobID)]
 	WarriorHealthyBalancedDietFeature = 2114,
 
-	[CustomComboInfo("Primal Beast Feature", "Replace Inner Beast and Steel Cyclone with Primal Rend when available", WAR.JobID)]
+	[CustomComboInfo("Primal Steel Beast", "Replace Inner Beast and Steel Cyclone with Primal Rend when available", WAR.JobID)]
 	WarriorPrimalBeastFeature = 2107,
 
-	[CustomComboInfo("Primal Release Feature", "Replace Inner Release with Primal Rend when available", WAR.JobID)]
+	[CustomComboInfo("Primal Release", "Replace Inner Release with Primal Rend when available", WAR.JobID)]
 	WarriorPrimalReleaseFeature = 2108,
 
 	#endregion

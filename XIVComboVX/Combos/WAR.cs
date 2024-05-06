@@ -153,7 +153,9 @@ internal class WarriorStormsEyeCombo: CustomCombo {
 		uint nextCombo = 0;
 		if (lastComboMove is WAR.Maim && level >= WAR.Levels.StormsEye) {
 			inCombo = true;
-			nextCombo = WAR.StormsEye;
+			nextCombo = IsEnabled(CustomComboPreset.WarriorStormsEyeBuffOvercapSaver) && SelfEffectDuration(WAR.Buffs.SurgingTempest) > 30
+				? WAR.StormsPath
+				: WAR.StormsEye;
 		}
 		if (lastComboMove is WAR.HeavySwing && level >= WAR.Levels.Maim) {
 			inCombo = true;
