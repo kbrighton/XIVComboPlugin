@@ -1,4 +1,5 @@
 using Dalamud.Game.ClientState.JobGauge.Types;
+using Dalamud.Game.Text;
 
 namespace PrincessRTFM.XIVComboVX.Combos;
 
@@ -39,7 +40,10 @@ internal static class WHM {
 	}
 
 	public static class Debuffs {
-		// public const ushort placeholder = 0;
+		public const ushort 
+			Aero = 143,
+			Aero2 = 144,
+			Dia = 1871;
 	}
 
 	public static class Levels {
@@ -76,6 +80,17 @@ internal class WhiteMageStone: CustomCombo {
 
 		if (Common.CheckLucidWeave(CustomComboPreset.WhiteMageLucidWeave, level, Service.Configuration.WhiteMageLucidWeaveManaThreshold, actionID))
 			return Common.LucidDreaming;
+		
+		if (IsEnabled(CustomComboPreset.WhiteMageDotRefresh)){
+			ushort effectIdToTrack = OriginalHook(WHM.Aero) switch {
+				WHM.Aero => WHM.Debuffs.Aero,
+				WHM.Aero2 => WHM.Debuffs.Aero2,
+				WHM.Dia => WHM.Debuffs.Dia,
+			};
+			
+			if (HasTarget && TargetOwnEffectDuration(effectIdToTrack) < Service.Configuration.WhiteMageDotRefreshDuration)
+				return OriginalHook(WHM.Aero);
+		}
 
 		return actionID;
 	}
