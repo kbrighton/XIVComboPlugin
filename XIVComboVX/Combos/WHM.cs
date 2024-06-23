@@ -86,9 +86,10 @@ internal class WhiteMageStone: CustomCombo {
 				WHM.Aero => WHM.Debuffs.Aero,
 				WHM.Aero2 => WHM.Debuffs.Aero2,
 				WHM.Dia => WHM.Debuffs.Dia,
+				_ => 0,
 			};
 			
-			if (HasTarget && TargetOwnEffectDuration(effectIdToTrack) < Service.Configuration.WhiteMageDotRefreshDuration)
+			if (effectIdToTrack > 0 && HasTarget && TargetOwnEffectDuration(effectIdToTrack) < Service.Configuration.WhiteMageDotRefreshDuration)
 				return OriginalHook(WHM.Aero);
 		}
 
