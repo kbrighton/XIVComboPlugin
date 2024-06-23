@@ -63,7 +63,7 @@ internal class ScholarSwiftcastRaiserFeature: SwiftRaiseCombo {
 
 internal class ScholarArtOfWar: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.ScholarLucidArtOfWar;
-	public override uint[] ActionIDs { get; } = new[] { SCH.ArtOfWar, SCH.ArtOfWar2 };
+	public override uint[] ActionIDs { get; } = [SCH.ArtOfWar, SCH.ArtOfWar2];
 
 	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
 
@@ -76,7 +76,7 @@ internal class ScholarArtOfWar: CustomCombo {
 
 internal class ScholarRuinBoil: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.SchAny;
-	public override uint[] ActionIDs { get; } = new[] { SCH.Ruin, SCH.Broil, SCH.Broil2, SCH.Broil3, SCH.Broil4 };
+	public override uint[] ActionIDs { get; } = [SCH.Ruin, SCH.Broil, SCH.Broil2, SCH.Broil3, SCH.Broil4];
 
 	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
 
@@ -94,7 +94,7 @@ internal class ScholarRuinBoil: CustomCombo {
 
 internal class ScholarFeyBless: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.ScholarSeraphConsolationFeature;
-	public override uint[] ActionIDs { get; } = new[] { SCH.FeyBless };
+	public override uint[] ActionIDs { get; } = [SCH.FeyBless];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -107,7 +107,7 @@ internal class ScholarFeyBless: CustomCombo {
 
 internal class ScholarExcogitation: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.ScholarExcogFallbackFeature;
-	public override uint[] ActionIDs { get; } = new[] { SCH.Excogitation };
+	public override uint[] ActionIDs { get; } = [SCH.Excogitation];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -127,7 +127,7 @@ internal class ScholarExcogitation: CustomCombo {
 
 internal class ScholarEnergyDrain: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.ScholarEnergyDrainAetherflowFeature;
-	public override uint[] ActionIDs { get; } = new[] { SCH.EnergyDrain };
+	public override uint[] ActionIDs { get; } = [SCH.EnergyDrain];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -140,7 +140,7 @@ internal class ScholarEnergyDrain: CustomCombo {
 
 internal class ScholarLustrate: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.SmnAny;
-	public override uint[] ActionIDs { get; } = new[] { SCH.Lustrate };
+	public override uint[] ActionIDs { get; } = [SCH.Lustrate];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -165,7 +165,7 @@ internal class ScholarLustrate: CustomCombo {
 
 internal class ScholarIndomitability: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.ScholarIndomAetherflowFeature;
-	public override uint[] ActionIDs { get; } = new[] { SCH.Indomitability };
+	public override uint[] ActionIDs { get; } = [SCH.Indomitability];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -178,7 +178,7 @@ internal class ScholarIndomitability: CustomCombo {
 
 internal class ScholarSummon: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.ScholarSeraphFeature;
-	public override uint[] ActionIDs { get; } = new[] { SCH.SummonEos, SCH.SummonSelene };
+	public override uint[] ActionIDs { get; } = [SCH.SummonEos, SCH.SummonSelene];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		SCHGauge gauge = GetJobGauge<SCHGauge>();

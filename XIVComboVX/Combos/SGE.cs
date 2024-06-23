@@ -80,7 +80,7 @@ internal class SageSwiftcastRaiserFeature: SwiftRaiseCombo {
 
 internal class SageSoteria: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.SageSoteriaKardionFeature;
-	public override uint[] ActionIDs => new[] { SGE.Soteria };
+	public override uint[] ActionIDs => [SGE.Soteria];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -93,7 +93,7 @@ internal class SageSoteria: CustomCombo {
 
 internal class SageTaurochole: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.SgeAny;
-	public override uint[] ActionIDs => new[] { SGE.Taurochole };
+	public override uint[] ActionIDs => [SGE.Taurochole];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -115,7 +115,7 @@ internal class SageTaurochole: CustomCombo {
 
 internal class SageDruochole: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.SageDruocholeRhizomataFeature;
-	public override uint[] ActionIDs => new[] { SGE.Druochole };
+	public override uint[] ActionIDs => [SGE.Druochole];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -128,7 +128,7 @@ internal class SageDruochole: CustomCombo {
 
 internal class SageIxochole: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.SageIxocholeRhizomataFeature;
-	public override uint[] ActionIDs => new[] { SGE.Ixochole };
+	public override uint[] ActionIDs => [SGE.Ixochole];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -141,7 +141,7 @@ internal class SageIxochole: CustomCombo {
 
 internal class SageKerachole: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.SgeAny;
-	public override uint[] ActionIDs => new[] { SGE.Kerachole };
+	public override uint[] ActionIDs => [SGE.Kerachole];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		byte gall = GetJobGauge<SGEGauge>().Addersgall;
@@ -162,7 +162,7 @@ internal class SageKerachole: CustomCombo {
 
 internal class SageHolos: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.SageHolosKerachole;
-	public override uint[] ActionIDs => new[] { SGE.Holos };
+	public override uint[] ActionIDs => [SGE.Holos];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -183,7 +183,7 @@ internal class SageHolos: CustomCombo {
 
 internal class SagePhlegma: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.SgeAny;
-	public override uint[] ActionIDs => new[] { SGE.Phlegma, SGE.Phlegma2, SGE.Phlegma3 };
+	public override uint[] ActionIDs => [SGE.Phlegma, SGE.Phlegma2, SGE.Phlegma3];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		uint phlegma = OriginalHook(actionID);
@@ -260,7 +260,7 @@ internal class SagePhlegma: CustomCombo {
 
 internal class SageDosis: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.SgeAny;
-	public override uint[] ActionIDs => new[] { SGE.Dosis };
+	public override uint[] ActionIDs => [SGE.Dosis];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -313,7 +313,7 @@ internal class SageDosis: CustomCombo {
 
 internal class SageIcarus: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.SageIcarusPhlegma;
-	public override uint[] ActionIDs => new[] { SGE.Icarus };
+	public override uint[] ActionIDs => [SGE.Icarus];
 
 	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
 
@@ -329,7 +329,7 @@ internal class SageIcarus: CustomCombo {
 
 internal class SageDyskrasia: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.SageLucidDyskrasia;
-	public override uint[] ActionIDs => new[] { SGE.Dyskrasia };
+	public override uint[] ActionIDs => [SGE.Dyskrasia];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -346,7 +346,7 @@ internal class SageDyskrasia: CustomCombo {
 
 internal class SageToxikon: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.SageLucidToxikon;
-	public override uint[] ActionIDs => new[] { SGE.Toxikon };
+	public override uint[] ActionIDs => [SGE.Toxikon];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 

@@ -74,7 +74,7 @@ internal static class DRG {
 
 internal class DragoonCoerthanTorment: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.DrgAny;
-	public override uint[] ActionIDs { get; } = new[] { DRG.CoerthanTorment };
+	public override uint[] ActionIDs { get; } = [DRG.CoerthanTorment];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -103,7 +103,7 @@ internal class DragoonCoerthanTorment: CustomCombo {
 
 internal class DragoonTotalThrust: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.DragoonTotalThrustCombo;
-	public override uint[] ActionIDs => new uint[] { DRG.TrueThrust };
+	public override uint[] ActionIDs => [DRG.TrueThrust];
 	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
 
 		// if currently in skill chain, complete that first
@@ -152,7 +152,7 @@ internal class DragoonTotalThrust: CustomCombo {
 
 internal class DragoonChaosThrust: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.DragoonChaosThrustCombo;
-	public override uint[] ActionIDs { get; } = new[] { DRG.ChaosThrust, DRG.ChaoticSpring };
+	public override uint[] ActionIDs { get; } = [DRG.ChaosThrust, DRG.ChaoticSpring];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -180,7 +180,7 @@ internal class DragoonChaosThrust: CustomCombo {
 
 internal class DragoonFullThrustCombo: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.DragoonFullThrustCombo;
-	public override uint[] ActionIDs { get; } = new[] { DRG.FullThrust, DRG.HeavensThrust };
+	public override uint[] ActionIDs { get; } = [DRG.FullThrust, DRG.HeavensThrust];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -219,7 +219,7 @@ internal class DragoonFullThrustCombo: CustomCombo {
 
 internal class DragoonStardiver: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.DrgAny;
-	public override uint[] ActionIDs { get; } = new[] { DRG.Stardiver };
+	public override uint[] ActionIDs { get; } = [DRG.Stardiver];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		DRGGauge gauge = GetJobGauge<DRGGauge>();
@@ -240,7 +240,7 @@ internal class DragoonStardiver: CustomCombo {
 
 internal class DragoonDiveFeature: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.DragoonDiveFeature;
-	public override uint[] ActionIDs { get; } = new[] { DRG.SpineshatterDive, DRG.DragonfireDive, DRG.Stardiver };
+	public override uint[] ActionIDs { get; } = [DRG.SpineshatterDive, DRG.DragonfireDive, DRG.Stardiver];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -256,7 +256,7 @@ internal class DragoonDiveFeature: CustomCombo {
 
 internal class DragoonMirageJumpFeature: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.DragoonMirageJumpFeature;
-	public override uint[] ActionIDs { get; } = new[] { DRG.Jump, DRG.HighJump };
+	public override uint[] ActionIDs { get; } = [DRG.Jump, DRG.HighJump];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 

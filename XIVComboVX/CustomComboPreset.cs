@@ -1604,8 +1604,8 @@ public enum CustomComboPreset {
 	#endregion
 }
 public static class CustomComboPresetExtensions {
-	public static CustomComboPreset[] GetConflicts(this CustomComboPreset preset) => preset.GetAttribute<ConflictsAttribute>()?.Conflicts ?? Array.Empty<CustomComboPreset>();
-	public static CustomComboPreset[] GetAlternatives(this CustomComboPreset preset) => preset.GetAttribute<DeprecatedAttribute>()?.Recommended ?? Array.Empty<CustomComboPreset>();
+	public static CustomComboPreset[] GetConflicts(this CustomComboPreset preset) => preset.GetAttribute<ConflictsAttribute>()?.Conflicts ?? [];
+	public static CustomComboPreset[] GetAlternatives(this CustomComboPreset preset) => preset.GetAttribute<DeprecatedAttribute>()?.Recommended ?? [];
 	public static CustomComboPreset? GetParent(this CustomComboPreset preset) => preset.GetAttribute<ParentPresetAttribute>()?.Parent;
 	public static string GetDebugLabel(this CustomComboPreset preset) => $"{Enum.GetName(preset)!}#{(int)preset}";
 }

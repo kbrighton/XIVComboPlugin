@@ -69,7 +69,7 @@ internal class SummonerSwiftcastRaiserFeature: SwiftRaiseCombo {
 
 internal class SummonerEDFesterCombo: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.SummonerEDFesterCombo;
-	public override uint[] ActionIDs { get; } = new[] { SMN.Fester };
+	public override uint[] ActionIDs { get; } = [SMN.Fester];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -82,7 +82,7 @@ internal class SummonerEDFesterCombo: CustomCombo {
 
 internal class SummonerESPainflareCombo: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.SummonerESPainflareCombo;
-	public override uint[] ActionIDs { get; } = new[] { SMN.Painflare };
+	public override uint[] ActionIDs { get; } = [SMN.Painflare];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -98,7 +98,7 @@ internal class SummonerESPainflareCombo: CustomCombo {
 
 internal class SummonerRuinFeature: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.SmnAny;
-	public override uint[] ActionIDs { get; } = new[] { SMN.Ruin, SMN.Ruin2, SMN.Ruin3 };
+	public override uint[] ActionIDs { get; } = [SMN.Ruin, SMN.Ruin2, SMN.Ruin3];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		SMNGauge gauge = GetJobGauge<SMNGauge>();
@@ -118,7 +118,7 @@ internal class SummonerRuinFeature: CustomCombo {
 
 internal class SummonerOutburstFeature: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.SmnAny;
-	public override uint[] ActionIDs { get; } = new[] { SMN.Outburst, SMN.TriDisaster };
+	public override uint[] ActionIDs { get; } = [SMN.Outburst, SMN.TriDisaster];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		SMNGauge gauge = GetJobGauge<SMNGauge>();
@@ -138,7 +138,7 @@ internal class SummonerOutburstFeature: CustomCombo {
 
 internal class SummonerShinyFeature: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.SmnAny;
-	public override uint[] ActionIDs { get; } = new[] { SMN.Gemshine, SMN.PreciousBrilliance };
+	public override uint[] ActionIDs { get; } = [SMN.Gemshine, SMN.PreciousBrilliance];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		SMNGauge gauge = GetJobGauge<SMNGauge>();
@@ -158,7 +158,7 @@ internal class SummonerShinyFeature: CustomCombo {
 
 internal class SummonerDemiFeature: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.SummonerDemiEnkindleFeature;
-	public override uint[] ActionIDs { get; } = new[] { SMN.Aethercharge, SMN.DreadwyrmTrance, SMN.SummonBahamut };
+	public override uint[] ActionIDs { get; } = [SMN.Aethercharge, SMN.DreadwyrmTrance, SMN.SummonBahamut];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		SMNGauge gauge = GetJobGauge<SMNGauge>();
@@ -172,7 +172,7 @@ internal class SummonerDemiFeature: CustomCombo {
 
 internal class SummonerRadiantCarbundleFeature: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.SummonerRadiantCarbuncleFeature;
-	public override uint[] ActionIDs { get; } = new[] { SMN.RadiantAegis };
+	public override uint[] ActionIDs { get; } = [SMN.RadiantAegis];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -185,7 +185,7 @@ internal class SummonerRadiantCarbundleFeature: CustomCombo {
 
 internal class SummonerSlipcastFeature: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.SummonerSlipcastFeature;
-	public override uint[] ActionIDs { get; } = new[] { SMN.AstralFlow, SMN.Slipstream };
+	public override uint[] ActionIDs { get; } = [SMN.AstralFlow, SMN.Slipstream];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 

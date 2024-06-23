@@ -22,7 +22,7 @@ internal abstract class CustomCombo {
 	public const uint InvalidObjectID = 0xE000_0000;
 
 	public abstract CustomComboPreset Preset { get; }
-	public virtual uint[] ActionIDs { get; } = Array.Empty<uint>();
+	public virtual uint[] ActionIDs { get; } = [];
 	public readonly HashSet<uint> AffectedIDs;
 	public readonly string ModuleName;
 

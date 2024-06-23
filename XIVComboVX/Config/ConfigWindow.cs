@@ -21,13 +21,13 @@ namespace PrincessRTFM.XIVComboVX.Config;
 public class ConfigWindow: Window {
 
 	private readonly Dictionary<string, List<(CustomComboPreset preset, CustomComboInfoAttribute info)>> groupedPresets;
-	private readonly Dictionary<CustomComboPreset, List<(CustomComboPreset Preset, CustomComboInfoAttribute Info)>> parentToChildrenPresets = new();
-	private readonly Dictionary<CustomComboPreset, (CustomComboPreset Preset, CustomComboInfoAttribute Info)> childToParentPresets = new();
-	private readonly Dictionary<CustomComboPreset, int> presetOrdinals = new();
-	private readonly Dictionary<CustomComboPreset, List<ComboDetailSetting>> detailSettings = new();
+	private readonly Dictionary<CustomComboPreset, List<(CustomComboPreset Preset, CustomComboInfoAttribute Info)>> parentToChildrenPresets = [];
+	private readonly Dictionary<CustomComboPreset, (CustomComboPreset Preset, CustomComboInfoAttribute Info)> childToParentPresets = [];
+	private readonly Dictionary<CustomComboPreset, int> presetOrdinals = [];
+	private readonly Dictionary<CustomComboPreset, List<ComboDetailSetting>> detailSettings = [];
 
 	private readonly string[] sortedJobs;
-	private static readonly string[] firstJobs = new string[] { "Universal" };
+	private static readonly string[] firstJobs = ["Universal"];
 
 	private static readonly Vector4 shadedColour = new(0.69f, 0.69f, 0.69f, 1f); // NICE (x3 COMBO)
 	private static readonly Vector4 activeColour = new(0f, 139f / 255f, 69f / 255f, 1f);
@@ -38,7 +38,7 @@ public class ConfigWindow: Window {
 
 	public ConfigWindow() : base($"Custom Combo Setup - {Service.Plugin.ShortPluginSignature}, {Service.Plugin.PluginBuildType}###{Plugin.Name} Custom Combo Setup", ImGuiWindowFlags.MenuBar) {
 		this.RespectCloseHotkey = true;
-		this.TitleBarButtons = new() {
+		this.TitleBarButtons = [
 			new() {
 				Priority = 0,
 				Icon = FontAwesomeIcon.Heart,
@@ -61,7 +61,7 @@ public class ConfigWindow: Window {
 					ImGui.EndTooltip();
 				},
 			},
-		};
+		];
 		this.AllowClickthrough = false;
 		this.AllowPinning = true;
 
@@ -107,7 +107,7 @@ public class ConfigWindow: Window {
 			if (parent is not null && parentInfo is not null) {
 				this.childToParentPresets.Add(preset, (parent.Value, parentInfo));
 				if (!this.parentToChildrenPresets.TryGetValue(parent.Value, out List<(CustomComboPreset Preset, CustomComboInfoAttribute Info)>? value))
-					this.parentToChildrenPresets[parent.Value] = value = new();
+					this.parentToChildrenPresets[parent.Value] = value = [];
 				value.Add((preset, info));
 			}
 		}
@@ -335,7 +335,7 @@ public class ConfigWindow: Window {
 		bool experimental = preset.GetAttribute<ExperimentalAttribute>() is not null;
 		bool deprecated = deprecation is not null;
 		CustomComboPreset[] conflicts = preset.GetConflicts();
-		CustomComboPreset[] alternatives = deprecated ? preset.GetAlternatives() : Array.Empty<CustomComboPreset>();
+		CustomComboPreset[] alternatives = deprecated ? preset.GetAlternatives() : [];
 		CustomComboPreset? parent = preset.GetParent();
 		bool hideChildren = Service.Configuration.HideDisabledFeaturesChildren;
 		bool hasChildren = this.parentToChildrenPresets.TryGetValue(preset, out List<(CustomComboPreset Preset, CustomComboInfoAttribute Info)>? children)

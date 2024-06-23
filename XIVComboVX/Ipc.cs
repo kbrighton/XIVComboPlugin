@@ -10,22 +10,22 @@ using Dalamud.Plugin.Ipc.Exceptions;
 namespace PrincessRTFM.XIVComboVX;
 
 internal class Ipc: IDisposable {
-	private const int loopDelaySec = 300;
-	private const int initialDelaySec = 5;
+	private const int LoopDelaySec = 300;
+	private const int InitialDelaySec = 5;
 
-	private const string tippyPluginId = "Tippy";
-	private const string tippyRegisterTipId = "Tippy.RegisterTip";
-	private const string tippyRegisterMessageId = "Tippy.RegisterMessage";
+	private const string TippyPluginId = "Tippy";
+	private const string TippyRegisterTipId = "Tippy.RegisterTip";
+	private const string TippyRegisterMessageId = "Tippy.RegisterMessage";
 
 	private readonly CancellationTokenSource stop = new();
 	private readonly Task registrationWorker;
 	private bool disposed;
 
 	private bool tippyFound;
-	internal bool tippyLoaded {
+	internal bool TippyLoaded {
 		get {
 			if (!this.tippyFound)
-				this.tippyFound = Service.Interface.InstalledPlugins.Where(state => state.InternalName == tippyPluginId).Any();
+				this.tippyFound = Service.Interface.InstalledPlugins.Where(state => state.InternalName == TippyPluginId).Any();
 			return this.tippyFound;
 		}
 	}
@@ -36,17 +36,17 @@ internal class Ipc: IDisposable {
 	private readonly ConcurrentQueue<string> tippyRegistrationQueue = new();
 
 	internal Ipc() {
-		this.tippyRegisterTip = Service.Interface.GetIpcSubscriber<string, bool>(tippyRegisterTipId);
-		this.tippyRegisterMessage = Service.Interface.GetIpcSubscriber<string, bool>(tippyRegisterMessageId);
+		this.tippyRegisterTip = Service.Interface.GetIpcSubscriber<string, bool>(TippyRegisterTipId);
+		this.tippyRegisterMessage = Service.Interface.GetIpcSubscriber<string, bool>(TippyRegisterMessageId);
 		this.registrationWorker = Task.Run(this.registrationLoop, this.stop.Token);
 	}
 
 	private async void registrationLoop() {
-		await Task.Delay(initialDelaySec * 1000, this.stop.Token);
+		await Task.Delay(InitialDelaySec * 1000, this.stop.Token);
 		while (!this.stop.IsCancellationRequested) {
 			try { // catches cancellation so the task shows as completed, once it's actually gotten started
 
-				if (this.tippyLoaded) {
+				if (this.TippyLoaded) {
 					if (!this.tippyRegistrationQueue.IsEmpty) {
 						string tippyTip = null!;
 						try {
@@ -57,7 +57,7 @@ internal class Ipc: IDisposable {
 						}
 						catch (IpcNotReadyError) {
 							// We already got the value out of the queue, but registering it failed, so put it back in
-							this.addTips(tippyTip);
+							this.AddTips(tippyTip);
 						}
 						catch (IpcError ex) {
 							Service.TickLogger.Error("Failed to register tip for Tippy's pool", ex);
@@ -67,7 +67,7 @@ internal class Ipc: IDisposable {
 				}
 
 				// Only try to do things every so often
-				await Task.Delay(loopDelaySec * 1000, this.stop.Token);
+				await Task.Delay(LoopDelaySec * 1000, this.stop.Token);
 			}
 			catch (TaskCanceledException) { // if cancellation is requested once we get started, it's considered completion cause this is infinite
 				return;
@@ -76,7 +76,7 @@ internal class Ipc: IDisposable {
 	}
 
 	#region Tippy API
-	internal void addTips(params string[] tips) {
+	internal void AddTips(params string[] tips) {
 		if (this.disposed)
 			return;
 
@@ -86,7 +86,7 @@ internal class Ipc: IDisposable {
 		}
 	}
 
-	internal bool showTippyMessage(string message) {
+	internal bool ShowTippyMessage(string message) {
 		if (this.disposed)
 			return false;
 

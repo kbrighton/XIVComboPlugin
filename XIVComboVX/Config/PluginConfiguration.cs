@@ -460,10 +460,10 @@ public class PluginConfiguration: IPluginConfiguration {
 	public bool ShowUpdateMessage { get; set; } = true;
 
 	[JsonProperty("EnabledActionsV5")]
-	public HashSet<CustomComboPreset> EnabledActions { get; set; } = new();
+	public HashSet<CustomComboPreset> EnabledActions { get; set; } = [];
 
 	[Obsolete("Use the explicit 'Dancer*ActionID' ushorts instead")]
-	public uint[] DancerDanceCompatActionIDs { get; set; } = Array.Empty<uint>();
+	public uint[] DancerDanceCompatActionIDs { get; set; } = [];
 
 	#endregion
 
@@ -480,7 +480,7 @@ public class PluginConfiguration: IPluginConfiguration {
 			this.DancerEntrechatBlueActionID = this.DancerDanceCompatActionIDs[1];
 			this.DancerJeteGreenActionID = this.DancerDanceCompatActionIDs[2];
 			this.DancerPirouetteYellowActionID = this.DancerDanceCompatActionIDs[3];
-			this.DancerDanceCompatActionIDs = Array.Empty<uint>();
+			this.DancerDanceCompatActionIDs = [];
 			this.Version++;
 		}
 #pragma warning restore CS0618 // Type or member is obsolete

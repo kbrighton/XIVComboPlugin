@@ -161,7 +161,7 @@ internal class MonkAoECombo: CustomCombo {
 
 internal class MonkSTCombo: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.MonkSTCombo;
-	public override uint[] ActionIDs => new[] { MNK.Bootshine };
+	public override uint[] ActionIDs => [MNK.Bootshine];
 
 	// All credit to Evolutious on the github - they wrote the code themselves and sent it to me.
 	// All I did was adjust the style to better fit the rest of the plugin, and change a few hardcoded values to adjustable ones.
@@ -308,7 +308,7 @@ internal class MonkSTCombo: CustomCombo {
 
 internal class MonkHowlingFistEnlightenment: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.MonkHowlingFistMeditationFeature;
-	public override uint[] ActionIDs => new[] { MNK.HowlingFist, MNK.Enlightenment };
+	public override uint[] ActionIDs => [MNK.HowlingFist, MNK.Enlightenment];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		MNKGauge gauge = GetJobGauge<MNKGauge>();
@@ -322,7 +322,7 @@ internal class MonkHowlingFistEnlightenment: CustomCombo {
 
 internal class MonkDragonKick: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.MnkAny;
-	public override uint[] ActionIDs => new[] { MNK.DragonKick };
+	public override uint[] ActionIDs => [MNK.DragonKick];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		MNKGauge gauge = GetJobGauge<MNKGauge>();
@@ -353,7 +353,7 @@ internal class MonkDragonKick: CustomCombo {
 
 internal class MonkTwinSnakes: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.MonkTwinSnakesFeature;
-	public override uint[] ActionIDs => new[] { MNK.TwinSnakes };
+	public override uint[] ActionIDs => [MNK.TwinSnakes];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -366,7 +366,7 @@ internal class MonkTwinSnakes: CustomCombo {
 
 internal class MonkDemolish: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.MonkDemolishFeature;
-	public override uint[] ActionIDs => new[] { MNK.Demolish };
+	public override uint[] ActionIDs => [MNK.Demolish];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -379,7 +379,7 @@ internal class MonkDemolish: CustomCombo {
 
 internal class MonkPerfectBalance: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.MonkPerfectBalanceFeature;
-	public override uint[] ActionIDs => new[] { MNK.PerfectBalance };
+	public override uint[] ActionIDs => [MNK.PerfectBalance];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -393,7 +393,7 @@ internal class MonkPerfectBalance: CustomCombo {
 
 internal class MonkRiddleOfFire: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.MnkAny;
-	public override uint[] ActionIDs => new[] { MNK.RiddleOfFire };
+	public override uint[] ActionIDs => [MNK.RiddleOfFire];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 

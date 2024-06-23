@@ -78,7 +78,7 @@ internal class WarriorStunInterruptFeature: StunInterruptCombo {
 
 internal class WarriorStormsPathCombo: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.WarriorStormsPathCombo;
-	public override uint[] ActionIDs { get; } = new[] { WAR.StormsPath };
+	public override uint[] ActionIDs { get; } = [WAR.StormsPath];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -129,7 +129,7 @@ internal class WarriorStormsPathCombo: CustomCombo {
 
 internal class WarriorStormsEyeCombo: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.WarriorStormsEyeCombo;
-	public override uint[] ActionIDs { get; } = new[] { WAR.StormsEye };
+	public override uint[] ActionIDs { get; } = [WAR.StormsEye];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -176,7 +176,7 @@ internal class WarriorStormsEyeCombo: CustomCombo {
 internal class WarriorMythrilTempestCombo: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.WarriorMythrilTempestCombo;
 
-	public override uint[] ActionIDs { get; } = new[] { WAR.MythrilTempest };
+	public override uint[] ActionIDs { get; } = [WAR.MythrilTempest];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -214,7 +214,7 @@ internal class WarriorMythrilTempestCombo: CustomCombo {
 
 internal class WarriorNascentFlashFeature: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.WarriorNascentFlashFeature;
-	public override uint[] ActionIDs { get; } = new[] { WAR.NascentFlash };
+	public override uint[] ActionIDs { get; } = [WAR.NascentFlash];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -227,7 +227,7 @@ internal class WarriorNascentFlashFeature: CustomCombo {
 
 internal class WarriorFellCleaveDecimate: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.WarAny;
-	public override uint[] ActionIDs { get; } = new[] { WAR.InnerBeast, WAR.FellCleave, WAR.SteelCyclone, WAR.Decimate };
+	public override uint[] ActionIDs { get; } = [WAR.InnerBeast, WAR.FellCleave, WAR.SteelCyclone, WAR.Decimate];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -257,7 +257,7 @@ internal class WarriorFellCleaveDecimate: CustomCombo {
 
 internal class WarriorBerserkInnerRelease: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.WarriorPrimalReleaseFeature;
-	public override uint[] ActionIDs { get; } = new[] { WAR.Berserk, WAR.InnerRelease };
+	public override uint[] ActionIDs { get; } = [WAR.Berserk, WAR.InnerRelease];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -270,7 +270,7 @@ internal class WarriorBerserkInnerRelease: CustomCombo {
 
 internal class WarriorBloodwhetting: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.WarriorHealthyBalancedDietFeature;
-	public override uint[] ActionIDs { get; } = new[] { WAR.Bloodwhetting, WAR.RawIntuition };
+	public override uint[] ActionIDs { get; } = [WAR.Bloodwhetting, WAR.RawIntuition];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		uint rawBlood = OriginalHook(WAR.RawIntuition);

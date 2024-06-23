@@ -13,15 +13,15 @@ internal class ComboDataCache: ManagedCache {
 	protected const uint InvalidObjectID = 0xE000_0000;
 
 	// Invalidate these
-	private readonly Dictionary<(uint StatusID, uint? TargetID, uint? SourceID), Status?> statusCache = new();
-	private readonly Dictionary<uint, CooldownData> cooldownCache = new();
+	private readonly Dictionary<(uint StatusID, uint? TargetID, uint? SourceID), Status?> statusCache = [];
+	private readonly Dictionary<uint, CooldownData> cooldownCache = [];
 	private bool? canInterruptTarget = null;
 	private uint? dancerNextDanceStep = null;
 
 	// Do not invalidate these
-	private readonly Dictionary<uint, byte> cooldownGroupCache = new();
-	private readonly Dictionary<Type, JobGaugeBase> jobGaugeCache = new();
-	private readonly Dictionary<(uint ActionID, uint ClassJobID, byte Level), (ushort CurrentMax, ushort Max)> chargesCache = new();
+	private readonly Dictionary<uint, byte> cooldownGroupCache = [];
+	private readonly Dictionary<Type, JobGaugeBase> jobGaugeCache = [];
+	private readonly Dictionary<(uint ActionID, uint ClassJobID, byte Level), (ushort CurrentMax, ushort Max)> chargesCache = [];
 
 	#region Core/setup
 

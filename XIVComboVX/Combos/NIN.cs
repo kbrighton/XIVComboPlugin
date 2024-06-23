@@ -76,7 +76,7 @@ internal static class NIN {
 
 internal class NinjaArmorCrushCombo: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.NinjaArmorCrushCombo;
-	public override uint[] ActionIDs { get; } = new[] { NIN.ArmorCrush };
+	public override uint[] ActionIDs { get; } = [NIN.ArmorCrush];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		bool canRaiju = level >= NIN.Levels.Raiju && SelfHasEffect(NIN.Buffs.RaijuReady);
@@ -145,7 +145,7 @@ internal class NinjaArmorCrushCombo: CustomCombo {
 
 internal class NinjaAeolianEdgeCombo: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.NinjaAeolianEdgeCombo;
-	public override uint[] ActionIDs { get; } = new[] { NIN.AeolianEdge };
+	public override uint[] ActionIDs { get; } = [NIN.AeolianEdge];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		bool canRaiju = level >= NIN.Levels.Raiju && SelfHasEffect(NIN.Buffs.RaijuReady);
@@ -225,7 +225,7 @@ internal class NinjaAeolianEdgeCombo: CustomCombo {
 
 internal class NinjaHakkeMujinsatsuCombo: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.NinjaHakkeMujinsatsuCombo;
-	public override uint[] ActionIDs { get; } = new[] { NIN.HakkeMujinsatsu };
+	public override uint[] ActionIDs { get; } = [NIN.HakkeMujinsatsu];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -250,7 +250,7 @@ internal class NinjaHakkeMujinsatsuCombo: CustomCombo {
 
 internal class NinjaKassatsuTrickFeature: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.NinjaKassatsuTrickFeature;
-	public override uint[] ActionIDs { get; } = new[] { NIN.Kassatsu };
+	public override uint[] ActionIDs { get; } = [NIN.Kassatsu];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -270,7 +270,7 @@ internal class NinjaKassatsuTrickFeature: CustomCombo {
 
 internal class NinjaHideMugFeature: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.NinjaSmartHideFeature;
-	public override uint[] ActionIDs { get; } = new[] { NIN.Hide };
+	public override uint[] ActionIDs { get; } = [NIN.Hide];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -295,7 +295,7 @@ internal class NinjaHideMugFeature: CustomCombo {
 
 internal class NinjaKassatsuChiJinFeature: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.NinjaKassatsuChiJinFeature;
-	public override uint[] ActionIDs { get; } = new[] { NIN.Chi };
+	public override uint[] ActionIDs { get; } = [NIN.Chi];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -310,7 +310,7 @@ internal class NinjaKassatsuChiJinFeature: CustomCombo {
 
 internal class NinjaTCJMeisuiFeature: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.NinjaTCJMeisuiFeature;
-	public override uint[] ActionIDs { get; } = new[] { NIN.TenChiJin };
+	public override uint[] ActionIDs { get; } = [NIN.TenChiJin];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -325,7 +325,7 @@ internal class NinjaTCJMeisuiFeature: CustomCombo {
 
 internal class NinjaHuraijinFeatures: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.NinAny;
-	public override uint[] ActionIDs { get; } = new[] { NIN.Huraijin };
+	public override uint[] ActionIDs { get; } = [NIN.Huraijin];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 

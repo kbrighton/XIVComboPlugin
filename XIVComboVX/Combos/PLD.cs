@@ -76,7 +76,7 @@ internal class PaladinStunInterruptFeature: StunInterruptCombo {
 
 internal class PaladinRoyalAuthorityCombo: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.PaladinRoyalAuthorityCombo;
-	public override uint[] ActionIDs { get; } = new[] { PLD.RageOfHalone, PLD.RoyalAuthority };
+	public override uint[] ActionIDs { get; } = [PLD.RageOfHalone, PLD.RoyalAuthority];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -147,7 +147,7 @@ internal class PaladinRoyalAuthorityCombo: CustomCombo {
 
 internal class PaladinProminenceCombo: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.PaladinProminenceCombo;
-	public override uint[] ActionIDs { get; } = new[] { PLD.Prominence };
+	public override uint[] ActionIDs { get; } = [PLD.Prominence];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -186,7 +186,7 @@ internal class PaladinProminenceCombo: CustomCombo {
 
 internal class PaladinHolySpiritHolyCircle: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.PaladinHolyConfiteor;
-	public override uint[] ActionIDs { get; } = new[] { PLD.HolySpirit, PLD.HolyCircle };
+	public override uint[] ActionIDs { get; } = [PLD.HolySpirit, PLD.HolyCircle];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -201,7 +201,7 @@ internal class PaladinHolySpiritHolyCircle: CustomCombo {
 
 internal class PaladinRequiescat: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.PaladinRequiescatConfiteor;
-	public override uint[] ActionIDs { get; } = new[] { PLD.Requiescat };
+	public override uint[] ActionIDs { get; } = [PLD.Requiescat];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -216,14 +216,14 @@ internal class PaladinRequiescat: CustomCombo {
 
 internal class PaladinInterveneSyncFeature: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.PaladinInterveneSyncFeature;
-	public override uint[] ActionIDs { get; } = new[] { PLD.Intervene };
+	public override uint[] ActionIDs { get; } = [PLD.Intervene];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) => level < PLD.Levels.Intervene ? PLD.ShieldLob : actionID;
 }
 
 internal class PaladinSheltron: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.PaladinSheltronSentinel;
-	public override uint[] ActionIDs { get; } = new[] { PLD.Sheltron };
+	public override uint[] ActionIDs { get; } = [PLD.Sheltron];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) => level > PLD.Levels.Sentinel && CanUse(PLD.Sentinel) ? PLD.Sentinel : actionID;
 }

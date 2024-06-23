@@ -61,7 +61,7 @@ internal class WhiteMageSwiftcastRaiserFeature: SwiftRaiseCombo {
 
 internal class WhiteMageAero: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.WhmAny;
-	public override uint[] ActionIDs { get; } = new[] { WHM.Aero, WHM.Aero2, WHM.Dia };
+	public override uint[] ActionIDs { get; } = [WHM.Aero, WHM.Aero2, WHM.Dia];
 
 	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
 
@@ -74,7 +74,7 @@ internal class WhiteMageAero: CustomCombo {
 
 internal class WhiteMageStone: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.WhmAny;
-	public override uint[] ActionIDs { get; } = new[] { WHM.Stone, WHM.Stone2, WHM.Stone3, WHM.Stone4, WHM.Glare, WHM.Glare3 };
+	public override uint[] ActionIDs { get; } = [WHM.Stone, WHM.Stone2, WHM.Stone3, WHM.Stone4, WHM.Glare, WHM.Glare3];
 
 	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
 
@@ -99,7 +99,7 @@ internal class WhiteMageStone: CustomCombo {
 
 internal class WhiteMageSolaceMiseryFeature: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.WhiteMageSolaceMiseryFeature;
-	public override uint[] ActionIDs { get; } = new[] { WHM.AfflatusSolace };
+	public override uint[] ActionIDs { get; } = [WHM.AfflatusSolace];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -112,7 +112,7 @@ internal class WhiteMageSolaceMiseryFeature: CustomCombo {
 
 internal class WhiteMageRaptureMiseryFeature: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.WhiteMageRaptureMiseryFeature;
-	public override uint[] ActionIDs { get; } = new[] { WHM.AfflatusRapture };
+	public override uint[] ActionIDs { get; } = [WHM.AfflatusRapture];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -125,7 +125,7 @@ internal class WhiteMageRaptureMiseryFeature: CustomCombo {
 
 internal class WhiteMageHoly: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.WhmAny;
-	public override uint[] ActionIDs { get; } = new[] { WHM.Holy, WHM.Holy3 };
+	public override uint[] ActionIDs { get; } = [WHM.Holy, WHM.Holy3];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -143,7 +143,7 @@ internal class WhiteMageHoly: CustomCombo {
 
 internal class WhiteMageCure2: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.WhiteMageCureFeature;
-	public override uint[] ActionIDs { get; } = new[] { WHM.Cure2 };
+	public override uint[] ActionIDs { get; } = [WHM.Cure2];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -170,7 +170,7 @@ internal class WhiteMageCure2: CustomCombo {
 
 internal class WhiteMageMedica: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.WhiteMageAfflatusFeature;
-	public override uint[] ActionIDs { get; } = new[] { WHM.Medica };
+	public override uint[] ActionIDs { get; } = [WHM.Medica];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		WHMGauge gauge = GetJobGauge<WHMGauge>();

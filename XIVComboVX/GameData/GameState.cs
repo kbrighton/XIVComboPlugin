@@ -9,7 +9,7 @@ internal unsafe class GameState: IDisposable {
 
 	private AtkUnitBase* chatLogPointer;
 
-	internal AtkUnitBase* chatLog {
+	internal AtkUnitBase* ChatLog {
 		get {
 			if (Service.Client.LocalPlayer is null)
 				return null;
@@ -19,9 +19,9 @@ internal unsafe class GameState: IDisposable {
 		}
 	}
 
-	internal bool isChatVisible {
+	internal bool IsChatVisible {
 		get {
-			AtkUnitBase* cl = this.chatLog;
+			AtkUnitBase* cl = this.ChatLog;
 			return cl is not null && cl->IsVisible;
 		}
 	}

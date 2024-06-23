@@ -14,5 +14,5 @@ internal class DeprecatedAttribute: Attribute {
 		this.Recommended = suggestions.OrderBy(p => (uint)p).ToArray();
 	}
 	internal DeprecatedAttribute(params CustomComboPreset[] suggestions) : this(string.Empty, suggestions) { }
-	internal DeprecatedAttribute(string label) : this(label, Array.Empty<CustomComboPreset>()) { }
+	internal DeprecatedAttribute(string label) : this(label, []) { }
 }

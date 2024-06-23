@@ -83,7 +83,7 @@ internal class GunbreakerStunInterruptFeature: StunInterruptCombo {
 
 internal class GunbreakerSolidBarrel: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.GunbreakerSolidBarrelCombo;
-	public override uint[] ActionIDs { get; } = new[] { GNB.SolidBarrel };
+	public override uint[] ActionIDs { get; } = [GNB.SolidBarrel];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		GNBGauge gauge = GetJobGauge<GNBGauge>();
@@ -316,7 +316,7 @@ internal class GunbreakerSolidBarrel: CustomCombo {
 
 internal class GunbreakerGnashingFang: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.GnbAny;
-	public override uint[] ActionIDs { get; } = new[] { GNB.GnashingFang };
+	public override uint[] ActionIDs { get; } = [GNB.GnashingFang];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		GNBGauge gauge = GetJobGauge<GNBGauge>();
@@ -484,7 +484,7 @@ internal class GunbreakerGnashingFang: CustomCombo {
 
 internal class GunbreakerBurstStrikeFatedCircle: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.GnbAny;
-	public override uint[] ActionIDs { get; } = new[] { GNB.BurstStrike, GNB.FatedCircle };
+	public override uint[] ActionIDs { get; } = [GNB.BurstStrike, GNB.FatedCircle];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -515,7 +515,7 @@ internal class GunbreakerBurstStrikeFatedCircle: CustomCombo {
 
 internal class GunbreakerBowShockSonicBreak: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.GunbreakerBowShockSonicBreakFeature;
-	public override uint[] ActionIDs { get; } = new[] { GNB.BowShock, GNB.SonicBreak };
+	public override uint[] ActionIDs { get; } = [GNB.BowShock, GNB.SonicBreak];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -528,7 +528,7 @@ internal class GunbreakerBowShockSonicBreak: CustomCombo {
 
 internal class GunbreakerDemonSlaughter: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.GunbreakerDemonSlaughterCombo;
-	public override uint[] ActionIDs { get; } = new[] { GNB.DemonSlaughter };
+	public override uint[] ActionIDs { get; } = [GNB.DemonSlaughter];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -551,7 +551,7 @@ internal class GunbreakerDemonSlaughter: CustomCombo {
 
 internal class GunbreakerNoMercy: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.GnbAny;
-	public override uint[] ActionIDs { get; } = new[] { GNB.NoMercy };
+	public override uint[] ActionIDs { get; } = [GNB.NoMercy];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		GNBGauge gauge = GetJobGauge<GNBGauge>();

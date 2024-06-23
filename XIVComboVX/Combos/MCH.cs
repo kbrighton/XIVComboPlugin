@@ -76,7 +76,7 @@ internal static class MCH {
 
 internal class MachinistCleanShot: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.MachinistMainCombo;
-	public override uint[] ActionIDs { get; } = new[] { MCH.CleanShot, MCH.HeatedCleanShot };
+	public override uint[] ActionIDs { get; } = [MCH.CleanShot, MCH.HeatedCleanShot];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		MCHGauge gauge = GetJobGauge<MCHGauge>();
@@ -134,7 +134,7 @@ internal class MachinistCleanShot: CustomCombo {
 
 internal class MachinistGaussRicochet: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.MachinistGaussRoundRicochet;
-	public override uint[] ActionIDs { get; } = new[] { MCH.GaussRound, MCH.Ricochet };
+	public override uint[] ActionIDs { get; } = [MCH.GaussRound, MCH.Ricochet];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -152,7 +152,7 @@ internal class MachinistGaussRicochet: CustomCombo {
 
 internal class MachinistHypercharge: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.MchAny;
-	public override uint[] ActionIDs { get; } = new[] { MCH.Hypercharge };
+	public override uint[] ActionIDs { get; } = [MCH.Hypercharge];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -181,7 +181,7 @@ internal class MachinistHypercharge: CustomCombo {
 
 internal class MachinistHeatBlastAutoCrossbow: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.MchAny;
-	public override uint[] ActionIDs { get; } = new[] { MCH.HeatBlast, MCH.AutoCrossbow };
+	public override uint[] ActionIDs { get; } = [MCH.HeatBlast, MCH.AutoCrossbow];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -225,7 +225,7 @@ internal class MachinistHeatBlastAutoCrossbow: CustomCombo {
 
 internal class MachinistSpreadShotFeature: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.MachinistSpreadShot;
-	public override uint[] ActionIDs { get; } = new[] { MCH.SpreadShot, MCH.Scattergun };
+	public override uint[] ActionIDs { get; } = [MCH.SpreadShot, MCH.Scattergun];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -238,7 +238,7 @@ internal class MachinistSpreadShotFeature: CustomCombo {
 
 internal class MachinistOverdriveFeature: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.MachinistOverdrive;
-	public override uint[] ActionIDs { get; } = new[] { MCH.RookAutoturret, MCH.AutomatonQueen };
+	public override uint[] ActionIDs { get; } = [MCH.RookAutoturret, MCH.AutomatonQueen];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -251,7 +251,7 @@ internal class MachinistOverdriveFeature: CustomCombo {
 
 internal class MachinistDrillAirAnchorFeature: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.MachinistDrillAirAnchor;
-	public override uint[] ActionIDs { get; } = new[] { MCH.HotShot, MCH.AirAnchor, MCH.Drill };
+	public override uint[] ActionIDs { get; } = [MCH.HotShot, MCH.AirAnchor, MCH.Drill];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		uint preference = GetJobGauge<MCHGauge>().Battery > 80
@@ -273,7 +273,7 @@ internal class MachinistDrillAirAnchorFeature: CustomCombo {
 
 internal class MachinistTacticianDismantle: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.MachinistTacticianDismantle;
-	public override uint[] ActionIDs { get; } = new uint[] { MCH.Tactician, MCH.Dismantle };
+	public override uint[] ActionIDs { get; } = [MCH.Tactician, MCH.Dismantle];
 
 	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
 

@@ -77,7 +77,7 @@ internal static class BRD {
 
 internal class BardHeavyBurstShot: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.BrdAny;
-	public override uint[] ActionIDs { get; } = new[] { BRD.HeavyShot, BRD.BurstShot };
+	public override uint[] ActionIDs { get; } = [BRD.HeavyShot, BRD.BurstShot];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -188,7 +188,7 @@ internal class BardHeavyBurstShot: CustomCombo {
 
 internal class BardIronJaws: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.BardIronBites;
-	public override uint[] ActionIDs { get; } = new[] { BRD.IronJaws };
+	public override uint[] ActionIDs { get; } = [BRD.IronJaws];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -234,7 +234,7 @@ internal class BardIronJaws: CustomCombo {
 
 internal class BardQuickNockLadonsbite: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.BrdAny;
-	public override uint[] ActionIDs { get; } = new[] { BRD.QuickNock, BRD.Ladonsbite };
+	public override uint[] ActionIDs { get; } = [BRD.QuickNock, BRD.Ladonsbite];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -259,7 +259,7 @@ internal class BardQuickNockLadonsbite: CustomCombo {
 
 internal class BardShadowbite: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.BrdAny;
-	public override uint[] ActionIDs { get; } = new[] { BRD.Shadowbite };
+	public override uint[] ActionIDs { get; } = [BRD.Shadowbite];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -289,7 +289,7 @@ internal class BardShadowbite: CustomCombo {
 
 internal class BardEmpyrealSidewinder: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.BardEmpyrealSidewinder;
-	public override uint[] ActionIDs { get; } = new[] { BRD.Sidewinder, BRD.EmpyrealArrow };
+	public override uint[] ActionIDs { get; } = [BRD.Sidewinder, BRD.EmpyrealArrow];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		return level >= BRD.Levels.Sidewinder
@@ -300,7 +300,7 @@ internal class BardEmpyrealSidewinder: CustomCombo {
 
 internal class BardBarrage: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.BardBarrageFeature;
-	public override uint[] ActionIDs { get; } = new[] { BRD.Barrage };
+	public override uint[] ActionIDs { get; } = [BRD.Barrage];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		return level >= BRD.Levels.StraightShot
@@ -313,7 +313,7 @@ internal class BardBarrage: CustomCombo {
 
 internal class BardRadiantFinale: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.BrdAny;
-	public override uint[] ActionIDs { get; } = new[] { BRD.RadiantFinale };
+	public override uint[] ActionIDs { get; } = [BRD.RadiantFinale];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 

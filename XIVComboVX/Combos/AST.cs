@@ -70,7 +70,7 @@ internal class AstrologianSwiftcastRaiserFeature: SwiftRaiseCombo {
 
 internal class AstrologianPlay: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.AstAny;
-	public override uint[] ActionIDs { get; } = new[] { AST.Play };
+	public override uint[] ActionIDs { get; } = [AST.Play];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -100,7 +100,7 @@ internal class AstrologianPlay: CustomCombo {
 
 internal class AstrologianDraw: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.AstAny;
-	public override uint[] ActionIDs { get; } = new[] { AST.Draw };
+	public override uint[] ActionIDs { get; } = [AST.Draw];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		ASTGauge gauge = GetJobGauge<ASTGauge>();
@@ -120,7 +120,7 @@ internal class AstrologianDraw: CustomCombo {
 
 internal class AstrologianBeneficFeature: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.AstrologianBeneficFeature;
-	public override uint[] ActionIDs { get; } = new[] { AST.Benefic2 };
+	public override uint[] ActionIDs { get; } = [AST.Benefic2];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 

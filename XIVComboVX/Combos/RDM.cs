@@ -93,7 +93,7 @@ internal class RedMageSwiftcastRaiserFeature: SwiftRaiseCombo {
 
 internal class RedMageAoECombo: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.RedMageAoECombo;
-	public override uint[] ActionIDs { get; } = new[] { RDM.Veraero2, RDM.Verthunder2 };
+	public override uint[] ActionIDs { get; } = [RDM.Veraero2, RDM.Verthunder2];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -112,7 +112,7 @@ internal class RedMageAoECombo: CustomCombo {
 
 internal class RedMageMeleeCombo: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.RedMageMeleeCombo;
-	public override uint[] ActionIDs { get; } = new[] { RDM.Redoublement, RDM.Moulinet };
+	public override uint[] ActionIDs { get; } = [RDM.Redoublement, RDM.Moulinet];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		const int
@@ -177,7 +177,7 @@ internal class RedMageMeleeCombo: CustomCombo {
 
 internal class RedMageVerprocCombo: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.RedMageVerprocCombo;
-	public override uint[] ActionIDs { get; } = new[] { RDM.Verstone, RDM.Verfire };
+	public override uint[] ActionIDs { get; } = [RDM.Verstone, RDM.Verfire];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -244,7 +244,7 @@ internal class RedMageVerprocCombo: CustomCombo {
 
 internal class RedMageContreFlecheFeature: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.RedMageContreFleche;
-	public override uint[] ActionIDs { get; } = new[] { RDM.Fleche, RDM.ContreSixte };
+	public override uint[] ActionIDs { get; } = [RDM.Fleche, RDM.ContreSixte];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -260,7 +260,7 @@ internal class RedMageContreFlecheFeature: CustomCombo {
 
 internal class RedMageSmartcastAoECombo: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.RedMageSmartcastAoE;
-	public override uint[] ActionIDs { get; } = new[] { RDM.Veraero2, RDM.Verthunder2 };
+	public override uint[] ActionIDs { get; } = [RDM.Veraero2, RDM.Verthunder2];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		const int
@@ -348,7 +348,7 @@ internal class RedMageSmartcastAoECombo: CustomCombo {
 
 internal class RedmageSmartcastSingleComboOpener: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.RedMageSmartcastSingleTarget;
-	public override uint[] ActionIDs { get; } = new[] { RDM.Veraero, RDM.Verthunder };
+	public override uint[] ActionIDs { get; } = [RDM.Veraero, RDM.Verthunder];
 
 	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
 		const int longDelta = 6;
@@ -377,7 +377,7 @@ internal class RedmageSmartcastSingleComboOpener: CustomCombo {
 
 internal class RedmageSmartcastSingleComboFull: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.RedMageSmartcastSingleTarget;
-	public override uint[] ActionIDs { get; } = new[] { RDM.Verstone, RDM.Verfire };
+	public override uint[] ActionIDs { get; } = [RDM.Verstone, RDM.Verfire];
 
 	private static uint noCastingSubCheck(byte level, bool engageCheck, bool holdOneEngageCharge, bool engageEarly, bool canMelee, bool allowAccelerate) {
 
@@ -635,7 +635,7 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 
 internal class RedMageAcceleration: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.RedMageAccelerationSwiftcast;
-	public override uint[] ActionIDs => new[] { RDM.Acceleration };
+	public override uint[] ActionIDs => [RDM.Acceleration];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -661,7 +661,7 @@ internal class RedMageAcceleration: CustomCombo {
 
 internal class RedMageManafication: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.RedMageManaficationIntoMelee;
-	public override uint[] ActionIDs => new[] { RDM.Manafication };
+	public override uint[] ActionIDs => [RDM.Manafication];
 
 	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
 		RDMGauge gauge = GetJobGauge<RDMGauge>();
@@ -694,7 +694,7 @@ internal class RedMageManafication: CustomCombo {
 
 internal class RedMageGapControl: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.RdmAny;
-	public override uint[] ActionIDs => new[] { RDM.Corpsacorps, RDM.Displacement };
+	public override uint[] ActionIDs => [RDM.Corpsacorps, RDM.Displacement];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		if (level < RDM.Levels.Displacement)

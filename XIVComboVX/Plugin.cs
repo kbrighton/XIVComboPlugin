@@ -21,13 +21,13 @@ public sealed class Plugin: IDalamudPlugin {
 
 	private bool disposed = false;
 
-	private static readonly string[] nonConflictingPluginIds = Array.Empty<string>();
-	private static readonly string[] conflictingPluginNameSubstrings = new string[] {
+	private static readonly string[] nonConflictingPluginIds = [];
+	private static readonly string[] conflictingPluginNameSubstrings = [
 		"combo",
-	};
-	private static readonly string[] conflictingPluginIdSubstrings = new string[] {
+	];
+	private static readonly string[] conflictingPluginIdSubstrings = [
 		"combo",
-	};
+	];
 
 	internal const string CommandBase = "/pcombo";
 	internal const string CommandCustom = CommandBase + "vx";
@@ -64,7 +64,7 @@ public sealed class Plugin: IDalamudPlugin {
 		Service.Configuration.Active = true;
 		Service.Configuration.UpgradeIfNeeded();
 
-		Service.Address.setup();
+		Service.Address.Setup();
 
 		if (Service.Address.LoadSuccessful) {
 			Service.DataCache = new();
@@ -94,7 +94,7 @@ public sealed class Plugin: IDalamudPlugin {
 
 		Service.Ipc = new();
 
-		Service.Ipc.addTips(
+		Service.Ipc.AddTips(
 			$"{Name} - better than a broken leg!", // I will not be serious and you cannot make me.
 			$"It looks like {Name} is installed. Do you hate pressing buttons?",
 			$"I see you're using {Name}. Have you tried being good at the game instead?"
@@ -340,15 +340,15 @@ public sealed class Plugin: IDalamudPlugin {
 					};
 					Service.Configuration = config;
 					config.Save();
-					List<Payload> parts = new(new Payload[] {
+					List<Payload> parts = new([
 						new TextPayload("Your "),
 						new UIForegroundPayload(35),
 						new TextPayload(Plugin.Name),
 						new UIForegroundPayload(0),
 						new TextPayload("configuration has been reset to the defaults.")
-					});
+					]);
 					if (this.configWindow is not null && !this.configWindow.IsOpen) {
-						parts.AddRange(new Payload[] {
+						parts.AddRange([
 							new TextPayload("\nYou will need to "),
 							new UIForegroundPayload(ChatUtil.ColourForeOpenConfig),
 							new UIGlowPayload(ChatUtil.ColourGlowOpenConfig),
@@ -358,7 +358,7 @@ public sealed class Plugin: IDalamudPlugin {
 							new UIGlowPayload(0),
 							new UIForegroundPayload(0),
 							new TextPayload(" to enable your desired features.")
-						});
+						]);
 					}
 					Service.ChatUtils.Print(XivChatType.Notice, parts.ToArray());
 				}

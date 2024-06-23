@@ -4,25 +4,25 @@ using System.Text;
 namespace PrincessRTFM.XIVComboVX.GameData;
 
 internal class PluginAddressResolver {
-	private const string addrFmtSpec = "X16";
+	private const string AddrFmtSpec = "X16";
 
 	public Exception? LoadFailReason { get; private set; }
 	public bool LoadSuccessful => this.LoadFailReason is null;
 
 	public IntPtr ComboTimer { get; private set; } = IntPtr.Zero;
-	public string ComboTimerAddr => this.ComboTimer.ToInt64().ToString(addrFmtSpec);
+	public string ComboTimerAddr => this.ComboTimer.ToInt64().ToString(AddrFmtSpec);
 
 	public IntPtr LastComboMove => this.ComboTimer + 0x4;
-	public string LastComboMoveAddr => this.LastComboMove.ToInt64().ToString(addrFmtSpec);
+	public string LastComboMoveAddr => this.LastComboMove.ToInt64().ToString(AddrFmtSpec);
 
 	public IntPtr GetAdjustedActionId { get; private set; } = IntPtr.Zero;
-	public string GetAdjustedActionIdAddr => this.GetAdjustedActionId.ToInt64().ToString(addrFmtSpec);
+	public string GetAdjustedActionIdAddr => this.GetAdjustedActionId.ToInt64().ToString(AddrFmtSpec);
 
 	public IntPtr IsActionIdReplaceable { get; private set; } = IntPtr.Zero;
-	public string IsActionIdReplaceableAddr => this.IsActionIdReplaceable.ToInt64().ToString(addrFmtSpec);
+	public string IsActionIdReplaceableAddr => this.IsActionIdReplaceable.ToInt64().ToString(AddrFmtSpec);
 
 
-	internal void setup() {
+	internal void Setup() {
 		try {
 			Service.Log.Information("Scanning for ComboTimer signature");
 			this.ComboTimer = Service.SigScanner.GetStaticAddressFromSig("F3 0F 11 05 ?? ?? ?? ?? 48 83 C7 08");

@@ -64,7 +64,7 @@ internal static class BLM {
 
 internal class BlackFireBlizzard4: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.BlmAny;
-	public override uint[] ActionIDs => new[] { BLM.Fire4, BLM.Blizzard4 };
+	public override uint[] ActionIDs => [BLM.Fire4, BLM.Blizzard4];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		BLMGauge gauge = GetJobGauge<BLMGauge>();
@@ -105,7 +105,7 @@ internal class BlackFireBlizzard4: CustomCombo {
 
 internal class BlackTranspose: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.BlackManaFeature;
-	public override uint[] ActionIDs => new[] { BLM.Transpose };
+	public override uint[] ActionIDs => [BLM.Transpose];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		BLMGauge gauge = GetJobGauge<BLMGauge>();
@@ -119,7 +119,7 @@ internal class BlackTranspose: CustomCombo {
 
 internal class BlackLeyLines: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.BlackLeyLinesFeature;
-	public override uint[] ActionIDs => new[] { BLM.LeyLines };
+	public override uint[] ActionIDs => [BLM.LeyLines];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -132,7 +132,7 @@ internal class BlackLeyLines: CustomCombo {
 
 internal class BlackFireFeature: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.BlmAny;
-	public override uint[] ActionIDs { get; } = new[] { BLM.Fire };
+	public override uint[] ActionIDs { get; } = [BLM.Fire];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		BLMGauge gauge = GetJobGauge<BLMGauge>();
@@ -155,7 +155,7 @@ internal class BlackFireFeature: CustomCombo {
 
 internal class BlackBlizzard: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.BlmAny;
-	public override uint[] ActionIDs => new[] { BLM.Blizzard, BLM.Blizzard3 };
+	public override uint[] ActionIDs => [BLM.Blizzard, BLM.Blizzard3];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		BLMGauge gauge = GetJobGauge<BLMGauge>();
@@ -182,7 +182,7 @@ internal class BlackBlizzard: CustomCombo {
 
 internal class BlackFreezeFlare: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.BlmAny;
-	public override uint[] ActionIDs => new[] { BLM.Freeze, BLM.Flare };
+	public override uint[] ActionIDs => [BLM.Freeze, BLM.Flare];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		BLMGauge gauge = GetJobGauge<BLMGauge>();
@@ -208,7 +208,7 @@ internal class BlackFreezeFlare: CustomCombo {
 
 internal class BlackFire2: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.BlackFire2Feature;
-	public override uint[] ActionIDs => new[] { BLM.Fire2, BLM.HighFire2 };
+	public override uint[] ActionIDs => [BLM.Fire2, BLM.HighFire2];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		BLMGauge gauge = GetJobGauge<BLMGauge>();
@@ -231,7 +231,7 @@ internal class BlackFire2: CustomCombo {
 
 internal class BlackBlizzard2: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.BlmAny;
-	public override uint[] ActionIDs => new[] { BLM.Blizzard2, BLM.HighBlizzard2 };
+	public override uint[] ActionIDs => [BLM.Blizzard2, BLM.HighBlizzard2];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		BLMGauge gauge = GetJobGauge<BLMGauge>();
@@ -257,7 +257,7 @@ internal class BlackBlizzard2: CustomCombo {
 
 internal class BlackScathe: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.BlackScatheFeature;
-	public override uint[] ActionIDs => new[] { BLM.Scathe };
+	public override uint[] ActionIDs => [BLM.Scathe];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 

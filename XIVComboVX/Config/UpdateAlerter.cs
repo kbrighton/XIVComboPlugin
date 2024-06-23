@@ -75,7 +75,7 @@ internal class UpdateAlerter: IDisposable {
 
 		Service.Log.Information("Displaying update alert in game chat");
 
-		List<Payload> parts = new();
+		List<Payload> parts = [];
 		if (!(Plugin.Debug && Service.Interface.IsDev)) {
 			parts.Add(new TextPayload(
 				this.isFreshInstall
@@ -83,7 +83,7 @@ internal class UpdateAlerter: IDisposable {
 					: $"{Plugin.Name} has been updated to {this.current}. Features may have been added or changed.\n"
 			));
 		}
-		parts.AddRange(new Payload[] {
+		parts.AddRange([
 			new UIForegroundPayload(ChatUtil.ColourForeOpenConfig),
 			new UIGlowPayload(ChatUtil.ColourGlowOpenConfig),
 			Service.ChatUtils.openConfig,
@@ -91,7 +91,7 @@ internal class UpdateAlerter: IDisposable {
 			RawPayload.LinkTerminator,
 			new UIGlowPayload(0),
 			new UIForegroundPayload(0),
-		});
+		]);
 
 		Service.ChatUtils.Print(XivChatType.Notice, parts.ToArray());
 

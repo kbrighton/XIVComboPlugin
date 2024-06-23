@@ -82,12 +82,12 @@ internal static class DNC {
 
 internal class DancerDanceComboCompatibility: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.DancerDanceComboCompatibility;
-	public override uint[] ActionIDs => new uint[] {
+	public override uint[] ActionIDs => [
 		Service.Configuration.DancerEmboiteRedActionID,
 		Service.Configuration.DancerEntrechatBlueActionID,
 		Service.Configuration.DancerJeteGreenActionID,
 		Service.Configuration.DancerPirouetteYellowActionID,
-	};
+	];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		if (level >= DNC.Levels.StandardStep && GetJobGauge<DNCGauge>().IsDancing) {
@@ -113,7 +113,7 @@ internal class DancerDanceComboCompatibility: CustomCombo {
 
 internal class DancerFanDanceCombos: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.DncAny;
-	public override uint[] ActionIDs { get; } = new[] { DNC.FanDance1, DNC.FanDance2 };
+	public override uint[] ActionIDs { get; } = [DNC.FanDance1, DNC.FanDance2];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		bool can4 = level >= DNC.Levels.FanDance4 && SelfHasEffect(DNC.Buffs.FourfoldFanDance);
@@ -138,7 +138,7 @@ internal class DancerFanDanceCombos: CustomCombo {
 
 internal class DancerDanceStepCombo: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.DancerDanceStepCombo;
-	public override uint[] ActionIDs { get; } = new[] { DNC.StandardStep, DNC.TechnicalStep };
+	public override uint[] ActionIDs { get; } = [DNC.StandardStep, DNC.TechnicalStep];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		if (level >= DNC.Levels.StandardStep && Service.DataCache.DancerSmartDancing(out uint danceStep))
@@ -166,7 +166,7 @@ internal class DancerDanceStepCombo: CustomCombo {
 
 internal class DancerFlourishFeature: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.DancerFlourishFeature;
-	public override uint[] ActionIDs { get; } = new[] { DNC.Flourish };
+	public override uint[] ActionIDs { get; } = [DNC.Flourish];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -179,7 +179,7 @@ internal class DancerFlourishFeature: CustomCombo {
 
 internal class DancerSingleTargetMultibutton: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.DancerSingleTargetMultibutton;
-	public override uint[] ActionIDs { get; } = new[] { DNC.Cascade };
+	public override uint[] ActionIDs { get; } = [DNC.Cascade];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		if (IsEnabled(CustomComboPreset.DancerSmartDanceFeature)) {
@@ -255,7 +255,7 @@ internal class DancerSingleTargetMultibutton: CustomCombo {
 
 internal class DancerAoeMultibutton: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.DancerAoeMultibutton;
-	public override uint[] ActionIDs { get; } = new[] { DNC.Windmill };
+	public override uint[] ActionIDs { get; } = [DNC.Windmill];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		if (IsEnabled(CustomComboPreset.DancerSmartDanceFeature)) {
@@ -326,7 +326,7 @@ internal class DancerAoeMultibutton: CustomCombo {
 
 internal class DancerDevilmentFeature: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.DancerDevilmentFeature;
-	public override uint[] ActionIDs { get; } = new[] { DNC.Devilment };
+	public override uint[] ActionIDs { get; } = [DNC.Devilment];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -339,7 +339,7 @@ internal class DancerDevilmentFeature: CustomCombo {
 
 internal class DancerCuringWindFeature: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.DncAny;
-	public override uint[] ActionIDs { get; } = new[] { DNC.CuringWaltz };
+	public override uint[] ActionIDs { get; } = [DNC.CuringWaltz];
 
 	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
 

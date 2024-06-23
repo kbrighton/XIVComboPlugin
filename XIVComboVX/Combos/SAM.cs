@@ -72,7 +72,7 @@ internal static class SAM {
 
 internal class SamuraiGurenSeneiLevelSyncFeature: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.SamuraiGurenSeneiLevelSyncFeature;
-	public override uint[] ActionIDs { get; } = new[] { SAM.HissatsuSenei };
+	public override uint[] ActionIDs { get; } = [SAM.HissatsuSenei];
 
 	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level)
 		=> level >= SAM.Levels.HissatsuSenei ? SAM.HissatsuSenei : SAM.HissatsuGuren;
@@ -80,7 +80,7 @@ internal class SamuraiGurenSeneiLevelSyncFeature: CustomCombo {
 
 internal class SamuraiYukikazeCombo: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.SamuraiYukikazeCombo;
-	public override uint[] ActionIDs { get; } = new[] { SAM.Yukikaze };
+	public override uint[] ActionIDs { get; } = [SAM.Yukikaze];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -96,7 +96,7 @@ internal class SamuraiYukikazeCombo: CustomCombo {
 
 internal class SamuraiGekkoCombo: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.SamuraiGekkoCombo;
-	public override uint[] ActionIDs { get; } = new[] { SAM.Gekko };
+	public override uint[] ActionIDs { get; } = [SAM.Gekko];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -121,7 +121,7 @@ internal class SamuraiGekkoCombo: CustomCombo {
 
 internal class SamuraiKashaCombo: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.SamuraiKashaCombo;
-	public override uint[] ActionIDs { get; } = new[] { SAM.Kasha };
+	public override uint[] ActionIDs { get; } = [SAM.Kasha];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -144,7 +144,7 @@ internal class SamuraiKashaCombo: CustomCombo {
 
 internal class SamuraiMangetsuCombo: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.SamuraiMangetsuCombo;
-	public override uint[] ActionIDs { get; } = new[] { SAM.Mangetsu };
+	public override uint[] ActionIDs { get; } = [SAM.Mangetsu];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -161,7 +161,7 @@ internal class SamuraiMangetsuCombo: CustomCombo {
 
 internal class SamuraiOkaCombo: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.SamuraiOkaCombo;
-	public override uint[] ActionIDs { get; } = new[] { SAM.Oka };
+	public override uint[] ActionIDs { get; } = [SAM.Oka];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -178,7 +178,7 @@ internal class SamuraiOkaCombo: CustomCombo {
 
 internal class SamuraiTsubameGaeshiFeature: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.SamAny;
-	public override uint[] ActionIDs { get; } = new[] { SAM.TsubameGaeshi };
+	public override uint[] ActionIDs { get; } = [SAM.TsubameGaeshi];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		SAMGauge gauge = GetJobGauge<SAMGauge>();
@@ -199,7 +199,7 @@ internal class SamuraiTsubameGaeshiFeature: CustomCombo {
 
 internal class SamuraiIaijutsuFeature: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.SamAny;
-	public override uint[] ActionIDs { get; } = new[] { SAM.Iaijutsu };
+	public override uint[] ActionIDs { get; } = [SAM.Iaijutsu];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		SAMGauge gauge = GetJobGauge<SAMGauge>();
@@ -220,7 +220,7 @@ internal class SamuraiIaijutsuFeature: CustomCombo {
 
 internal class SamuraiShinten: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.SamAny;
-	public override uint[] ActionIDs { get; } = new[] { SAM.HissatsuShinten };
+	public override uint[] ActionIDs { get; } = [SAM.HissatsuShinten];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -246,7 +246,7 @@ internal class SamuraiShinten: CustomCombo {
 
 internal class SamuraiSenei: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.SamAny;
-	public override uint[] ActionIDs { get; } = new[] { SAM.HissatsuSenei };
+	public override uint[] ActionIDs { get; } = [SAM.HissatsuSenei];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -261,7 +261,7 @@ internal class SamuraiSenei: CustomCombo {
 
 internal class SamuraiKyuten: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.SamAny;
-	public override uint[] ActionIDs { get; } = new[] { SAM.HissatsuKyuten };
+	public override uint[] ActionIDs { get; } = [SAM.HissatsuKyuten];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -282,7 +282,7 @@ internal class SamuraiKyuten: CustomCombo {
 internal class SamuraiIkishotenNamikiriFeature: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.SamuraiIkishotenNamikiriFeature;
 
-	public override uint[] ActionIDs { get; } = new[] { SAM.Ikishoten };
+	public override uint[] ActionIDs { get; } = [SAM.Ikishoten];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 

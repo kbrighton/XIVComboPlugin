@@ -47,7 +47,7 @@ internal static class Common {
 }
 
 internal abstract class SwiftRaiseCombo: CustomCombo {
-	public override uint[] ActionIDs { get; } = new[] { AST.Ascend, RDM.Verraise, SCH.Resurrection, SGE.Egeiro, SMN.Resurrection, WHM.Raise };
+	public override uint[] ActionIDs { get; } = [AST.Ascend, RDM.Verraise, SCH.Resurrection, SGE.Egeiro, SMN.Resurrection, WHM.Raise];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		return level >= Common.Levels.Swiftcast && ShouldSwiftcast
@@ -57,7 +57,7 @@ internal abstract class SwiftRaiseCombo: CustomCombo {
 }
 
 internal abstract class StunInterruptCombo: CustomCombo {
-	public override uint[] ActionIDs { get; } = new[] { Common.LowBlow, Common.Interject };
+	public override uint[] ActionIDs { get; } = [Common.LowBlow, Common.Interject];
 
 	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
 		return CanInterrupt && IsOffCooldown(Common.Interject)

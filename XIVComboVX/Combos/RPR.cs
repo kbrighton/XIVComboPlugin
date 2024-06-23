@@ -94,7 +94,7 @@ internal static class RPR {
 
 internal class ReaperSlice: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.RprAny;
-	public override uint[] ActionIDs => new[] { RPR.InfernalSlice };
+	public override uint[] ActionIDs => [RPR.InfernalSlice];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		RPRGauge gauge = GetJobGauge<RPRGauge>();
@@ -209,7 +209,7 @@ internal class ReaperSlice: CustomCombo {
 
 internal class ReaperScythe: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.RprAny;
-	public override uint[] ActionIDs => new[] { RPR.NightmareScythe };
+	public override uint[] ActionIDs => [RPR.NightmareScythe];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		RPRGauge gauge = GetJobGauge<RPRGauge>();
@@ -298,7 +298,7 @@ internal class ReaperScythe: CustomCombo {
 
 internal class ReaperShadowOfDeath: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.RprAny;
-	public override uint[] ActionIDs => new[] { RPR.ShadowOfDeath };
+	public override uint[] ActionIDs => [RPR.ShadowOfDeath];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -343,7 +343,7 @@ internal class ReaperShadowOfDeath: CustomCombo {
 
 internal class ReaperSoulSlice: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.RprAny;
-	public override uint[] ActionIDs => new[] { RPR.SoulSlice };
+	public override uint[] ActionIDs => [RPR.SoulSlice];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		RPRGauge gauge = GetJobGauge<RPRGauge>();
@@ -412,7 +412,7 @@ internal class ReaperSoulSlice: CustomCombo {
 
 internal class ReaperSoulScythe: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.ReaperSoulScytheOvercapFeature;
-	public override uint[] ActionIDs => new[] { RPR.SoulScythe };
+	public override uint[] ActionIDs => [RPR.SoulScythe];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		RPRGauge gauge = GetJobGauge<RPRGauge>();
@@ -447,7 +447,7 @@ internal class ReaperSoulScythe: CustomCombo {
 
 internal class ReaperBloodStalk: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.ReaperBloodStalkGluttonyFeature;
-	public override uint[] ActionIDs => new[] { RPR.BloodStalk };
+	public override uint[] ActionIDs => [RPR.BloodStalk];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		RPRGauge gauge = GetJobGauge<RPRGauge>();
@@ -461,7 +461,7 @@ internal class ReaperBloodStalk: CustomCombo {
 
 internal class ReaperGrimSwathe: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.ReaperGrimSwatheGluttonyFeature;
-	public override uint[] ActionIDs => new[] { RPR.GrimSwathe };
+	public override uint[] ActionIDs => [RPR.GrimSwathe];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		RPRGauge gauge = GetJobGauge<RPRGauge>();
@@ -475,7 +475,7 @@ internal class ReaperGrimSwathe: CustomCombo {
 
 internal class ReaperGibbetGallows: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.RprAny;
-	public override uint[] ActionIDs => new[] { RPR.Gibbet, RPR.Gallows };
+	public override uint[] ActionIDs => [RPR.Gibbet, RPR.Gallows];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		RPRGauge gauge = GetJobGauge<RPRGauge>();
@@ -523,7 +523,7 @@ internal class ReaperGibbetGallows: CustomCombo {
 
 internal class ReaperGuillotine: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.RprAny;
-	public override uint[] ActionIDs => new[] { RPR.Guillotine };
+	public override uint[] ActionIDs => [RPR.Guillotine];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		RPRGauge gauge = GetJobGauge<RPRGauge>();
@@ -548,7 +548,7 @@ internal class ReaperGuillotine: CustomCombo {
 
 internal class ReaperEnshroud: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.ReaperEnshroudCommunioFeature;
-	public override uint[] ActionIDs => new[] { RPR.Enshroud };
+	public override uint[] ActionIDs => [RPR.Enshroud];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		RPRGauge gauge = GetJobGauge<RPRGauge>();
@@ -562,7 +562,7 @@ internal class ReaperEnshroud: CustomCombo {
 
 internal class ReaperArcaneCircle: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.ReaperHarvestFeature;
-	public override uint[] ActionIDs => new[] { RPR.ArcaneCircle };
+	public override uint[] ActionIDs => [RPR.ArcaneCircle];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -575,7 +575,7 @@ internal class ReaperArcaneCircle: CustomCombo {
 
 internal class ReaperHellsIngressEgress: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.ReaperRegressFeature;
-	public override uint[] ActionIDs => new[] { RPR.HellsEgress, RPR.HellsIngress };
+	public override uint[] ActionIDs => [RPR.HellsEgress, RPR.HellsIngress];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -598,7 +598,7 @@ internal class ReaperHellsIngressEgress: CustomCombo {
 
 internal class ReaperHarpe: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.RprAny;
-	public override uint[] ActionIDs => new[] { RPR.Harpe };
+	public override uint[] ActionIDs => [RPR.Harpe];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 

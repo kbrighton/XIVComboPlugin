@@ -62,7 +62,7 @@ internal class DarkStunInterruptFeature: StunInterruptCombo {
 
 internal class DarkSouleater: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.DrkAny;
-	public override uint[] ActionIDs { get; } = new[] { DRK.Souleater };
+	public override uint[] ActionIDs { get; } = [DRK.Souleater];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -92,7 +92,7 @@ internal class DarkSouleater: CustomCombo {
 
 internal class DarkStalwartSoul: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.DrkAny;
-	public override uint[] ActionIDs { get; } = new[] { DRK.StalwartSoul };
+	public override uint[] ActionIDs { get; } = [DRK.StalwartSoul];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -120,7 +120,7 @@ internal class DarkStalwartSoul: CustomCombo {
 
 internal class DarkShadowbringerFeature: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.DarkShadowbringerFeature;
-	public override uint[] ActionIDs { get; } = new[] { DRK.EdgeOfShadow, DRK.FloodOfShadow };
+	public override uint[] ActionIDs { get; } = [DRK.EdgeOfShadow, DRK.FloodOfShadow];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -133,7 +133,7 @@ internal class DarkShadowbringerFeature: CustomCombo {
 
 internal class DarkCarveAndSpitAbyssalDrain: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.DrkAny;
-	public override uint[] ActionIDs { get; } = new[] { DRK.CarveAndSpit, DRK.AbyssalDrain };
+	public override uint[] ActionIDs { get; } = [DRK.CarveAndSpit, DRK.AbyssalDrain];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -146,7 +146,7 @@ internal class DarkCarveAndSpitAbyssalDrain: CustomCombo {
 
 internal class DarkQuietusBloodspiller: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.DrkAny;
-	public override uint[] ActionIDs { get; } = new[] { DRK.Quietus, DRK.Bloodspiller };
+	public override uint[] ActionIDs { get; } = [DRK.Quietus, DRK.Bloodspiller];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -160,7 +160,7 @@ internal class DarkQuietusBloodspiller: CustomCombo {
 
 internal class DarkLivingShadow: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.DrkAny;
-	public override uint[] ActionIDs { get; } = new[] { DRK.LivingShadow };
+	public override uint[] ActionIDs { get; } = [DRK.LivingShadow];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		DRKGauge gauge = GetJobGauge<DRKGauge>();
