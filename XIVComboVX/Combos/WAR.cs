@@ -273,9 +273,10 @@ internal class WarriorBloodwhetting: CustomCombo {
 	public override uint[] ActionIDs { get; } = new[] { WAR.Bloodwhetting, WAR.RawIntuition };
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+		uint rawBlood = OriginalHook(WAR.RawIntuition);
 
-		if (level >= WAR.Levels.Bloodwhetting && IsOffCooldown(WAR.Bloodwhetting))
-			return WAR.Bloodwhetting;
+		if (level >= WAR.Levels.RawIntuition && IsOffCooldown(rawBlood))
+			return rawBlood;
 
 		if (level >= WAR.Levels.ThrillOfBattle && IsOffCooldown(WAR.ThrillOfBattle))
 			return WAR.ThrillOfBattle;
