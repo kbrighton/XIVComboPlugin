@@ -35,6 +35,7 @@ internal static class MCH {
 		Detonator = 16766,
 		Hypercharge = 17209,
 		HeatBlast = 7410,
+		BlazingShot =  36978,
 		HotShot = 2872,
 		Drill = 16498,
 		Bioblaster = 16499,
@@ -70,6 +71,7 @@ internal static class MCH {
 			Dismantle = 62,
 			HeatedCleanShot = 64,
 			BarrelStabiliser = 66,
+			BlazingShot = 68,
 			ChargedActionMastery = 74,
 			AirAnchor = 76,
 			QueenOverdrive = 80,
@@ -123,7 +125,10 @@ internal class MachinistCleanShot: CustomCombo {
 				return MCH.GaussRound;
 			}
 
-			return MCH.HeatBlast;
+			if (level >= MCH.Levels.BlazingShot)
+				return MCH.BlazingShot;
+			else
+				return MCH.HeatBlast;
 		}
 
 		if (comboTime > 0) {
@@ -197,7 +202,7 @@ internal class MachinistHypercharge: CustomCombo {
 
 internal class MachinistHeatBlastAutoCrossbow: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.MchAny;
-	public override uint[] ActionIDs { get; } = [MCH.HeatBlast, MCH.AutoCrossbow];
+	public override uint[] ActionIDs { get; } = [MCH.HeatBlast, MCH.AutoCrossbow, MCH.BlazingShot];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
@@ -234,7 +239,10 @@ internal class MachinistHeatBlastAutoCrossbow: CustomCombo {
 				}
 			}
 
-			return MCH.HeatBlast;
+			if (level >= MCH.Levels.BlazingShot)
+				return MCH.BlazingShot;
+			else
+				return MCH.HeatBlast;
 		}
 
 		return actionID;
