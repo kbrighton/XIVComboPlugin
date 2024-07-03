@@ -15,7 +15,9 @@ internal static class MCH {
 		HeatedSlugshot = 7412,
 		// Charges
 		GaussRound = 2874,
+		DoubleCheck = 36979,
 		Ricochet = 2890,
+		CheckMate = 36980,
 		// AoE
 		SpreadShot = 2870,
 		AutoCrossbow = 16497,
@@ -37,6 +39,7 @@ internal static class MCH {
 		Drill = 16498,
 		Bioblaster = 16499,
 		AirAnchor = 16500,
+		FullMetalField = 36982,
 		Chainsaw = 25788;
 
 	public static class Buffs {
@@ -70,7 +73,9 @@ internal static class MCH {
 			ChargedActionMastery = 74,
 			AirAnchor = 76,
 			QueenOverdrive = 80,
-			Chainsaw = 90;
+			Chainsaw = 90,
+			DoubleCheck = 92,
+			Checkmate = 92;
 	}
 }
 
@@ -111,6 +116,8 @@ internal class MachinistCleanShot: CustomCombo {
 
 				if (level >= MCH.Levels.Ricochet)
 					return PickByCooldown(MCH.GaussRound, MCH.GaussRound, MCH.Ricochet);
+				else if (level >= MCH.Levels.Checkmate)
+					return PickByCooldown(MCH.DoubleCheck, MCH.DoubleCheck, MCH.CheckMate);
 
 				return MCH.GaussRound;
 			}
