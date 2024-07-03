@@ -4,7 +4,6 @@ using System.Diagnostics.CodeAnalysis;
 
 using Dalamud.Configuration;
 using Dalamud.Interface.ImGuiNotification;
-using Dalamud.Interface.Internal.Notifications;
 
 using Newtonsoft.Json;
 
@@ -412,7 +411,7 @@ public class PluginConfiguration: IPluginConfiguration {
 
 	[LucidWeavingSetting(CustomComboPreset.WhiteMageLucidWeave)]
 	public uint WhiteMageLucidWeaveManaThreshold { get; set; } = 7000;
-	
+
 	[ComboDetailSetting(
 		CustomComboPreset.WhiteMageDotRefresh,
 		"Debuff time threshold",
