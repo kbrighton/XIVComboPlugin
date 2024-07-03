@@ -114,10 +114,11 @@ internal class MachinistCleanShot: CustomCombo {
 		if (IsEnabled(CustomComboPreset.MachinistMainComboHeatBlast) && level >= MCH.Levels.HeatBlast && gauge.IsOverheated) {
 			if (IsEnabled(CustomComboPreset.MachinistHeatBlastWeaveGaussRoundRicochet) && CanWeave(MCH.HeatBlast)) { // Heat Blast has a 1.5s cooldown instead of the normal GCD
 
-				if (level >= MCH.Levels.Ricochet)
-					return PickByCooldown(MCH.GaussRound, MCH.GaussRound, MCH.Ricochet);
-				else if (level >= MCH.Levels.Checkmate)
+				if (level >= MCH.Levels.Checkmate)
 					return PickByCooldown(MCH.DoubleCheck, MCH.DoubleCheck, MCH.CheckMate);
+				else if (level >= MCH.Levels.Ricochet)
+					return PickByCooldown(MCH.GaussRound, MCH.GaussRound, MCH.Ricochet);
+
 
 				return MCH.GaussRound;
 			}
