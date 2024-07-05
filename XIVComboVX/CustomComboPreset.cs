@@ -1254,7 +1254,7 @@ public enum CustomComboPreset {
 	#endregion
 	// ====================================================================================
 	#region SAGE (40xx)
-	//Current latest 4027
+	// Current latest 4027
 
 	[CustomComboInfo("Swiftcast Egeiro", "Egeiro turns into Swiftcast when available and reasonable.", SGE.JobID)]
 	SageSwiftcastRaiserFeature = 4000,
@@ -1344,7 +1344,7 @@ public enum CustomComboPreset {
 	SageLucidPhlegma = 4015,
 
 	[CustomComboInfo("Philosophica Into Zoe", "When either not at level or when Philosophica is on cooldown, change it into Zoe.", SGE.JobID)]
-	SagePhilosophicaZoe = 4027,
+	SagePhilosophicaZoe = 4027, // My first preset :D
 
 	#endregion
 	// ====================================================================================

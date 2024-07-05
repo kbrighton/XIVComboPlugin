@@ -365,6 +365,7 @@ internal class SageToxikon: CustomCombo {
 	}
 }
 
+// Added By Frigid :D
 internal class SagePhilosophica: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.SagePhilosophicaZoe;
 	public override uint[] ActionIDs => [SGE.Philosophica];
