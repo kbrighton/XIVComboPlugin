@@ -1344,7 +1344,7 @@ public enum CustomComboPreset {
 	SageLucidPhlegma = 4015,
 
 	[CustomComboInfo("Philosophica Into Zoe", "When either not at level or when Philosophica is on cooldown, change it into Zoe.", SGE.JobID)]
-	SagePhilosophicaZoe = 4027, // My first preset :D
+	SagePhilosophicaZoe = 4027, // Currently not working until action ID set
 
 	#endregion
 	// ====================================================================================
