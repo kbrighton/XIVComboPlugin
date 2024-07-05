@@ -830,6 +830,10 @@ public enum CustomComboPreset {
 
 	#endregion
 	// ====================================================================================
+	#region PICTOMANCER (XXxx)
+
+	#endregion
+	// ====================================================================================
 	#region RED MAGE (35xx)
 
 	[CustomComboInfo("Swiftcast Verraise", "Verraise turns into Swiftcast when available and reasonable.", RDM.JobID)]
@@ -1394,6 +1398,10 @@ public enum CustomComboPreset {
 
 	[CustomComboInfo("Slipstream / Swiftcast Feature", "Change Slipstream into Swiftcast when Swiftcast is available.", SMN.JobID)]
 	SummonerSlipcastFeature = 2718,
+
+	#endregion
+	// ====================================================================================
+	#region VIPER (XXxx)
 
 	#endregion
 	// ====================================================================================
