@@ -74,6 +74,9 @@ public enum CustomComboPreset {
 
 	[CustomComboInfo("Any", "This should not be displayed. This always returns true when used with IsEnabled.", DOL.JobID)]
 	DolAny = AdvAny + DOL.JobID,
+
+	[CustomComboInfo("None", "This should not be displayed. This always returns false when used with IsEnabled.", 99)]
+	None = 99,
 	#endregion
 	// ====================================================================================
 	#region ASTROLOGIAN (33xx)
@@ -1251,6 +1254,7 @@ public enum CustomComboPreset {
 	#endregion
 	// ====================================================================================
 	#region SAGE (40xx)
+	//Current latest 4027
 
 	[CustomComboInfo("Swiftcast Egeiro", "Egeiro turns into Swiftcast when available and reasonable.", SGE.JobID)]
 	SageSwiftcastRaiserFeature = 4000,
@@ -1338,6 +1342,9 @@ public enum CustomComboPreset {
 
 	[CustomComboInfo("Lucid Phlegma", "Weave Phlegma into Lucid Dreaming when it's available and your MP is below a configurable threshold.", SGE.JobID)]
 	SageLucidPhlegma = 4015,
+
+	[CustomComboInfo("Philosophica Into Zoe", "When either not at level or when Philosophica is on cooldown, change it into Zoe.", SGE.JobID)]
+	SagePhilosophicaZoe = 4027,
 
 	#endregion
 	// ====================================================================================
@@ -1494,7 +1501,7 @@ public enum CustomComboPreset {
 
 	[CustomComboInfo("Cure 2 Level Sync", "Changes Cure 2 to Cure when below level 30 in synced content.", WHM.JobID)]
 	WhiteMageCureFeature = 2403,
-	
+
 	[CustomComboInfo("DOT Refresh", "Replace Stone/Glare with level appropriate DOT when debuff is about to fall off.", WHM.JobID)]
 	WhiteMageDotRefresh = 2407,
 

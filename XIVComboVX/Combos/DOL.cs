@@ -3,7 +3,7 @@ using Dalamud.Game.ClientState.Conditions;
 namespace PrincessRTFM.XIVComboVX.Combos;
 
 internal static class DOL {
-	public const byte JobID = 99,
+	public const byte JobID = 98,
 		MinID = 16,
 		BtnID = 17,
 		FshID = 18;

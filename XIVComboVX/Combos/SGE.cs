@@ -34,7 +34,8 @@ internal static class SGE {
 		Panhaima = 24311,
 		Phlegma3 = 24313,
 		Krasis = 24317,
-		Pneuma = 24318;
+		Pneuma = 24318,
+		Philosophica = ushort.MaxValue;
 
 	public static class Buffs {
 		public const ushort
@@ -70,7 +71,10 @@ internal static class SGE {
 			Phlegma3 = 82,
 			Dosis3 = 82,
 			Krasis = 86,
-			Pneuma = 90;
+			Pneuma = 90,
+			Psyche = 92,
+			EukrasianPrognosis2 = 96,
+			Philosophica = 100;
 	}
 }
 
@@ -356,6 +360,22 @@ internal class SageToxikon: CustomCombo {
 					return Common.LucidDreaming;
 			}
 		}
+
+		return actionID;
+	}
+}
+
+internal class SagePhilosophica: CustomCombo {
+	public override CustomComboPreset Preset { get; } = CustomComboPreset.SagePhilosophicaZoe;
+	public override uint[] ActionIDs => [SGE.Philosophica];
+
+	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
+
+		if (level < SGE.Levels.Philosophica)
+			return SGE.Zoe;
+
+		if (CanUse(SGE.Zoe) && !CanUse(SGE.Philosophica))
+			return SGE.Zoe;
 
 		return actionID;
 	}

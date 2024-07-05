@@ -83,6 +83,10 @@ internal abstract class CustomCombo {
 	protected abstract uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level);
 
 	protected internal static bool IsEnabled(CustomComboPreset preset) {
+		if ((int)preset == 99) {
+			Service.TickLogger.Debug($"Aborting is-enabled check, this preset is forcibly disabled");
+			return false;
+		}
 		if ((int)preset < 100) {
 			Service.TickLogger.Debug($"Bypassing is-enabled check for preset #{(int)preset}");
 			return true;
@@ -94,7 +98,7 @@ internal abstract class CustomCombo {
 
 	#region Common calculations and shortcuts
 
-	protected static uint PickByCooldown(uint preference, params uint[] actions) {
+	protected internal static uint PickByCooldown(uint preference, params uint[] actions) {
 
 		static (uint ActionID, CooldownData Data) selector(uint actionID) => (actionID, GetCooldown(actionID));
 
@@ -154,28 +158,6 @@ internal abstract class CustomCombo {
 		return id;
 	}
 
-	[Obsolete("Makes advanced logic a little harder to implement and tends to look messy", true)]
-	protected static bool PartialChainCombo(byte level, uint last, out uint next, params (byte lvl, uint id)[] sequence) {
-		next = 0;
-
-		// Shortcut out if there's no previous combo move
-		if (last == 0)
-			return false;
-
-		// Work backwards, find the latest item in the chain that can be used (level >= lvl) and is ready to be used (last == prev.id)
-		for (int i = sequence.Length - 1; i > 0; --i) {
-			(byte lvl, uint id) = sequence[i];
-			uint prev = sequence[i - 1].id;
-			if (level >= lvl && prev == last) {
-				next = id;
-				return true;
-			}
-		}
-
-		// If nothing is found, then return false to indicate that this case doesn't apply
-		return false;
-	}
-
 	protected static bool IsJob(params uint[] jobs) {
 		PlayerCharacter? p = LocalPlayer;
 		if (p is null)
@@ -188,11 +170,9 @@ internal abstract class CustomCombo {
 		return false;
 	}
 
-	protected internal static uint OriginalHook(uint actionID)
-		=> Service.IconReplacer.OriginalHook(actionID);
+	protected internal static uint OriginalHook(uint actionID) => Service.IconReplacer.OriginalHook(actionID);
 
-	protected static bool IsOriginal(uint actionID)
-		=> OriginalHook(actionID) == actionID;
+	protected static bool IsOriginal(uint actionID) => OriginalHook(actionID) == actionID;
 
 	#endregion
 
