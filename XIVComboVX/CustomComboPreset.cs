@@ -1571,6 +1571,7 @@ public enum CustomComboPreset {
 	FisherSwimbaitFeature = 9926,
 #endif
 
+
 	#endregion
 	// ====================================================================================
 	#region Common (100xx)

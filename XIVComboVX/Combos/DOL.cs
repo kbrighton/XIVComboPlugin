@@ -312,4 +312,5 @@ internal class FisherSwapFeatures: CustomCombo {
 
 		return thaliak(actionID, level);
 	}
+	
 }
