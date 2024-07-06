@@ -70,11 +70,11 @@ internal class DarkSouleater: CustomCombo {
 			DRKGauge gauge = GetJobGauge<DRKGauge>();
 
 			if (level >= DRK.Levels.Bloodspiller && (gauge.Blood > 80 || (gauge.Blood > 70 && SelfHasEffect(DRK.Buffs.BloodWeapon))))
-				return DRK.Bloodspiller;
+				return OriginalHook(DRK.Bloodspiller);
 		}
 
 		if (level >= DRK.Levels.Delirium && IsEnabled(CustomComboPreset.DarkDeliriumFeature) && SelfHasEffect(DRK.Buffs.Delirium))
-			return DRK.Bloodspiller;
+			return OriginalHook(DRK.Bloodspiller);
 
 		if (IsEnabled(CustomComboPreset.DarkSouleaterCombo)) {
 
@@ -100,11 +100,11 @@ internal class DarkStalwartSoul: CustomCombo {
 			DRKGauge gauge = GetJobGauge<DRKGauge>();
 
 			if (level >= DRK.Levels.Quietus && (gauge.Blood > 80 || (gauge.Blood > 70 && SelfHasEffect(DRK.Buffs.BloodWeapon))))
-				return DRK.Quietus;
+				return OriginalHook(DRK.Quietus);
 		}
 
 		if (level >= DRK.Levels.Delirium && IsEnabled(CustomComboPreset.DarkDeliriumFeature) && SelfHasEffect(DRK.Buffs.Delirium))
-			return DRK.Quietus;
+			return OriginalHook(DRK.Quietus);
 
 		if (IsEnabled(CustomComboPreset.DarkStalwartSoulCombo)) {
 
@@ -151,7 +151,7 @@ internal class DarkQuietusBloodspiller: CustomCombo {
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
 		// TODO: integrate this functionality into the Stalwart / Souleater features
-		if (level >= DRK.Levels.LivingShadow && IsEnabled(CustomComboPreset.DarkLivingShadowFeature) && GetJobGauge<DRKGauge>().Blood >= 50 && IsOffCooldown(DRK.LivingShadow))
+		if (level >= DRK.Levels.LivingShadow && IsEnabled(CustomComboPreset.DarkLivingShadowFeature) && IsOffCooldown(DRK.LivingShadow))
 			return DRK.LivingShadow;
 
 		return actionID;
