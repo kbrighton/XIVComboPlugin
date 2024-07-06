@@ -35,7 +35,7 @@ internal static class Common {
 			if (level >= Levels.LucidDreaming) {
 				if (CustomCombo.LocalPlayer.CurrentMp < manaThreshold) {
 					if (CustomCombo.CanWeave(baseAction)) {
-						if (CustomCombo.CanUse(Common.LucidDreaming))
+						if (CustomCombo.CanUse(LucidDreaming))
 							return true;
 					}
 				}
