@@ -10,8 +10,6 @@ internal static class AST {
 
 	public const uint
 		Ascend = 3603,
-		Draw = 3590,
-		Redraw = 3593,
 		Benefic = 3594,
 		Malefic = 3596,
 		Malefic2 = 3598,
@@ -35,9 +33,6 @@ internal static class AST {
 		Malefic4 = 16555,
 		Horoscope = 16557,
 		NeutralSect = 16559,
-		Play = 17055,
-		CrownPlay = 25869,
-		Astrodyne = 25870,
 		FallMalefic = 25871,
 		Gravity2 = 25872,
 		Exaltation = 25873,
@@ -68,55 +63,6 @@ internal class AstrologianSwiftcastRaiserFeature: SwiftRaiseCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.AstrologianSwiftcastRaiserFeature;
 }
 
-internal class AstrologianPlay: CustomCombo {
-	public override CustomComboPreset Preset => CustomComboPreset.AstAny;
-	public override uint[] ActionIDs { get; } = [AST.Play];
-
-	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-
-		ASTGauge gauge = GetJobGauge<ASTGauge>();
-
-		if (IsEnabled(CustomComboPreset.AstrologianPlayAstrodyne)) {
-			if (level >= AST.Levels.Astrodyne && !gauge.ContainsSeal(SealType.NONE))
-				return AST.Astrodyne;
-		}
-
-		if (IsEnabled(CustomComboPreset.AstrologianPlayDraw)) {
-
-			if (IsEnabled(CustomComboPreset.AstrologianPlayDrawAstrodyne)) {
-				CooldownData draw = GetCooldown(AST.Draw);
-
-				if (level >= AST.Levels.Astrodyne && !gauge.ContainsSeal(SealType.NONE) && draw.RemainingCharges == 0)
-					return AST.Astrodyne;
-			}
-
-			if (level >= AST.Levels.Draw && gauge.DrawnCard is CardType.NONE)
-				return AST.Draw;
-		}
-
-		return actionID;
-	}
-}
-
-internal class AstrologianDraw: CustomCombo {
-	public override CustomComboPreset Preset { get; } = CustomComboPreset.AstAny;
-	public override uint[] ActionIDs { get; } = [AST.Draw];
-
-	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-		ASTGauge gauge = GetJobGauge<ASTGauge>();
-
-		if (IsEnabled(CustomComboPreset.AstrologianDrawRedraw)) {
-			if (gauge.DrawnCard is not CardType.NONE && SelfHasEffect(AST.Buffs.ClarifyingDraw))
-				return AST.Redraw;
-		}
-		if (IsEnabled(CustomComboPreset.AstrologianDrawMalefic)) {
-			if (gauge.DrawnCard is not CardType.NONE)
-				return OriginalHook(AST.Malefic);
-		}
-
-		return actionID;
-	}
-}
 
 internal class AstrologianBeneficFeature: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.AstrologianBeneficFeature;

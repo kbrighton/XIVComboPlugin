@@ -80,25 +80,10 @@ public enum CustomComboPreset {
 	#endregion
 	// ====================================================================================
 	#region ASTROLOGIAN (33xx)
+	// last used = 8
 
 	[CustomComboInfo("Swiftcast Ascend", "Ascend turns into Swiftcast when available and reasonable.", AST.JobID)]
 	AstrologianSwiftcastRaiserFeature = 3300,
-
-	[CustomComboInfo("Play to Draw", "Replace Play with Draw when no card is drawn and a card is available.", AST.JobID)]
-	AstrologianPlayDraw = 3301,
-
-	[ParentPreset(AstrologianPlayDraw)]
-	[CustomComboInfo("Play to Draw to Astrodyne", "Replace Play with Astrodyne when seals are full and Draw is on Cooldown.", AST.JobID)]
-	AstrologianPlayDrawAstrodyne = 3307,
-
-	[CustomComboInfo("Play to Astrodyne", "Replace Play with Astrodyne when seals are full.", AST.JobID)]
-	AstrologianPlayAstrodyne = 3304,
-
-	[CustomComboInfo("Malefic on Draw", "Replace Draw (not Play to Draw) with Malefic when a card is drawn.", AST.JobID)]
-	AstrologianDrawMalefic = 3306,
-
-	[CustomComboInfo("Re/Draw", "Replace Draw (not Play to Draw) with Redraw when under Clarifying Draw.", AST.JobID)]
-	AstrologianDrawRedraw = 3308,
 
 	[CustomComboInfo("Benefic 2 to Benefic Level Sync", "Changes Benefic 2 to Benefic when below level 26.", AST.JobID)]
 	AstrologianBeneficFeature = 3303,
