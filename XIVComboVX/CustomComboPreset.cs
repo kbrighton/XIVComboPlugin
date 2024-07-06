@@ -692,6 +692,9 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Ten Chi Jin to Meisui", "Replaces Ten Chi Jin (the move) with Meisui while Suiton is up.\nCooldown tracking plugin recommended.", NIN.JobID)]
 	NinjaTCJMeisuiFeature = 3007,
 
+	[CustomComboInfo("Ten Chi Jin to Meisui", "Replaces Ten Chi Jin (the move) with Tenri Jindo when available.", NIN.JobID)]
+	NinjaTCJTenriJindo = 3036,
+
 	[CustomComboInfo("Kassatsu Chi/Jin Feature", "Replaces Chi with Jin while Kassatsu is up if you have Enhanced Kassatsu.", NIN.JobID)]
 	NinjaKassatsuChiJinFeature = 3008,
 

@@ -31,17 +31,19 @@ internal static class NIN {
 		Bunshin = 16493,
 		PhantomKamaitachi = 25774,
 		ForkedRaiju = 25777,
-		FleetingRaiju = 25778;
+		FleetingRaiju = 25778,
+		TenriJindo = 36961;
 
 	public static class Buffs {
 		public const ushort
 			Mudra = 496,
 			Kassatsu = 497,
-			ShadowWalker = 507,
+			ShadowWalker = 3848,
 			Hidden = 614,
 			Bunshin = 1954,
 			RaijuReady = 2690,
-			PhantomKamaitachiReady = 2723;
+			PhantomKamaitachiReady = 2723,
+			TenriJindoReady = 3851;
 	}
 
 	public static class Debuffs {
@@ -69,7 +71,8 @@ internal static class NIN {
 			EnhancedKassatsu = 76,
 			Bunshin = 80,
 			PhantomKamaitachi = 82,
-			Raiju = 90;
+			Raiju = 90,
+			TenriJindo = 100;
 	}
 }
 
@@ -95,7 +98,7 @@ internal class NinjaArmorCrushCombo: CustomCombo {
 			if (weaveBunshin && level >= NIN.Levels.Bunshin && IsOffCooldown(NIN.Bunshin) && GetJobGauge<NINGauge>().Ninki >= 50)
 				return NIN.Bunshin;
 			if (weaveBhavacakra && level >= NIN.Levels.Bhavacakra && IsOffCooldown(NIN.Bhavacakra) && GetJobGauge<NINGauge>().Ninki >= 50 && !isDistant)
-				return NIN.Bhavacakra;
+				return OriginalHook(NIN.Bhavacakra);
 			if (weaveAssassinate && level >= NIN.Levels.Assassinate && IsOffCooldown(OriginalHook(NIN.DreamWithinADream)) && !isDistant)
 				return OriginalHook(NIN.DreamWithinADream);
 
@@ -161,7 +164,7 @@ internal class NinjaAeolianEdgeCombo: CustomCombo {
 			if (weaveBunshin && level >= NIN.Levels.Bunshin && IsOffCooldown(NIN.Bunshin) && GetJobGauge<NINGauge>().Ninki >= 50)
 				return NIN.Bunshin;
 			if (weaveBhavacakra && level >= NIN.Levels.Bhavacakra && IsOffCooldown(NIN.Bhavacakra) && GetJobGauge<NINGauge>().Ninki >= 50 && !isDistant)
-				return NIN.Bhavacakra;
+				return OriginalHook(NIN.Bhavacakra);
 			if (weaveAssassinate && level >= NIN.Levels.Assassinate && IsOffCooldown(OriginalHook(NIN.DreamWithinADream)) && !isDistant)
 				return OriginalHook(NIN.DreamWithinADream);
 
@@ -216,7 +219,7 @@ internal class NinjaHakkeMujinsatsuCombo: CustomCombo {
 
 		if (IsEnabled(CustomComboPreset.NinjaAOESmartWeaveFeature) && CanWeave(actionID)) {
 			if (level >= NIN.Levels.HellfrogMedium && GetJobGauge<NINGauge>().Ninki >= 50)
-				return NIN.HellfrogMedium;
+				return OriginalHook(NIN.HellfrogMedium);
 		}
 
 		if (level >= NIN.Levels.HakkeMujinsatsu) {
@@ -236,12 +239,12 @@ internal class NinjaKassatsuTrickFeature: CustomCombo {
 
 		if (level >= NIN.Levels.Hide) {
 			if (SelfHasEffect(NIN.Buffs.Hidden))
-				return NIN.TrickAttack;
+				return OriginalHook(NIN.TrickAttack);
 		}
 
 		if (level >= NIN.Levels.Suiton) {
 			if (SelfHasEffect(NIN.Buffs.ShadowWalker))
-				return NIN.TrickAttack;
+				return OriginalHook(NIN.TrickAttack);
 		}
 
 		return actionID;
@@ -256,17 +259,17 @@ internal class NinjaHideMugFeature: CustomCombo {
 
 		if (level >= NIN.Levels.Hide) {
 			if (SelfHasEffect(NIN.Buffs.Hidden) && HasTarget)
-				return NIN.TrickAttack;
+				return OriginalHook(NIN.TrickAttack);
 		}
 
 		if (level >= NIN.Levels.Suiton) {
 			if (SelfHasEffect(NIN.Buffs.ShadowWalker))
-				return NIN.TrickAttack;
+				return OriginalHook(NIN.TrickAttack);
 		}
 
 		if (level >= NIN.Levels.Mug) {
 			if (HasCondition(ConditionFlag.InCombat))
-				return NIN.Mug;
+				return OriginalHook(NIN.Mug);
 		}
 
 		return actionID;
@@ -289,14 +292,21 @@ internal class NinjaKassatsuChiJinFeature: CustomCombo {
 }
 
 internal class NinjaTCJMeisuiFeature: CustomCombo {
-	public override CustomComboPreset Preset => CustomComboPreset.NinjaTCJMeisuiFeature;
+	public override CustomComboPreset Preset => CustomComboPreset.NinAny;
 	public override uint[] ActionIDs { get; } = [NIN.TenChiJin];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-		if (level >= NIN.Levels.Meisui) {
-			if (SelfHasEffect(NIN.Buffs.ShadowWalker))
-				return NIN.Meisui;
+		if (IsEnabled(CustomComboPreset.NinjaTCJMeisuiFeature)) {
+			if (level >= NIN.Levels.Meisui) {
+				if (SelfHasEffect(NIN.Buffs.ShadowWalker))
+					return NIN.Meisui;
+			}
+		}
+
+		if (IsEnabled(CustomComboPreset.NinjaTCJTenriJindo)) {
+			if (level >= NIN.Levels.TenriJindo && SelfHasEffect(NIN.Buffs.TenriJindoReady))
+				return NIN.TenriJindo;
 		}
 
 		return actionID;
