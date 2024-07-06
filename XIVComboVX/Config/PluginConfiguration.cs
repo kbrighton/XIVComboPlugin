@@ -211,15 +211,6 @@ public class PluginConfiguration: IPluginConfiguration {
 	)]
 	public float GunbreakerGnashingStrikeCooldownDoubleDown { get; set; } = 20;
 
-	[ComboDetailSetting(
-	CustomComboPreset.GunbreakerSolidRoughDivide,
-	"Rough Divide charges to hold",
-	"Choose how many charge of Rough Divide to hold",
-	0,
-	2
-)]
-	public uint GunbreakerRoughDivideCharge { get; set; } = 1;
-
 	#endregion
 
 	#region MCH settings

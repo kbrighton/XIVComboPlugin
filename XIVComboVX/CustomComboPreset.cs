@@ -423,18 +423,11 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Empty Bloodfest Feature", "Replace Burst Strike and Fated Circle with Bloodfest if the powder gauge is empty.", GNB.JobID)]
 	GunbreakerEmptyBloodfestFeature = 3705,
 
-	[CustomComboInfo("No Mercy - Bow Shock / Sonic Break", "Replace No Mercy with Bow Shock, and then Sonic Break, while No Mercy is active.", GNB.JobID)]
-	GunbreakerNoMercyFeature = 3706,
-
 	[CustomComboInfo("No Mercy - Double Down", "Replace No Mercy with Double Down while No Mercy is active, 2 cartridges are available, and Double Down is off cooldown.\nThis takes priority over the No Mercy Bow Shock/Sonic Break Feature.", GNB.JobID)]
 	GunbreakerNoMercyDoubleDownFeature = 3712,
 
-	[Conflicts(GunbreakerNoMercyFeature)]
 	[CustomComboInfo("Always Double Down", "Replace No Mercy with Double Down while No Mercy is active.", GNB.JobID)]
 	GunbreakerNoMercyAlwaysDoubleDownFeature = 3713,
-
-	[CustomComboInfo("Bow Shock / Sonic Break Swap", "Replace Bow Shock and Sonic Break with one or the other, depending on which is on cooldown.", GNB.JobID)]
-	GunbreakerBowShockSonicBreakFeature = 3707,
 
 	[CustomComboInfo("Double Down Feature", "Replace Burst Strike and Fated Circle with Double Down when available.", GNB.JobID)]
 	GunbreakerDoubleDownFeature = 3709,
@@ -473,10 +466,6 @@ public enum CustomComboPreset {
 	[ParentPreset(GunbreakerSolidBarrelCombo)]
 	[CustomComboInfo("Double Down Feature", "Replace Solid Barrel with Double Down when you are under No Mercy and have the required ammo.", GNB.JobID)]
 	GunbreakerSolidDoubleDown = 3722,
-
-	[ParentPreset(GunbreakerSolidBarrelCombo)]
-	[CustomComboInfo("Rough Divide Feature", "Replace Solid Barrel with Rough Divide when you are within the target's hitbox, not moving, and have the No Mercy buff.", GNB.JobID)]
-	GunbreakerSolidRoughDivide = 3723,
 
 	[ParentPreset(GunbreakerGnashingFangCont)]
 	[CustomComboInfo("No Mercy Feature", "Replace Gnashing Fang with No Mercy when both No Mercy and Gnashing Fang are ready to be used.", GNB.JobID)]
