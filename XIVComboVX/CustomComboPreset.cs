@@ -1345,8 +1345,8 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Lucid Phlegma", "Weave Phlegma into Lucid Dreaming when it's available and your MP is below a configurable threshold.", SGE.JobID)]
 	SageLucidPhlegma = 4015,
 
-	[CustomComboInfo("Philosophica Into Zoe", "When either not at level or when Philosophica is on cooldown, change it into Zoe.", SGE.JobID)]
-	SagePhilosophicaZoe = 4027, // Currently not working until action ID set
+	[CustomComboInfo("Philosophia Into Zoe", "When either not at level or when Philosophica is on cooldown, change it into Zoe.", SGE.JobID)]
+	SagePhilosophiaZoe = 4027, 
 
 	#endregion
 	// ====================================================================================

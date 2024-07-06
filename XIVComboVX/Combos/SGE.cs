@@ -366,8 +366,8 @@ internal class SageToxikon: CustomCombo {
 }
 
 // Currently not working until action ID set
-internal class SagePhilosophica: CustomCombo {
-	public override CustomComboPreset Preset { get; } = CustomComboPreset.SagePhilosophicaZoe;
+internal class SagePhilosophia: CustomCombo {
+	public override CustomComboPreset Preset { get; } = CustomComboPreset.SagePhilosophiaZoe;
 	public override uint[] ActionIDs => [SGE.Philosophia];
 
 	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
