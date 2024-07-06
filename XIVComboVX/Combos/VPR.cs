@@ -1,7 +1,7 @@
 namespace PrincessRTFM.XIVComboVX.Combos;
 
 internal static class VPR {
-	public const byte JobID = 255; // XXX
+	public const byte JobID = 41;
 
 	public const uint
 		SteelFangs = ushort.MaxValue,
