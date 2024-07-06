@@ -77,7 +77,7 @@ internal class AstrologianPlay: CustomCombo {
 		ASTGauge gauge = GetJobGauge<ASTGauge>();
 
 		if (IsEnabled(CustomComboPreset.AstrologianPlayAstrodyne)) {
-			if (level >= AST.Levels.Astrodyne && !gauge.ContainsSeal(SealType.NONE))
+			if (level >= AST.Levels.Astrodyne)
 				return AST.Astrodyne;
 		}
 
@@ -86,11 +86,11 @@ internal class AstrologianPlay: CustomCombo {
 			if (IsEnabled(CustomComboPreset.AstrologianPlayDrawAstrodyne)) {
 				CooldownData draw = GetCooldown(AST.Draw);
 
-				if (level >= AST.Levels.Astrodyne && !gauge.ContainsSeal(SealType.NONE) && draw.RemainingCharges == 0)
+				if (level >= AST.Levels.Astrodyne && draw.RemainingCharges == 0)
 					return AST.Astrodyne;
 			}
 
-			if (level >= AST.Levels.Draw && gauge.DrawnCard is CardType.NONE)
+			if (level >= AST.Levels.Draw)
 				return AST.Draw;
 		}
 
@@ -106,12 +106,11 @@ internal class AstrologianDraw: CustomCombo {
 		ASTGauge gauge = GetJobGauge<ASTGauge>();
 
 		if (IsEnabled(CustomComboPreset.AstrologianDrawRedraw)) {
-			if (gauge.DrawnCard is not CardType.NONE && SelfHasEffect(AST.Buffs.ClarifyingDraw))
+			if (SelfHasEffect(AST.Buffs.ClarifyingDraw))
 				return AST.Redraw;
 		}
 		if (IsEnabled(CustomComboPreset.AstrologianDrawMalefic)) {
-			if (gauge.DrawnCard is not CardType.NONE)
-				return OriginalHook(AST.Malefic);
+			return OriginalHook(AST.Malefic);
 		}
 
 		return actionID;

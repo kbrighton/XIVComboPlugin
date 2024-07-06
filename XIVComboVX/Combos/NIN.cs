@@ -118,7 +118,7 @@ internal class NinjaArmorCrushCombo: CustomCombo {
 		}
 
 		if (IsEnabled(CustomComboPreset.NinjaArmorCrushHuraijinFeature)) {
-			if (level >= NIN.Levels.Huraijin && GetJobGauge<NINGauge>().HutonTimer <= 0)
+			if (level >= NIN.Levels.Huraijin)
 				return NIN.Huraijin;
 		}
 
@@ -189,15 +189,14 @@ internal class NinjaAeolianEdgeCombo: CustomCombo {
 		}
 
 		if (IsEnabled(CustomComboPreset.NinjaAeolianEdgeHuraijinFeature)) {
-			if (level >= NIN.Levels.Huraijin && GetJobGauge<NINGauge>().HutonTimer <= 0)
+			if (level >= NIN.Levels.Huraijin)
 				return NIN.Huraijin;
 		}
 
 		if (IsEnabled(CustomComboPreset.NinjaAeolianEdgeHutonFeature)) {
 			if (level >= NIN.Levels.ArmorCrush) {
 				if (lastComboMove is NIN.GustSlash) {
-					if (GetJobGauge<NINGauge>().HutonTimer <= Service.Configuration.NinjaHutonThresholdTime * 1000)
-						return NIN.ArmorCrush;
+					return NIN.ArmorCrush;
 				}
 			}
 		}
