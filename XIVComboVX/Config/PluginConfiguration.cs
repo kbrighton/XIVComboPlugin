@@ -270,14 +270,7 @@ public class PluginConfiguration: IPluginConfiguration {
 
 	#region NIN settings
 
-	[ComboDetailSetting(
-		CustomComboPreset.NinjaAeolianEdgeHutonFeature,
-		"Huton timer threshold",
-		"When Huton timer is above zero but below this many seconds left, switch to Armor Crush",
-		10,
-		30
-	)]
-	public float NinjaHutonThresholdTime { get; set; } = 30;
+	// placeholder
 
 	#endregion
 

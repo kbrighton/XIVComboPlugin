@@ -647,10 +647,6 @@ public enum CustomComboPreset {
 	NinjaArmorCrushThrowingDaggerFeature = 3018,
 
 	[ParentPreset(NinjaArmorCrushCombo)]
-	[CustomComboInfo("Huraijin Feature", "Replaces the Armor Crush combo chain with Huraijin when Huton is missing.", NIN.JobID)]
-	NinjaArmorCrushHuraijinFeature = 3023,
-
-	[ParentPreset(NinjaArmorCrushCombo)]
 	[CustomComboInfo("Fallback to Aeolian Edge", "Replaces Armor Crush with Aeolian Edge when underlevel.", NIN.JobID)]
 	NinjaArmorCrushFallbackFeature = 3020,
 
@@ -691,14 +687,6 @@ public enum CustomComboPreset {
 	[ParentPreset(NinjaAeolianEdgeCombo)]
 	[CustomComboInfo("Distant Daggers Feature", "Replaces the Aeolian Edge combo with Throwing Dagger when the current target is out of melee range.\nUses Phantom Kamaitachi instead when available.", NIN.JobID)]
 	NinjaAeolianEdgeThrowingDaggerFeature = 3019,
-
-	[ParentPreset(NinjaAeolianEdgeCombo)]
-	[CustomComboInfo("Huraijin Feature", "Replaces the Aeolian Edge combo chain with Huraijin when Huton is missing.", NIN.JobID)]
-	NinjaAeolianEdgeHuraijinFeature = 3024,
-
-	[ParentPreset(NinjaAeolianEdgeCombo)]
-	[CustomComboInfo("Huton Feature", "Replaces Aeolian Edge with Armor Crush when Huton timer is below a set threshold.", NIN.JobID)]
-	NinjaAeolianEdgeHutonFeature = 3014,
 
 	[CustomComboInfo("Hakke Mujinsatsu Combo", "Replace Hakke Mujinsatsu with its combo chain.", NIN.JobID)]
 	NinjaHakkeMujinsatsuCombo = 3002,
