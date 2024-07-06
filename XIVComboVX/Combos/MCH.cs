@@ -41,7 +41,8 @@ internal static class MCH {
 		Bioblaster = 16499,
 		AirAnchor = 16500,
 		FullMetalField = 36982,
-		Chainsaw = 25788;
+		Chainsaw = 25788,
+		Excavator = 36981;
 
 	public static class Buffs {
 		public const ushort
@@ -77,7 +78,8 @@ internal static class MCH {
 			QueenOverdrive = 80,
 			Chainsaw = 90,
 			DoubleCheck = 92,
-			Checkmate = 92;
+			Checkmate = 92,
+			Excavator = 96;
 	}
 }
 
@@ -101,6 +103,9 @@ internal class MachinistCleanShot: CustomCombo {
 				if (SelfHasEffect(MCH.Buffs.Reassembled)) {
 
 					uint preference = gauge.Battery > 80 ? MCH.Drill : MCH.AirAnchor;
+
+					if( level >= MCH.Levels.Excavator)
+						PickByCooldown(preference, actionID, MCH.Excavator, MCH.Chainsaw, MCH.Drill, MCH.AirAnchor);
 
 					if (level >= MCH.Levels.Chainsaw)
 						PickByCooldown(preference, actionID, MCH.Chainsaw, MCH.Drill, MCH.AirAnchor);
