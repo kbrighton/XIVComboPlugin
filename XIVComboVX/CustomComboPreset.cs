@@ -1215,6 +1215,9 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Summon Seraph Feature", "Replace Summon Eos and Selene with Summon Seraph when a summon is out.", SCH.JobID)]
 	ScholarSeraphFeature = 2809,
 
+	[CustomComboInfo("Chain Impaction", "Replace Chain Stratagem with Baneful Impaction when under Impact Imminent.", SCH.JobID)]
+	ScholarChainStratagemBanefulImpaction = 2813,
+
 	#endregion
 	// ====================================================================================
 	#region SAGE (40xx)
