@@ -43,23 +43,23 @@ internal static class RDM {
 		Engagement = 16527,
 		Scorch = 16530,
 		Resolution = 25858,
-		Jolt3 = ushort.MaxValue,
-		ViceOfThorns = ushort.MaxValue,
-		GrandImpact = ushort.MaxValue,
-		Prefulgence = ushort.MaxValue,
-		EnchantedMoulinet = ushort.MaxValue,
-		EnchantedMoulinetDeux = ushort.MaxValue,
-		EnchantedMoulinetTrois = ushort.MaxValue;
+		Jolt3 = 37004,
+		ViceOfThorns = 37005,
+		GrandImpact = 37006,
+		Prefulgence = 37007,
+		EnchantedMoulinet = 7530,
+		EnchantedMoulinetDeux = 37002,
+		EnchantedMoulinetTrois = 37003;
 
 	public static class Buffs {
 		public const ushort
 			VerfireReady = 1234,
 			VerstoneReady = 1235,
 			Acceleration = 1238,
-			GrandImpactReady = ushort.MaxValue,
-			ThornedFlourish = ushort.MaxValue,
-			MagickedSwordplay = ushort.MaxValue,
-			PrefulgenceReady = ushort.MaxValue,
+			GrandImpactReady = 3877,
+			ThornedFlourish = 3876,
+			MagickedSwordplay = 3875,
+			PrefulgenceReady = 3878,
 			Dualcast = 1249;
 	}
 
@@ -454,7 +454,11 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 		int whiteThreshold = black + imbalanceDiffMax;
 
 		int minManaForEnchantedMelee = RDM.ManaCostMelee1 + (level >= RDM.Levels.Zwerchhau ? RDM.ManaCostMelee2 : 0) + (level >= RDM.Levels.Redoublement ? RDM.ManaCostMelee3 : 0);
-		bool hasMeleeMana = gaugeMin >= minManaForEnchantedMelee && (black != white || black is 100 || level <= RDM.Levels.Verflare);
+		bool hasMeleeMana = (
+				gaugeMin >= minManaForEnchantedMelee
+				&& (black != white || black is 100 || level <= RDM.Levels.Verflare)
+			)
+			|| SelfHasEffect(RDM.Buffs.MagickedSwordplay);
 
 		bool verfireUp = SelfHasEffect(RDM.Buffs.VerfireReady);
 		bool verstoneUp = SelfHasEffect(RDM.Buffs.VerstoneReady);
@@ -630,6 +634,40 @@ internal class RedMageAcceleration: CustomCombo {
 		}
 
 		return Common.Swiftcast;
+	}
+}
+
+internal class RedMageManafication: CustomCombo {
+	public override CustomComboPreset Preset { get; } = CustomComboPreset.RedMageManaficationIntoMelee;
+	public override uint[] ActionIDs => [RDM.Manafication];
+
+	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
+		bool melee = SelfHasEffect(RDM.Buffs.MagickedSwordplay)
+			|| lastComboActionId is RDM.Riposte or RDM.EnchantedRiposte or RDM.Zwerchhau or RDM.EnchantedZwerchhau;
+		if (IsEnabled(CustomComboPreset.RedMageManaficationIntoMeleeGauge) && !melee) {
+			RDMGauge gauge = GetJobGauge<RDMGauge>();
+			byte black = gauge.BlackMana;
+			byte white = gauge.WhiteMana;
+			if ((black >= 50 && white >= 50 && black != white) || black == 100)
+				melee = true;
+		}
+
+		if (melee) {
+			if (IsEnabled(CustomComboPreset.RedMageMeleeComboCloser) && HasTarget && !InMeleeRange)
+				return RDM.Corpsacorps;
+
+			if (lastComboActionId is RDM.Zwerchhau or RDM.EnchantedZwerchhau)
+				return RDM.EnchantedRedoublement;
+			if (lastComboActionId is RDM.Riposte or RDM.EnchantedRiposte)
+				return RDM.EnchantedZwerchhau;
+
+			return RDM.EnchantedRiposte;
+		}
+
+		if (IsEnabled(CustomComboPreset.RedMageManaficationIntoMeleeFinisherFollowup))
+			RDM.CheckFinishers(ref actionID, lastComboActionId, level);
+
+		return actionID;
 	}
 }
 

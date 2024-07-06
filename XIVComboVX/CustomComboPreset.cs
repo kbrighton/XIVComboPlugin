@@ -967,6 +967,17 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Acceleration with Swiftcast first", "Replace Acceleration with Swiftcast when neither are on cooldown.", RDM.JobID)]
 	RedMageAccelerationSwiftcastFirst = 3512,
 
+	[CustomComboInfo("Manafication into melee", "Replace Manafication with your melee combo when you have Magicked Swordplay up.", RDM.JobID)]
+	RedMageManaficationIntoMelee = 3539,
+
+	[ParentPreset(RedMageManaficationIntoMelee)]
+	[CustomComboInfo("+from gauge", "Also change when your gauge is ready to start the combo.", RDM.JobID)]
+	RedMageManaficationIntoMeleeGauge = 3546,
+
+	[ParentPreset(RedMageManaficationIntoMelee)]
+	[CustomComboInfo("Include finishers", "Also change into your finisher spells when they're ready to use.", RDM.JobID)]
+	RedMageManaficationIntoMeleeFinisherFollowup = 3547,
+
 	[CustomComboInfo("Gap Reverser: Backstep", "Replaces Corps-a-corps with Displacement when your taget is in melee range.", RDM.JobID)]
 	RedMageMeleeGapReverserBackstep = 3515,
 
