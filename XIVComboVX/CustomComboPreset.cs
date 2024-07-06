@@ -1473,6 +1473,12 @@ public enum CustomComboPreset {
 	[CustomComboInfo("DOT Refresh", "Replace Stone/Glare with level appropriate DOT when debuff is about to fall off.", WHM.JobID)]
 	WhiteMageDotRefresh = 2407,
 
+	[CustomComboInfo("Presence of Glare", "Replace Presence of Mind with Glare IV when under Sacred Sight.", WHM.JobID)]
+	WhiteMagePresenceOfMindGlare4 = 2408,
+
+	[CustomComboInfo("Divine Temperance", "Replace Temperance with Divine Caress when under Divine Grace.", WHM.JobID)]
+	WhiteMageTemperanceDivineCaress = 2409,
+
 	#endregion
 	// ====================================================================================
 	#region DoH (98xx)

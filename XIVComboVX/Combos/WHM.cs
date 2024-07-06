@@ -33,10 +33,14 @@ internal static class WHM {
 		Glare3 = 25859,
 		Holy3 = 25860,
 		Aquaveil = 25861,
-		LiturgyOfTheBell = 25862;
+		LiturgyOfTheBell = 25862,
+		Glare4 = 37009,
+		DivineCaress = 37011;
 
 	public static class Buffs {
-		// public const ushort placeholder = 0;
+		 public const ushort
+			SacredSight = 3879,
+			DivineGrace = 3881;
 	}
 
 	public static class Debuffs {
@@ -51,7 +55,9 @@ internal static class WHM {
 			Cure2 = 30,
 			AfflatusSolace = 52,
 			AfflatusMisery = 74,
-			AfflatusRapture = 76;
+			AfflatusRapture = 76,
+			Glare4 = 92,
+			DivineCaress = 100;
 	}
 }
 
@@ -74,7 +80,7 @@ internal class WhiteMageAero: CustomCombo {
 
 internal class WhiteMageStone: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.WhmAny;
-	public override uint[] ActionIDs { get; } = [WHM.Stone, WHM.Stone2, WHM.Stone3, WHM.Stone4, WHM.Glare, WHM.Glare3];
+	public override uint[] ActionIDs { get; } = [WHM.Stone, WHM.Stone2, WHM.Stone3, WHM.Stone4, WHM.Glare, WHM.Glare3, WHM.Glare4];
 
 	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
 
@@ -182,6 +188,32 @@ internal class WhiteMageMedica: CustomCombo {
 
 		if (level >= WHM.Levels.AfflatusRapture && gauge.Lily > 0)
 			return WHM.AfflatusRapture;
+
+		return actionID;
+	}
+}
+
+internal class WhiteMagePresenceOfMind: CustomCombo {
+	public override CustomComboPreset Preset => CustomComboPreset.WhiteMagePresenceOfMindGlare4;
+	public override uint[] ActionIDs { get; } = [WHM.PresenceOfMind];
+
+	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
+
+		if (level >= WHM.Levels.Glare4 && SelfHasEffect(WHM.Buffs.SacredSight))
+			return WHM.Glare4;
+
+		return actionID;
+	}
+}
+
+internal class WhiteMageTemperance: CustomCombo {
+	public override CustomComboPreset Preset => CustomComboPreset.WhiteMageTemperanceDivineCaress;
+	public override uint[] ActionIDs { get; } = [WHM.Temperance];
+
+	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
+
+		if (level >= WHM.Levels.DivineCaress && SelfHasEffect(WHM.Buffs.DivineGrace))
+			return WHM.DivineCaress;
 
 		return actionID;
 	}
