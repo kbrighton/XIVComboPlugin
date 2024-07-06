@@ -1601,6 +1601,9 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Chum / Electric Current Feature", "Replace Chum with Electric Current when swimming.", DOL.JobID)]
 	FisherElectricChumFeature = 9908,
 
+	[CustomComboInfo("Mooch / Swimbait Feature", "When activated, replace Mooch with Swimbait if you have space available in Swimbait box.", DOL.JobID)]
+	FisherSwimbaitFeature = 9926,
+
 	#endregion
 	// ====================================================================================
 	#region Common (100xx)

@@ -116,7 +116,10 @@ public static class FSH {
 		VitalSight = 26870,
 		BaitedBreath = 26871,
 		ElectricCurrent = 26872,
-		TripleHook = 27523;
+		TripleHook = 27523,
+		SparefulHand = 37045,
+		BigGameFishing = 37046;
+
 
 	public static class Buffs {
 		public const ushort
