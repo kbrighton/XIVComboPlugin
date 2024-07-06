@@ -1308,7 +1308,7 @@ public enum CustomComboPreset {
 	SageLucidPhlegma = 4015,
 
 	[CustomComboInfo("Philosophia Into Zoe", "When either not at level or when Philosophica is on cooldown, change it into Zoe.", SGE.JobID)]
-	SagePhilosophiaZoe = 4027, 
+	SagePhilosophiaZoe = 4027,
 
 	#endregion
 	// ====================================================================================
@@ -1569,8 +1569,10 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Chum / Electric Current Feature", "Replace Chum with Electric Current when swimming.", DOL.JobID)]
 	FisherElectricChumFeature = 9908,
 
-	[CustomComboInfo("Mooch / Swimbait Feature", "When activated, replace Mooch with Swimbait if you have space available in Swimbait box.", DOL.JobID)]
+#if DEBUG
+	[CustomComboInfo("Mooch / Spareful Hand Feature", "Replace Mooch with Spareful Hand if you have space available in Swimbait box.", DOL.JobID)]
 	FisherSwimbaitFeature = 9926,
+#endif
 
 	#endregion
 	// ====================================================================================
