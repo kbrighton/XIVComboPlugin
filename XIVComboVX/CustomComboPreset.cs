@@ -1576,15 +1576,6 @@ public enum CustomComboPreset {
 	// ====================================================================================
 	#region Common (100xx)
 
-#if DEBUG
-	[CustomComboInfo("Smart Peloton/Sprint swap", "Changes Peloton and Peloton as follows:\n- Sprint when in combat or not a ranged DPS\n- Peloton when out of combat and you are a ranged DPS", 0)]
-	CommonSmartPelotonSprint = 10000,
-
-	[ParentPreset(CommonSmartPelotonSprint)]
-	[CustomComboInfo("Priority sprint", "Only become Peloton when Sprint is also on cooldown.\nSprint is (VERY) slightly faster than Peloton.", 0)]
-	CommonSmartPelotonSprintPrioritySprint = 10001,
-#endif
-
 	#endregion
 }
 public static class CustomComboPresetExtensions {
