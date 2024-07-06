@@ -46,7 +46,9 @@ internal static class MCH {
 
 	public static class Buffs {
 		public const ushort
-			Reassembled = 851;
+			Reassembled = 851,
+			ExcavatorReady = 3865,
+			FullMetalMachinist = 3866;
 	}
 
 	public static class Debuffs {
@@ -103,10 +105,9 @@ internal class MachinistCleanShot: CustomCombo {
 				if (SelfHasEffect(MCH.Buffs.Reassembled)) {
 
 					uint preference = gauge.Battery > 80 ? MCH.Drill : MCH.AirAnchor;
-
-					if( level >= MCH.Levels.Excavator)
-						PickByCooldown(preference, actionID, MCH.Excavator, MCH.Chainsaw, MCH.Drill, MCH.AirAnchor);
-
+					if (SelfHasEffect(MCH.Buffs.ExcavatorReady)) {
+						return MCH.Excavator;
+					}
 					if (level >= MCH.Levels.Chainsaw)
 						PickByCooldown(preference, actionID, MCH.Chainsaw, MCH.Drill, MCH.AirAnchor);
 
