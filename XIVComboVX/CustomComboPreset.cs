@@ -970,18 +970,15 @@ public enum CustomComboPreset {
 	ReaperSoulOnSliceFeature = 3946,
 
 	[Conflicts(ReaperSliceGallowsFeature)]
-	[CustomComboInfo("Slice Gibbet Feature", "Replace Infernal Slice with Gibbet while Reaving or Enshrouded.", RPR.JobID)]
+	[CustomComboInfo("Slice Gibbet Feature", "Replace Infernal Slice with Gibbet while Reaving, Enshrouded, or an Executioner.", RPR.JobID)]
 	ReaperSliceGibbetFeature = 3903,
 
 	[Conflicts(ReaperSliceGibbetFeature)]
-	[CustomComboInfo("Slice Gallows Feature", "Replace Infernal Slice with Gallows while Reaving or Enshrouded.", RPR.JobID)]
+	[CustomComboInfo("Slice Gallows Feature", "Replace Infernal Slice with Gallows while Reaving, Enshrouded, or an Executioner.", RPR.JobID)]
 	ReaperSliceGallowsFeature = 3904,
 
-	[CustomComboInfo("Slice Enhanced Soul Reaver Feature", "Replace Infernal Slice with whichever of Gibbet or Gallows is currently enhanced while Reaving.", RPR.JobID)]
-	ReaperSliceEnhancedSoulReaverFeature = 3913,
-
-	[CustomComboInfo("Slice Enhanced Enshrouded Feature", "Replace Infernal Slice with whichever of Gibbet or Gallows is currently enhanced while Enshrouded.", RPR.JobID)]
-	ReaperSliceEnhancedEnshroudedFeature = 3914,
+	[CustomComboInfo("Slice Enhanced Soul Reaver Feature", "Replace Infernal Slice with whichever of Gibbet or Gallows is currently enhanced while Reaving, Enshrouded, or an Executioner.", RPR.JobID)]
+	ReaperSliceSmart = 3913,
 
 	[CustomComboInfo("Slice Lemure's Feature", "Replace Infernal Slice with Lemure's Slice when two or more stacks of Void Shroud are active.", RPR.JobID)]
 	ReaperSliceLemuresFeature = 3919,
@@ -993,11 +990,11 @@ public enum CustomComboPreset {
 	ReaperSliceSoulsowFeature = 3930,
 
 	[Conflicts(ReaperShadowGibbetFeature)]
-	[CustomComboInfo("Shadow Gallows Feature", "Replace Shadow of Death with Gallows while Reaving or Enshrouded.", RPR.JobID)]
+	[CustomComboInfo("Shadow Gallows Feature", "Replace Shadow of Death with Gallows while Reaving, Enshrouded, or an Executioner.", RPR.JobID)]
 	ReaperShadowGallowsFeature = 3905,
 
 	[Conflicts(ReaperShadowGallowsFeature)]
-	[CustomComboInfo("Shadow Gibbet Feature", "Replace Shadow of Death with Gibbet while Reaving or Enshrouded.", RPR.JobID)]
+	[CustomComboInfo("Shadow Gibbet Feature", "Replace Shadow of Death with Gibbet while Reaving, Enshrouded, or an Executioner.", RPR.JobID)]
 	ReaperShadowGibbetFeature = 3906,
 
 	[CustomComboInfo("Shadow Lemure's Feature", "Replace Shadow of Death with Lemure's Slice when two or more stacks of Void Shroud are active.", RPR.JobID)]
@@ -1010,11 +1007,11 @@ public enum CustomComboPreset {
 	ReaperShadowSoulsowFeature = 3929,
 
 	[Conflicts(ReaperSoulGibbetFeature)]
-	[CustomComboInfo("Soul Gallows Feature", "Replace Soul Slice with Gallows while Reaving or Enshrouded.", RPR.JobID)]
+	[CustomComboInfo("Soul Gallows Feature", "Replace Soul Slice with Gallows while Reaving, Enshrouded, or an Executioner.", RPR.JobID)]
 	ReaperSoulGallowsFeature = 3925,
 
 	[Conflicts(ReaperSoulGallowsFeature)]
-	[CustomComboInfo("Soul Gibbet Feature", "Replace Soul Slice with Gibbet while Reaving or Enshrouded.", RPR.JobID)]
+	[CustomComboInfo("Soul Gibbet Feature", "Replace Soul Slice with Gibbet while Reaving, Enshrouded, or an Executioner.", RPR.JobID)]
 	ReaperSoulGibbetFeature = 3926,
 
 	[CustomComboInfo("Soul Lemure's Feature", "Replace Soul Slice with Lemure's Slice when two or more stacks of Void Shroud are active.", RPR.JobID)]
@@ -1051,7 +1048,7 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Soulful Scythe", "Replace Nightmare Scythe with Soul Scythe when available and Soul Gauge is no more than 50.", RPR.JobID)]
 	ReaperSoulOnScytheFeature = 3947,
 
-	[CustomComboInfo("Scythe Guillotine Feature", "Replace Nightmare Scythe with Guillotine while Reaving or Enshrouded.", RPR.JobID)]
+	[CustomComboInfo("Scythe Guillotine Feature", "Replace Nightmare Scythe with Guillotine while Reaving, Enshrouded, or an Executioner.", RPR.JobID)]
 	ReaperScytheGuillotineFeature = 3907,
 
 	[CustomComboInfo("Scythe Lemure's Feature", "Replace Nightmare Scythe with Lemure's Scythe when two or more stacks of Void Shroud are active.", RPR.JobID)]
@@ -1066,11 +1063,8 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Scythe Harvest Moon Feature", "Replace Nightmare Scythe with Harvest Moon when Soulsow is active and you have a target.", RPR.JobID)]
 	ReaperScytheHarvestMoonFeature = 3932,
 
-	[CustomComboInfo("Enhanced Soul Reaver Feature", "Replace Gibbet and Gallows with whichever is currently enhanced while Reaving.", RPR.JobID)]
+	[CustomComboInfo("Enhanced Soul Reaver Feature", "Replace Gibbet and Gallows with whichever is currently enhanced while Reaving, Enshrouded, or an Executioner.", RPR.JobID)]
 	ReaperEnhancedSoulReaverFeature = 3917,
-
-	[CustomComboInfo("Enhanced Enshrouded Feature", "Replace Gibbet and Gallows with whichever is currently enhanced while Enshrouded.", RPR.JobID)]
-	ReaperEnhancedEnshroudedFeature = 3918,
 
 	[CustomComboInfo("Lemure's Soul Reaver Feature", "Replace Gibbet, Gallows, and Guillotine with Lemure's Slice or Scythe when two or more stacks of Void Shroud are active.", RPR.JobID)]
 	ReaperLemuresSoulReaverFeature = 3911,

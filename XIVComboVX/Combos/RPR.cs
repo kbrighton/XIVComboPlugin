@@ -22,9 +22,13 @@ internal static class RPR {
 		UnveiledGibbet = 24390,
 		UnveiledGallows = 24391,
 		GrimSwathe = 24392,
-		Gluttony = 24393,
 		VoidReaping = 24395,
 		CrossReaping = 24396,
+		// Executioner
+		Gluttony = 24393,
+		ExecutionersGibbet = 36970,
+		ExecutionersGallows = 36971,
+		ExecutionersGuillotine = 36972,
 		// Generators
 		SoulSlice = 24380,
 		SoulScythe = 24381,
@@ -57,7 +61,12 @@ internal static class RPR {
 			ImmortalSacrifice = 2592,
 			Enshrouded = 2593,
 			Soulsow = 2594,
-			Threshold = 2595;
+			Threshold = 2595,
+			Oblatio = 3857,
+			Executioner = 3858,
+			IdealHost = 3905,
+			PerfectioOcculta = 3859,
+			PerfectioParata = 3860;
 	}
 
 	public static class Debuffs {
@@ -88,7 +97,10 @@ internal static class RPR {
 			EnhancedShroud = 86,
 			LemuresScythe = 86,
 			PlentifulHarvest = 88,
-			Communio = 90;
+			Communio = 90,
+			Sacrificium = 92,
+			Executions = 96,
+			Perfectio = 100;
 	}
 }
 
@@ -100,6 +112,7 @@ internal class ReaperSlice: CustomCombo {
 		RPRGauge gauge = GetJobGauge<RPRGauge>();
 		bool reaving = level >= RPR.Levels.SoulReaver && SelfHasEffect(RPR.Buffs.SoulReaver);
 		bool enshrouded = level >= RPR.Levels.Enshroud && gauge.EnshroudedTimeRemaining > 0;
+		bool executing = level >= RPR.Levels.Executions && SelfHasEffect(RPR.Buffs.Executioner);
 
 		if (IsEnabled(CustomComboPreset.ReaperSliceWeaveAssist)) {
 			if (level >= RPR.Levels.BloodStalk) {
@@ -138,19 +151,9 @@ internal class ReaperSlice: CustomCombo {
 
 		}
 
-		if (reaving || enshrouded) {
+		if (reaving || enshrouded || executing) {
 
-			if (IsEnabled(CustomComboPreset.ReaperSliceEnhancedEnshroudedFeature)) {
-
-				if (SelfHasEffect(RPR.Buffs.EnhancedVoidReaping))
-					return RPR.VoidReaping;
-
-				if (SelfHasEffect(RPR.Buffs.EnhancedCrossReaping))
-					return RPR.CrossReaping;
-
-			}
-
-			if (IsEnabled(CustomComboPreset.ReaperSliceEnhancedSoulReaverFeature)) {
+			if (IsEnabled(CustomComboPreset.ReaperSliceSmart)) {
 
 				if (SelfHasEffect(RPR.Buffs.EnhancedGibbet))
 					// Void Reaping
@@ -215,6 +218,7 @@ internal class ReaperScythe: CustomCombo {
 		RPRGauge gauge = GetJobGauge<RPRGauge>();
 		bool reaving = level >= RPR.Levels.SoulReaver && SelfHasEffect(RPR.Buffs.SoulReaver);
 		bool enshrouded = level >= RPR.Levels.Enshroud && gauge.EnshroudedTimeRemaining > 0;
+		bool executing = level >= RPR.Levels.Executions && SelfHasEffect(RPR.Buffs.Executioner);
 
 		if (IsEnabled(CustomComboPreset.ReaperScytheWeaveAssist)) {
 			if (level >= RPR.Levels.GrimSwathe) {
@@ -249,7 +253,7 @@ internal class ReaperScythe: CustomCombo {
 		}
 
 		if (IsEnabled(CustomComboPreset.ReaperScytheGuillotineFeature)) {
-			if (reaving || enshrouded) {
+			if (reaving || enshrouded || executing) {
 				// Grim Reaping
 				return OriginalHook(RPR.Guillotine);
 			}
@@ -310,6 +314,7 @@ internal class ReaperShadowOfDeath: CustomCombo {
 		RPRGauge gauge = GetJobGauge<RPRGauge>();
 		bool reaving = level >= RPR.Levels.SoulReaver && SelfHasEffect(RPR.Buffs.SoulReaver);
 		bool enshrouded = level >= RPR.Levels.Enshroud && gauge.EnshroudedTimeRemaining > 0;
+		bool executing = level >= RPR.Levels.Executions && SelfHasEffect(RPR.Buffs.Executioner);
 
 		if (enshrouded) {
 
@@ -325,7 +330,7 @@ internal class ReaperShadowOfDeath: CustomCombo {
 
 		}
 
-		if (reaving || enshrouded) {
+		if (reaving || enshrouded || executing) {
 
 			if (IsEnabled(CustomComboPreset.ReaperShadowGallowsFeature))
 				// Cross Reaping
@@ -366,6 +371,7 @@ internal class ReaperSoulSlice: CustomCombo {
 
 		bool reaving = level >= RPR.Levels.SoulReaver && SelfHasEffect(RPR.Buffs.SoulReaver);
 		bool enshrouded = level >= RPR.Levels.Enshroud && gauge.EnshroudedTimeRemaining > 0;
+		bool executing = level >= RPR.Levels.Executions && SelfHasEffect(RPR.Buffs.Executioner);
 
 		if (enshrouded) {
 
@@ -381,7 +387,7 @@ internal class ReaperSoulSlice: CustomCombo {
 
 		}
 
-		if (reaving || enshrouded) {
+		if (reaving || enshrouded || executing) {
 
 			if (IsEnabled(CustomComboPreset.ReaperSoulGallowsFeature))
 				// Cross Reaping
@@ -479,10 +485,11 @@ internal class ReaperGibbetGallows: CustomCombo {
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		RPRGauge gauge = GetJobGauge<RPRGauge>();
+		bool reaving = level >= RPR.Levels.SoulReaver && SelfHasEffect(RPR.Buffs.SoulReaver);
+		bool enshrouded = level >= RPR.Levels.Enshroud && gauge.EnshroudedTimeRemaining > 0;
+		bool executing = level >= RPR.Levels.Executions && SelfHasEffect(RPR.Buffs.Executioner);
 
-		if ((level >= RPR.Levels.SoulReaver && SelfHasEffect(RPR.Buffs.SoulReaver))
-			|| (level >= RPR.Levels.Enshroud && gauge.EnshroudedTimeRemaining > 0)
-		) {
+		if (reaving || enshrouded || executing) {
 
 			if (IsEnabled(CustomComboPreset.ReaperLemuresSoulReaverFeature)) {
 				if (level >= RPR.Levels.EnhancedShroud && gauge.VoidShroud >= 2)
@@ -492,16 +499,6 @@ internal class ReaperGibbetGallows: CustomCombo {
 			if (IsEnabled(CustomComboPreset.ReaperCommunioSoulReaverFeature)) {
 				if (level >= RPR.Levels.Communio && gauge.LemureShroud == 1 && gauge.VoidShroud == 0)
 					return RPR.Communio;
-			}
-
-			if (IsEnabled(CustomComboPreset.ReaperEnhancedEnshroudedFeature)) {
-
-				if (SelfHasEffect(RPR.Buffs.EnhancedVoidReaping))
-					return RPR.VoidReaping;
-
-				if (SelfHasEffect(RPR.Buffs.EnhancedCrossReaping))
-					return RPR.CrossReaping;
-
 			}
 
 			if (IsEnabled(CustomComboPreset.ReaperEnhancedSoulReaverFeature)) {
