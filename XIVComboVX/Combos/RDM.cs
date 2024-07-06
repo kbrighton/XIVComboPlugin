@@ -1,6 +1,5 @@
 using System;
 
-using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.ClientState.JobGauge.Types;
 
 namespace PrincessRTFM.XIVComboVX.Combos;
@@ -9,9 +8,9 @@ internal static class RDM {
 	public const byte JobID = 35;
 
 	public const int
-		ManaCostRiposte = 20,
-		ManaCostZwerchhau = 15,
-		ManaCostRedoublement = 15;
+		ManaCostMelee1 = 20,
+		ManaCostMelee2 = 15,
+		ManaCostMelee3 = 15;
 
 	public const uint
 		Verraise = 7523,
@@ -43,13 +42,24 @@ internal static class RDM {
 		Verflare = 7525,
 		Engagement = 16527,
 		Scorch = 16530,
-		Resolution = 25858;
+		Resolution = 25858,
+		Jolt3 = ushort.MaxValue,
+		ViceOfThorns = ushort.MaxValue,
+		GrandImpact = ushort.MaxValue,
+		Prefulgence = ushort.MaxValue,
+		EnchantedMoulinet = ushort.MaxValue,
+		EnchantedMoulinetDeux = ushort.MaxValue,
+		EnchantedMoulinetTrois = ushort.MaxValue;
 
 	public static class Buffs {
 		public const ushort
 			VerfireReady = 1234,
 			VerstoneReady = 1235,
 			Acceleration = 1238,
+			GrandImpactReady = ushort.MaxValue,
+			ThornedFlourish = ushort.MaxValue,
+			MagickedSwordplay = ushort.MaxValue,
+			PrefulgenceReady = ushort.MaxValue,
 			Dualcast = 1249;
 	}
 
@@ -73,6 +83,7 @@ internal static class RDM {
 			Fleche = 45,
 			Redoublement = 50,
 			Acceleration = 50,
+			EnchantedMoulinets = 52,
 			Vercure = 54,
 			ContreSixte = 56,
 			Embolden = 58,
@@ -83,8 +94,148 @@ internal static class RDM {
 			Verflare = 68,
 			Verholy = 70,
 			Scorch = 80,
-			Resolution = 90;
+			Resolution = 90,
+			ViceOfThorns = 92,
+			GrandImpact = 96,
+			Prefulgence = 100;
 	}
+
+#pragma warning disable IDE0045 // Convert to conditional expression - helper function readability
+	public static bool CheckFinishers(ref uint actionID, uint lastComboMove, byte level) {
+		const int
+			finisherDelta = 11,
+			imbalanceDiffMax = 30;
+
+		if (lastComboMove is Verflare or Verholy && level >= Levels.Scorch) {
+			actionID = Scorch;
+			return true;
+		}
+
+		if (lastComboMove is Scorch && level >= Levels.Resolution) {
+			actionID = Resolution;
+			return true;
+		}
+
+		RDMGauge gauge = CustomCombo.GetJobGauge<RDMGauge>();
+
+		if (gauge.ManaStacks == 3 && level >= Levels.Verflare) {
+			int black = gauge.BlackMana;
+			int white = gauge.WhiteMana;
+			bool canFinishWhite = level >= Levels.Verholy;
+			int blackThreshold = white + imbalanceDiffMax;
+			int whiteThreshold = black + imbalanceDiffMax;
+			bool verfireUp = CustomCombo.SelfHasEffect(Buffs.VerfireReady);
+			bool verstoneUp = CustomCombo.SelfHasEffect(Buffs.VerstoneReady);
+
+			if (black >= white && canFinishWhite) {
+				// If we can already Verstone, but we can't Verfire, and Verflare WON'T imbalance us, use Verflare
+				if (verstoneUp && !verfireUp && (black + finisherDelta <= blackThreshold))
+					actionID = Verflare;
+				else
+					actionID = Verholy;
+			}
+			// If we can already Verfire, but we can't Verstone, and we can use Verholy, and it WON'T imbalance us, use Verholy
+			else if (verfireUp && !verstoneUp && canFinishWhite && (white + finisherDelta <= whiteThreshold)) {
+				actionID = Verholy;
+			}
+			else {
+				actionID = Verflare;
+			}
+
+			return true;
+		}
+
+		return false;
+	}
+
+	public static bool CheckMeleeST(ref uint actionID, uint lastComboMove, byte level, bool checkComboStart) {
+		RDMGauge gauge = CustomCombo.GetJobGauge<RDMGauge>();
+		byte mana = Math.Min(gauge.BlackMana, gauge.WhiteMana);
+
+		if (lastComboMove is Zwerchhau or EnchantedZwerchhau && level >= Levels.Redoublement && mana >= ManaCostMelee3) {
+			actionID = EnchantedRedoublement;
+			return true;
+		}
+
+		if (lastComboMove is Riposte or EnchantedRiposte && level >= Levels.Zwerchhau && mana >= ManaCostMelee2) {
+			actionID = EnchantedZwerchhau;
+			return true;
+		}
+
+		if (checkComboStart && mana >= ManaCostMelee1) {
+			actionID = EnchantedRiposte;
+			return true;
+		}
+
+		return false;
+	}
+
+	public static bool CheckMeleeAOE(ref uint actionID, uint lastComboMove, byte level, bool checkComboStart) {
+		if (level < Levels.EnchantedMoulinets)
+			return false;
+
+		RDMGauge gauge = CustomCombo.GetJobGauge<RDMGauge>();
+		byte mana = Math.Min(gauge.BlackMana, gauge.WhiteMana);
+
+		if (lastComboMove is EnchantedMoulinetDeux && mana >= ManaCostMelee3) {
+			actionID = EnchantedMoulinetTrois;
+			return true;
+		}
+
+		if (lastComboMove is Moulinet or EnchantedMoulinet && mana >= ManaCostMelee2) {
+			actionID = EnchantedMoulinetDeux;
+			return true;
+		}
+
+		if (checkComboStart && mana >= ManaCostMelee1) {
+			actionID = EnchantedMoulinet;
+			return true;
+		}
+
+		return false;
+	}
+
+	public static bool CheckAbilityAttacks(ref uint actionID, byte level) {
+		if (!CustomCombo.IsEnabled(CustomComboPreset.RedMageContreFleche))
+			return false;
+
+		float prefulgenceTimeLeft = CustomCombo.IsEnabled(CustomComboPreset.RedMageContreFlechePrefulgence) && level >= RDM.Levels.Prefulgence
+			? CustomCombo.SelfEffectDuration(Buffs.PrefulgenceReady)
+			: 0f;
+		float thornsTimeLeft = CustomCombo.IsEnabled(CustomComboPreset.RedMageContreFlecheThorns) && level >= Levels.ViceOfThorns
+			? CustomCombo.SelfEffectDuration(Buffs.ThornedFlourish)
+			: 0f;
+
+		if (prefulgenceTimeLeft > 0) {
+
+			// If we're almost out of time to use VoT but Prefulgence has enough time left to use VoT and also itself, use VoT first to save it from being lost
+			if (thornsTimeLeft is > 0 and < 3 && prefulgenceTimeLeft >= 3)
+				actionID = RDM.ViceOfThorns;
+			else
+				actionID = Prefulgence;
+
+			return true;
+		}
+
+		if (thornsTimeLeft > 0) {
+			actionID = ViceOfThorns;
+			return true;
+		}
+
+		if (level >= Levels.ContreSixte) {
+			actionID = CustomCombo.PickByCooldown(actionID, Fleche, ContreSixte);
+			return true;
+		}
+
+		if (level >= Levels.Fleche) {
+			actionID = Fleche;
+			return true;
+		}
+
+		return false;
+	}
+
+#pragma warning restore IDE0045 // Convert to conditional expression
 }
 
 internal class RedMageSwiftcastRaiserFeature: SwiftRaiseCombo {
@@ -97,13 +248,10 @@ internal class RedMageAoECombo: CustomCombo {
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-		if (lastComboMove is RDM.Scorch && level >= RDM.Levels.Resolution)
-			return RDM.Resolution;
+		if (RDM.CheckFinishers(ref actionID, lastComboMove, level))
+			return actionID;
 
-		if (lastComboMove is RDM.Verflare or RDM.Verholy && level >= RDM.Levels.Scorch)
-			return RDM.Scorch;
-
-		if (level >= RDM.Levels.Scatter && (IsFastcasting || SelfHasEffect(RDM.Buffs.Acceleration)))
+		if (level >= RDM.Levels.Scatter && (IsFastcasting || SelfHasEffect(RDM.Buffs.Acceleration) || SelfHasEffect(RDM.Buffs.GrandImpactReady)))
 			return OriginalHook(RDM.Scatter);
 
 		return actionID;
@@ -112,133 +260,29 @@ internal class RedMageAoECombo: CustomCombo {
 
 internal class RedMageMeleeCombo: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.RedMageMeleeCombo;
-	public override uint[] ActionIDs { get; } = [RDM.Redoublement, RDM.Moulinet];
+	public override uint[] ActionIDs { get; } = [RDM.Riposte, RDM.Moulinet];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-		const int
-			finisherDelta = 11,
-			imbalanceDiffMax = 30;
 
 		if (IsEnabled(CustomComboPreset.RedMageMeleeComboPlus)) {
-			RDMGauge gauge = GetJobGauge<RDMGauge>();
-			int black = gauge.BlackMana;
-			int white = gauge.WhiteMana;
-			bool isFinishing1 = gauge.ManaStacks == 3;
-			bool isFinishing2 = comboTime > 0 && lastComboMove is RDM.Verholy or RDM.Verflare;
-			bool isFinishing3 = comboTime > 0 && lastComboMove is RDM.Scorch;
-			bool canFinishWhite = level >= RDM.Levels.Verholy;
-			bool canFinishBlack = level >= RDM.Levels.Verflare;
-			int blackThreshold = white + imbalanceDiffMax;
-			int whiteThreshold = black + imbalanceDiffMax;
-			bool verfireUp = SelfHasEffect(RDM.Buffs.VerfireReady);
-			bool verstoneUp = SelfHasEffect(RDM.Buffs.VerstoneReady);
-
-			if (isFinishing3 && level >= RDM.Levels.Resolution)
-				return RDM.Resolution;
-			if (isFinishing2 && level >= RDM.Levels.Scorch)
-				return RDM.Scorch;
-
-			if (isFinishing1 && canFinishBlack) {
-
-				if (black >= white && canFinishWhite) {
-
-					if (verstoneUp && !verfireUp && (black + finisherDelta <= blackThreshold))
-						return RDM.Verflare;
-
-					return RDM.Verholy;
-				}
-
-				if (verfireUp && !verstoneUp && canFinishWhite && (white + finisherDelta <= whiteThreshold))
-					return RDM.Verholy;
-
-				return RDM.Verflare;
-			}
+			if (RDM.CheckFinishers(ref actionID, lastComboMove, level))
+				return actionID;
 		}
 
-		if (actionID is RDM.Redoublement) {
+		if (actionID is RDM.Riposte) {
 
 			if (IsEnabled(CustomComboPreset.RedMageMeleeComboCloser)) {
 				if (HasTarget && !InMeleeRange)
 					return RDM.Corpsacorps;
 			}
 
-			if (lastComboMove is RDM.Zwerchhau or RDM.EnchantedZwerchhau && level >= RDM.Levels.Redoublement)
-				return OriginalHook(RDM.Redoublement);
-
-			if (lastComboMove is RDM.Riposte or RDM.EnchantedRiposte && level >= RDM.Levels.Zwerchhau)
-				return OriginalHook(RDM.Zwerchhau);
-
-			return OriginalHook(RDM.Riposte);
+			RDM.CheckMeleeST(ref actionID, lastComboMove, level, true); // actionID will be untouched (Riposte), Enchanted Riposte, Enchanted Zwerchhau, or Enchanted Redoublement
+		}
+		else {
+			RDM.CheckMeleeAOE(ref actionID, lastComboMove, level, true); // actionID will be untouched (Moulinet), Enchanted Moulinet, Enchanted Moulinet Deux, or Enchanted Moulinet Trois
 		}
 
 		return OriginalHook(actionID);
-	}
-}
-
-internal class RedMageVerprocCombo: CustomCombo {
-	public override CustomComboPreset Preset => CustomComboPreset.RedMageVerprocCombo;
-	public override uint[] ActionIDs { get; } = [RDM.Verstone, RDM.Verfire];
-
-	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-
-		if (lastComboMove == RDM.Scorch && level >= RDM.Levels.Resolution)
-			return RDM.Resolution;
-
-		if (lastComboMove is RDM.Verflare or RDM.Verholy && level >= RDM.Levels.Scorch)
-			return RDM.Scorch;
-
-		RDMGauge gauge = GetJobGauge<RDMGauge>();
-
-		if (actionID is RDM.Verstone) {
-
-			if (gauge.ManaStacks == 3 && level >= RDM.Levels.Verholy)
-				return RDM.Verholy;
-
-			if (IsEnabled(CustomComboPreset.RedMageVerprocComboPlus)
-				&& level >= RDM.Levels.Veraero
-				&& (IsFastcasting || SelfHasEffect(RDM.Buffs.Acceleration))
-			) {
-				return OriginalHook(RDM.Veraero);
-			}
-
-			if (IsEnabled(CustomComboPreset.RedMageVeraeroOpener)
-				&& level >= RDM.Levels.Veraero
-				&& !HasCondition(ConditionFlag.InCombat)
-				&& !SelfHasEffect(RDM.Buffs.VerstoneReady)
-			) {
-				return OriginalHook(RDM.Veraero);
-			}
-
-			if (SelfHasEffect(RDM.Buffs.VerstoneReady))
-				return RDM.Verstone;
-
-		}
-		else if (actionID is RDM.Verfire) {
-
-			if (gauge.ManaStacks == 3 && level >= RDM.Levels.Verflare)
-				return RDM.Verflare;
-
-			if (IsEnabled(CustomComboPreset.RedMageVerprocComboPlus)
-				&& level >= RDM.Levels.Verthunder
-				&& (IsFastcasting || SelfHasEffect(RDM.Buffs.Acceleration))
-			) {
-				return OriginalHook(RDM.Verthunder);
-			}
-
-			if (IsEnabled(CustomComboPreset.RedMageVerthunderOpener)
-				&& level >= RDM.Levels.Verthunder
-				&& !HasCondition(ConditionFlag.InCombat)
-				&& !SelfHasEffect(RDM.Buffs.VerfireReady)
-			) {
-				return OriginalHook(RDM.Verthunder);
-			}
-
-			if (SelfHasEffect(RDM.Buffs.VerfireReady))
-				return RDM.Verfire;
-
-		}
-
-		return OriginalHook(RDM.Jolt2);
 	}
 }
 
@@ -247,12 +291,7 @@ internal class RedMageContreFlecheFeature: CustomCombo {
 	public override uint[] ActionIDs { get; } = [RDM.Fleche, RDM.ContreSixte];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-
-		if (level >= RDM.Levels.ContreSixte)
-			return PickByCooldown(actionID, RDM.Fleche, RDM.ContreSixte);
-
-		if (level >= RDM.Levels.Fleche)
-			return RDM.Fleche;
+		RDM.CheckAbilityAttacks(ref actionID, level);
 
 		return actionID;
 	}
@@ -263,50 +302,19 @@ internal class RedMageSmartcastAoECombo: CustomCombo {
 	public override uint[] ActionIDs { get; } = [RDM.Veraero2, RDM.Verthunder2];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-		const int
-			normalDelta = 7,
-			finisherDelta = 11,
-			imbalanceDiffMax = 30;
+		const int normalDelta = 7;
 
 		RDMGauge gauge = GetJobGauge<RDMGauge>();
 		int black = gauge.BlackMana;
 		int white = gauge.WhiteMana;
-		bool isFinishing1 = gauge.ManaStacks == 3;
-		bool isFinishing2 = comboTime > 0 && lastComboMove is RDM.Verholy or RDM.Verflare;
-		bool isFinishing3 = comboTime > 0 && lastComboMove is RDM.Scorch;
-		bool canFinishWhite = level >= RDM.Levels.Verholy;
-		bool canFinishBlack = level >= RDM.Levels.Verflare;
-		int blackThreshold = white + imbalanceDiffMax;
-		int whiteThreshold = black + imbalanceDiffMax;
 		bool weaving = CanWeave(actionID);
 
 		if (Common.CheckLucidWeave(CustomComboPreset.RedMageSmartcastAoEWeaveLucid, level, Service.Configuration.RedMageSmartcastAoEWeaveLucidManaThreshold, actionID))
 			return Common.LucidDreaming;
 
 		// There is never a reason to NOT use the finishers when you have them.
-		if (isFinishing3 && level >= RDM.Levels.Resolution)
-			return RDM.Resolution;
-		if (isFinishing2 && level >= RDM.Levels.Scorch)
-			return RDM.Scorch;
-		if (isFinishing1 && canFinishBlack) {
-			bool verfireUp = SelfHasEffect(RDM.Buffs.VerfireReady);
-			bool verstoneUp = SelfHasEffect(RDM.Buffs.VerstoneReady);
-
-			if (black >= white && canFinishWhite) {
-
-				// If we can already Verstone, but we can't Verfire, and Verflare WON'T imbalance us, use Verflare
-				if (verstoneUp && !verfireUp && (black + finisherDelta <= blackThreshold))
-					return RDM.Verflare;
-
-				return RDM.Verholy;
-			}
-
-			// If we can already Verfire, but we can't Verstone, and we can use Verholy, and it WON'T imbalance us, use Verholy
-			if (verfireUp && !verstoneUp && canFinishWhite && (white + finisherDelta <= whiteThreshold))
-				return RDM.Verholy;
-
-			return RDM.Verflare;
-		}
+		if (RDM.CheckFinishers(ref actionID, lastComboMove, level))
+			return actionID;
 
 		bool fastCast = IsFastcasting;
 
@@ -314,23 +322,15 @@ internal class RedMageSmartcastAoECombo: CustomCombo {
 		// However, that's available on the ST smartcast option, which means it's still available while the AoE one here will show your GCD.
 		// More importantly, I don't want to duplicate the whole block above the finishers, so deal with it.
 		if ((IsEnabled(CustomComboPreset.RedMageSmartcastAoEWeaveAttack) && weaving) || (IsEnabled(CustomComboPreset.RedMageSmartcastAoEMovement) && IsMoving && !fastCast)) {
-			if (level >= RDM.Levels.ContreSixte) {
-				if (IsEnabled(CustomComboPreset.RedMageContreFleche)) {
-					uint chosen = PickByCooldown(RDM.ContreSixte, RDM.Fleche, RDM.ContreSixte);
-					if (IsOffCooldown(chosen))
-						return chosen;
-				}
-				else if (IsOffCooldown(RDM.ContreSixte)) {
-					return RDM.ContreSixte;
-				}
+			if (RDM.CheckAbilityAttacks(ref actionID, level)) {
+				return actionID;
 			}
-			else if (level >= RDM.Levels.Fleche && IsEnabled(CustomComboPreset.RedMageContreFleche)) {
-				if (IsOffCooldown(RDM.Fleche))
-					return RDM.Fleche;
+			else if (level >= RDM.Levels.ContreSixte) {
+				return RDM.ContreSixte;
 			}
 		}
 
-		if (fastCast || SelfHasEffect(RDM.Buffs.Acceleration) || level < RDM.Levels.Verthunder2)
+		if (fastCast || SelfHasEffect(RDM.Buffs.Acceleration) || SelfHasEffect(RDM.Buffs.GrandImpactReady) || level < RDM.Levels.Verthunder2)
 			return OriginalHook(RDM.Impact);
 
 		if (level < RDM.Levels.Veraero2)
@@ -402,14 +402,20 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 		if (shouldEngage && engageEarly)
 			return RDM.Engagement;
 
+		if (level >= RDM.Levels.Prefulgence && SelfHasEffect(RDM.Buffs.PrefulgenceReady))
+			return RDM.Prefulgence;
+
+		if (level >= RDM.Levels.ViceOfThorns && SelfHasEffect(RDM.Buffs.ThornedFlourish))
+			return RDM.ViceOfThorns;
+
+		// Grand Impact is SPECIFICALLY excluded because it's a spell, not an ability, which makes it a GCD.
+		// Therefore, since this helper can be used for moving OR for weaving, it should be handled by the AOE spell combo instead.
+
 		if (level >= RDM.Levels.Fleche) {
-			if (IsEnabled(CustomComboPreset.RedMageContreFleche) && level >= RDM.Levels.ContreSixte) {
-				uint chosen = PickByCooldown(RDM.Fleche, RDM.Fleche, RDM.ContreSixte);
-				if (IsOffCooldown(chosen))
-					return chosen;
-			}
-			if (IsOffCooldown(RDM.Fleche))
-				return RDM.Fleche;
+			uint actionID = RDM.Fleche;
+			RDM.CheckAbilityAttacks(ref actionID, level);
+			if (IsOffCooldown(actionID))
+				return actionID;
 		}
 
 		if (shouldEngage)
@@ -422,7 +428,6 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 		const int
 			longDelta = 6,
 			procDelta = 5,
-			finisherDelta = 11,
 			imbalanceDiffMax = 30;
 
 		// This algorithm is a bit messy, because.. well, there's no clean way to do it, really.
@@ -448,24 +453,18 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 		int blackThreshold = white + imbalanceDiffMax;
 		int whiteThreshold = black + imbalanceDiffMax;
 
-		int minManaForEnchantedMelee = RDM.ManaCostRiposte + (level >= RDM.Levels.Zwerchhau ? RDM.ManaCostZwerchhau : 0) + (level >= RDM.Levels.Redoublement ? RDM.ManaCostRedoublement : 0);
+		int minManaForEnchantedMelee = RDM.ManaCostMelee1 + (level >= RDM.Levels.Zwerchhau ? RDM.ManaCostMelee2 : 0) + (level >= RDM.Levels.Redoublement ? RDM.ManaCostMelee3 : 0);
 		bool hasMeleeMana = gaugeMin >= minManaForEnchantedMelee && (black != white || black is 100 || level <= RDM.Levels.Verflare);
 
 		bool verfireUp = SelfHasEffect(RDM.Buffs.VerfireReady);
 		bool verstoneUp = SelfHasEffect(RDM.Buffs.VerstoneReady);
-		bool isFinishing1 = gauge.ManaStacks == 3; // Mana stacks are only unlocked at the same level as Verflare, so we don't need a check for that here
-		bool isFinishing2 = lastComboActionId is RDM.Verholy or RDM.Verflare && level >= RDM.Levels.Scorch;
-		bool isFinishing3 = lastComboActionId is RDM.Scorch && level >= RDM.Levels.Resolution;
-		bool isFinishingAny = isFinishing1 || isFinishing2 || isFinishing3;
-		bool canFinishWhite = level >= RDM.Levels.Verholy;
+		bool isFinishingAny = RDM.CheckFinishers(ref actionID, lastComboActionId, level);
 
-		bool meleeCombo = IsEnabled(CustomComboPreset.RedMageSmartcastSingleTargetMeleeCombo)
-			&& ( // if we're too low level for the next step of the combo, then the combo is over
-				(level >= RDM.Levels.Redoublement && lastComboActionId is RDM.EnchantedZwerchhau or RDM.Zwerchhau)
-				|| (level >= RDM.Levels.Zwerchhau && lastComboActionId is RDM.EnchantedRiposte or RDM.Riposte)
-			);
 		bool startMelee = IsEnabled(CustomComboPreset.RedMageSmartcastSingleTargetMeleeComboStarter)
 			&& targeting && isClose && hasMeleeMana;
+		bool meleeCombo = IsEnabled(CustomComboPreset.RedMageSmartcastSingleTargetMeleeCombo)
+			&& !isFinishingAny
+			&& RDM.CheckMeleeST(ref actionID, lastComboActionId, level, startMelee);
 		bool shouldCloseGap = IsEnabled(CustomComboPreset.RedMageSmartcastSingleTargetMeleeComboStarterCloser)
 			&& targeting && !isClose && hasMeleeMana;
 
@@ -498,6 +497,11 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 			uint alt = noCastingSubCheck(level, engageCheck, holdOneEngageCharge, engageEarly, targeting && isClose, accelWeave);
 			if (alt > 0)
 				return alt;
+		}
+		if (isFinishingAny) {
+			// This accounts for both the finisher combo chain (Scorch and Resolution) AND the initial decision of whether to START the finishers (Verflare or Verholy)
+			// Since you lose your mana stacks when you cast ANY spell, you want to use the finishers as soon as they're up, so you don't lose them
+			return actionID;
 		}
 		if (instacasting) {
 			// TODO: need to account for hardcasting spells with no cast time!
@@ -544,42 +548,12 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 			if (!(targeting && isClose))
 				return RDM.Corpsacorps;
 
-			if (lastComboActionId is RDM.EnchantedZwerchhau or RDM.Zwerchhau && level >= RDM.Levels.Redoublement && gaugeMin >= RDM.ManaCostRedoublement)
-				return OriginalHook(RDM.EnchantedRedoublement);
-			if (lastComboActionId is RDM.EnchantedRiposte or RDM.Riposte && level >= RDM.Levels.Zwerchhau && black >= RDM.ManaCostZwerchhau && white >= RDM.ManaCostZwerchhau)
-				return OriginalHook(RDM.EnchantedZwerchhau);
+			return actionID; // meleeCombo is only true if the helper function assigned the appropriate actionID value
 		}
 		if (shouldCloseGap) {
 			// If this is the case, then startMelee CANNOT be, because one requires isClose and one requires !isClose, so the order of these two doesn't really matter.
 			// I decided to put it here because logically, you need to close before you can melee.
 			return RDM.Corpsacorps;
-		}
-		if (isFinishing1) {
-			// First finisher - have to make a Smart Decision here. Remember, we do the thinking so you don't have to! :P
-
-			if (black >= white && canFinishWhite) {
-
-				// If we can already Verstone, but we can't Verfire, and Verflare WON'T imbalance us, use Verflare
-				if (verstoneUp && !verfireUp && (black + finisherDelta <= blackThreshold))
-					return RDM.Verflare;
-
-				return RDM.Verholy;
-			}
-
-			// If we can already Verfire, but we can't Verstone, and we can use Verholy, and it WON'T imbalance us, use Verholy
-			if (verfireUp && !verstoneUp && canFinishWhite && (white + finisherDelta <= whiteThreshold))
-				return RDM.Verholy;
-
-			// If all else fails, just Verflare
-			return RDM.Verflare;
-		}
-		if (isFinishing2) {
-			// Finisher combo, simple chain.
-			return RDM.Scorch;
-		}
-		if (isFinishing3) {
-			// Second verse, same as the first!
-			return RDM.Resolution;
 		}
 		if (startMelee) {
 			// Do we allow becoming spells from within the combo? They'll break the combo, but sometimes the boss moves out of melee range of the whole arena.
@@ -628,8 +602,8 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 				return alt;
 		}
 
-		// Finally, if all else fails, become Jolt (II)
-		return OriginalHook(RDM.Jolt2);
+		// Finally, if all else fails, become Jolt (II[I]), or Grand Impact too I guess
+		return OriginalHook(RDM.Jolt);
 	}
 }
 
@@ -659,51 +633,16 @@ internal class RedMageAcceleration: CustomCombo {
 	}
 }
 
-internal class RedMageManafication: CustomCombo {
-	public override CustomComboPreset Preset { get; } = CustomComboPreset.RedMageManaficationIntoMelee;
-	public override uint[] ActionIDs => [RDM.Manafication];
-
-	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
-		RDMGauge gauge = GetJobGauge<RDMGauge>();
-		int
-			minManaForEnchantedMelee = 50;
-		byte
-			black = gauge.BlackMana,
-			white = gauge.WhiteMana,
-			least = Math.Min(black, white);
-		bool
-			inequal = black != white,
-			ready = least >= minManaForEnchantedMelee,
-			combo = lastComboActionId is RDM.EnchantedRiposte or RDM.Riposte or RDM.EnchantedZwerchhau or RDM.Zwerchhau;
-
-		if (combo || (inequal && ready)) {
-			if (IsEnabled(CustomComboPreset.RedMageMeleeComboCloser) && HasTarget && !InMeleeRange)
-				return RDM.Corpsacorps;
-
-			if (lastComboActionId is RDM.EnchantedZwerchhau or RDM.Zwerchhau && level >= RDM.Levels.Redoublement && least >= RDM.ManaCostRedoublement)
-				return OriginalHook(RDM.EnchantedRedoublement);
-			if (lastComboActionId is RDM.EnchantedRiposte or RDM.Riposte && level >= RDM.Levels.Zwerchhau && least >= RDM.ManaCostZwerchhau)
-				return OriginalHook(RDM.EnchantedZwerchhau);
-
-			return OriginalHook(RDM.EnchantedRiposte);
-		}
-
-		return actionID;
-	}
-}
-
 internal class RedMageGapControl: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.RdmAny;
 	public override uint[] ActionIDs => [RDM.Corpsacorps, RDM.Displacement];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-		if (level < RDM.Levels.Displacement)
+		if (level < RDM.Levels.Displacement || !HasTarget)
 			return actionID;
 
-		if ((actionID is RDM.Corpsacorps && IsEnabled(CustomComboPreset.RedMageMeleeGapReverserBackstep)) || (actionID is RDM.Displacement && IsEnabled(CustomComboPreset.RedMageMeleeGapReverserLunge))) {
-			if (HasTarget)
-				return InMeleeRange ? RDM.Displacement : RDM.Corpsacorps;
-		}
+		if (IsEnabled(CustomComboPreset.RedMageMeleeGapReverserBackstep) || IsEnabled(CustomComboPreset.RedMageMeleeGapReverserLunge))
+			return InMeleeRange ? RDM.Displacement : RDM.Corpsacorps;
 
 		return actionID;
 	}

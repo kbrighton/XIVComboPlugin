@@ -7,6 +7,7 @@ internal static class PLD {
 		FastBlade = 9,
 		RiotBlade = 15,
 		Sentinel = 17,
+		Guardian = ushort.MaxValue,
 		FightOrFlight = 20,
 		RageOfHalone = 21,
 		CircleOfScorn = 23,
@@ -17,22 +18,31 @@ internal static class PLD {
 		Sheltron = 3542,
 		TotalEclipse = 7381,
 		Requiescat = 7383,
+		Imperator = ushort.MaxValue,
 		HolySpirit = 7384,
 		Prominence = 16457,
 		HolyCircle = 16458,
 		Confiteor = 16459,
 		Atonement = 16460,
+		Supplication = ushort.MaxValue,
+		Sepulchre = ushort.MaxValue,
 		Intervene = 16461,
 		Expiacion = 25747,
 		BladeOfFaith = 25748,
 		BladeOfTruth = 25749,
-		BladeOfValor = 25750;
+		BladeOfValor = 25750,
+		BladeOfHonor = ushort.MaxValue;
 
 	public static class Buffs {
 		public const ushort
+			GoringBladeReady = ushort.MaxValue,
+			AttonementReady = ushort.MaxValue,
+			SupplicationReady = ushort.MaxValue,
+			SepulchreReady = ushort.MaxValue,
+			BladeOfHonorReady = ushort.MaxValue,
 			FightOrFlight = 76,
 			Requiescat = 1368,
-			SwordOath = 1902,
+			//SwordOath = 1902,
 			DivineMight = 2673,
 			ConfiteorReady = 3019;
 	}
@@ -101,7 +111,7 @@ internal class PaladinRoyalAuthorityCombo: CustomCombo {
 		}
 
 		if (IsEnabled(CustomComboPreset.PaladinRoyalAuthorityGoringBlade) && level >= PLD.Levels.GoringBlade) {
-			if (CanUse(PLD.GoringBlade))
+			if (SelfHasEffect(PLD.Buffs.GoringBladeReady))
 				return PLD.GoringBlade;
 		}
 
@@ -136,8 +146,12 @@ internal class PaladinRoyalAuthorityCombo: CustomCombo {
 
 		if (IsEnabled(CustomComboPreset.PaladinAtonementFeature)) {
 			if (level >= PLD.Levels.Atonement) {
-				if (SelfHasEffect(PLD.Buffs.SwordOath))
+				if (SelfHasEffect(PLD.Buffs.AttonementReady))
 					return PLD.Atonement;
+				if (SelfHasEffect(PLD.Buffs.SupplicationReady))
+					return PLD.Supplication;
+				if (SelfHasEffect(PLD.Buffs.SepulchreReady))
+					return PLD.Sepulchre;
 			}
 		}
 
@@ -201,16 +215,16 @@ internal class PaladinHolySpiritHolyCircle: CustomCombo {
 
 internal class PaladinRequiescat: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.PaladinRequiescatConfiteor;
-	public override uint[] ActionIDs { get; } = [PLD.Requiescat];
+	public override uint[] ActionIDs { get; } = [PLD.Requiescat, PLD.Imperator];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
 		if (level >= PLD.Levels.Confiteor) {
-			if (SelfHasEffect(PLD.Buffs.Requiescat))
+			if (SelfHasEffect(PLD.Buffs.ConfiteorReady))
 				return OriginalHook(PLD.Confiteor);
 		}
 
-		return actionID;
+		return OriginalHook(actionID);
 	}
 }
 
@@ -225,5 +239,8 @@ internal class PaladinSheltron: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.PaladinSheltronSentinel;
 	public override uint[] ActionIDs { get; } = [PLD.Sheltron];
 
-	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) => level > PLD.Levels.Sentinel && CanUse(PLD.Sentinel) ? PLD.Sentinel : actionID;
+	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+		uint sentinel = OriginalHook(PLD.Sentinel);
+		return level > PLD.Levels.Sentinel && CanUse(sentinel) ? sentinel : actionID;
+	}
 }

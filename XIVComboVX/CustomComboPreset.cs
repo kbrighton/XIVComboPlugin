@@ -804,7 +804,7 @@ public enum CustomComboPreset {
 	PaladinRoyalConfiteor = 1915,
 
 	[ParentPreset(PaladinRoyalAuthorityCombo)]
-	[CustomComboInfo("Goring Authority", "Change RA/RoH into Goring Blade when off CD.", PLD.JobID)]
+	[CustomComboInfo("Goring Authority", "Change RA/RoH into Goring Blade when available.", PLD.JobID)]
 	PaladinRoyalAuthorityGoringBlade = 1922,
 
 	[ParentPreset(PaladinRoyalAuthorityCombo)]
@@ -816,16 +816,16 @@ public enum CustomComboPreset {
 	PaladinRoyalAuthorityHolySpirit = 1923,
 
 	[ParentPreset(PaladinRoyalAuthorityCombo)]
-	[CustomComboInfo("Atonement Feature", "Replace the RA/RoH combo with Atonement when NOT in the combo chain, and under the effect of Sword Oath.", PLD.JobID)]
+	[CustomComboInfo("Atonement Feature", "Replace the RA/RoH combo with Atonement/Supplication/Sepulchre when NOT in the combo chain, and under the relevant effects.", PLD.JobID)]
 	PaladinAtonementFeature = 1902,
 
-	[CustomComboInfo("Requiescat Confiteor", "Replace Requiescat with Confiteor (and chains) while under the effect of Requiescat.", PLD.JobID)]
+	[CustomComboInfo("Requiescat Confiteor", "Replace Requiescat/Imperator with Confiteor (and chains) while under the effect of Requiescat.", PLD.JobID)]
 	PaladinRequiescatConfiteor = 1904,
 
 	[CustomComboInfo("Holy Confiteor", "Replace Holy Spirit/Circle with Confiteor (and chains) when Requiescat is up.", PLD.JobID)]
 	PaladinHolyConfiteor = 1908,
 
-	[CustomComboInfo("Sheltron Sentinel", "Replace Sheltron with Sentinel when available.", PLD.JobID)]
+	[CustomComboInfo("Sheltron Sentinel", "Replace Sheltron with Sentinel/Guardian when available.", PLD.JobID)]
 	PaladinSheltronSentinel = 1917,
 
 	#endregion
@@ -839,7 +839,6 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Swiftcast Verraise", "Verraise turns into Swiftcast when available and reasonable.", RDM.JobID)]
 	RedMageSwiftcastRaiserFeature = 3500,
 
-	[Conflicts(RedMageVerprocCombo)]
 	[CustomComboInfo("Smartcast Single Target", "Dynamically replaces Verstone/Verfire with the appropriate spell based on your job gauge.\nVeraero and Verthunder are replaced with one or the other accordingly, for openers.", RDM.JobID)]
 	RedMageSmartcastSingleTarget = 3509,
 
@@ -920,7 +919,7 @@ public enum CustomComboPreset {
 	RedMageSmartcastSingleTargetAccelerationNoOverride = 3538,
 
 	[Conflicts(RedMageAoECombo)]
-	[CustomComboInfo("Smartcast AoE", "Dynamically replaces Veraero/Verthunder 2 with the appropriate spell based on your job gauge.\nIncludes Impact/Scatter when fastcasting.", RDM.JobID)]
+	[CustomComboInfo("Smartcast AoE", "Dynamically replaces Veraero/Verthunder 2 with the appropriate spell based on your job gauge.\nIncludes Impact/Scatter when fastcasting.\nIncludes Grand Impact when available.", RDM.JobID)]
 	RedMageSmartcastAoE = 3508,
 
 	[ParentPreset(RedMageSmartcastAoE)]
@@ -935,40 +934,31 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Walking Contre Sixte", "Turns the AoE smartcast combo into Contre Sixte when you're moving and can't instacast.\nAffected by the Contre Sixte / Fleche feature.", RDM.JobID)]
 	RedMageSmartcastAoEMovement = 3520,
 
-	[CustomComboInfo("Melee Combo", "Replaces Redoublement with its combo chain, following enchantment rules.", RDM.JobID)]
+	[CustomComboInfo("Melee Combo", "Replaces Riposte with its combo chain, following enchantment rules.", RDM.JobID)]
 	RedMageMeleeCombo = 3502,
 
 	[ParentPreset(RedMageMeleeCombo)]
-	[CustomComboInfo("Melee Combo+", "Replaces Redoublement (and Moulinet) with Verflare/Verholy (and then Scorch and Resolution) after 3 mana stacks, whichever is more appropriate.", RDM.JobID)]
+	[CustomComboInfo("Melee Combo+", "Replaces Riposte (and Moulinet) with Verflare/Verholy (and then Scorch and Resolution) after 3 mana stacks, whichever is more appropriate.", RDM.JobID)]
 	RedMageMeleeComboPlus = 3503,
 
 	[ParentPreset(RedMageMeleeCombo)]
-	[CustomComboInfo("Gap Closer", "Replaces Redoublement with Corps-a-corps when out of melee range.", RDM.JobID)]
+	[CustomComboInfo("Gap Closer", "Replaces Riposte with Corps-a-corps when out of melee range.", RDM.JobID)]
 	RedMageMeleeComboCloser = 3514,
 
 	[Conflicts(RedMageSmartcastAoE)]
 	[CustomComboInfo("Red Mage AoE Combo", "Replaces Veraero/Verthunder 2 with Impact when under a cast speeder.", RDM.JobID)]
 	RedMageAoECombo = 3501,
 
-	[Conflicts(RedMageSmartcastSingleTarget)]
-	[Deprecated(RedMageSmartcastSingleTarget)]
-	[CustomComboInfo("Verproc into Jolt", "Replaces Verstone/Verfire with Jolt (2) when no proc is available.", RDM.JobID)]
-	RedMageVerprocCombo = 3504,
-
-	[ParentPreset(RedMageVerprocCombo)]
-	[CustomComboInfo("Verproc into Jolt Plus", "Additionally replaces Verstone/Verfire with Veraero/Verthunder if fastcasting are up.", RDM.JobID)]
-	RedMageVerprocComboPlus = 3505,
-
-	[ParentPreset(RedMageVerprocComboPlus)]
-	[CustomComboInfo("Verproc into Jolt Plus Veraero Opener", "Turns Verstone into Veraero when out of combat.", RDM.JobID)]
-	RedMageVeraeroOpener = 3506,
-
-	[ParentPreset(RedMageVerprocComboPlus)]
-	[CustomComboInfo("Verproc into Jolt Plus Verthunder Opener", "Turns Verfire into Verthunder when out of combat.", RDM.JobID)]
-	RedMageVerthunderOpener = 3507,
-
 	[CustomComboInfo("Contre Sixte / Fleche Feature", "Turns Contre Sixte and Fleche into whichever is available.", RDM.JobID)]
 	RedMageContreFleche = 3510,
+
+	[ParentPreset(RedMageContreFleche)]
+	[CustomComboInfo("+ Prefulgence", "Includes Prefulgence when available.\nTakes priority over everything else.", RDM.JobID)]
+	RedMageContreFlechePrefulgence = 3544,
+
+	[ParentPreset(RedMageContreFleche)]
+	[CustomComboInfo("+ Vice of Thorns", "Includes Vice of Thorns when available.\nTakes priority over everything else except Prefulgence, unless Prefulgence has more than 3 seconds and VoT does not.", RDM.JobID)]
+	RedMageContreFlecheThorns = 3545,
 
 	[CustomComboInfo("Acceleration into Swiftcast", "Replace Acceleration with Swiftcast when on cooldown or synced.", RDM.JobID)]
 	RedMageAccelerationSwiftcast = 3511,
@@ -976,9 +966,6 @@ public enum CustomComboPreset {
 	[ParentPreset(RedMageAccelerationSwiftcast)]
 	[CustomComboInfo("Acceleration with Swiftcast first", "Replace Acceleration with Swiftcast when neither are on cooldown.", RDM.JobID)]
 	RedMageAccelerationSwiftcastFirst = 3512,
-
-	[CustomComboInfo("Manafication Saver", "Replace Manafication with your melee combo if you are ready to do the full combo.", RDM.JobID)]
-	RedMageManaficationIntoMelee = 3539,
 
 	[CustomComboInfo("Gap Reverser: Backstep", "Replaces Corps-a-corps with Displacement when your taget is in melee range.", RDM.JobID)]
 	RedMageMeleeGapReverserBackstep = 3515,

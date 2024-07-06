@@ -37,6 +37,7 @@ internal static class WAR {
 			InnerRelease = 1177,
 			NascentChaos = 1897,
 			PrimalRendReady = 2624,
+			PrimalRuinationReady = ushort.MaxValue,
 			SurgingTempest = 2677;
 	}
 
@@ -261,8 +262,8 @@ internal class WarriorBerserkInnerRelease: CustomCombo {
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-		if (level >= WAR.Levels.PrimalRend && SelfHasEffect(WAR.Buffs.PrimalRendReady))
-			return WAR.PrimalRend;
+		if (level >= WAR.Levels.PrimalRend && (SelfHasEffect(WAR.Buffs.PrimalRendReady) || SelfHasEffect(WAR.Buffs.PrimalRuinationReady)))
+			return OriginalHook(WAR.PrimalRend);
 
 		return actionID;
 	}
