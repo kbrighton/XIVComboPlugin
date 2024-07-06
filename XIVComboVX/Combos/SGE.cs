@@ -35,7 +35,7 @@ internal static class SGE {
 		Phlegma3 = 24313,
 		Krasis = 24317,
 		Pneuma = 24318,
-		Philosophica = ushort.MaxValue;
+		Philosophia = 37035;
 
 	public static class Buffs {
 		public const ushort
@@ -74,7 +74,7 @@ internal static class SGE {
 			Pneuma = 90,
 			Psyche = 92,
 			EukrasianPrognosis2 = 96,
-			Philosophica = 100;
+			Philosophia = 100;
 	}
 }
 
@@ -368,14 +368,14 @@ internal class SageToxikon: CustomCombo {
 // Currently not working until action ID set
 internal class SagePhilosophica: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.SagePhilosophicaZoe;
-	public override uint[] ActionIDs => [SGE.Philosophica];
+	public override uint[] ActionIDs => [SGE.Philosophia];
 
 	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
 
-		if (level < SGE.Levels.Philosophica)
+		if (level < SGE.Levels.Philosophia)
 			return SGE.Zoe;
 
-		if (CanUse(SGE.Zoe) && !CanUse(SGE.Philosophica))
+		if (CanUse(SGE.Zoe) && !CanUse(SGE.Philosophia))
 			return SGE.Zoe;
 
 		return actionID;
