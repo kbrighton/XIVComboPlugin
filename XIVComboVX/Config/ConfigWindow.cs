@@ -34,7 +34,7 @@ public class ConfigWindow: Window {
 	private static readonly Vector4 warningColour = new(200f / 255f, 25f / 255f, 35f / 255f, 1f);
 	private static readonly Vector4 deprecatedColour = new(0f / 255f, 95f / 255f, 190f / 255f, 1f);
 
-	private const int MinWidth = 900;
+	private const int Width = 900;
 
 	public ConfigWindow() : base($"Custom Combo Setup - {Service.Plugin.ShortPluginSignature}, {Service.Plugin.PluginBuildType}###{Plugin.Name} Custom Combo Setup", ImGuiWindowFlags.MenuBar) {
 		this.RespectCloseHotkey = true;
@@ -162,10 +162,10 @@ public class ConfigWindow: Window {
 		}
 
 		this.SizeCondition = ImGuiCond.FirstUseEver;
-		this.Size = new(MinWidth, 800);
+		this.Size = new(Width, 800);
 		this.SizeConstraints = new() {
-			MinimumSize = new(MinWidth, 400),
-			MaximumSize = new(int.MaxValue, int.MaxValue),
+			MinimumSize = new(Width, 400),
+			MaximumSize = new(Width, int.MaxValue),
 		};
 	}
 
@@ -324,6 +324,15 @@ public class ConfigWindow: Window {
 			}
 		}
 
+		ImGui.PushTextWrapPos((this.Size?.X ?? Width) - 10);
+		ImGui.TextUnformatted("A note about Monk:");
+		ImGui.TextUnformatted("I don't know how Monk works. It just refuses to make sense to me. It's also the only job where you need to adjust your framerate to play \"optimally\" at it."
+			+ " Therefore, I'm not touching Monk with the proverbial ten-foot pole (or a 304.8cm pole, for the rest of the world)."
+			+ " If it breaks, it breaks. If you want it fixed, submit a pull request. There's a button in the title bar of this window to open the github."
+			+ " If you're one of the six players who really truly loves Monk, I'm sorry, but I cannot offer combos for it."
+			+ " Or psychological help for that crippling madness you suffer.");
+		ImGui.PopTextWrapPos();
+
 	}
 
 	private void drawPreset(CustomComboPreset preset, CustomComboInfoAttribute info) {
@@ -399,7 +408,7 @@ public class ConfigWindow: Window {
 			Service.Configuration.Save();
 		}
 
-		ImGui.PushTextWrapPos((this.Size?.Y ?? MinWidth) - 20);
+		ImGui.PushTextWrapPos((this.Size?.Y ?? Width) - 20);
 
 		if (!compactMode)
 			ImGui.TextUnformatted(info.Description);

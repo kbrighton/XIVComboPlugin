@@ -1,5 +1,7 @@
 using Dalamud.Game.ClientState.JobGauge.Types;
 
+using Microsoft.Win32.SafeHandles;
+
 namespace PrincessRTFM.XIVComboVX.Combos;
 
 internal static class SCH {
@@ -33,12 +35,14 @@ internal static class SCH {
 		Ruin = 17869,
 		Ruin2 = 17870,
 		Broil4 = 25865,
-		ArtOfWar2 = 25866;
+		ArtOfWar2 = 25866,
+		BanefulImpaction = 37012;
 
 	public static class Buffs {
 		public const ushort
 			Dissipation = 791,
-			Recitation = 1896;
+			Recitation = 1896,
+			ImpactImminent = 3882;
 	}
 
 	public static class Debuffs {
@@ -53,7 +57,8 @@ internal static class SCH {
 			ChainStratagem = 66,
 			Recitation = 74,
 			Consolation = 80,
-			SummonSeraph = 80;
+			SummonSeraph = 80,
+			BanefulImpaction = 92;
 	}
 }
 
@@ -185,6 +190,19 @@ internal class ScholarSummon: CustomCombo {
 
 		if (gauge.SeraphTimer > 0 || HasPetPresent)
 			return OriginalHook(SCH.SummonSeraph);
+
+		return actionID;
+	}
+}
+
+internal class ScholarChainStratagem: CustomCombo {
+	public override CustomComboPreset Preset => CustomComboPreset.ScholarChainStratagemBanefulImpaction;
+	public override uint[] ActionIDs { get; } = [SCH.ChainStratagem];
+
+	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
+
+		if (level >= SCH.Levels.BanefulImpaction && SelfHasEffect(SCH.Buffs.ImpactImminent))
+			return SCH.BanefulImpaction;
 
 		return actionID;
 	}

@@ -74,28 +74,16 @@ public enum CustomComboPreset {
 
 	[CustomComboInfo("Any", "This should not be displayed. This always returns true when used with IsEnabled.", DOL.JobID)]
 	DolAny = AdvAny + DOL.JobID,
+
+	[CustomComboInfo("None", "This should not be displayed. This always returns false when used with IsEnabled.", 99)]
+	None = 99,
 	#endregion
 	// ====================================================================================
 	#region ASTROLOGIAN (33xx)
+	// last used = 8
 
 	[CustomComboInfo("Swiftcast Ascend", "Ascend turns into Swiftcast when available and reasonable.", AST.JobID)]
 	AstrologianSwiftcastRaiserFeature = 3300,
-
-	[CustomComboInfo("Play to Draw", "Replace Play with Draw when no card is drawn and a card is available.", AST.JobID)]
-	AstrologianPlayDraw = 3301,
-
-	[ParentPreset(AstrologianPlayDraw)]
-	[CustomComboInfo("Play to Draw to Astrodyne", "Replace Play with Astrodyne when seals are full and Draw is on Cooldown.", AST.JobID)]
-	AstrologianPlayDrawAstrodyne = 3307,
-
-	[CustomComboInfo("Play to Astrodyne", "Replace Play with Astrodyne when seals are full.", AST.JobID)]
-	AstrologianPlayAstrodyne = 3304,
-
-	[CustomComboInfo("Malefic on Draw", "Replace Draw (not Play to Draw) with Malefic when a card is drawn.", AST.JobID)]
-	AstrologianDrawMalefic = 3306,
-
-	[CustomComboInfo("Re/Draw", "Replace Draw (not Play to Draw) with Redraw when under Clarifying Draw.", AST.JobID)]
-	AstrologianDrawRedraw = 3308,
 
 	[CustomComboInfo("Benefic 2 to Benefic Level Sync", "Changes Benefic 2 to Benefic when below level 26.", AST.JobID)]
 	AstrologianBeneficFeature = 3303,
@@ -435,18 +423,11 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Empty Bloodfest Feature", "Replace Burst Strike and Fated Circle with Bloodfest if the powder gauge is empty.", GNB.JobID)]
 	GunbreakerEmptyBloodfestFeature = 3705,
 
-	[CustomComboInfo("No Mercy - Bow Shock / Sonic Break", "Replace No Mercy with Bow Shock, and then Sonic Break, while No Mercy is active.", GNB.JobID)]
-	GunbreakerNoMercyFeature = 3706,
-
 	[CustomComboInfo("No Mercy - Double Down", "Replace No Mercy with Double Down while No Mercy is active, 2 cartridges are available, and Double Down is off cooldown.\nThis takes priority over the No Mercy Bow Shock/Sonic Break Feature.", GNB.JobID)]
 	GunbreakerNoMercyDoubleDownFeature = 3712,
 
-	[Conflicts(GunbreakerNoMercyFeature)]
 	[CustomComboInfo("Always Double Down", "Replace No Mercy with Double Down while No Mercy is active.", GNB.JobID)]
 	GunbreakerNoMercyAlwaysDoubleDownFeature = 3713,
-
-	[CustomComboInfo("Bow Shock / Sonic Break Swap", "Replace Bow Shock and Sonic Break with one or the other, depending on which is on cooldown.", GNB.JobID)]
-	GunbreakerBowShockSonicBreakFeature = 3707,
 
 	[CustomComboInfo("Double Down Feature", "Replace Burst Strike and Fated Circle with Double Down when available.", GNB.JobID)]
 	GunbreakerDoubleDownFeature = 3709,
@@ -485,10 +466,6 @@ public enum CustomComboPreset {
 	[ParentPreset(GunbreakerSolidBarrelCombo)]
 	[CustomComboInfo("Double Down Feature", "Replace Solid Barrel with Double Down when you are under No Mercy and have the required ammo.", GNB.JobID)]
 	GunbreakerSolidDoubleDown = 3722,
-
-	[ParentPreset(GunbreakerSolidBarrelCombo)]
-	[CustomComboInfo("Rough Divide Feature", "Replace Solid Barrel with Rough Divide when you are within the target's hitbox, not moving, and have the No Mercy buff.", GNB.JobID)]
-	GunbreakerSolidRoughDivide = 3723,
 
 	[ParentPreset(GunbreakerGnashingFangCont)]
 	[CustomComboInfo("No Mercy Feature", "Replace Gnashing Fang with No Mercy when both No Mercy and Gnashing Fang are ready to be used.", GNB.JobID)]
@@ -659,10 +636,6 @@ public enum CustomComboPreset {
 	NinjaArmorCrushThrowingDaggerFeature = 3018,
 
 	[ParentPreset(NinjaArmorCrushCombo)]
-	[CustomComboInfo("Huraijin Feature", "Replaces the Armor Crush combo chain with Huraijin when Huton is missing.", NIN.JobID)]
-	NinjaArmorCrushHuraijinFeature = 3023,
-
-	[ParentPreset(NinjaArmorCrushCombo)]
 	[CustomComboInfo("Fallback to Aeolian Edge", "Replaces Armor Crush with Aeolian Edge when underlevel.", NIN.JobID)]
 	NinjaArmorCrushFallbackFeature = 3020,
 
@@ -704,14 +677,6 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Distant Daggers Feature", "Replaces the Aeolian Edge combo with Throwing Dagger when the current target is out of melee range.\nUses Phantom Kamaitachi instead when available.", NIN.JobID)]
 	NinjaAeolianEdgeThrowingDaggerFeature = 3019,
 
-	[ParentPreset(NinjaAeolianEdgeCombo)]
-	[CustomComboInfo("Huraijin Feature", "Replaces the Aeolian Edge combo chain with Huraijin when Huton is missing.", NIN.JobID)]
-	NinjaAeolianEdgeHuraijinFeature = 3024,
-
-	[ParentPreset(NinjaAeolianEdgeCombo)]
-	[CustomComboInfo("Huton Feature", "Replaces Aeolian Edge with Armor Crush when Huton timer is below a set threshold.", NIN.JobID)]
-	NinjaAeolianEdgeHutonFeature = 3014,
-
 	[CustomComboInfo("Hakke Mujinsatsu Combo", "Replace Hakke Mujinsatsu with its combo chain.", NIN.JobID)]
 	NinjaHakkeMujinsatsuCombo = 3002,
 
@@ -726,6 +691,9 @@ public enum CustomComboPreset {
 
 	[CustomComboInfo("Ten Chi Jin to Meisui", "Replaces Ten Chi Jin (the move) with Meisui while Suiton is up.\nCooldown tracking plugin recommended.", NIN.JobID)]
 	NinjaTCJMeisuiFeature = 3007,
+
+	[CustomComboInfo("Ten Chi Jin to Meisui", "Replaces Ten Chi Jin (the move) with Tenri Jindo when available.", NIN.JobID)]
+	NinjaTCJTenriJindo = 3036,
 
 	[CustomComboInfo("Kassatsu Chi/Jin Feature", "Replaces Chi with Jin while Kassatsu is up if you have Enhanced Kassatsu.", NIN.JobID)]
 	NinjaKassatsuChiJinFeature = 3008,
@@ -801,7 +769,7 @@ public enum CustomComboPreset {
 	PaladinRoyalConfiteor = 1915,
 
 	[ParentPreset(PaladinRoyalAuthorityCombo)]
-	[CustomComboInfo("Goring Authority", "Change RA/RoH into Goring Blade when off CD.", PLD.JobID)]
+	[CustomComboInfo("Goring Authority", "Change RA/RoH into Goring Blade when available.", PLD.JobID)]
 	PaladinRoyalAuthorityGoringBlade = 1922,
 
 	[ParentPreset(PaladinRoyalAuthorityCombo)]
@@ -813,17 +781,21 @@ public enum CustomComboPreset {
 	PaladinRoyalAuthorityHolySpirit = 1923,
 
 	[ParentPreset(PaladinRoyalAuthorityCombo)]
-	[CustomComboInfo("Atonement Feature", "Replace the RA/RoH combo with Atonement when NOT in the combo chain, and under the effect of Sword Oath.", PLD.JobID)]
+	[CustomComboInfo("Atonement Feature", "Replace the RA/RoH combo with Atonement/Supplication/Sepulchre when NOT in the combo chain, and under the relevant effects.", PLD.JobID)]
 	PaladinAtonementFeature = 1902,
 
-	[CustomComboInfo("Requiescat Confiteor", "Replace Requiescat with Confiteor (and chains) while under the effect of Requiescat.", PLD.JobID)]
+	[CustomComboInfo("Requiescat Confiteor", "Replace Requiescat/Imperator with Confiteor (and chains) while under the effect of Requiescat.", PLD.JobID)]
 	PaladinRequiescatConfiteor = 1904,
 
 	[CustomComboInfo("Holy Confiteor", "Replace Holy Spirit/Circle with Confiteor (and chains) when Requiescat is up.", PLD.JobID)]
 	PaladinHolyConfiteor = 1908,
 
-	[CustomComboInfo("Sheltron Sentinel", "Replace Sheltron with Sentinel when available.", PLD.JobID)]
+	[CustomComboInfo("Sheltron Sentinel", "Replace Sheltron with Sentinel/Guardian when available.", PLD.JobID)]
 	PaladinSheltronSentinel = 1917,
+
+	#endregion
+	// ====================================================================================
+	#region PICTOMANCER (42xx)
 
 	#endregion
 	// ====================================================================================
@@ -832,7 +804,6 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Swiftcast Verraise", "Verraise turns into Swiftcast when available and reasonable.", RDM.JobID)]
 	RedMageSwiftcastRaiserFeature = 3500,
 
-	[Conflicts(RedMageVerprocCombo)]
 	[CustomComboInfo("Smartcast Single Target", "Dynamically replaces Verstone/Verfire with the appropriate spell based on your job gauge.\nVeraero and Verthunder are replaced with one or the other accordingly, for openers.", RDM.JobID)]
 	RedMageSmartcastSingleTarget = 3509,
 
@@ -913,7 +884,7 @@ public enum CustomComboPreset {
 	RedMageSmartcastSingleTargetAccelerationNoOverride = 3538,
 
 	[Conflicts(RedMageAoECombo)]
-	[CustomComboInfo("Smartcast AoE", "Dynamically replaces Veraero/Verthunder 2 with the appropriate spell based on your job gauge.\nIncludes Impact/Scatter when fastcasting.", RDM.JobID)]
+	[CustomComboInfo("Smartcast AoE", "Dynamically replaces Veraero/Verthunder 2 with the appropriate spell based on your job gauge.\nIncludes Impact/Scatter when fastcasting.\nIncludes Grand Impact when available.", RDM.JobID)]
 	RedMageSmartcastAoE = 3508,
 
 	[ParentPreset(RedMageSmartcastAoE)]
@@ -928,40 +899,31 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Walking Contre Sixte", "Turns the AoE smartcast combo into Contre Sixte when you're moving and can't instacast.\nAffected by the Contre Sixte / Fleche feature.", RDM.JobID)]
 	RedMageSmartcastAoEMovement = 3520,
 
-	[CustomComboInfo("Melee Combo", "Replaces Redoublement with its combo chain, following enchantment rules.", RDM.JobID)]
+	[CustomComboInfo("Melee Combo", "Replaces Riposte with its combo chain, following enchantment rules.", RDM.JobID)]
 	RedMageMeleeCombo = 3502,
 
 	[ParentPreset(RedMageMeleeCombo)]
-	[CustomComboInfo("Melee Combo+", "Replaces Redoublement (and Moulinet) with Verflare/Verholy (and then Scorch and Resolution) after 3 mana stacks, whichever is more appropriate.", RDM.JobID)]
+	[CustomComboInfo("Melee Combo+", "Replaces Riposte (and Moulinet) with Verflare/Verholy (and then Scorch and Resolution) after 3 mana stacks, whichever is more appropriate.", RDM.JobID)]
 	RedMageMeleeComboPlus = 3503,
 
 	[ParentPreset(RedMageMeleeCombo)]
-	[CustomComboInfo("Gap Closer", "Replaces Redoublement with Corps-a-corps when out of melee range.", RDM.JobID)]
+	[CustomComboInfo("Gap Closer", "Replaces Riposte with Corps-a-corps when out of melee range.", RDM.JobID)]
 	RedMageMeleeComboCloser = 3514,
 
 	[Conflicts(RedMageSmartcastAoE)]
 	[CustomComboInfo("Red Mage AoE Combo", "Replaces Veraero/Verthunder 2 with Impact when under a cast speeder.", RDM.JobID)]
 	RedMageAoECombo = 3501,
 
-	[Conflicts(RedMageSmartcastSingleTarget)]
-	[Deprecated(RedMageSmartcastSingleTarget)]
-	[CustomComboInfo("Verproc into Jolt", "Replaces Verstone/Verfire with Jolt (2) when no proc is available.", RDM.JobID)]
-	RedMageVerprocCombo = 3504,
-
-	[ParentPreset(RedMageVerprocCombo)]
-	[CustomComboInfo("Verproc into Jolt Plus", "Additionally replaces Verstone/Verfire with Veraero/Verthunder if fastcasting are up.", RDM.JobID)]
-	RedMageVerprocComboPlus = 3505,
-
-	[ParentPreset(RedMageVerprocComboPlus)]
-	[CustomComboInfo("Verproc into Jolt Plus Veraero Opener", "Turns Verstone into Veraero when out of combat.", RDM.JobID)]
-	RedMageVeraeroOpener = 3506,
-
-	[ParentPreset(RedMageVerprocComboPlus)]
-	[CustomComboInfo("Verproc into Jolt Plus Verthunder Opener", "Turns Verfire into Verthunder when out of combat.", RDM.JobID)]
-	RedMageVerthunderOpener = 3507,
-
 	[CustomComboInfo("Contre Sixte / Fleche Feature", "Turns Contre Sixte and Fleche into whichever is available.", RDM.JobID)]
 	RedMageContreFleche = 3510,
+
+	[ParentPreset(RedMageContreFleche)]
+	[CustomComboInfo("+ Prefulgence", "Includes Prefulgence when available.\nTakes priority over everything else.", RDM.JobID)]
+	RedMageContreFlechePrefulgence = 3544,
+
+	[ParentPreset(RedMageContreFleche)]
+	[CustomComboInfo("+ Vice of Thorns", "Includes Vice of Thorns when available.\nTakes priority over everything else except Prefulgence, unless Prefulgence has more than 3 seconds and VoT does not.", RDM.JobID)]
+	RedMageContreFlecheThorns = 3545,
 
 	[CustomComboInfo("Acceleration into Swiftcast", "Replace Acceleration with Swiftcast when on cooldown or synced.", RDM.JobID)]
 	RedMageAccelerationSwiftcast = 3511,
@@ -970,8 +932,16 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Acceleration with Swiftcast first", "Replace Acceleration with Swiftcast when neither are on cooldown.", RDM.JobID)]
 	RedMageAccelerationSwiftcastFirst = 3512,
 
-	[CustomComboInfo("Manafication Saver", "Replace Manafication with your melee combo if you are ready to do the full combo.", RDM.JobID)]
+	[CustomComboInfo("Manafication into melee", "Replace Manafication with your melee combo when you have Magicked Swordplay up.", RDM.JobID)]
 	RedMageManaficationIntoMelee = 3539,
+
+	[ParentPreset(RedMageManaficationIntoMelee)]
+	[CustomComboInfo("+from gauge", "Also change when your gauge is ready to start the combo.", RDM.JobID)]
+	RedMageManaficationIntoMeleeGauge = 3546,
+
+	[ParentPreset(RedMageManaficationIntoMelee)]
+	[CustomComboInfo("Include finishers", "Also change into your finisher spells when they're ready to use.", RDM.JobID)]
+	RedMageManaficationIntoMeleeFinisherFollowup = 3547,
 
 	[CustomComboInfo("Gap Reverser: Backstep", "Replaces Corps-a-corps with Displacement when your taget is in melee range.", RDM.JobID)]
 	RedMageMeleeGapReverserBackstep = 3515,
@@ -1000,18 +970,15 @@ public enum CustomComboPreset {
 	ReaperSoulOnSliceFeature = 3946,
 
 	[Conflicts(ReaperSliceGallowsFeature)]
-	[CustomComboInfo("Slice Gibbet Feature", "Replace Infernal Slice with Gibbet while Reaving or Enshrouded.", RPR.JobID)]
+	[CustomComboInfo("Slice Gibbet Feature", "Replace Infernal Slice with Gibbet while Reaving, Enshrouded, or an Executioner.", RPR.JobID)]
 	ReaperSliceGibbetFeature = 3903,
 
 	[Conflicts(ReaperSliceGibbetFeature)]
-	[CustomComboInfo("Slice Gallows Feature", "Replace Infernal Slice with Gallows while Reaving or Enshrouded.", RPR.JobID)]
+	[CustomComboInfo("Slice Gallows Feature", "Replace Infernal Slice with Gallows while Reaving, Enshrouded, or an Executioner.", RPR.JobID)]
 	ReaperSliceGallowsFeature = 3904,
 
-	[CustomComboInfo("Slice Enhanced Soul Reaver Feature", "Replace Infernal Slice with whichever of Gibbet or Gallows is currently enhanced while Reaving.", RPR.JobID)]
-	ReaperSliceEnhancedSoulReaverFeature = 3913,
-
-	[CustomComboInfo("Slice Enhanced Enshrouded Feature", "Replace Infernal Slice with whichever of Gibbet or Gallows is currently enhanced while Enshrouded.", RPR.JobID)]
-	ReaperSliceEnhancedEnshroudedFeature = 3914,
+	[CustomComboInfo("Slice Enhanced Soul Reaver Feature", "Replace Infernal Slice with whichever of Gibbet or Gallows is currently enhanced while Reaving, Enshrouded, or an Executioner.", RPR.JobID)]
+	ReaperSliceSmart = 3913,
 
 	[CustomComboInfo("Slice Lemure's Feature", "Replace Infernal Slice with Lemure's Slice when two or more stacks of Void Shroud are active.", RPR.JobID)]
 	ReaperSliceLemuresFeature = 3919,
@@ -1023,11 +990,11 @@ public enum CustomComboPreset {
 	ReaperSliceSoulsowFeature = 3930,
 
 	[Conflicts(ReaperShadowGibbetFeature)]
-	[CustomComboInfo("Shadow Gallows Feature", "Replace Shadow of Death with Gallows while Reaving or Enshrouded.", RPR.JobID)]
+	[CustomComboInfo("Shadow Gallows Feature", "Replace Shadow of Death with Gallows while Reaving, Enshrouded, or an Executioner.", RPR.JobID)]
 	ReaperShadowGallowsFeature = 3905,
 
 	[Conflicts(ReaperShadowGallowsFeature)]
-	[CustomComboInfo("Shadow Gibbet Feature", "Replace Shadow of Death with Gibbet while Reaving or Enshrouded.", RPR.JobID)]
+	[CustomComboInfo("Shadow Gibbet Feature", "Replace Shadow of Death with Gibbet while Reaving, Enshrouded, or an Executioner.", RPR.JobID)]
 	ReaperShadowGibbetFeature = 3906,
 
 	[CustomComboInfo("Shadow Lemure's Feature", "Replace Shadow of Death with Lemure's Slice when two or more stacks of Void Shroud are active.", RPR.JobID)]
@@ -1040,11 +1007,11 @@ public enum CustomComboPreset {
 	ReaperShadowSoulsowFeature = 3929,
 
 	[Conflicts(ReaperSoulGibbetFeature)]
-	[CustomComboInfo("Soul Gallows Feature", "Replace Soul Slice with Gallows while Reaving or Enshrouded.", RPR.JobID)]
+	[CustomComboInfo("Soul Gallows Feature", "Replace Soul Slice with Gallows while Reaving, Enshrouded, or an Executioner.", RPR.JobID)]
 	ReaperSoulGallowsFeature = 3925,
 
 	[Conflicts(ReaperSoulGallowsFeature)]
-	[CustomComboInfo("Soul Gibbet Feature", "Replace Soul Slice with Gibbet while Reaving or Enshrouded.", RPR.JobID)]
+	[CustomComboInfo("Soul Gibbet Feature", "Replace Soul Slice with Gibbet while Reaving, Enshrouded, or an Executioner.", RPR.JobID)]
 	ReaperSoulGibbetFeature = 3926,
 
 	[CustomComboInfo("Soul Lemure's Feature", "Replace Soul Slice with Lemure's Slice when two or more stacks of Void Shroud are active.", RPR.JobID)]
@@ -1081,7 +1048,7 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Soulful Scythe", "Replace Nightmare Scythe with Soul Scythe when available and Soul Gauge is no more than 50.", RPR.JobID)]
 	ReaperSoulOnScytheFeature = 3947,
 
-	[CustomComboInfo("Scythe Guillotine Feature", "Replace Nightmare Scythe with Guillotine while Reaving or Enshrouded.", RPR.JobID)]
+	[CustomComboInfo("Scythe Guillotine Feature", "Replace Nightmare Scythe with Guillotine while Reaving, Enshrouded, or an Executioner.", RPR.JobID)]
 	ReaperScytheGuillotineFeature = 3907,
 
 	[CustomComboInfo("Scythe Lemure's Feature", "Replace Nightmare Scythe with Lemure's Scythe when two or more stacks of Void Shroud are active.", RPR.JobID)]
@@ -1096,11 +1063,8 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Scythe Harvest Moon Feature", "Replace Nightmare Scythe with Harvest Moon when Soulsow is active and you have a target.", RPR.JobID)]
 	ReaperScytheHarvestMoonFeature = 3932,
 
-	[CustomComboInfo("Enhanced Soul Reaver Feature", "Replace Gibbet and Gallows with whichever is currently enhanced while Reaving.", RPR.JobID)]
+	[CustomComboInfo("Enhanced Soul Reaver Feature", "Replace Gibbet and Gallows with whichever is currently enhanced while Reaving, Enshrouded, or an Executioner.", RPR.JobID)]
 	ReaperEnhancedSoulReaverFeature = 3917,
-
-	[CustomComboInfo("Enhanced Enshrouded Feature", "Replace Gibbet and Gallows with whichever is currently enhanced while Enshrouded.", RPR.JobID)]
-	ReaperEnhancedEnshroudedFeature = 3918,
 
 	[CustomComboInfo("Lemure's Soul Reaver Feature", "Replace Gibbet, Gallows, and Guillotine with Lemure's Slice or Scythe when two or more stacks of Void Shroud are active.", RPR.JobID)]
 	ReaperLemuresSoulReaverFeature = 3911,
@@ -1248,9 +1212,13 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Summon Seraph Feature", "Replace Summon Eos and Selene with Summon Seraph when a summon is out.", SCH.JobID)]
 	ScholarSeraphFeature = 2809,
 
+	[CustomComboInfo("Chain Impaction", "Replace Chain Stratagem with Baneful Impaction when under Impact Imminent.", SCH.JobID)]
+	ScholarChainStratagemBanefulImpaction = 2813,
+
 	#endregion
 	// ====================================================================================
 	#region SAGE (40xx)
+	// Current latest 4027
 
 	[CustomComboInfo("Swiftcast Egeiro", "Egeiro turns into Swiftcast when available and reasonable.", SGE.JobID)]
 	SageSwiftcastRaiserFeature = 4000,
@@ -1339,6 +1307,9 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Lucid Phlegma", "Weave Phlegma into Lucid Dreaming when it's available and your MP is below a configurable threshold.", SGE.JobID)]
 	SageLucidPhlegma = 4015,
 
+	[CustomComboInfo("Philosophia Into Zoe", "When either not at level or when Philosophica is on cooldown, change it into Zoe.", SGE.JobID)]
+	SagePhilosophiaZoe = 4027,
+
 	#endregion
 	// ====================================================================================
 	#region SUMMONER (27xx)
@@ -1387,6 +1358,10 @@ public enum CustomComboPreset {
 
 	[CustomComboInfo("Slipstream / Swiftcast Feature", "Change Slipstream into Swiftcast when Swiftcast is available.", SMN.JobID)]
 	SummonerSlipcastFeature = 2718,
+
+	#endregion
+	// ====================================================================================
+	#region VIPER (41xx)
 
 	#endregion
 	// ====================================================================================
@@ -1494,9 +1469,15 @@ public enum CustomComboPreset {
 
 	[CustomComboInfo("Cure 2 Level Sync", "Changes Cure 2 to Cure when below level 30 in synced content.", WHM.JobID)]
 	WhiteMageCureFeature = 2403,
-	
+
 	[CustomComboInfo("DOT Refresh", "Replace Stone/Glare with level appropriate DOT when debuff is about to fall off.", WHM.JobID)]
 	WhiteMageDotRefresh = 2407,
+
+	[CustomComboInfo("Presence of Glare", "Replace Presence of Mind with Glare IV when under Sacred Sight.", WHM.JobID)]
+	WhiteMagePresenceOfMindGlare4 = 2408,
+
+	[CustomComboInfo("Divine Temperance", "Replace Temperance with Divine Caress when under Divine Grace.", WHM.JobID)]
+	WhiteMageTemperanceDivineCaress = 2409,
 
 	#endregion
 	// ====================================================================================
@@ -1588,18 +1569,14 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Chum / Electric Current Feature", "Replace Chum with Electric Current when swimming.", DOL.JobID)]
 	FisherElectricChumFeature = 9908,
 
+#if DEBUG
+	[CustomComboInfo("Mooch / Spareful Hand Feature", "Replace Mooch with Spareful Hand if you have space available in Swimbait box.", DOL.JobID)]
+	FisherSwimbaitFeature = 9926,
+#endif
+
 	#endregion
 	// ====================================================================================
 	#region Common (100xx)
-
-#if DEBUG
-	[CustomComboInfo("Smart Peloton/Sprint swap", "Changes Peloton and Peloton as follows:\n- Sprint when in combat or not a ranged DPS\n- Peloton when out of combat and you are a ranged DPS", 0)]
-	CommonSmartPelotonSprint = 10000,
-
-	[ParentPreset(CommonSmartPelotonSprint)]
-	[CustomComboInfo("Priority sprint", "Only become Peloton when Sprint is also on cooldown.\nSprint is (VERY) slightly faster than Peloton.", 0)]
-	CommonSmartPelotonSprintPrioritySprint = 10001,
-#endif
 
 	#endregion
 }

@@ -211,15 +211,6 @@ public class PluginConfiguration: IPluginConfiguration {
 	)]
 	public float GunbreakerGnashingStrikeCooldownDoubleDown { get; set; } = 20;
 
-	[ComboDetailSetting(
-	CustomComboPreset.GunbreakerSolidRoughDivide,
-	"Rough Divide charges to hold",
-	"Choose how many charge of Rough Divide to hold",
-	0,
-	2
-)]
-	public uint GunbreakerRoughDivideCharge { get; set; } = 1;
-
 	#endregion
 
 	#region MCH settings
@@ -270,14 +261,7 @@ public class PluginConfiguration: IPluginConfiguration {
 
 	#region NIN settings
 
-	[ComboDetailSetting(
-		CustomComboPreset.NinjaAeolianEdgeHutonFeature,
-		"Huton timer threshold",
-		"When Huton timer is above zero but below this many seconds left, switch to Armor Crush",
-		10,
-		30
-	)]
-	public float NinjaHutonThresholdTime { get; set; } = 30;
+	// placeholder
 
 	#endregion
 

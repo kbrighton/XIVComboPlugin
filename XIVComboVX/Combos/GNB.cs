@@ -18,7 +18,6 @@ internal static class GNB {
 		DemonSlaughter = 16149,
 		WickedTalon = 16150,
 		SonicBreak = 16153,
-		RoughDivide = 16154,
 		Continuation = 16155,
 		JugularRip = 16156,
 		AbdomenTear = 16157,
@@ -28,7 +27,8 @@ internal static class GNB {
 		FatedCircle = 16163,
 		Bloodfest = 16164,
 		Hypervelocity = 25759,
-		DoubleDown = 25760;
+		DoubleDown = 25760,
+		ReignOfBeasts = 36937;
 
 	public const int
 		ONEGCD_EMULATION = 2,
@@ -41,10 +41,12 @@ internal static class GNB {
 	public static class Buffs {
 		public const ushort
 			NoMercy = 1831,
+			ReadyToBreak = 3886,
 			ReadyToRip = 1842,
 			ReadyToTear = 1843,
 			ReadyToGouge = 1844,
-			ReadyToBlast = 2686;
+			ReadyToBlast = 2686,
+			ReadyToRaze = 3839;
 	}
 
 	public static class Debuffs {
@@ -70,7 +72,8 @@ internal static class GNB {
 			Bloodfest = 76,
 			EnhancedContinuation = 86,
 			CartridgeCharge2 = 88,
-			DoubleDown = 90;
+			DoubleDown = 90,
+			ReignOfBeasts = 100;
 	}
 
 	public static int MaxAmmo(byte level) => level >= Levels.CartridgeCharge2 ? 3 : 2;
@@ -140,7 +143,7 @@ internal class GunbreakerSolidBarrel: CustomCombo {
 
 			// Gnashing Fang/Continuation Feature - Replace Solid Barrel with Gnashing Fang and Continuation when Gnashing Fang is available and will hold for No Mercy when it is available.
 			if (IsEnabled(CustomComboPreset.GunbreakerSolidGnashingFang) && level >= GNB.Levels.Continuation) {
-				if (SelfHasEffect(GNB.Buffs.ReadyToGouge) || SelfHasEffect(GNB.Buffs.ReadyToTear) || SelfHasEffect(GNB.Buffs.ReadyToRip))
+				if (SelfHasEffect(GNB.Buffs.ReadyToGouge) || SelfHasEffect(GNB.Buffs.ReadyToTear) || SelfHasEffect(GNB.Buffs.ReadyToRip) || SelfHasEffect(GNB.Buffs.ReadyToRaze))
 					return OriginalHook(GNB.Continuation);
 			}
 
@@ -164,7 +167,7 @@ internal class GunbreakerSolidBarrel: CustomCombo {
 				}
 
 				// Pre DD
-				if (level < GNB.Levels.DoubleDown && IsOnCooldown(GNB.SonicBreak)) {
+				if (level < GNB.Levels.DoubleDown && !SelfHasEffect(GNB.Buffs.ReadyToBreak)) {
 
 					// Bow Shock Feature - Replace Solid Barrel with Bow Shock when you are under No Mercy.
 					if (IsEnabled(CustomComboPreset.GunbreakerSolidBowShock) && level >= GNB.Levels.BowShock && IsOffCooldown(GNB.BowShock))
@@ -180,14 +183,6 @@ internal class GunbreakerSolidBarrel: CustomCombo {
 				}
 
 			}
-
-			// Rough Divide Feature - Replace Solid Barrel with Rough Divide when you are within the target's hitbox, not moving, and have the No Mercy buff.
-			if (IsEnabled(CustomComboPreset.GunbreakerSolidRoughDivide) && level >= GNB.Levels.RoughDivide) {
-				if (!IsMoving && TargetDistance <= 1 && !SelfHasEffect(GNB.Buffs.ReadyToBlast) && SelfHasEffect(GNB.Buffs.NoMercy)) {
-					if (IsOnCooldown(OriginalHook(GNB.DangerZone)) && IsOnCooldown(GNB.BowShock) && GetCooldown(GNB.RoughDivide).RemainingCharges > Service.Configuration.GunbreakerRoughDivideCharge)
-						return GNB.RoughDivide;
-				}
-			}
 		}
 
 		// GCD Skills: DD, Sonic Break
@@ -197,12 +192,12 @@ internal class GunbreakerSolidBarrel: CustomCombo {
 
 				// Double Down Feature - Replace Solid Barrel with Double Down when you are under No Mercy and have the required ammo.
 				if (IsEnabled(CustomComboPreset.GunbreakerSolidDoubleDown) && gauge.Ammo >= 2 && gauge.AmmoComboStep >= 1) {
-					if (IsOffCooldown(GNB.DoubleDown) && !SelfHasEffect(GNB.Buffs.ReadyToRip))
+					if (SelfHasEffect(GNB.Buffs.ReadyToBreak) && !SelfHasEffect(GNB.Buffs.ReadyToRip))
 						return GNB.DoubleDown;
 				}
 
 				// Sonic Break Feature - Replace Solid Barrel with Sonic Break when you are under No Mercy.
-				if (IsEnabled(CustomComboPreset.GunbreakerSolidSonicBreak) && IsOffCooldown(GNB.SonicBreak) && IsOnCooldown(GNB.DoubleDown))
+				if (IsEnabled(CustomComboPreset.GunbreakerSolidSonicBreak) && SelfHasEffect(GNB.Buffs.ReadyToBreak) && IsOnCooldown(GNB.DoubleDown))
 					return GNB.SonicBreak;
 
 			}
@@ -211,7 +206,7 @@ internal class GunbreakerSolidBarrel: CustomCombo {
 				if (level >= GNB.Levels.SonicBreak) {
 					// Sonic Break Feature - Replace Solid Barrel with Sonic Break when you are under No Mercy.
 					if (IsEnabled(CustomComboPreset.GunbreakerSolidSonicBreak)) {
-						if (IsOffCooldown(GNB.SonicBreak) && IsOnCooldown(GNB.GnashingFang) && !SelfHasEffect(GNB.Buffs.ReadyToRip))
+						if (SelfHasEffect(GNB.Buffs.ReadyToBreak) && IsOnCooldown(GNB.GnashingFang) && !SelfHasEffect(GNB.Buffs.ReadyToRip))
 							return GNB.SonicBreak;
 					}
 				}
@@ -354,7 +349,7 @@ internal class GunbreakerGnashingFang: CustomCombo {
 
 			// Bow Shock Feature - Replace Gnashing Fang with Bow Shock when available and when you are under No Mercy.
 			if (IsEnabled(CustomComboPreset.GunbreakerGnashingFangCont) && level >= GNB.Levels.Continuation) {
-				if (SelfHasEffect(GNB.Buffs.ReadyToGouge) || SelfHasEffect(GNB.Buffs.ReadyToTear) || SelfHasEffect(GNB.Buffs.ReadyToRip))
+				if (SelfHasEffect(GNB.Buffs.ReadyToGouge) || SelfHasEffect(GNB.Buffs.ReadyToTear) || SelfHasEffect(GNB.Buffs.ReadyToRip) || SelfHasEffect(GNB.Buffs.ReadyToRaze))
 					return OriginalHook(GNB.Continuation);
 			}
 		}
@@ -379,7 +374,7 @@ internal class GunbreakerGnashingFang: CustomCombo {
 			}
 
 			// Pre Double Down
-			if (level < GNB.Levels.DoubleDown && IsOnCooldown(GNB.SonicBreak)) {
+			if (level < GNB.Levels.DoubleDown && !SelfHasEffect(GNB.Buffs.ReadyToBreak)) {
 
 				// Bow Shock Feature - Replace Gnashing Fang with Bow Shock when available and when you are under No Mercy.
 				if (IsEnabled(CustomComboPreset.GunbreakerGnashingFangBowShock) && level >= GNB.Levels.BowShock && IsOffCooldown(GNB.BowShock))
@@ -407,7 +402,7 @@ internal class GunbreakerGnashingFang: CustomCombo {
 				}
 
 				// Sonic Break Feature - Replace Gnashing Fang with Sonic Break when available and when you are under No Mercy.
-				if (IsEnabled(CustomComboPreset.GunbreakerGnashingFangSonicBreak) && IsOffCooldown(GNB.SonicBreak) && IsOnCooldown(GNB.DoubleDown))
+				if (IsEnabled(CustomComboPreset.GunbreakerGnashingFangSonicBreak) && SelfHasEffect(GNB.Buffs.ReadyToBreak) && IsOnCooldown(GNB.DoubleDown))
 					return GNB.SonicBreak;
 
 			}
@@ -416,7 +411,7 @@ internal class GunbreakerGnashingFang: CustomCombo {
 				if (level >= GNB.Levels.SonicBreak) {
 					// Sonic Break Feature - Replace Gnashing Fang with Sonic Break when available and when you are under No Mercy.
 					if (IsEnabled(CustomComboPreset.GunbreakerGnashingFangSonicBreak)) {
-						if (IsOffCooldown(GNB.SonicBreak) && IsOnCooldown(GNB.GnashingFang) && !SelfHasEffect(GNB.Buffs.ReadyToRip))
+						if (SelfHasEffect(GNB.Buffs.ReadyToBreak) && IsOnCooldown(GNB.GnashingFang) && !SelfHasEffect(GNB.Buffs.ReadyToRip))
 							return GNB.SonicBreak;
 					}
 					// pre-SB functionality
@@ -441,13 +436,13 @@ internal class GunbreakerGnashingFang: CustomCombo {
 					}
 
 					// Sonic Break Feature - Replace Gnashing Fang with Sonic Break when available and when you are under No Mercy.
-					if (IsEnabled(CustomComboPreset.GunbreakerGnashingFangSonicBreak) && IsOffCooldown(GNB.SonicBreak) && IsOnCooldown(GNB.DoubleDown))
+					if (IsEnabled(CustomComboPreset.GunbreakerGnashingFangSonicBreak) && SelfHasEffect(GNB.Buffs.ReadyToBreak) && IsOnCooldown(GNB.DoubleDown))
 						return GNB.SonicBreak;
 
 				}
 				// Sonic Break Feature - Replace Gnashing Fang with Sonic Break when available and when you are under No Mercy.
 				else if (IsEnabled(CustomComboPreset.GunbreakerGnashingFangSonicBreak) && level >= GNB.Levels.SonicBreak) {
-					if (IsOffCooldown(GNB.SonicBreak) && IsOnCooldown(GNB.GnashingFang) && !SelfHasEffect(GNB.Buffs.ReadyToRip))
+					if (SelfHasEffect(GNB.Buffs.ReadyToBreak) && IsOnCooldown(GNB.GnashingFang) && !SelfHasEffect(GNB.Buffs.ReadyToRip))
 						return GNB.SonicBreak;
 				}
 
@@ -513,19 +508,6 @@ internal class GunbreakerBurstStrikeFatedCircle: CustomCombo {
 	}
 }
 
-internal class GunbreakerBowShockSonicBreak: CustomCombo {
-	public override CustomComboPreset Preset => CustomComboPreset.GunbreakerBowShockSonicBreakFeature;
-	public override uint[] ActionIDs { get; } = [GNB.BowShock, GNB.SonicBreak];
-
-	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-
-		if (level >= GNB.Levels.BowShock)
-			return PickByCooldown(actionID, GNB.BowShock, GNB.SonicBreak);
-
-		return actionID;
-	}
-}
-
 internal class GunbreakerDemonSlaughter: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.GunbreakerDemonSlaughterCombo;
 	public override uint[] ActionIDs { get; } = [GNB.DemonSlaughter];
@@ -570,19 +552,6 @@ internal class GunbreakerNoMercy: CustomCombo {
 			&& SelfHasEffect(GNB.Buffs.NoMercy)
 		) {
 			return GNB.DoubleDown;
-		}
-
-		if (level >= GNB.Levels.NoMercy
-			&& IsEnabled(CustomComboPreset.GunbreakerNoMercyFeature)
-			&& SelfHasEffect(GNB.Buffs.NoMercy)
-		) {
-
-			if (level >= GNB.Levels.BowShock)
-				return PickByCooldown(GNB.BowShock, GNB.SonicBreak, GNB.BowShock);
-
-			if (level >= GNB.Levels.SonicBreak)
-				return GNB.SonicBreak;
-
 		}
 
 		return actionID;
