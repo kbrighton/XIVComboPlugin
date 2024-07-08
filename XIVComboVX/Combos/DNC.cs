@@ -34,7 +34,10 @@ internal static class DNC {
 		Devilment = 16011,
 		Flourish = 16013,
 		Improvisation = 16014,
-		StarfallDance = 25792;
+		StarfallDance = 25792,
+		LastDance = 36983,
+		DanceOfTheDawn = 36985,
+		FinishingMove = 36984;
 
 	public static class Buffs {
 		public const ushort
@@ -48,7 +51,10 @@ internal static class DNC {
 			StandardStep = 1818,
 			TechnicalStep = 1819,
 			ThreefoldFanDance = 1820,
-			FourfoldFanDance = 2699;
+			FourfoldFanDance = 2699,
+			LastDanceReady = 3867,
+			DanceOfTheDawnReady = 3869,
+			FinishingMoveReady = 3868;
 	}
 
 	public static class Debuffs {
@@ -146,7 +152,7 @@ internal class DancerDanceStepCombo: CustomCombo {
 
 		if (level >= DNC.Levels.TechnicalStep) {
 
-			if (SelfHasEffect(DNC.Buffs.FlourishingFinish) && GetCooldown(DNC.StandardStep).CooldownRemaining >= 2)
+			if (SelfHasEffect(DNC.Buffs.FlourishingFinish) && GetCooldown(DNC.StandardStep).CooldownRemaining >= 3) // tillana does esprit +50, check for that?
 				return DNC.Tillana;
 
 			if (IsEnabled(CustomComboPreset.DancerDanceStepComboSmartStandard) && CanUse(DNC.TechnicalStep) && GetCooldown(DNC.StandardStep).CooldownRemaining > 3)
@@ -238,7 +244,7 @@ internal class DancerSingleTargetMultibutton: CustomCombo {
 		}
 
 		if (IsEnabled(CustomComboPreset.DancerSingleTargetGaugeSpender) && level >= DNC.Levels.SaberDance && gauge.Esprit >= Service.Configuration.DancerSingleTargetGaugeThreshold)
-			return DNC.SaberDance;
+			return OriginalHook(DNC.SaberDance);
 
 		if (level >= DNC.Levels.Fountainfall && (SelfHasEffect(DNC.Buffs.FlourishingFlow) || SelfHasEffect(DNC.Buffs.SilkenFlow)))
 			return DNC.Fountainfall;
@@ -309,7 +315,7 @@ internal class DancerAoeMultibutton: CustomCombo {
 		}
 
 		if (IsEnabled(CustomComboPreset.DancerAoeGaugeSpender) && level >= DNC.Levels.SaberDance && gauge.Esprit >= Service.Configuration.DancerAoeGaugeThreshold)
-			return DNC.SaberDance;
+			return OriginalHook(DNC.SaberDance);
 
 		if (level >= DNC.Levels.Bloodshower && (SelfHasEffect(DNC.Buffs.FlourishingFlow) || SelfHasEffect(DNC.Buffs.SilkenFlow)))
 			return DNC.Bloodshower;
