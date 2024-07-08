@@ -188,9 +188,6 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Radiant Voice Feature", "Replace Radiant Finale with Battle Voice if Battle Voice is available.", BRD.JobID)]
 	BardRadiantVoiceFeature = 2310,
 
-	[CustomComboInfo("Barrage Feature", "Replace Barrage with Straight Shot if you have Straight Shot Ready (unless Shadowbite is ready).", BRD.JobID)]
-	BardBarrageFeature = 2312,
-
 	#endregion
 	// ====================================================================================
 	#region DANCER (38xx)
