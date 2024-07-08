@@ -72,6 +72,8 @@ internal static class DRG {
 	}
 }
 
+/* returning Soon™ (when we have the time to go over everything)
+
 internal class DragoonCoerthanTorment: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.DrgAny;
 	public override uint[] ActionIDs { get; } = [DRG.CoerthanTorment];
@@ -266,3 +268,4 @@ internal class DragoonMirageJumpFeature: CustomCombo {
 		return actionID;
 	}
 }
+*/
