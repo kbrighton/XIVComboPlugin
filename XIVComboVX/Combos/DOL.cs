@@ -1,5 +1,7 @@
 using Dalamud.Game.ClientState.Conditions;
 
+using Lumina.Excel.GeneratedSheets;
+
 namespace PrincessRTFM.XIVComboVX.Combos;
 
 internal static class DOL {
@@ -10,7 +12,9 @@ internal static class DOL {
 
 	public static class Buffs {
 		public const ushort
-			EurekaMoment = 2765;
+			EurekaMoment = 2765,
+			CollectorsStandard = 2418,
+			CollectorsHighStandard = 3911;
 	}
 
 	public static class Debuffs {
@@ -63,6 +67,11 @@ public static class BTN {
 		CollectorsFocus = 21206,
 		WiseToTheWorld = 26522,
 		PrimingTouch = 34872;
+
+	public static class Levels {
+		public const byte
+			PrimingTouch = 95;
+	}
 }
 public static class MIN {
 	public const uint
@@ -185,6 +194,7 @@ internal class NonFishingFeatures: CustomCombo {
 						MIN.NaldthalsTidings => BTN.NophicasTidings,
 						MIN.CollectorsFocus => BTN.CollectorsFocus,
 						MIN.WiseToTheWorld => BTN.WiseToTheWorld,
+						MIN.PrimingTouch => BTN.PrimingTouch,
 						_ => actionID,
 					};
 				case DOL.MinID:
@@ -216,6 +226,7 @@ internal class NonFishingFeatures: CustomCombo {
 						BTN.NophicasTidings => MIN.NaldthalsTidings,
 						BTN.CollectorsFocus => MIN.CollectorsFocus,
 						BTN.WiseToTheWorld => MIN.WiseToTheWorld,
+						BTN.PrimingTouch => MIN.PrimingTouch,
 						_ => actionID,
 					};
 			}
@@ -322,5 +333,22 @@ internal class FisherSwapFeatures: CustomCombo {
 		}
 
 		return thaliak(actionID, level);
+	}
+}
+internal class PrimedMetFeature: CustomCombo {
+
+	public override CustomComboPreset Preset { get; } = CustomComboPreset.PrimedMetFeature;
+
+	public override uint[] ActionIDs => [MIN.MeticulousProspector, BTN.MeticulousWoodsman];
+
+	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
+
+		if (level >= DOL.Levels.PrimingTouch)
+			if (LocalPlayer.CurrentGp >= 400)
+				if (SelfHasEffect(DOL.Buffs.CollectorsStandard) || SelfHasEffect(DOL.Buffs.CollectorsHighStandard)) {
+					return IsJob(DOL.MinID) ? MIN.PrimingTouch : BTN.PrimingTouch;
+				}
+		return actionID;
+			
 	}
 }
