@@ -27,7 +27,9 @@ internal static class DOL {
 			NaturesBounty = 69,
 			SurfaceSlap = 71,
 			PrizeCatch = 81,
-			WiseToTheWorld = 90;
+			WiseToTheWorld = 90,
+			PrimingTouch = 95;
+
 	}
 }
 
@@ -59,7 +61,8 @@ public static class BTN {
 		GivingLand = 4590,
 		NophicasTidings = 21204,
 		CollectorsFocus = 21206,
-		WiseToTheWorld = 26522;
+		WiseToTheWorld = 26522,
+		PrimingTouch = 34872;
 }
 public static class MIN {
 	public const uint
@@ -89,8 +92,14 @@ public static class MIN {
 		GivingLand = 4589,
 		NaldthalsTidings = 21203,
 		CollectorsFocus = 21205,
-		WiseToTheWorld = 26521;
+		WiseToTheWorld = 26521,
+		PrimingTouch = 34871;
+	public static class Levels {
+		public const byte
+			PrimingTouch = 95;
+	}
 }
+	
 public static class FSH {
 	public const uint
 		Mooch2 = 268,
@@ -214,6 +223,8 @@ internal class NonFishingFeatures: CustomCombo {
 
 		return actionID;
 	}
+	
+
 }
 
 internal class FisherSwapFeatures: CustomCombo {
@@ -312,5 +323,4 @@ internal class FisherSwapFeatures: CustomCombo {
 
 		return thaliak(actionID, level);
 	}
-	
 }
