@@ -187,10 +187,10 @@ internal class BloodbathReplacer: CustomCombo {
 	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
 
 		if (IsEnabled(CustomComboPreset.SamuraiBloodbathReplacer)) {
-			if (!CanUse(SAM.Bloodbath)) {
-				if (IsOffCooldown(SAM.SecondWind))
-				return SAM.SecondWind;			}
-			
+			if (IsOnCooldown(SAM.Bloodbath) && (IsOffCooldown(SAM.SecondWind))) {
+				return SAM.SecondWind;
+
+			}			
 		}
 		return actionID;
 	}
