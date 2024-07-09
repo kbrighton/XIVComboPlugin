@@ -150,7 +150,7 @@ public class PluginConfiguration: IPluginConfiguration {
 	#endregion
 
 	#region DRG settings
-
+/*
 	[ComboDetailSetting(
 		CustomComboPreset.DragoonFullThrustBuffSaver,
 		"Power Surge buff threshold",
@@ -182,7 +182,7 @@ public class PluginConfiguration: IPluginConfiguration {
 		30
 	)]
 	public float DragoonChaosDotSaverDebuffTime { get; set; } = 7;
-
+*/
 	#endregion
 
 	#region DRK settings
@@ -220,7 +220,7 @@ public class PluginConfiguration: IPluginConfiguration {
 	#endregion
 
 	#region MNK settings
-
+/*
 	[ComboDetailSetting(
 		CustomComboPreset.MonkTwinSnakesFeature,
 		"Disciplined Fist buff threshold",
@@ -256,7 +256,7 @@ public class PluginConfiguration: IPluginConfiguration {
 		90
 	)]
 	public uint MonkRiddleOfEarthHealthPercentage { get; set; } = 50;
-
+*/
 	#endregion
 
 	#region NIN settings

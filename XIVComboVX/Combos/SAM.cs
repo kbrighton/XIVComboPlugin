@@ -70,6 +70,8 @@ internal static class SAM {
 	}
 }
 
+/* returning Soon™ (when we have the time to go over everything)
+
 internal class SamuraiGurenSeneiLevelSyncFeature: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.SamuraiGurenSeneiLevelSyncFeature;
 	public override uint[] ActionIDs { get; } = [SAM.HissatsuSenei];
@@ -302,3 +304,4 @@ internal class SamuraiIkishotenNamikiriFeature: CustomCombo {
 		return actionID;
 	}
 }
+*/

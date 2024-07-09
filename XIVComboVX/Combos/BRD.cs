@@ -38,9 +38,8 @@ internal static class BRD {
 			Troubadour = 1934,
 			Repertoire = 3137,
 			WanderersMinuet = 2216,
-			StraightShotReady = 122,
 			BlastShotReady = 2692,
-			ShadowbiteReady = 3002;
+			HawksEye = 3861;
 	}
 
 	public static class Debuffs {
@@ -178,7 +177,7 @@ internal class BardHeavyBurstShot: CustomCombo {
 		}
 
 		if (IsEnabled(CustomComboPreset.BardStraightShotUpgradeFeature)) {
-			if (level >= BRD.Levels.StraightShot && SelfHasEffect(BRD.Buffs.StraightShotReady))
+			if (level >= BRD.Levels.StraightShot && SelfHasEffect(BRD.Buffs.HawksEye))
 				return OriginalHook(BRD.StraightShot);
 		}
 
@@ -249,7 +248,7 @@ internal class BardQuickNockLadonsbite: CustomCombo {
 		}
 
 		if (IsEnabled(CustomComboPreset.BardQuickNockLadonsbiteShadowbite)) {
-			if (level >= BRD.Levels.Shadowbite && SelfHasEffect(BRD.Buffs.ShadowbiteReady))
+			if (level >= BRD.Levels.Shadowbite && SelfHasEffect(BRD.Buffs.HawksEye))
 				return BRD.Shadowbite;
 		}
 
@@ -294,19 +293,6 @@ internal class BardEmpyrealSidewinder: CustomCombo {
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		return level >= BRD.Levels.Sidewinder
 			? PickByCooldown(actionID, BRD.EmpyrealArrow, BRD.Sidewinder)
-			: actionID;
-	}
-}
-
-internal class BardBarrage: CustomCombo {
-	public override CustomComboPreset Preset { get; } = CustomComboPreset.BardBarrageFeature;
-	public override uint[] ActionIDs { get; } = [BRD.Barrage];
-
-	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-		return level >= BRD.Levels.StraightShot
-			&& SelfHasEffect(BRD.Buffs.StraightShotReady)
-			&& !SelfHasEffect(BRD.Buffs.ShadowbiteReady)
-			? OriginalHook(BRD.StraightShot)
 			: actionID;
 	}
 }

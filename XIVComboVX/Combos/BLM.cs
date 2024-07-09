@@ -62,6 +62,8 @@ internal static class BLM {
 	}
 }
 
+/* returning Soon™ (when we have the time to go over everything)
+
 internal class BlackFireBlizzard4: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.BlmAny;
 	public override uint[] ActionIDs => [BLM.Fire4, BLM.Blizzard4];
@@ -267,3 +269,4 @@ internal class BlackScathe: CustomCombo {
 		return actionID;
 	}
 }
+*/
