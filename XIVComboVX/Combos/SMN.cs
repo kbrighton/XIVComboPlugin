@@ -67,6 +67,8 @@ internal class SummonerSwiftcastRaiserFeature: SwiftRaiseCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.SummonerSwiftcastRaiserFeature;
 }
 
+/* returning Soon™ (when we have the time to go over everything)
+
 internal class SummonerEDFesterCombo: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.SummonerEDFesterCombo;
 	public override uint[] ActionIDs { get; } = [SMN.Fester];
@@ -195,3 +197,4 @@ internal class SummonerSlipcastFeature: CustomCombo {
 		return OriginalHook(actionID);
 	}
 }
+*/

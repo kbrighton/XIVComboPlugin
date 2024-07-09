@@ -150,19 +150,24 @@ internal static class RDM {
 
 	public static bool CheckMeleeST(ref uint actionID, uint lastComboMove, byte level, bool checkComboStart) {
 		RDMGauge gauge = CustomCombo.GetJobGauge<RDMGauge>();
-		byte mana = Math.Min(gauge.BlackMana, gauge.WhiteMana);
+		byte black = gauge.BlackMana;
+		byte white = gauge.WhiteMana;
+		byte mana = black != white || black == 100
+			? Math.Min(black, white)
+			: (byte)0;
+		bool buff = CustomCombo.SelfHasEffect(RDM.Buffs.MagickedSwordplay);
 
-		if (lastComboMove is Zwerchhau or EnchantedZwerchhau && level >= Levels.Redoublement && mana >= ManaCostMelee3) {
+		if (lastComboMove is Zwerchhau or EnchantedZwerchhau && level >= Levels.Redoublement && (buff || mana >= ManaCostMelee3)) {
 			actionID = EnchantedRedoublement;
 			return true;
 		}
 
-		if (lastComboMove is Riposte or EnchantedRiposte && level >= Levels.Zwerchhau && mana >= ManaCostMelee2) {
+		if (lastComboMove is Riposte or EnchantedRiposte && level >= Levels.Zwerchhau && (buff || mana >= ManaCostMelee2)) {
 			actionID = EnchantedZwerchhau;
 			return true;
 		}
 
-		if (checkComboStart && mana >= ManaCostMelee1) {
+		if (checkComboStart && (buff || mana >= ManaCostMelee1 + ManaCostMelee2 + ManaCostMelee3)) {
 			actionID = EnchantedRiposte;
 			return true;
 		}
@@ -464,13 +469,12 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 		bool verstoneUp = SelfHasEffect(RDM.Buffs.VerstoneReady);
 		bool isFinishingAny = RDM.CheckFinishers(ref actionID, lastComboActionId, level);
 
-		bool startMelee = IsEnabled(CustomComboPreset.RedMageSmartcastSingleTargetMeleeComboStarter)
-			&& targeting && isClose && hasMeleeMana;
 		bool meleeCombo = IsEnabled(CustomComboPreset.RedMageSmartcastSingleTargetMeleeCombo)
-			&& !isFinishingAny
-			&& RDM.CheckMeleeST(ref actionID, lastComboActionId, level, startMelee);
+			&& !isFinishingAny && targeting
+			&& RDM.CheckMeleeST(ref actionID, lastComboActionId, level, IsEnabled(CustomComboPreset.RedMageSmartcastSingleTargetMeleeComboStarter));
 		bool shouldCloseGap = IsEnabled(CustomComboPreset.RedMageSmartcastSingleTargetMeleeComboStarterCloser)
-			&& targeting && !isClose && hasMeleeMana;
+			&& meleeCombo && !isClose;
+		meleeCombo &= isClose;
 
 		bool smartWeave = IsEnabled(CustomComboPreset.RedMageSmartcastSingleTargetWeaveAttack) && weaving;
 		bool smartMove = IsEnabled(CustomComboPreset.RedMageSmartcastSingleTargetMovement) && moving;
@@ -546,6 +550,11 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 				return OriginalHook(RDM.Veraero);
 			}
 		}
+		if (shouldCloseGap) {
+			// If this is the case, then meleeCombo CANNOT be, because one requires isClose and one requires !isClose, so the order of these two doesn't really matter.
+			// I decided to put it here because logically, you need to close before you can melee.
+			return RDM.Corpsacorps;
+		}
 		if (meleeCombo) {
 			// If we're out of range while in the combo, become Corps-a-corps to get back in range. Otherwise, just run the combo.
 
@@ -553,16 +562,6 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 				return RDM.Corpsacorps;
 
 			return actionID; // meleeCombo is only true if the helper function assigned the appropriate actionID value
-		}
-		if (shouldCloseGap) {
-			// If this is the case, then startMelee CANNOT be, because one requires isClose and one requires !isClose, so the order of these two doesn't really matter.
-			// I decided to put it here because logically, you need to close before you can melee.
-			return RDM.Corpsacorps;
-		}
-		if (startMelee) {
-			// Do we allow becoming spells from within the combo? They'll break the combo, but sometimes the boss moves out of melee range of the whole arena.
-			// As it's coded now, you can do it, so you have to pay attention to your distance.
-			return RDM.EnchantedRiposte;
 		}
 		if (smartMove) {
 			// Can't slowcast spells if you're moving, so we have to fall back to instants.

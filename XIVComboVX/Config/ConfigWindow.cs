@@ -325,6 +325,11 @@ public class ConfigWindow: Window {
 		}
 
 		ImGui.PushTextWrapPos((this.Size?.X ?? Width) - 10);
+		ImGui.TextUnformatted("Not all jobs are currently supported, due to the scale of the changes in patch 7.0; they are being worked on as the devs have time and will be updated as possible."
+			+ " Additionally, some combos may not fully account for job changes and so may not work quite right. You are strongly encouraged to test combos that you use OUTSIDE of duties"
+			+ " in order to ensure that they function as expected. If you find anything broken, please use the button in title bar of this window to open the github, and create an issue"
+			+ " explaining in thorough detail what the problem is, so that we can investigate it.");
+		ImGui.TextUnformatted("");
 		ImGui.TextUnformatted("A note about Monk:");
 		ImGui.TextUnformatted("I don't know how Monk works. It just refuses to make sense to me. It's also the only job where you need to adjust your framerate to play \"optimally\" at it."
 			+ " Therefore, I'm not touching Monk with the proverbial ten-foot pole (or a 304.8cm pole, for the rest of the world)."
