@@ -1105,29 +1105,30 @@ public enum CustomComboPreset {
 	#endregion
 	// ====================================================================================
 	#region SAMURAI (34xx)
+	// Working on updating SAM. Will gradually be releasing more features as they are verified working. 
 
-	//[CustomComboInfo("Yukikaze Combo", "Replace Yukikaze with its combo chain.", SAM.JobID)]
-	//SamuraiYukikazeCombo = 3400,
+	[CustomComboInfo("Yukikaze Combo", "Replace Yukikaze with its combo chain.", SAM.JobID)]
+	SamuraiYukikazeCombo = 3400,
 
-	//[CustomComboInfo("Gekko Combo", "Replace Gekko with its combo chain.", SAM.JobID)]
-	//SamuraiGekkoCombo = 3401,
+	[CustomComboInfo("Gekko Combo", "Replace Gekko with its combo chain.", SAM.JobID)]
+	SamuraiGekkoCombo = 3401,
 
-	//[ParentPreset(SamuraiGekkoCombo)]
-	//[CustomComboInfo("Gekko Combo from Jinpu", "Start the Gekko combo chain with Jinpu instead of Hakaze.", SAM.JobID)]
-	//SamuraiGekkoOption = 3416,
+	[ParentPreset(SamuraiGekkoCombo)]
+	[CustomComboInfo("Gekko Combo from Jinpu", "Start the Gekko combo chain with Jinpu instead of Hakaze.", SAM.JobID)]
+	SamuraiGekkoOption = 3416,
 
-	//[CustomComboInfo("Kasha Combo", "Replace Kasha with its combo chain.", SAM.JobID)]
-	//SamuraiKashaCombo = 3402,
+	[CustomComboInfo("Kasha Combo", "Replace Kasha with its combo chain.", SAM.JobID)]
+	SamuraiKashaCombo = 3402,
 
-	//[ParentPreset(SamuraiKashaCombo)]
-	//[CustomComboInfo("Kasha Combo from Shifu", "Start the Kasha combo chain with Shifu instead of Hakaze.", SAM.JobID)]
-	//SamuraiKashaOption = 3417,
+	[ParentPreset(SamuraiKashaCombo)]
+	[CustomComboInfo("Kasha Combo from Shifu", "Start the Kasha combo chain with Shifu instead of Hakaze.", SAM.JobID)]
+	SamuraiKashaOption = 3417,
 
-	//[CustomComboInfo("Mangetsu Combo", "Replace Mangetsu with its combo chain.", SAM.JobID)]
-	//SamuraiMangetsuCombo = 3403,
+	[CustomComboInfo("Mangetsu Combo", "Replace Mangetsu with its combo chain.", SAM.JobID)]
+	SamuraiMangetsuCombo = 3403,
 
-	//[CustomComboInfo("Oka Combo", "Replace Oka with its combo chain.", SAM.JobID)]
-	//SamuraiOkaCombo = 3404,
+	[CustomComboInfo("Oka Combo", "Replace Oka with its combo chain.", SAM.JobID)]
+	SamuraiOkaCombo = 3404,
 
 	//[Conflicts(SamuraiIaijutsuTsubameGaeshiFeature)]
 	//[CustomComboInfo("Tsubame-gaeshi to Iaijutsu", "Replace Tsubame-gaeshi with Iaijutsu when Sen is empty.", SAM.JobID)]
@@ -1163,8 +1164,8 @@ public enum CustomComboPreset {
 	//[CustomComboInfo("Ikishoten Namikiri Feature", "Replace Ikishoten with Shoha, Kaeshi Namikiri, and then Ogi Namikiri when available.", SAM.JobID)]
 	//SamuraiIkishotenNamikiriFeature = 3411,
 
-	//[CustomComboInfo("Hissatsu Senei/Guren Sync Feature", "Replace Hissatsu Senei with Hissatsu Guren when underlevel.", SAM.JobID)]
-	//SamuraiGurenSeneiLevelSyncFeature = 3418,
+	[CustomComboInfo("Hissatsu Senei/Guren Sync Feature", "Replace Hissatsu Senei with Hissatsu Guren when underlevel.", SAM.JobID)]
+	SamuraiGurenSeneiLevelSyncFeature = 3418,
 
 	#endregion
 	// ====================================================================================
