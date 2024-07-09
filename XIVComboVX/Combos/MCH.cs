@@ -157,7 +157,7 @@ internal class MachinistGaussRicochet: CustomCombo {
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 
-		if (level >= MCH.Levels.Checkmate) {
+		if (level >= MCH.Levels.Checkmate && IsEnabled(CustomComboPreset.MachinistGaussRoundRicochetUpgrade) ) {
 
 			if (IsEnabled(CustomComboPreset.MachinistGaussRoundRicochetLimiter) && !GetJobGauge<MCHGauge>().IsOverheated)
 				return actionID;
@@ -236,7 +236,7 @@ internal class MachinistHeatBlastAutoCrossbow: CustomCombo {
 			if (IsEnabled(CustomComboPreset.MachinistHeatBlastWeaveGaussRoundRicochet)) {
 				if (gauge.IsOverheated && CanWeave(MCH.HeatBlast)) { // Heat Blast has a 1.5s cooldown instead of the normal GCD
 
-					if (level >= MCH.Levels.Checkmate)
+					if (level >= MCH.Levels.Checkmate && IsEnabled(CustomComboPreset.MachinistGaussRoundRicochetUpgrade))
 						return PickByCooldown(MCH.DoubleCheck, MCH.DoubleCheck, MCH.CheckMate);
 					else if (level >= MCH.Levels.Ricochet)
 						return PickByCooldown(MCH.GaussRound, MCH.GaussRound, MCH.Ricochet);
