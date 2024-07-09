@@ -1167,6 +1167,9 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Hissatsu Senei/Guren Sync Feature", "Replace Hissatsu Senei with Hissatsu Guren when underlevel.", SAM.JobID)]
 	SamuraiGurenSeneiLevelSyncFeature = 3418,
 
+	[CustomComboInfo("Bloodbath Replacer Feature", "Replace Bloodbath with Second Wind when Bloodbath is on cooldown and Second Wind is not.", SAM.JobID)]
+	SamuraiBloodbathReplacer = 3419,
+
 	#endregion
 	// ====================================================================================
 	#region SCHOLAR (28xx)

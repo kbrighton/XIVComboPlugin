@@ -32,7 +32,9 @@ internal static class SAM {
 		Ikishoten = 16482,
 		Shoha2 = 25779,
 		OgiNamikiri = 25781,
-		KaeshiNamikiri = 25782;
+		KaeshiNamikiri = 25782,
+		Bloodbath = 7542,
+		SecondWind = 7541;
 
 	public static class Buffs {
 		public const ushort
@@ -66,7 +68,8 @@ internal static class SAM {
 			Hyosetsu = 86,
 			Fuko = 86,
 			KaeshiNamikiri = 90,
-			OgiNamikiri = 90;
+			OgiNamikiri = 90,
+			Bloodbath = 12;
 	}
 }
 
@@ -175,6 +178,21 @@ internal class SamuraiOkaCombo: CustomCombo {
 		}
 
 		return OriginalHook(SAM.Fuga);
+	}
+}
+internal class BloodbathReplacer: CustomCombo {
+	public override CustomComboPreset Preset => CustomComboPreset.SamuraiBloodbathReplacer;
+	public override uint[] ActionIDs { get; } = [SAM.Bloodbath];
+
+	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
+
+		if (IsEnabled(CustomComboPreset.SamuraiBloodbathReplacer)) {
+			if (!CanUse(SAM.Bloodbath)) {
+				if (IsOffCooldown(SAM.SecondWind))
+				return SAM.SecondWind;			}
+			
+		}
+		return actionID;
 	}
 }
 
