@@ -528,6 +528,10 @@ public enum CustomComboPreset {
 	MachinistGaussRoundRicochetLimiter = 3110,
 
 	[ParentPreset(MachinistGaussRoundRicochet)]
+	[CustomComboInfo("Upgrade to Double Check and Checkmate", "Upgrade to Checkmate and Double Check when high enough level.", MCH.JobID)]
+	MachinistGaussRoundRicochetUpgrade = 3119,
+
+	[ParentPreset(MachinistGaussRoundRicochet)]
 	[CustomComboInfo("Heat Blast weaving", "Replace Heat Blast with Gauss Round or Riccochet while weaving.", MCH.JobID)]
 	MachinistHeatBlastWeaveGaussRoundRicochet = 3115,
 
@@ -537,6 +541,10 @@ public enum CustomComboPreset {
 	[ParentPreset(MachinistDrillAirAnchor)]
 	[CustomComboInfo("With Chain Saw", "Also allow the above to become Chain Saw.\nChain Saw itself will not change.", MCH.JobID)]
 	MachinistDrillAirAnchorPlus = 3106,
+
+	[ParentPreset(MachinistDrillAirAnchorPlus)]
+	[CustomComboInfo("And With Excavator", "Allow Chainsaw to become excavator.", MCH.JobID)]
+	MachinistDrillAirAnchorPlusPlus = 3118,
 
 	[CustomComboInfo("Tactical Dismantle", "Change Tactician and Dismantle into each other when one is on cooldown.\nAlso prevents wasting Tactician when under BRD's Troubadour or DNC's Shield Samba.", MCH.JobID)]
 	MachinistTacticianDismantle = 3112,

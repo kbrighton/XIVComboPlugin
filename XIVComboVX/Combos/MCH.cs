@@ -105,7 +105,7 @@ internal class MachinistCleanShot: CustomCombo {
 				if (SelfHasEffect(MCH.Buffs.Reassembled)) {
 
 					uint preference = gauge.Battery > 80 ? MCH.Drill : MCH.AirAnchor;
-					if (SelfHasEffect(MCH.Buffs.ExcavatorReady)) {
+					if (SelfHasEffect(MCH.Buffs.ExcavatorReady) && IsEnabled(CustomComboPreset.MachinistDrillAirAnchorPlusPlus)) {
 						return MCH.Excavator;
 					}
 					if (level >= MCH.Levels.Chainsaw)
@@ -122,7 +122,7 @@ internal class MachinistCleanShot: CustomCombo {
 		if (IsEnabled(CustomComboPreset.MachinistMainComboHeatBlast) && level >= MCH.Levels.HeatBlast && gauge.IsOverheated) {
 			if (IsEnabled(CustomComboPreset.MachinistHeatBlastWeaveGaussRoundRicochet) && CanWeave(MCH.HeatBlast)) { // Heat Blast has a 1.5s cooldown instead of the normal GCD
 
-				if (level >= MCH.Levels.Checkmate)
+				if (level >= MCH.Levels.Checkmate && IsEnabled(CustomComboPreset.MachinistGaussRoundRicochetUpgrade))
 					return PickByCooldown(MCH.DoubleCheck, MCH.DoubleCheck, MCH.CheckMate);
 				else if (level >= MCH.Levels.Ricochet)
 					return PickByCooldown(MCH.GaussRound, MCH.GaussRound, MCH.Ricochet);
