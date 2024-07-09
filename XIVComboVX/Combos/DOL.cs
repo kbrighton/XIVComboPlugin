@@ -1,7 +1,5 @@
 using Dalamud.Game.ClientState.Conditions;
 
-using Lumina.Excel.GeneratedSheets;
-
 namespace PrincessRTFM.XIVComboVX.Combos;
 
 internal static class DOL {
@@ -67,11 +65,6 @@ public static class BTN {
 		CollectorsFocus = 21206,
 		WiseToTheWorld = 26522,
 		PrimingTouch = 34872;
-
-	public static class Levels {
-		public const byte
-			PrimingTouch = 95;
-	}
 }
 public static class MIN {
 	public const uint
@@ -103,12 +96,8 @@ public static class MIN {
 		CollectorsFocus = 21205,
 		WiseToTheWorld = 26521,
 		PrimingTouch = 34871;
-	public static class Levels {
-		public const byte
-			PrimingTouch = 95;
-	}
 }
-	
+
 public static class FSH {
 	public const uint
 		Mooch2 = 268,
@@ -234,7 +223,7 @@ internal class NonFishingFeatures: CustomCombo {
 
 		return actionID;
 	}
-	
+
 
 }
 
@@ -343,12 +332,15 @@ internal class PrimedMetFeature: CustomCombo {
 
 	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
 
-		if (level >= DOL.Levels.PrimingTouch)
-			if (LocalPlayer.CurrentGp >= 400)
+		if (level >= DOL.Levels.PrimingTouch) {
+			if (LocalPlayer.CurrentGp >= 400) {
 				if (SelfHasEffect(DOL.Buffs.CollectorsStandard) || SelfHasEffect(DOL.Buffs.CollectorsHighStandard)) {
 					return IsJob(DOL.MinID) ? MIN.PrimingTouch : BTN.PrimingTouch;
 				}
+			}
+		}
+
 		return actionID;
-			
+
 	}
 }
