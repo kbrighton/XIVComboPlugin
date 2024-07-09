@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<Product>XIVComboVX</Product>
-		<Authors>attick, daemitus, VariableVixen</Authors>
+		<Authors>VariableVixen, FrigidWalrus, attick, daemitus</Authors>
 		<Version>9.22.0</Version>
 		<Description>This plugin condenses various abilities onto single buttons.</Description>
 		<PackageProjectUrl>https://github.com/PrincessRTFM/XIVComboPlugin</PackageProjectUrl>
