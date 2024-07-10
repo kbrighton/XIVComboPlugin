@@ -57,9 +57,7 @@ internal static class VPR {
 		Backlash = 39186, // Might be 39187
 		FuriousBacklash = 39188,
 		RattlingCoil = 39189,
-		WorldSwallower = 39190,
-		Bloodbath = 7542,
-		SecondWind = 7541;
+		WorldSwallower = 39190;
 
 	public static class Buffs {
 		public const ushort
@@ -110,18 +108,6 @@ internal static class VPR {
 	}
 }
 
-internal class ViperBloodbathReplacer: CustomCombo {
+internal class ViperBloodbathReplacer: SecondBloodbathCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.ViperBloodbathReplacer;
-	public override uint[] ActionIDs { get; } = [VPR.Bloodbath];
-
-	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
-
-		if (IsEnabled(CustomComboPreset.SamuraiBloodbathReplacer)) {
-			if (IsOnCooldown(VPR.Bloodbath) && (IsOffCooldown(VPR.SecondWind))) {
-				return VPR.SecondWind;
-
-			}
-		}
-		return actionID;
-	}
 }

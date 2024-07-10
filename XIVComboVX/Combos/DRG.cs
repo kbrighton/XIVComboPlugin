@@ -33,10 +33,7 @@ internal static class DRG {
 		MirageDive = 7399,
 		// Dragon
 		Stardiver = 16480,
-		WyrmwindThrust = 25773,
-		// Common
-		Bloodbath = 7542,
-		SecondWind = 7541;
+		WyrmwindThrust = 25773;
 		
 
 	public static class Buffs {
@@ -76,20 +73,8 @@ internal static class DRG {
 	}
 }
 
-internal class DragoonBloodbathReplacer: CustomCombo {
+internal class DragoonBloodbathReplacer: SecondBloodbathCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.DragoonBloodbathReplacer;
-	public override uint[] ActionIDs { get; } = [DRG.Bloodbath];
-
-	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
-
-		if (IsEnabled(CustomComboPreset.DragoonBloodbathReplacer)) {
-			if (IsOnCooldown(DRG.Bloodbath) && (IsOffCooldown(DRG.SecondWind))) {
-				return DRG.SecondWind;
-
-			}
-		}
-		return actionID;
-	}
 }
 
 /* returning Soon™ (when we have the time to go over everything)

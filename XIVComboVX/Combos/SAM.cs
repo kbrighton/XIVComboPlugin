@@ -1,6 +1,3 @@
-using Dalamud.Game.ClientState.JobGauge.Enums;
-using Dalamud.Game.ClientState.JobGauge.Types;
-
 namespace PrincessRTFM.XIVComboVX.Combos;
 
 internal static class SAM {
@@ -32,9 +29,7 @@ internal static class SAM {
 		Ikishoten = 16482,
 		Shoha2 = 25779,
 		OgiNamikiri = 25781,
-		KaeshiNamikiri = 25782,
-		Bloodbath = 7542,
-		SecondWind = 7541;
+		KaeshiNamikiri = 25782;
 
 	public static class Buffs {
 		public const ushort
@@ -74,6 +69,10 @@ internal static class SAM {
 }
 
 // returning Soon™ (when we have the time to go over everything)
+
+internal class SamuraiBloodbathReplacer: SecondBloodbathCombo {
+	public override CustomComboPreset Preset => CustomComboPreset.SamuraiBloodbathReplacer;
+}
 
 internal class SamuraiGurenSeneiLevelSyncFeature: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.SamuraiGurenSeneiLevelSyncFeature;
@@ -147,7 +146,7 @@ internal class SamuraiKashaCombo: CustomCombo {
 	}
 }
 
- internal class SamuraiMangetsuCombo: CustomCombo {
+internal class SamuraiMangetsuCombo: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.SamuraiMangetsuCombo;
 	public override uint[] ActionIDs { get; } = [SAM.Mangetsu];
 
@@ -178,21 +177,6 @@ internal class SamuraiOkaCombo: CustomCombo {
 		}
 
 		return OriginalHook(SAM.Fuga);
-	}
-}
-internal class SamuraiBloodbathReplacer: CustomCombo {
-	public override CustomComboPreset Preset => CustomComboPreset.SamuraiBloodbathReplacer;
-	public override uint[] ActionIDs { get; } = [SAM.Bloodbath];
-
-	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
-
-		if (IsEnabled(CustomComboPreset.SamuraiBloodbathReplacer)) {
-			if (IsOnCooldown(SAM.Bloodbath) && (IsOffCooldown(SAM.SecondWind))) {
-				return SAM.SecondWind;
-
-			}			
-		}
-		return actionID;
 	}
 }
 

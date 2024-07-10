@@ -32,9 +32,7 @@ internal static class NIN {
 		PhantomKamaitachi = 25774,
 		ForkedRaiju = 25777,
 		FleetingRaiju = 25778,
-		TenriJindo = 36961,
-		Bloodbath = 7542,
-		SecondWind = 7541;
+		TenriJindo = 36961;
 
 	public static class Buffs {
 		public const ushort
@@ -76,6 +74,10 @@ internal static class NIN {
 			Raiju = 90,
 			TenriJindo = 100;
 	}
+}
+
+internal class NinjaBloodbathReplacer: SecondBloodbathCombo {
+	public override CustomComboPreset Preset => CustomComboPreset.NinjaBloodbathReplacer;
 }
 
 internal class NinjaArmorCrushCombo: CustomCombo {
@@ -311,22 +313,6 @@ internal class NinjaTCJMeisuiFeature: CustomCombo {
 				return NIN.TenriJindo;
 		}
 
-		return actionID;
-	}
-}
-
-internal class NinjaBloodbathReplacer: CustomCombo {
-	public override CustomComboPreset Preset => CustomComboPreset.NinjaBloodbathReplacer;
-	public override uint[] ActionIDs { get; } = [NIN.Bloodbath];
-
-	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
-
-		if (IsEnabled(CustomComboPreset.NinjaBloodbathReplacer)) {
-			if (IsOnCooldown(NIN.Bloodbath) && (IsOffCooldown(NIN.SecondWind))) {
-				return NIN.SecondWind;
-
-			}
-		}
 		return actionID;
 	}
 }
