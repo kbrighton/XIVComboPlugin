@@ -180,7 +180,7 @@ internal class SamuraiOkaCombo: CustomCombo {
 		return OriginalHook(SAM.Fuga);
 	}
 }
-internal class BloodbathReplacer: CustomCombo {
+internal class SamuraiBloodbathReplacer: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.SamuraiBloodbathReplacer;
 	public override uint[] ActionIDs { get; } = [SAM.Bloodbath];
 

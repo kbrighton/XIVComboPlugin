@@ -351,6 +351,9 @@ public enum CustomComboPreset {
 	//[CustomComboInfo("Mirage Jump", "Replace Jump and High Jump with Mirage Dive when Dive Ready.", DRG.JobID)]
 	//DragoonMirageJumpFeature = 2213,
 
+	[CustomComboInfo("Bloodbath Replacer Feature", "Replace Bloodbath with Second Wind when Bloodbath is on cooldown and Second Wind is not.", DRG.JobID)]
+	DragoonBloodbathReplacer = 2218,
+
 	#endregion
 	// ====================================================================================
 	#region DARK KNIGHT (32xx)
@@ -590,6 +593,9 @@ public enum CustomComboPreset {
 	//[CustomComboInfo("Riddle of Fire and Wind", "Replace Riddle of Fire with Riddle of Wind if the former is on CD and the latter isn't.", MNK.JobID)]
 	//MonkFireWind = 2014,
 
+	[CustomComboInfo("Bloodbath Replacer Feature", "Replace Bloodbath with Second Wind when Bloodbath is on cooldown and Second Wind is not.", MNK.JobID)]
+	MonkBloodbathReplacer = 2018,
+
 	#endregion
 	// ====================================================================================
 	#region NINJA (30xx)
@@ -720,6 +726,9 @@ public enum CustomComboPreset {
 
 	[CustomComboInfo("AoE Smart Weave", "Replaces Death Blossom / Hakke Mujinsatsu with Hellfrog Medium when weaving and available.", NIN.JobID)]
 	NinjaAOESmartWeaveFeature = 3027,
+
+	[CustomComboInfo("Bloodbath Replacer Feature", "Replace Bloodbath with Second Wind when Bloodbath is on cooldown and Second Wind is not.", NIN.JobID)]
+	NinjaBloodbathReplacer = 3037,
 
 	#endregion
 	// ====================================================================================
@@ -1102,6 +1111,9 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Combat Option", "Prevent replacing Harpe with Harvest Moon when not in combat.", RPR.JobID)]
 	ReaperHarpeHarvestMoonCombatFeature = 3938,
 
+	[CustomComboInfo("Bloodbath Replacer Feature", "Replace Bloodbath with Second Wind when Bloodbath is on cooldown and Second Wind is not.", RPR.JobID)]
+	ReaperBloodbathReplacer = 3950,
+
 	#endregion
 	// ====================================================================================
 	#region SAMURAI (34xx)
@@ -1363,6 +1375,9 @@ public enum CustomComboPreset {
 	#endregion
 	// ====================================================================================
 	#region VIPER (41xx)
+
+	[CustomComboInfo("Bloodbath Replacer Feature", "Replace Bloodbath with Second Wind when Bloodbath is on cooldown and Second Wind is not.", VPR.JobID)]
+	ViperBloodbathReplacer = 4101,
 
 	#endregion
 	// ====================================================================================

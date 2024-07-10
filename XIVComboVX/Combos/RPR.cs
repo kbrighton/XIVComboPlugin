@@ -48,7 +48,9 @@ internal static class RPR {
 		HarvestMoon = 24388,
 		HellsIngress = 24401,
 		HellsEgress = 24402,
-		Regress = 24403;
+		Regress = 24403,
+		Bloodbath = 7542,
+		SecondWind = 7541;
 
 	public static class Buffs {
 		public const ushort
@@ -621,6 +623,22 @@ internal class ReaperHarpe: CustomCombo {
 			}
 		}
 
+		return actionID;
+	}
+}
+
+internal class ReaperBloodbathReplacer: CustomCombo {
+	public override CustomComboPreset Preset => CustomComboPreset.ReaperBloodbathReplacer;
+	public override uint[] ActionIDs { get; } = [RPR.Bloodbath];
+
+	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
+
+		if (IsEnabled(CustomComboPreset.ReaperBloodbathReplacer)) {
+			if (IsOnCooldown(RPR.Bloodbath) && (IsOffCooldown(RPR.SecondWind))) {
+				return RPR.SecondWind;
+
+			}
+		}
 		return actionID;
 	}
 }
