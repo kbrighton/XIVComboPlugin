@@ -292,6 +292,9 @@ public enum CustomComboPreset {
 	// ====================================================================================
 	#region DRAGOON (22xx)
 
+	[CustomComboInfo("Bloodbath Replacer Feature", "Replace Bloodbath with Second Wind when underlevel or when Bloodbath is on cooldown and Second Wind is not.", DRG.JobID)]
+	DragoonBloodbathReplacer = 2218,
+
 	//[CustomComboInfo("Coerthan Torment Combo", "Replace Coerthan Torment with its combo chain.", DRG.JobID)]
 	//DragoonCoerthanTormentCombo = 2200,
 
@@ -550,6 +553,9 @@ public enum CustomComboPreset {
 	// ====================================================================================
 	#region MONK (20xx)
 
+	[CustomComboInfo("Bloodbath Replacer Feature", "Replace Bloodbath with Second Wind when underlevel or when Bloodbath is on cooldown and Second Wind is not.", MNK.JobID)]
+	MonkBloodbathReplacer = 2018,
+
 	//[CustomComboInfo("Monk AoE Combo", "Replaces the selected actions with the AoE combo chain.", MNK.JobID)]
 	//MonkAoECombo = 2000,
 
@@ -601,6 +607,9 @@ public enum CustomComboPreset {
 	#endregion
 	// ====================================================================================
 	#region NINJA (30xx)
+
+	[CustomComboInfo("Bloodbath Replacer Feature", "Replace Bloodbath with Second Wind when underlevel or when Bloodbath is on cooldown and Second Wind is not.", NIN.JobID)]
+	NinjaBloodbathReplacer = 3037,
 
 	[CustomComboInfo("Armor Crush Combo", "Replace Armor Crush with its combo chain.", NIN.JobID)]
 	NinjaArmorCrushCombo = 3000,
@@ -958,6 +967,9 @@ public enum CustomComboPreset {
 	// ====================================================================================
 	#region REAPER (39xx)
 
+	[CustomComboInfo("Bloodbath Replacer Feature", "Replace Bloodbath with Second Wind when underlevel or when Bloodbath is on cooldown and Second Wind is not.", RPR.JobID)]
+	ReaperBloodbathReplacer = 3950,
+
 	[CustomComboInfo("Slice Combo", "Replace Infernal Slice with its combo chain.", RPR.JobID)]
 	ReaperSliceCombo = 3901,
 
@@ -1113,29 +1125,33 @@ public enum CustomComboPreset {
 	#endregion
 	// ====================================================================================
 	#region SAMURAI (34xx)
+	// Working on updating SAM. Will gradually be releasing more features as they are verified working. 
 
-	//[CustomComboInfo("Yukikaze Combo", "Replace Yukikaze with its combo chain.", SAM.JobID)]
-	//SamuraiYukikazeCombo = 3400,
+	[CustomComboInfo("Bloodbath Replacer Feature", "Replace Bloodbath with Second Wind when underlevel or when Bloodbath is on cooldown and Second Wind is not.", SAM.JobID)]
+	SamuraiBloodbathReplacer = 3419,
 
-	//[CustomComboInfo("Gekko Combo", "Replace Gekko with its combo chain.", SAM.JobID)]
-	//SamuraiGekkoCombo = 3401,
+	[CustomComboInfo("Yukikaze Combo", "Replace Yukikaze with its combo chain.", SAM.JobID)]
+	SamuraiYukikazeCombo = 3400,
 
-	//[ParentPreset(SamuraiGekkoCombo)]
-	//[CustomComboInfo("Gekko Combo from Jinpu", "Start the Gekko combo chain with Jinpu instead of Hakaze.", SAM.JobID)]
-	//SamuraiGekkoOption = 3416,
+	[CustomComboInfo("Gekko Combo", "Replace Gekko with its combo chain.", SAM.JobID)]
+	SamuraiGekkoCombo = 3401,
 
-	//[CustomComboInfo("Kasha Combo", "Replace Kasha with its combo chain.", SAM.JobID)]
-	//SamuraiKashaCombo = 3402,
+	[ParentPreset(SamuraiGekkoCombo)]
+	[CustomComboInfo("Gekko Combo from Jinpu", "Start the Gekko combo chain with Jinpu instead of Hakaze.", SAM.JobID)]
+	SamuraiGekkoOption = 3416,
 
-	//[ParentPreset(SamuraiKashaCombo)]
-	//[CustomComboInfo("Kasha Combo from Shifu", "Start the Kasha combo chain with Shifu instead of Hakaze.", SAM.JobID)]
-	//SamuraiKashaOption = 3417,
+	[CustomComboInfo("Kasha Combo", "Replace Kasha with its combo chain.", SAM.JobID)]
+	SamuraiKashaCombo = 3402,
 
-	//[CustomComboInfo("Mangetsu Combo", "Replace Mangetsu with its combo chain.", SAM.JobID)]
-	//SamuraiMangetsuCombo = 3403,
+	[ParentPreset(SamuraiKashaCombo)]
+	[CustomComboInfo("Kasha Combo from Shifu", "Start the Kasha combo chain with Shifu instead of Hakaze.", SAM.JobID)]
+	SamuraiKashaOption = 3417,
 
-	//[CustomComboInfo("Oka Combo", "Replace Oka with its combo chain.", SAM.JobID)]
-	//SamuraiOkaCombo = 3404,
+	[CustomComboInfo("Mangetsu Combo", "Replace Mangetsu with its combo chain.", SAM.JobID)]
+	SamuraiMangetsuCombo = 3403,
+
+	[CustomComboInfo("Oka Combo", "Replace Oka with its combo chain.", SAM.JobID)]
+	SamuraiOkaCombo = 3404,
 
 	//[Conflicts(SamuraiIaijutsuTsubameGaeshiFeature)]
 	//[CustomComboInfo("Tsubame-gaeshi to Iaijutsu", "Replace Tsubame-gaeshi with Iaijutsu when Sen is empty.", SAM.JobID)]
@@ -1171,8 +1187,8 @@ public enum CustomComboPreset {
 	//[CustomComboInfo("Ikishoten Namikiri Feature", "Replace Ikishoten with Shoha, Kaeshi Namikiri, and then Ogi Namikiri when available.", SAM.JobID)]
 	//SamuraiIkishotenNamikiriFeature = 3411,
 
-	//[CustomComboInfo("Hissatsu Senei/Guren Sync Feature", "Replace Hissatsu Senei with Hissatsu Guren when underlevel.", SAM.JobID)]
-	//SamuraiGurenSeneiLevelSyncFeature = 3418,
+	[CustomComboInfo("Hissatsu Senei/Guren Sync Feature", "Replace Hissatsu Senei with Hissatsu Guren when underlevel.", SAM.JobID)]
+	SamuraiGurenSeneiLevelSyncFeature = 3418,
 
 	#endregion
 	// ====================================================================================
@@ -1367,6 +1383,9 @@ public enum CustomComboPreset {
 	#endregion
 	// ====================================================================================
 	#region VIPER (41xx)
+
+	[CustomComboInfo("Bloodbath Replacer Feature", "Replace Bloodbath with Second Wind when underlevel or when Bloodbath is on cooldown and Second Wind is not.", VPR.JobID)]
+	ViperBloodbathReplacer = 4100,
 
 	#endregion
 	// ====================================================================================

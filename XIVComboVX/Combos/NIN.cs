@@ -76,6 +76,10 @@ internal static class NIN {
 	}
 }
 
+internal class NinjaBloodbathReplacer: SecondBloodbathCombo {
+	public override CustomComboPreset Preset => CustomComboPreset.NinjaBloodbathReplacer;
+}
+
 internal class NinjaArmorCrushCombo: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.NinjaArmorCrushCombo;
 	public override uint[] ActionIDs { get; } = [NIN.ArmorCrush];

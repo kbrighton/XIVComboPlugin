@@ -107,3 +107,7 @@ internal static class VPR {
 			Legacies = 100;
 	}
 }
+
+internal class ViperBloodbathReplacer: SecondBloodbathCombo {
+	public override CustomComboPreset Preset => CustomComboPreset.ViperBloodbathReplacer;
+}

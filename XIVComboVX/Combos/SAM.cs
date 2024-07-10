@@ -1,6 +1,3 @@
-using Dalamud.Game.ClientState.JobGauge.Enums;
-using Dalamud.Game.ClientState.JobGauge.Types;
-
 namespace PrincessRTFM.XIVComboVX.Combos;
 
 internal static class SAM {
@@ -66,11 +63,16 @@ internal static class SAM {
 			Hyosetsu = 86,
 			Fuko = 86,
 			KaeshiNamikiri = 90,
-			OgiNamikiri = 90;
+			OgiNamikiri = 90,
+			Bloodbath = 12;
 	}
 }
 
-/* returning Soon™ (when we have the time to go over everything)
+// returning Soon™ (when we have the time to go over everything)
+
+internal class SamuraiBloodbathReplacer: SecondBloodbathCombo {
+	public override CustomComboPreset Preset => CustomComboPreset.SamuraiBloodbathReplacer;
+}
 
 internal class SamuraiGurenSeneiLevelSyncFeature: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.SamuraiGurenSeneiLevelSyncFeature;
@@ -178,7 +180,7 @@ internal class SamuraiOkaCombo: CustomCombo {
 	}
 }
 
-internal class SamuraiTsubameGaeshiFeature: CustomCombo {
+/* internal class SamuraiTsubameGaeshiFeature: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.SamAny;
 	public override uint[] ActionIDs { get; } = [SAM.TsubameGaeshi];
 
