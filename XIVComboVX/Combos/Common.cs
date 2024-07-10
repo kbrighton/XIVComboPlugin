@@ -4,6 +4,9 @@ internal static class Common {
 	public const uint
 		// everyone
 		Sprint = 4,
+		// melee DPS
+		Bloodbath = 7542,
+		SecondWind = 7541,
 		// ranged DPS
 		Peloton = 7557,
 		// tanks
@@ -24,6 +27,8 @@ internal static class Common {
 
 	internal static class Levels {
 		public const uint
+			Bloodbath = 12,
+			SecondWind = 8,
 			Peloton = 20,
 			LucidDreaming = 14,
 			Swiftcast = 18;
@@ -63,5 +68,16 @@ internal abstract class StunInterruptCombo: CustomCombo {
 		return CanInterrupt && IsOffCooldown(Common.Interject)
 			? Common.Interject
 			: Common.LowBlow;
+	}
+}
+
+internal abstract class SecondBloodbathCombo: CustomCombo {
+	public override uint[] ActionIDs { get; } = [Common.Bloodbath];
+
+	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
+		if (level < Common.Levels.Bloodbath)
+			return Common.SecondWind;
+
+		return PickByCooldown(actionID, Common.Bloodbath, Common.SecondWind);
 	}
 }

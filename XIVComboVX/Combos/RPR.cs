@@ -104,6 +104,10 @@ internal static class RPR {
 	}
 }
 
+internal class ReaperBloodbathReplacer: SecondBloodbathCombo {
+	public override CustomComboPreset Preset => CustomComboPreset.ReaperBloodbathReplacer;
+}
+
 internal class ReaperSlice: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.RprAny;
 	public override uint[] ActionIDs => [RPR.InfernalSlice];

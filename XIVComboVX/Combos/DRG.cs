@@ -34,6 +34,7 @@ internal static class DRG {
 		// Dragon
 		Stardiver = 16480,
 		WyrmwindThrust = 25773;
+		
 
 	public static class Buffs {
 		public const ushort
@@ -70,6 +71,10 @@ internal static class DRG {
 			HeavensThrust = 86,
 			ChaoticSpring = 86;
 	}
+}
+
+internal class DragoonBloodbathReplacer: SecondBloodbathCombo {
+	public override CustomComboPreset Preset => CustomComboPreset.DragoonBloodbathReplacer;
 }
 
 /* returning Soon™ (when we have the time to go over everything)

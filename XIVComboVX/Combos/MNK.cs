@@ -24,7 +24,6 @@ internal static class MNK {
 		RiddleOfEarth = 7394,
 		RiddleOfFire = 7395,
 		Brotherhood = 7396,
-		Bloodbath = 7542,
 		FourPointFury = 16473,
 		Enlightenment = 16474,
 		HowlingFist = 25763,
@@ -78,3 +77,9 @@ internal static class MNK {
 }
 
 // apparently MNK had some big changes, and neither of the devs plays, cares for, or even understands MNK, so guess what doesn't have combos until someone else writes them?
+// Aside from one replacer, which is shared by several classes and is, in fact, a great idea.
+// All credit to Frigid for coming up with AND the initial implementation, which Vixen just stuck into a common class for convenience.
+
+internal class MonkBloodbathReplacer: SecondBloodbathCombo {
+	public override CustomComboPreset Preset => CustomComboPreset.MonkBloodbathReplacer;
+}

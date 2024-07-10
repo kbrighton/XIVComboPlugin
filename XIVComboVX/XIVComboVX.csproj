@@ -2,8 +2,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<Product>XIVComboVX</Product>
-		<Authors>attick, daemitus, VariableVixen, kbrighton</Authors>
-		<Version>9.21.9</Version>
+		<Authors>VariableVixen, FrigidWalrus, attick, daemitus</Authors>
+		<Version>9.23.0</Version>
 		<Description>This plugin condenses various abilities onto single buttons.</Description>
 		<PackageProjectUrl>https://github.com/PrincessRTFM/XIVComboPlugin</PackageProjectUrl>
 		<Copyright>Copyleft attick 2020 baybeeee</Copyright>
