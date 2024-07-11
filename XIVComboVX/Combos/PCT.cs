@@ -125,16 +125,17 @@ internal class PCT {
 
 internal class PictomancerSTComboFeature: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.PictomancerSTComboFeature;
-	public override uint[] ActionIDs { get; } = [PCT.FireRed];
+	public override uint[] ActionIDs { get; } = [PCT.FireRed, PCT.AeroGreen, PCT.WaterBlue];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
- 
+
 
 		if (SelfHasEffect(PCT.Buffs.SubtractivePalette))
 			return PCT.BlizzardCyan;
-		return actionID;
-		}
+		return PCT.BlizzardCyan;
+
 	}
+}
 
 internal class PictomancerAOEComboFeature: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.PictomancerAOEComboFeature;
@@ -143,6 +144,6 @@ internal class PictomancerAOEComboFeature: CustomCombo {
 	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
 		if (SelfHasEffect(PCT.Buffs.SubtractivePalette))
 			return PCT.ExtraBlizzardCyan;
-		return actionID;
+		return PCT.ExtraBlizzardCyan;
 	}
 }
