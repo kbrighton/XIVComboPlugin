@@ -123,6 +123,9 @@ internal class PCT {
 		
 }
 
+
+/* Unimplemented until its working
+
 internal class PictomancerSTComboFeature: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.PictomancerSTComboFeature;
 	public override uint[] ActionIDs { get; } = [PCT.FireRed, PCT.AeroGreen, PCT.WaterBlue];
@@ -147,3 +150,4 @@ internal class PictomancerAOEComboFeature: CustomCombo {
 		return PCT.ExtraBlizzardCyan;
 	}
 }
+*/

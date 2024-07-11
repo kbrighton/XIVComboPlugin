@@ -802,12 +802,12 @@ public enum CustomComboPreset {
 	#endregion
 	// ====================================================================================
 	#region PICTOMANCER (42xx)
+	// Unimplemeneted until its working
+	//[CustomComboInfo("Single Target Combo Replacer", "Changes Red/Green/Blue Single-Target combo into Single-Target Cyan/Yellow/Magenta combo when under the effect of Subtractive Palette", PCT.JobID)]
+	//PictomancerSTComboFeature = 4201,
 
-	[CustomComboInfo("Single Target Combo Replacer", "Changes Red/Green/Blue Single-Target combo into Single-Target Cyan/Yellow/Magenta combo when under the effect of Subtractive Palette", PCT.JobID)]
-	PictomancerSTComboFeature = 4201,
-
-	[CustomComboInfo("AoE Target Combo Replacer", "Changes Red/Green/Blue AoE combo into AoE Cyan/Yellow/Magenta combo when under the effect of Subtractive Palette", PCT.JobID)]
-	PictomancerAOEComboFeature = 4202,
+	//[CustomComboInfo("AoE Target Combo Replacer", "Changes Red/Green/Blue AoE combo into AoE Cyan/Yellow/Magenta combo when under the effect of Subtractive Palette", PCT.JobID)]
+	//PictomancerAOEComboFeature = 4202,
 
 
 	#endregion
