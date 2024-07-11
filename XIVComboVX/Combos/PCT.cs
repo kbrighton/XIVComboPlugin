@@ -44,7 +44,7 @@ internal class PCT {
 		PolishingHammer = 34680,
 		StarPrism1 = 34681,
 		StarPrism2 = 34682,
-		SubstractivePalette = 34683,
+		SubtractivePalette = 34683,
 		Smudge = 34684,
 		TemperaCoat = 34685,
 		TemperaGrassa = 34686,
@@ -58,7 +58,7 @@ internal class PCT {
 
 	public static class Buffs {
 		public const ushort
-			SubstractivePalette = 3674,
+			SubtractivePalette = 4102,
 			Chroma2Ready = 3675,
 			Chroma3Ready = 3676,
 			RainbowReady = 3679,
@@ -66,7 +66,7 @@ internal class PCT {
 			StarPrismReady = 3681,
 			Installation = 3688,
 			ArtisticInstallation = 3689,
-			SubstractivePaletteReady = 3690,
+			SubtractivePaletteReady = 3690,
 			InvertedColors = 3691;
 	}
 
@@ -95,7 +95,7 @@ internal class PCT {
 			HammerStamp = 50,
 			WeaponMotif = 50,
 			StrikingMuse = 50,
-			SubstractivePalette = 60,
+			SubtractivePalette = 60,
 			BlizzardCyan = 60,
 			EarthYellow = 60,
 			ThunderMagenta = 60,
@@ -121,4 +121,28 @@ internal class PCT {
 
 	}
 		
+}
+
+internal class PictomancerSTComboFeature: CustomCombo {
+	public override CustomComboPreset Preset => CustomComboPreset.PictomancerSTComboFeature;
+	public override uint[] ActionIDs { get; } = [PCT.FireRed];
+
+	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+ 
+
+		if (SelfHasEffect(PCT.Buffs.SubtractivePalette))
+			return PCT.BlizzardCyan;
+		return actionID;
+		}
+	}
+
+internal class PictomancerAOEComboFeature: CustomCombo {
+	public override CustomComboPreset Preset => CustomComboPreset.PictomancerAOEComboFeature;
+	public override uint[] ActionIDs { get; } = [PCT.ExtraFireRed];
+
+	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
+		if (SelfHasEffect(PCT.Buffs.SubtractivePalette))
+			return PCT.ExtraBlizzardCyan;
+		return actionID;
+	}
 }
