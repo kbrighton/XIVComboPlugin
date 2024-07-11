@@ -321,12 +321,14 @@ internal class RedMageSmartcastAoECombo: CustomCombo {
 		if (RDM.CheckFinishers(ref actionID, lastComboMove, level))
 			return actionID;
 
-		bool fastCast = IsFastcasting;
+		bool fastCast = IsFastcasting
+			|| SelfHasEffect(RDM.Buffs.Acceleration)
+			|| SelfHasEffect(RDM.Buffs.GrandImpactReady);
 
 		// Yes, this block being below the finisher checks means that you won't get a smart weave while doing the finisher combo.
 		// However, that's available on the ST smartcast option, which means it's still available while the AoE one here will show your GCD.
 		// More importantly, I don't want to duplicate the whole block above the finishers, so deal with it.
-		if ((IsEnabled(CustomComboPreset.RedMageSmartcastAoEWeaveAttack) && weaving) || (IsEnabled(CustomComboPreset.RedMageSmartcastAoEMovement) && IsMoving && !fastCast)) {
+		if ((IsEnabled(CustomComboPreset.RedMageSmartcastAoEWeaveAttack) && weaving) || (IsEnabled(CustomComboPreset.RedMageSmartcastAoEMovement) && !fastCast && IsMoving)) {
 			if (RDM.CheckAbilityAttacks(ref actionID, level)) {
 				return actionID;
 			}
@@ -335,7 +337,7 @@ internal class RedMageSmartcastAoECombo: CustomCombo {
 			}
 		}
 
-		if (fastCast || SelfHasEffect(RDM.Buffs.Acceleration) || SelfHasEffect(RDM.Buffs.GrandImpactReady) || level < RDM.Levels.Verthunder2)
+		if (fastCast || level < RDM.Levels.Verthunder2)
 			return OriginalHook(RDM.Impact);
 
 		if (level < RDM.Levels.Veraero2)
@@ -454,16 +456,8 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 
 		int black = gauge.BlackMana;
 		int white = gauge.WhiteMana;
-		int gaugeMin = Math.Min(black, white);
 		int blackThreshold = white + imbalanceDiffMax;
 		int whiteThreshold = black + imbalanceDiffMax;
-
-		int minManaForEnchantedMelee = RDM.ManaCostMelee1 + (level >= RDM.Levels.Zwerchhau ? RDM.ManaCostMelee2 : 0) + (level >= RDM.Levels.Redoublement ? RDM.ManaCostMelee3 : 0);
-		bool hasMeleeMana = (
-				gaugeMin >= minManaForEnchantedMelee
-				&& (black != white || black is 100 || level <= RDM.Levels.Verflare)
-			)
-			|| SelfHasEffect(RDM.Buffs.MagickedSwordplay);
 
 		bool verfireUp = SelfHasEffect(RDM.Buffs.VerfireReady);
 		bool verstoneUp = SelfHasEffect(RDM.Buffs.VerstoneReady);
