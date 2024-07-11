@@ -59,6 +59,7 @@ internal class PCT {
 	public static class Buffs {
 		public const ushort
 			SubtractivePalette = 4102,
+			SubtractivePaletteStack = 3674,
 			Chroma2Ready = 3675,
 			Chroma3Ready = 3676,
 			RainbowReady = 3679,
@@ -123,31 +124,19 @@ internal class PCT {
 		
 }
 
+internal class PictomancerSTCombo: CustomCombo {
+	public override CustomComboPreset Preset { get; } = CustomComboPreset.PictomancerSTComboFeature ;
+	public override uint[] ActionIDs { get; } = [PCT.BlizzardCyan];
+	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte levels) {
 
-/* Unimplemented until its working
-
-internal class PictomancerSTComboFeature: CustomCombo {
-	public override CustomComboPreset Preset => CustomComboPreset.PictomancerSTComboFeature;
-	public override uint[] ActionIDs { get; } = [PCT.FireRed, PCT.AeroGreen, PCT.WaterBlue];
-
-	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-
-
-		if (SelfHasEffect(PCT.Buffs.SubtractivePalette))
-			return PCT.BlizzardCyan;
-		return PCT.BlizzardCyan;
-
+		if (!SelfHasEffect(PCT.Buffs.SubtractivePaletteStack)) {
+			if (SelfHasEffect(PCT.Buffs.Chroma2Ready))
+				return PCT.AeroGreen;
+			if (SelfHasEffect(PCT.Buffs.Chroma3Ready))
+				return PCT.WaterBlue;
+			return PCT.FireRed;
+		}
+		return actionID;
 	}
 }
 
-internal class PictomancerAOEComboFeature: CustomCombo {
-	public override CustomComboPreset Preset => CustomComboPreset.PictomancerAOEComboFeature;
-	public override uint[] ActionIDs { get; } = [PCT.ExtraFireRed];
-
-	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
-		if (SelfHasEffect(PCT.Buffs.SubtractivePalette))
-			return PCT.ExtraBlizzardCyan;
-		return PCT.ExtraBlizzardCyan;
-	}
-}
-*/
