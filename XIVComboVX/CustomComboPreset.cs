@@ -806,7 +806,7 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Single Target Combo Replacer", "Changes Cyan/Yellow/Magenta Single-Target combo into Single-Target Red/Green/Blue combo when not under the effect of Subtractive Palette", PCT.JobID)]
 	PictomancerSTComboFeature = 4201,
 
-	[CustomComboInfo("AoE Target Combo Replacer", "Changes Red/Green/Blue AoE combo into AoE Cyan/Yellow/Magenta combo when under the effect of Subtractive Palette", PCT.JobID)]
+	[CustomComboInfo("AoE Target Combo Replacer", "Changes Cyan/Yellow/Magenta AoE combo into AoE Red/Green/Blue combo when not under the effect of Subtractive Palette", PCT.JobID)]
 	PictomancerAOEComboFeature = 4202,
 
 
