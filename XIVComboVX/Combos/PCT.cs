@@ -44,7 +44,7 @@ internal class PCT {
 		PolishingHammer = 34680,
 		StarPrism1 = 34681,
 		StarPrism2 = 34682,
-		SubstractivePalette = 34683,
+		SubtractivePalette = 34683,
 		Smudge = 34684,
 		TemperaCoat = 34685,
 		TemperaGrassa = 34686,
@@ -58,7 +58,8 @@ internal class PCT {
 
 	public static class Buffs {
 		public const ushort
-			SubstractivePalette = 3674,
+			SubtractivePalette = 4102,
+			SubtractivePaletteStack = 3674,
 			Chroma2Ready = 3675,
 			Chroma3Ready = 3676,
 			RainbowReady = 3679,
@@ -66,7 +67,7 @@ internal class PCT {
 			StarPrismReady = 3681,
 			Installation = 3688,
 			ArtisticInstallation = 3689,
-			SubstractivePaletteReady = 3690,
+			SubtractivePaletteReady = 3690,
 			InvertedColors = 3691;
 	}
 
@@ -95,7 +96,7 @@ internal class PCT {
 			HammerStamp = 50,
 			WeaponMotif = 50,
 			StrikingMuse = 50,
-			SubstractivePalette = 60,
+			SubtractivePalette = 60,
 			BlizzardCyan = 60,
 			EarthYellow = 60,
 			ThunderMagenta = 60,
@@ -122,3 +123,38 @@ internal class PCT {
 	}
 		
 }
+
+internal class PictomancerSTCombo: CustomCombo {
+	public override CustomComboPreset Preset { get; } = CustomComboPreset.PictomancerSTComboFeature ;
+	public override uint[] ActionIDs { get; } = [PCT.BlizzardCyan];
+	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte levels) {
+
+		if (!SelfHasEffect(PCT.Buffs.SubtractivePaletteStack)) {
+			if (SelfHasEffect(PCT.Buffs.Chroma2Ready))
+				return PCT.AeroGreen;
+			if (SelfHasEffect(PCT.Buffs.Chroma3Ready))
+				return PCT.WaterBlue;
+			return PCT.FireRed;
+		}
+		return actionID;
+	}
+}
+
+internal class PictomancerAoECombo: CustomCombo {
+	public override CustomComboPreset Preset { get; } = CustomComboPreset.PictomancerAOEComboFeature;
+	public override uint[] ActionIDs { get; } = [PCT.ExtraBlizzardCyan];
+	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte levels) {
+
+		if (!SelfHasEffect(PCT.Buffs.SubtractivePaletteStack)) {
+			if (SelfHasEffect(PCT.Buffs.Chroma2Ready))
+				return PCT.ExtraAeroGreen;
+			if (SelfHasEffect(PCT.Buffs.Chroma3Ready))
+				return PCT.ExtraWaterBlue;
+			return PCT.ExtraFireRed;
+		}
+		return actionID;
+
+	}
+}
+
+

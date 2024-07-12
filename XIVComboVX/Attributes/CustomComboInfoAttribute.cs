@@ -20,7 +20,7 @@ internal class CustomComboInfoAttribute: Attribute {
 	public string JobName => jobIdToName(this.JobID);
 	public int Order { get; }
 
-	private static string jobIdToName(byte key) {
+	private static string jobIdToName(byte key) { // TODO replace this with a lumina lookup to the ClassJob sheet
 		return key switch {
 			0 => "Universal",
 			1 => "Gladiator",
@@ -63,6 +63,8 @@ internal class CustomComboInfoAttribute: Attribute {
 			38 => "Dancer",
 			39 => "Reaper",
 			40 => "Sage",
+			41 => "Viper",
+			42 => "Pictomancer",
 			DOL.JobID => "Disciple of the Land",
 			DOH.JobID => "Disciple of the Hand",
 			_ => "Unknown",
