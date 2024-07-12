@@ -12,7 +12,8 @@ internal static class DOL {
 		public const ushort
 			EurekaMoment = 2765,
 			CollectorsStandard = 2418,
-			CollectorsHighStandard = 3911;
+			CollectorsHighStandard = 3911,
+			PrimingTouch = 3910;
 	}
 
 	public static class Debuffs {
@@ -335,7 +336,8 @@ internal class PrimedMetFeature: CustomCombo {
 		if (level >= DOL.Levels.PrimingTouch) {
 			if (LocalPlayer.CurrentGp >= 400) {
 				if (SelfHasEffect(DOL.Buffs.CollectorsStandard) || SelfHasEffect(DOL.Buffs.CollectorsHighStandard)) {
-					return IsJob(DOL.MinID) ? MIN.PrimingTouch : BTN.PrimingTouch;
+					if (!SelfHasEffect(DOL.Buffs.PrimingTouch)) 
+						return IsJob(DOL.MinID) ? MIN.PrimingTouch : BTN.PrimingTouch;
 				}
 			}
 		}
