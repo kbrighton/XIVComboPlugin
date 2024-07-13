@@ -993,7 +993,7 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Slice Gallows Feature", "Replace Infernal Slice with Gallows while Reaving, Enshrouded, or an Executioner.", RPR.JobID)]
 	ReaperSliceGallowsFeature = 3904,
 
-	[CustomComboInfo("Slice Enhanced Soul Reaver Feature", "Replace Infernal Slice with whichever of Gibbet or Gallows is currently enhanced while Reaving, Enshrouded, or an Executioner.", RPR.JobID)]
+	[CustomComboInfo("Slice Enhanced Soul Reaver Feature", "Replace Infernal Slice with whichever of Gibbet or Gallows is currently enhanced while Reaving, Enshrouded, or an Executioner.\nNo effect if neither is enhanced - combine this with one of the above two for a default!", RPR.JobID)]
 	ReaperSliceSmart = 3913,
 
 	[CustomComboInfo("Slice Lemure's Feature", "Replace Infernal Slice with Lemure's Slice when two or more stacks of Void Shroud are active.", RPR.JobID)]
