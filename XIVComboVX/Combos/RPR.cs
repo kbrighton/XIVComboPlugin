@@ -125,8 +125,8 @@ internal class ReaperSlice: CustomCombo {
 						if (InCombat && CanWeave(actionID)) {
 
 							if (IsEnabled(CustomComboPreset.ReaperBloodStalkGluttonyFeature)) {
-								if (level >= RPR.Levels.Gluttony && IsOffCooldown(RPR.Gluttony))
-									return RPR.Gluttony;
+								if (level >= RPR.Levels.Gluttony && CanUse(RPR.Gluttony))
+									return OriginalHook(RPR.Gluttony); // TODO need a Sacrificium check specifically, somewhere
 							}
 
 							return OriginalHook(RPR.BloodStalk);
@@ -159,22 +159,31 @@ internal class ReaperSlice: CustomCombo {
 
 			if (IsEnabled(CustomComboPreset.ReaperSliceSmart)) {
 
+				if (enshrouded && gauge.LemureShroud > 0) {
+					// Gibbet -> Void Reaping, Gallows -> Cross Reaping
+
+					if (SelfHasEffect(RPR.Buffs.EnhancedVoidReaping))
+						return RPR.VoidReaping;
+
+					if (SelfHasEffect(RPR.Buffs.EnhancedCrossReaping))
+						return RPR.CrossReaping;
+				}
+
+				// Executioner's XXXXX use the same buffs
 				if (SelfHasEffect(RPR.Buffs.EnhancedGibbet))
-					// Void Reaping
 					return OriginalHook(RPR.Gibbet);
 
 				if (SelfHasEffect(RPR.Buffs.EnhancedGallows))
-					// Cross Reaping
 					return OriginalHook(RPR.Gallows);
 
 			}
 
 			if (IsEnabled(CustomComboPreset.ReaperSliceGibbetFeature))
-				// Void Reaping
+				// Void Reaping, Executioner's Gibbet
 				return OriginalHook(RPR.Gibbet);
 
 			if (IsEnabled(CustomComboPreset.ReaperSliceGallowsFeature))
-				// Cross Reaping
+				// Cross Reaping, Executioner's Gallows
 				return OriginalHook(RPR.Gallows);
 		}
 
@@ -189,7 +198,7 @@ internal class ReaperSlice: CustomCombo {
 		if (IsEnabled(CustomComboPreset.ReaperSoulOnSliceFeature)) {
 			if (level >= RPR.Levels.SoulSlice) {
 				if (gauge.Soul <= 50) {
-					if (GetCooldown(RPR.SoulSlice).Available)
+					if (CanUse(RPR.SoulSlice))
 						return RPR.SoulSlice;
 				}
 			}
@@ -284,7 +293,7 @@ internal class ReaperScythe: CustomCombo {
 		if (IsEnabled(CustomComboPreset.ReaperSoulOnScytheFeature)) {
 			if (level >= RPR.Levels.SoulScythe) {
 				if (gauge.Soul <= 50) {
-					if (GetCooldown(RPR.SoulScythe).Available)
+					if (CanUse(RPR.SoulScythe))
 						return RPR.SoulScythe;
 				}
 			}
