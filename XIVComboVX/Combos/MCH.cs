@@ -111,7 +111,8 @@ internal class MachinistCleanShot: CustomCombo {
 					if (level >= MCH.Levels.AirAnchor)
 						PickByCooldown(preference, actionID, MCH.Drill, MCH.AirAnchor);
 
-					return CanUse(MCH.Drill) ? MCH.Drill : actionID;
+					if (CanUse(MCH.Drill))
+						return MCH.Drill; // probably shouldn't return actionID so it can run through the chain below
 				}
 			}
 		}
