@@ -896,6 +896,10 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Don't Override", "Don't override Jolt when you can hardcast it.\nThis will prevent GCD drift at the cost of DPS loss.", RDM.JobID)]
 	RedMageSmartcastSingleTargetAccelerationNoOverride = 3538,
 
+	[ParentPreset(RedMageSmartcastSingleTarget)]
+	[CustomComboInfo("+ Grand Impact", "Become Grand Impact before becoming the verprocs, to prevent wasting it.", RDM.JobID)]
+	RedMageSmartcastSingleTargetGrandImpact = 3548,
+
 	[Conflicts(RedMageAoECombo)]
 	[CustomComboInfo("Smartcast AoE", "Dynamically replaces Veraero/Verthunder 2 with the appropriate spell based on your job gauge.\nIncludes Impact/Scatter when fastcasting.\nIncludes Grand Impact when available.", RDM.JobID)]
 	RedMageSmartcastAoE = 3508,

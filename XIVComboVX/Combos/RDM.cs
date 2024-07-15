@@ -485,6 +485,7 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 		bool accelWeave = allowAccel && IsEnabled(CustomComboPreset.RedMageSmartcastSingleTargetAccelerationWeave);
 		bool accelMove = allowAccel && IsEnabled(CustomComboPreset.RedMageSmartcastSingleTargetAccelerationMoving);
 		bool accelNoNormal = IsEnabled(CustomComboPreset.RedMageSmartcastSingleTargetAccelerationNoOverride);
+		bool useGrandImpact = IsEnabled(CustomComboPreset.RedMageSmartcastSingleTargetGrandImpact) && SelfHasEffect(RDM.Buffs.GrandImpactReady);
 
 		if (Common.CheckLucidWeave(CustomComboPreset.RedMageSmartcastSingleTargetWeaveLucid, level, Service.Configuration.RedMageSmartcastSingleWeaveLucidManaThreshold, actionID))
 			return Common.LucidDreaming;
@@ -552,7 +553,7 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 		if (meleeCombo) {
 			// If we're out of range while in the combo, become Corps-a-corps to get back in range. Otherwise, just run the combo.
 
-			if (!(targeting && isClose))
+			if (targeting && !isClose)
 				return RDM.Corpsacorps;
 
 			return actionID; // meleeCombo is only true if the helper function assigned the appropriate actionID value
@@ -567,6 +568,12 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 			uint alt = noCastingSubCheck(level, engageCheck, holdOneEngageCharge, engageEarly, targeting && isClose, accelMove);
 			if (alt > 0)
 				return alt;
+		}
+		if (useGrandImpact) {
+			// Should maybe check time remaining on GI Ready and verprocs, but checking time on three different buffs to calculate priorities is gonna be a bit of a bitch...
+			// Eventually(tm)
+
+			return RDM.GrandImpact;
 		}
 
 		// Stand fast, slow cast!
