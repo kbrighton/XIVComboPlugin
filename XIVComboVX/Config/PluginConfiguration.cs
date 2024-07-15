@@ -150,39 +150,39 @@ public class PluginConfiguration: IPluginConfiguration {
 	#endregion
 
 	#region DRG settings
-/*
-	[ComboDetailSetting(
-		CustomComboPreset.DragoonFullThrustBuffSaver,
-		"Power Surge buff threshold",
-		"When the Power Surge buff only has this many seconds left, switch to the Chaos Thrust skill chain to renew it",
-		0,
-		30
-	)]
-	[ComboDetailSetting(
-		CustomComboPreset.DragoonTotalThrustBuffSaver,
-		"Power Surge buff threshold",
-		"When the Power Surge buff only has this many seconds left, switch to the Chaos Thrust skill chain to renew it",
-		0,
-		30
-	)]
-	public float DragoonPowerSurgeBuffSaverBuffTime { get; set; } = 7;
+	/*
+		[ComboDetailSetting(
+			CustomComboPreset.DragoonFullThrustBuffSaver,
+			"Power Surge buff threshold",
+			"When the Power Surge buff only has this many seconds left, switch to the Chaos Thrust skill chain to renew it",
+			0,
+			30
+		)]
+		[ComboDetailSetting(
+			CustomComboPreset.DragoonTotalThrustBuffSaver,
+			"Power Surge buff threshold",
+			"When the Power Surge buff only has this many seconds left, switch to the Chaos Thrust skill chain to renew it",
+			0,
+			30
+		)]
+		public float DragoonPowerSurgeBuffSaverBuffTime { get; set; } = 7;
 
-	[ComboDetailSetting(
-		CustomComboPreset.DragoonTotalThrustDotSaver,
-		"Chaos Thrust DoT threshold",
-		"When the Chaos Thrust DoT only has this many seconds left on your current target, switch to the Chaos Thrust skill chain to renew it",
-		0,
-		30
-	)]
-	[ComboDetailSetting(
-		CustomComboPreset.DragoonFullThrustDotSaver,
-		"Chaos Thrust DoT threshold",
-		"When the Chaos Thrust DoT only has this many seconds left on your current target, switch to the Chaos Thrust skill chain to renew it",
-		0,
-		30
-	)]
-	public float DragoonChaosDotSaverDebuffTime { get; set; } = 7;
-*/
+		[ComboDetailSetting(
+			CustomComboPreset.DragoonTotalThrustDotSaver,
+			"Chaos Thrust DoT threshold",
+			"When the Chaos Thrust DoT only has this many seconds left on your current target, switch to the Chaos Thrust skill chain to renew it",
+			0,
+			30
+		)]
+		[ComboDetailSetting(
+			CustomComboPreset.DragoonFullThrustDotSaver,
+			"Chaos Thrust DoT threshold",
+			"When the Chaos Thrust DoT only has this many seconds left on your current target, switch to the Chaos Thrust skill chain to renew it",
+			0,
+			30
+		)]
+		public float DragoonChaosDotSaverDebuffTime { get; set; } = 7;
+	*/
 	#endregion
 
 	#region DRK settings
@@ -220,43 +220,43 @@ public class PluginConfiguration: IPluginConfiguration {
 	#endregion
 
 	#region MNK settings
-/*
-	[ComboDetailSetting(
-		CustomComboPreset.MonkTwinSnakesFeature,
-		"Disciplined Fist buff threshold",
-		"When the Disciplined Fist buff only has this many seconds left, switch to True Strike",
-		0,
-		10
-	)]
-	public float MonkTwinSnakesBuffTime { get; set; } = 6;
+	/*
+		[ComboDetailSetting(
+			CustomComboPreset.MonkTwinSnakesFeature,
+			"Disciplined Fist buff threshold",
+			"When the Disciplined Fist buff only has this many seconds left, switch to True Strike",
+			0,
+			10
+		)]
+		public float MonkTwinSnakesBuffTime { get; set; } = 6;
 
-	[ComboDetailSetting(
-		CustomComboPreset.MonkDemolishFeature,
-		"Demolish debuff threshold",
-		"When your current target's Demolish debuff only has this many seconds left, switch back to Demolish",
-		0,
-		15
-	)]
-	public float MonkDemolishDebuffTime { get; set; } = 6;
+		[ComboDetailSetting(
+			CustomComboPreset.MonkDemolishFeature,
+			"Demolish debuff threshold",
+			"When your current target's Demolish debuff only has this many seconds left, switch back to Demolish",
+			0,
+			15
+		)]
+		public float MonkDemolishDebuffTime { get; set; } = 6;
 
-	[ComboDetailSetting(
-		CustomComboPreset.MonkSTCombo,
-		"Monk Bloodbath health percentage threshold",
-		"When your health percentage is below this threshold, weave Bloodbath into the combo",
-		0,
-		90
-	)]
-	public uint MonkBloodbathHealthPercentage { get; set; } = 75;
+		[ComboDetailSetting(
+			CustomComboPreset.MonkSTCombo,
+			"Monk Bloodbath health percentage threshold",
+			"When your health percentage is below this threshold, weave Bloodbath into the combo",
+			0,
+			90
+		)]
+		public uint MonkBloodbathHealthPercentage { get; set; } = 75;
 
-	[ComboDetailSetting(
-		CustomComboPreset.MonkSTCombo,
-		"Monk Riddle of Earth health percentage threshold",
-		"When your health percentage is below this threshold, weave Riddle of Earth into the combo",
-		0,
-		90
-	)]
-	public uint MonkRiddleOfEarthHealthPercentage { get; set; } = 50;
-*/
+		[ComboDetailSetting(
+			CustomComboPreset.MonkSTCombo,
+			"Monk Riddle of Earth health percentage threshold",
+			"When your health percentage is below this threshold, weave Riddle of Earth into the combo",
+			0,
+			90
+		)]
+		public uint MonkRiddleOfEarthHealthPercentage { get; set; } = 50;
+	*/
 	#endregion
 
 	#region NIN settings
@@ -395,7 +395,7 @@ public class PluginConfiguration: IPluginConfiguration {
 
 	[LucidWeavingSetting(CustomComboPreset.WhiteMageLucidWeave)]
 	public uint WhiteMageLucidWeaveManaThreshold { get; set; } = 7000;
-	
+
 	[ComboDetailSetting(
 		CustomComboPreset.WhiteMageDotRefresh,
 		"Debuff time threshold",

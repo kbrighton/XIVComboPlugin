@@ -103,7 +103,6 @@ internal class MachinistCleanShot: CustomCombo {
 
 			if (level >= MCH.Levels.Drill) {
 				if (SelfHasEffect(MCH.Buffs.Reassembled)) {
-
 					uint preference = gauge.Battery > 80 ? MCH.Drill : MCH.AirAnchor;
 
 					if (level >= MCH.Levels.Chainsaw)
