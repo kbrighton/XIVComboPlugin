@@ -498,7 +498,7 @@ public enum CustomComboPreset {
 	MachinistMainCombo = 3100,
 
 	[ParentPreset(MachinistMainCombo)]
-	[CustomComboInfo("Reassembled override", "Replace Clean Shot combo with Chain Saw, Drill, or Air Anchor when Reassembled.\nTries to avoid overcapping battery if possible.\nWill also become Hot Shot when you are under level for Clean Shot, which is a potency increase.", MCH.JobID)]
+	[CustomComboInfo("Reassembled override", "Replace Clean Shot combo with Excavator, Chain Saw, Drill, or Air Anchor when Reassembled.\nTries to avoid overcapping battery if possible.\nWill also become Hot Shot when you are under level for Clean Shot, which is a potency increase.", MCH.JobID)]
 	MachinistMainComboReassembledOverride = 3113,
 
 	[ParentPreset(MachinistMainCombo)]
