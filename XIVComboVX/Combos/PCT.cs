@@ -52,9 +52,9 @@ internal class PCT {
 		CreatureMotif = 34689,
 		WeaponMotif = 34690,
 		LandscapeMotif = 34691,
-		AnimalMotif2 = 35347,
-		WeaponMotif2 = 35348,
-		LandscapeMotif2 = 35349;
+		LivingMuse = 35347,
+		SteelMuse = 35348,
+		ScenicMuse = 35349;
 
 	public static class Buffs {
 		public const ushort
@@ -156,5 +156,24 @@ internal class PictomancerAoECombo: CustomCombo {
 
 	}
 }
+
+internal class PictomancerHammerCombo: CustomCombo {
+	public override CustomComboPreset Preset { get; } = CustomComboPreset.PictomancerWeaponMotifCombo;
+	public override uint[] ActionIDs { get; } = [PCT.SteelMuse];
+	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
+
+		PCTGauge gauge = GetJobGauge<PCTGauge>();
+		if (IsEnabled(CustomComboPreset.PictomancerWeaponMotifCombo)) { 
+			if (IsEnabled(CustomComboPreset.PictomancerHammerCombo) && SelfHasEffect(PCT.Buffs.HammerReady)) 
+				return OriginalHook(PCT.HammerStamp);
+			if (gauge.WeaponMotifDrawn)
+				return OriginalHook(PCT.SteelMuse);
+
+			
+			}
+		return OriginalHook(PCT.WeaponMotif);
+		}
+	}
+
 
 

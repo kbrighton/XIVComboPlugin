@@ -809,6 +809,12 @@ public enum CustomComboPreset {
 	[CustomComboInfo("AoE Target Combo Replacer", "Changes Cyan/Yellow/Magenta AoE combo into AoE Red/Green/Blue combo when not under the effect of Subtractive Palette", PCT.JobID)]
 	PictomancerAOEComboFeature = 4202,
 
+	[CustomComboInfo("Weapon Motif Combo", "Change Weapon Motif into Striking Muse if not drawn already.", PCT.JobID)]
+	PictomancerWeaponMotifCombo = 4203,
+
+	[ParentPreset(PictomancerWeaponMotifCombo)]
+	[CustomComboInfo("Hammer Combo", "When under the effects of Hammer Ready, also replace Weapon Motif/Muse combo with the hammer combo", PCT.JobID )]
+	PictomancerHammerCombo = 4204,
 
 	#endregion
 	// ====================================================================================
