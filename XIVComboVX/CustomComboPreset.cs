@@ -803,30 +803,30 @@ public enum CustomComboPreset {
 	// ====================================================================================
 	#region PICTOMANCER (42xx)
 
-	[CustomComboInfo("Single Target Combo Replacer", "Changes Cyan/Yellow/Magenta Single-Target combo into Single-Target Red/Green/Blue combo when not under the effect of Subtractive Palette", PCT.JobID)]
+	[CustomComboInfo("Single Target Combo Replacer", "Changes Cyan/Yellow/Magenta Single-Target combo into Single-Target Red/Green/Blue combo when not under the effect of Subtractive Palette.", PCT.JobID)]
 	PictomancerSTComboFeature = 4201,
 
-	[CustomComboInfo("AoE Target Combo Replacer", "Changes Cyan/Yellow/Magenta AoE combo into AoE Red/Green/Blue combo when not under the effect of Subtractive Palette", PCT.JobID)]
+	[CustomComboInfo("AoE Target Combo Replacer", "Changes Cyan/Yellow/Magenta AoE combo into AoE Red/Green/Blue combo when not under the effect of Subtractive Palette.", PCT.JobID)]
 	PictomancerAOEComboFeature = 4202,
 
 	[CustomComboInfo("Weapon Motif Combo", "Change Weapon Motif into Striking Muse if not drawn already.", PCT.JobID)]
 	PictomancerWeaponMotifCombo = 4203,
 
 	[ParentPreset(PictomancerWeaponMotifCombo)]
-	[CustomComboInfo("Hammer Combo", "When under the effects of Hammer Ready, also replace Weapon Motif/Muse combo with the hammer combo", PCT.JobID )]
+	[CustomComboInfo("Hammer Combo", "When under the effects of Hammer Ready, also replace Weapon Motif/Muse combo with the hammer combo.", PCT.JobID )]
 	PictomancerHammerCombo = 4204,
 
 	[CustomComboInfo("Scenic Muse Combo", "Changes Scenic Muse into Scenic Motif when not drawn already.", PCT.JobID)]
 	PictomancerScenicCombo = 4205,
 
 	[ParentPreset(PictomancerScenicCombo)]
-	[CustomComboInfo("Star Prism Combo", "When Star Prism is ready, will replace Scenic Muse with Star Prism", PCT.JobID)]
+	[CustomComboInfo("Star Prism Combo", "When Star Prism is ready, will replace Scenic Muse with Star Prism.", PCT.JobID)]
 	PictomancerStarPrismCombo = 4206,
 
-	[CustomComboInfo("Holy Comet Combo", "When using Subtractive Palette at level 90+, turns Holy In White into Comet In Black", PCT.JobID)]
+	[CustomComboInfo("Holy Comet Combo", "When using Subtractive Palette at level 90+, turns Holy In White into Comet In Black.", PCT.JobID)]
 	PictomancerHolyCometCombo = 4207,
 
-	[CustomComboInfo("Creature Motif/Muse Combo", "Changes Living Muse into Creature Motif when nothing is currently drawn", PCT.JobID)]
+	[CustomComboInfo("Creature Motif/Muse Combo", "Changes Living Muse into Creature Motif when nothing is currently drawn.", PCT.JobID)]
 	PictomancerLivingMuseCombo = 4208,
 	
 
