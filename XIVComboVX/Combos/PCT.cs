@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Dalamud.Game;
 using Dalamud.Game.ClientState.JobGauge.Types;
 
 namespace PrincessRTFM.XIVComboVX.Combos;
@@ -23,7 +24,7 @@ internal class PCT {
 		ExtraBlizzardCyan = 34659,
 		ExtraEarthYellow = 34660,
 		ExtraThunderMagenta = 34661,
-		MiracleWhite = 34662,
+		HolyWhite = 34662,
 		CometBlack = 34663,
 		PomMotif = 34664,
 		WingMotif = 34665,
@@ -42,8 +43,7 @@ internal class PCT {
 		HammerStamp = 34678,
 		HammerBrush = 34679,
 		PolishingHammer = 34680,
-		StarPrism1 = 34681,
-		StarPrism2 = 34682,
+		StarPrism = 34681,
 		SubtractivePalette = 34683,
 		Smudge = 34684,
 		TemperaCoat = 34685,
@@ -105,7 +105,7 @@ internal class PCT {
 			ExtraThunderMagenta = 60,
 			StarrySkyMotif = 70,
 			LandscapeMotif = 70,
-			MiracleWhite = 80,
+			HolyWhite = 80,
 			HammerBrush = 86,
 			PolishingHammer = 86,
 			TemperaGrassa = 88,
@@ -117,8 +117,7 @@ internal class PCT {
 			FangedMuse = 96,
 			StarryMuse = 70,
 			Retribution = 96,
-			StarPrism1 = 100,
-			StarPrism2 = 100;
+			StarPrism = 100;
 
 	}
 		
@@ -163,17 +162,51 @@ internal class PictomancerHammerCombo: CustomCombo {
 	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
 
 		PCTGauge gauge = GetJobGauge<PCTGauge>();
-		if (IsEnabled(CustomComboPreset.PictomancerWeaponMotifCombo)) { 
-			if (IsEnabled(CustomComboPreset.PictomancerHammerCombo) && SelfHasEffect(PCT.Buffs.HammerReady)) 
+		if (IsEnabled(CustomComboPreset.PictomancerWeaponMotifCombo)) {
+			if (IsEnabled(CustomComboPreset.PictomancerHammerCombo) && SelfHasEffect(PCT.Buffs.HammerReady))
 				return OriginalHook(PCT.HammerStamp);
 			if (gauge.WeaponMotifDrawn)
 				return OriginalHook(PCT.SteelMuse);
 
-			
-			}
-		return OriginalHook(PCT.WeaponMotif);
+
 		}
+		return OriginalHook(PCT.WeaponMotif);
 	}
 
 
+internal class PictomancerScenicCombo: CustomCombo {
+	public override CustomComboPreset Preset { get; } = CustomComboPreset.PictomancerScenicCombo;
+	public override uint[] ActionIDs { get; } = [PCT.ScenicMuse];
+	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
 
+		PCTGauge gauge = GetJobGauge<PCTGauge>();
+		if (IsEnabled(CustomComboPreset.PictomancerScenicCombo)) {
+			if (IsEnabled(CustomComboPreset.PictomancerStarPrismCombo) && (SelfHasEffect(PCT.Buffs.StarPrismReady) && (level == 100)))
+				return PCT.StarPrism;
+			if (gauge.LandscapeMotifDrawn) 
+				return PCT.ScenicMuse;
+			}
+			return PCT.StarrySkyMotif;
+		}
+	}
+}
+
+/*
+internal class PictomancerCreatureCombo: CustomCombo {
+	public override CustomComboPreset Preset { get; } = CustomComboPreset.PictomancerAOEComboFeature
+
+}
+*/
+
+internal class PictoimancerHolyCometCombo : CustomCombo {
+	public override CustomComboPreset Preset { get; } = CustomComboPreset.PictomancerHolyCometCombo;
+	public override uint[] ActionIDs { get; } = [PCT.HolyWhite];
+	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
+
+		PCTGauge gauge = GetJobGauge<PCTGauge>();
+		if (SelfHasEffect(PCT.Buffs.SubtractivePaletteStack) && level >= PCT.Levels.CometBlack && SelfHasEffect(PCT.Buffs.InvertedColors)) {
+			return PCT.CometBlack;
+		}
+		return actionID;
+	}
+}

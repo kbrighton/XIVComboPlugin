@@ -816,6 +816,19 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Hammer Combo", "When under the effects of Hammer Ready, also replace Weapon Motif/Muse combo with the hammer combo", PCT.JobID )]
 	PictomancerHammerCombo = 4204,
 
+	[CustomComboInfo("Scenic Muse Combo", "Changes Scenic Muse into Scenic Motif when not drawn already.", PCT.JobID)]
+	PictomancerScenicCombo = 4205,
+
+	[ParentPreset(PictomancerScenicCombo)]
+	[CustomComboInfo("Star Prism Combo", "When Star Prism is ready, will replace Scenic Muse with Star Prism", PCT.JobID)]
+	PictomancerStarPrismCombo = 4206,
+
+	[CustomComboInfo("Holy Comet Combo", "When using Subtractive Palette at level 90+, turns Holy In White into Comet In Black", PCT.JobID)]
+	PictomancerHolyCometCombo = 4207,
+
+	//[CustomComboInfo("Creature Motif/Muse Combo", "Changes Living Muse into Creature Motif when nothing is currently drawn")]
+	
+
 	#endregion
 	// ====================================================================================
 	#region RED MAGE (35xx)
