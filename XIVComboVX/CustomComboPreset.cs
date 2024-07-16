@@ -826,7 +826,8 @@ public enum CustomComboPreset {
 	[CustomComboInfo("Holy Comet Combo", "When using Subtractive Palette at level 90+, turns Holy In White into Comet In Black", PCT.JobID)]
 	PictomancerHolyCometCombo = 4207,
 
-	//[CustomComboInfo("Creature Motif/Muse Combo", "Changes Living Muse into Creature Motif when nothing is currently drawn")]
+	[CustomComboInfo("Creature Motif/Muse Combo", "Changes Living Muse into Creature Motif when nothing is currently drawn", PCT.JobID)]
+	PictomancerLivingMuseCombo = 4208,
 	
 
 	#endregion

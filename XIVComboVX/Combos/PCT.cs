@@ -191,12 +191,6 @@ internal class PictomancerScenicCombo: CustomCombo {
 	}
 }
 
-/*
-internal class PictomancerCreatureCombo: CustomCombo {
-	public override CustomComboPreset Preset { get; } = CustomComboPreset.PictomancerAOEComboFeature
-
-}
-*/
 
 internal class PictoimancerHolyCometCombo : CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.PictomancerHolyCometCombo;
@@ -209,4 +203,20 @@ internal class PictoimancerHolyCometCombo : CustomCombo {
 		}
 		return actionID;
 	}
+}
+
+
+
+internal class PictomancerCreatureCombo: CustomCombo {
+	public override CustomComboPreset Preset { get; } = CustomComboPreset.PictomancerLivingMuseCombo;
+	public override uint[] ActionIDs { get; } = [PCT.LivingMuse];
+	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
+		PCTGauge gauge = GetJobGauge<PCTGauge>();
+
+		if (gauge.CreatureMotifDrawn) {
+			return OriginalHook(PCT.LivingMuse);
+		}
+		return OriginalHook(PCT.CreatureMotif);
+	}
+
 }
