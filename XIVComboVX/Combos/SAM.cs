@@ -39,7 +39,8 @@ internal static class SAM {
 			EyesOpen = 1252,
 			Jinpu = 1298,
 			Shifu = 1299,
-			OgiNamikiriReady = 2959;
+			OgiNamikiriReady = 2959,
+			ZanshinReady = 3855;
 	}
 
 	public static class Debuffs {
