@@ -29,7 +29,9 @@ internal static class SAM {
 		Ikishoten = 16482,
 		Shoha2 = 25779,
 		OgiNamikiri = 25781,
-		KaeshiNamikiri = 25782;
+		KaeshiNamikiri = 25782,
+		Gyofu = 36963,
+		Zanshin = 36964;
 
 	public static class Buffs {
 		public const ushort
@@ -64,7 +66,9 @@ internal static class SAM {
 			Fuko = 86,
 			KaeshiNamikiri = 90,
 			OgiNamikiri = 90,
-			Bloodbath = 12;
+			Bloodbath = 12,
+			Gyofu = 92,
+			Zanshin = 96;
 	}
 }
 
@@ -94,7 +98,7 @@ internal class SamuraiYukikazeCombo: CustomCombo {
 			return SAM.Yukikaze;
 		}
 
-		return SAM.Hakaze;
+		return OriginalHook(SAM.Hakaze);
 	}
 }
 
@@ -119,7 +123,7 @@ internal class SamuraiGekkoCombo: CustomCombo {
 
 		return IsEnabled(CustomComboPreset.SamuraiGekkoOption)
 			? SAM.Jinpu
-			: SAM.Hakaze;
+			: OriginalHook(SAM.Hakaze);
 	}
 }
 
@@ -142,7 +146,7 @@ internal class SamuraiKashaCombo: CustomCombo {
 
 		return IsEnabled(CustomComboPreset.SamuraiKashaOption)
 			? SAM.Shifu
-			: SAM.Hakaze;
+			: OriginalHook(SAM.Hakaze);
 	}
 }
 
