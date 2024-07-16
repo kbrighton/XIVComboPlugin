@@ -208,7 +208,7 @@ internal class PictoimancerHolyCometCombo: CustomCombo {
 	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
 		PCTGauge gauge = GetJobGauge<PCTGauge>();
 
-		if (level >= PCT.Levels.CometBlack && SelfHasEffect(PCT.Buffs.SubtractivePaletteStack) && SelfHasEffect(PCT.Buffs.InvertedColors))
+		if (level >= PCT.Levels.CometBlack && SelfHasEffect(PCT.Buffs.SubtractivePaletteStack))
 			return PCT.CometBlack;
 
 		return actionID;
