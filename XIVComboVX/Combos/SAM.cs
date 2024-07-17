@@ -74,7 +74,7 @@ internal static class SAM {
 }
 
 // returning Soon™ (when we have the time to go over everything)
-
+/*
 internal class SamuraiBloodbathReplacer: SecondBloodbathCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.SamuraiBloodbathReplacer;
 }
@@ -185,7 +185,7 @@ internal class SamuraiOkaCombo: CustomCombo {
 	}
 }
 
-/* internal class SamuraiTsubameGaeshiFeature: CustomCombo {
+ internal class SamuraiTsubameGaeshiFeature: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.SamAny;
 	public override uint[] ActionIDs { get; } = [SAM.TsubameGaeshi];
 
