@@ -813,7 +813,7 @@ public enum CustomComboPreset {
 	PictomancerWeaponMotifCombo = 4203,
 
 	[ParentPreset(PictomancerWeaponMotifCombo)]
-	[CustomComboInfo("Hammer Combo", "When under the effects of Hammer Ready, also replace Weapon Motif/Muse combo with the hammer combo.", PCT.JobID )]
+	[CustomComboInfo("Hammer Combo", "When under the effects of Hammer Ready, also replace Weapon Motif/Muse combo with the hammer combo.", PCT.JobID)]
 	PictomancerHammerCombo = 4204,
 
 	[CustomComboInfo("Scenic Muse Combo", "Changes Scenic Muse into Scenic Motif when not drawn already.", PCT.JobID)]
@@ -828,7 +828,7 @@ public enum CustomComboPreset {
 
 	[CustomComboInfo("Creature Motif/Muse Combo", "Changes Living Muse into Creature Motif when nothing is currently drawn.", PCT.JobID)]
 	PictomancerLivingMuseCombo = 4208,
-	
+
 
 	#endregion
 	// ====================================================================================
@@ -1620,7 +1620,7 @@ public enum CustomComboPreset {
 
 	[CustomComboInfo("Priming Meticulous combo", "Replace Meticulous actions with Priming Touch when Special Collector active and have more than 400GP.", DOL.JobID)]
 	PrimedMetFeature = 9927,
-	 
+
 
 #if DEBUG
 	[CustomComboInfo("Mooch / Spareful Hand Feature", "Replace Mooch with Spareful Hand if you have space available in Swimbait box.", DOL.JobID)]
