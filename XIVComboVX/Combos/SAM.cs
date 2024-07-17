@@ -74,11 +74,11 @@ internal static class SAM {
 }
 
 // returning Soon™ (when we have the time to go over everything)
-/*
+
 internal class SamuraiBloodbathReplacer: SecondBloodbathCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.SamuraiBloodbathReplacer;
 }
-
+/*
 internal class SamuraiGurenSeneiLevelSyncFeature: CustomCombo {
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.SamuraiGurenSeneiLevelSyncFeature;
 	public override uint[] ActionIDs { get; } = [SAM.HissatsuSenei];
@@ -86,16 +86,15 @@ internal class SamuraiGurenSeneiLevelSyncFeature: CustomCombo {
 	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level)
 		=> level >= SAM.Levels.HissatsuSenei ? SAM.HissatsuSenei : SAM.HissatsuGuren;
 }
-
+*/
 internal class SamuraiYukikazeCombo: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.SamuraiYukikazeCombo;
 	public override uint[] ActionIDs { get; } = [SAM.Yukikaze];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+		bool meikyo = SelfHasEffect(SAM.Buffs.MeikyoShisui);
 
-		if ((level >= SAM.Levels.MeikyoShisui && SelfHasEffect(SAM.Buffs.MeikyoShisui))
-			|| (comboTime > 0 && lastComboMove == SAM.Hakaze && level >= SAM.Levels.Yukikaze)
-		) {
+		if ((level >= SAM.Levels.MeikyoShisui && meikyo) || (lastComboMove is SAM.Hakaze or SAM.Gyofu && level >= SAM.Levels.Yukikaze)) {
 			return SAM.Yukikaze;
 		}
 
@@ -108,16 +107,17 @@ internal class SamuraiGekkoCombo: CustomCombo {
 	public override uint[] ActionIDs { get; } = [SAM.Gekko];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+		bool meikyo = SelfHasEffect(SAM.Buffs.MeikyoShisui);
 
-		if (level >= SAM.Levels.MeikyoShisui && SelfHasEffect(SAM.Buffs.MeikyoShisui))
+		if (level >= SAM.Levels.MeikyoShisui && meikyo)
 			return SAM.Gekko;
 
-		if (comboTime > 0) {
+		if (!meikyo) {
 
-			if (lastComboMove == SAM.Hakaze && level >= SAM.Levels.Jinpu)
+			if (lastComboMove is SAM.Hakaze or SAM.Gyofu && level >= SAM.Levels.Jinpu)
 				return SAM.Jinpu;
 
-			if (lastComboMove == SAM.Jinpu && level >= SAM.Levels.Gekko)
+			if (lastComboMove is SAM.Jinpu && level >= SAM.Levels.Gekko)
 				return SAM.Gekko;
 
 		}
@@ -133,12 +133,13 @@ internal class SamuraiKashaCombo: CustomCombo {
 	public override uint[] ActionIDs { get; } = [SAM.Kasha];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+		bool meikyo = SelfHasEffect(SAM.Buffs.MeikyoShisui);
 
-		if (level >= SAM.Levels.MeikyoShisui && SelfHasEffect(SAM.Buffs.MeikyoShisui))
+		if (meikyo && SelfHasEffect(SAM.Buffs.MeikyoShisui))
 			return SAM.Kasha;
 
-		if (comboTime > 0) {
-			if (lastComboMove == SAM.Hakaze && level >= SAM.Levels.Shifu)
+		if (!meikyo) {
+			if (lastComboMove is SAM.Hakaze or SAM.Gyofu && level >= SAM.Levels.Shifu)
 				return SAM.Shifu;
 
 			if (lastComboMove == SAM.Shifu && level >= SAM.Levels.Kasha)
@@ -156,11 +157,9 @@ internal class SamuraiMangetsuCombo: CustomCombo {
 	public override uint[] ActionIDs { get; } = [SAM.Mangetsu];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+		bool meikyo = SelfHasEffect(SAM.Buffs.MeikyoShisui);
 
-		if (
-			(level >= SAM.Levels.MeikyoShisui && SelfHasEffect(SAM.Buffs.MeikyoShisui))
-			|| (comboTime > 0 && lastComboMove is SAM.Fuga or SAM.Fuko && level >= SAM.Levels.Mangetsu)
-		) {
+		if ((level >= SAM.Levels.MeikyoShisui && meikyo) || (lastComboMove is SAM.Fuga or SAM.Fuko && level >= SAM.Levels.Mangetsu)) {
 			return SAM.Mangetsu;
 		}
 
@@ -173,18 +172,16 @@ internal class SamuraiOkaCombo: CustomCombo {
 	public override uint[] ActionIDs { get; } = [SAM.Oka];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+		bool meikyo = SelfHasEffect(SAM.Buffs.MeikyoShisui);
 
-		if (
-			(level >= SAM.Levels.MeikyoShisui && SelfHasEffect(SAM.Buffs.MeikyoShisui))
-			|| (comboTime > 0 && lastComboMove is SAM.Fuga or SAM.Fuko && level >= SAM.Levels.Oka)
-		) {
+		if ((level >= SAM.Levels.MeikyoShisui && meikyo) || (lastComboMove is SAM.Fuga or SAM.Fuko && level >= SAM.Levels.Oka)) {
 			return SAM.Oka;
 		}
 
 		return OriginalHook(SAM.Fuga);
 	}
 }
-
+/*
  internal class SamuraiTsubameGaeshiFeature: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.SamAny;
 	public override uint[] ActionIDs { get; } = [SAM.TsubameGaeshi];

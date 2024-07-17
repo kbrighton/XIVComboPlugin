@@ -1149,7 +1149,7 @@ public enum CustomComboPreset {
 	// ====================================================================================
 	#region SAMURAI (34xx)
 	// Working on updating SAM. Will gradually be releasing more features as they are verified working.
-	/*
+	
 
 	[CustomComboInfo("Bloodbath Replacer Feature", "Replace Bloodbath with Second Wind when underlevel or when Bloodbath is on cooldown and Second Wind is not.", SAM.JobID)]
 	SamuraiBloodbathReplacer = 3419,
@@ -1211,9 +1211,9 @@ public enum CustomComboPreset {
 	//[CustomComboInfo("Ikishoten Namikiri Feature", "Replace Ikishoten with Shoha, Kaeshi Namikiri, and then Ogi Namikiri when available.", SAM.JobID)]
 	//SamuraiIkishotenNamikiriFeature = 3411,
 
-	[CustomComboInfo("Hissatsu Senei/Guren Sync Feature", "Replace Hissatsu Senei with Hissatsu Guren when underlevel.", SAM.JobID)]
-	SamuraiGurenSeneiLevelSyncFeature = 3418,
-	*/
+	//[CustomComboInfo("Hissatsu Senei/Guren Sync Feature", "Replace Hissatsu Senei with Hissatsu Guren when underlevel.", SAM.JobID)]
+	//SamuraiGurenSeneiLevelSyncFeature = 3418,
+	
 
 	#endregion
 	// ====================================================================================
