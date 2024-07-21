@@ -94,25 +94,33 @@ internal class MachinistCleanShot: CustomCombo {
 
 		if (IsEnabled(CustomComboPreset.MachinistMainComboReassembledOverride)) {
 
-			if (level >= MCH.Levels.HotShot && (level < MCH.Levels.CleanShot || lastComboMove is not MCH.SlugShot)) { // note that Hot Shot is LESS potency than Clean Shot when part of the combo
-				if (SelfHasEffect(MCH.Buffs.Reassembled)) {
-					if (CanUse(MCH.HotShot))
-						return MCH.HotShot;
+			if (level is >= MCH.Levels.HotShot and < MCH.Levels.AirAnchor) {
+				bool canCleanShot = level >= MCH.Levels.CleanShot && lastComboMove is MCH.SlugShot; // note that Hot Shot is LESS potency than Clean Shot when part of the combo
+				bool canHeatedShot = level >= MCH.Levels.HeatedSlugshot && lastComboMove is MCH.HeatedSplitShot or MCH.HeatedSlugshot; // HS is also weaker than Heated Slug/Clean Shot
+				if (!canCleanShot && !canHeatedShot) {
+					if (SelfHasEffect(MCH.Buffs.Reassembled)) {
+						if (CanUse(MCH.HotShot))
+							return MCH.HotShot;
+					}
 				}
 			}
 
 			if (level >= MCH.Levels.Drill) {
 				if (SelfHasEffect(MCH.Buffs.Reassembled)) {
 					uint preference = gauge.Battery > 80 ? MCH.Drill : MCH.AirAnchor;
+					uint choice = 0;
 
 					if (level >= MCH.Levels.Chainsaw)
-						PickByCooldown(preference, actionID, OriginalHook(MCH.Chainsaw), MCH.Drill, MCH.AirAnchor);
+						choice = PickByCooldown(preference, actionID, OriginalHook(MCH.Chainsaw), MCH.Drill, MCH.AirAnchor);
 
 					if (level >= MCH.Levels.AirAnchor)
-						PickByCooldown(preference, actionID, MCH.Drill, MCH.AirAnchor);
+						choice = PickByCooldown(preference, actionID, MCH.Drill, MCH.AirAnchor);
 
 					if (CanUse(MCH.Drill))
-						return MCH.Drill; // probably shouldn't return actionID so it can run through the chain below
+						choice = MCH.Drill; // probably shouldn't return actionID so it can run through the chain below
+
+					if (choice > 0 && CanUse(choice))
+						return choice;
 				}
 			}
 		}
@@ -275,7 +283,9 @@ internal class MachinistDrillAirAnchorFeature: CustomCombo {
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
 		uint preference = GetJobGauge<MCHGauge>().Battery > 80
 			? MCH.Drill
-			: MCH.AirAnchor;
+			: level >= MCH.Levels.AirAnchor
+			? MCH.AirAnchor
+			: MCH.HotShot;
 
 		if (level >= MCH.Levels.Chainsaw && IsEnabled(CustomComboPreset.MachinistDrillAirAnchorPlus))
 			return PickByCooldown(preference, OriginalHook(MCH.Chainsaw), MCH.Drill, MCH.AirAnchor);
@@ -284,7 +294,7 @@ internal class MachinistDrillAirAnchorFeature: CustomCombo {
 			return PickByCooldown(preference, MCH.Drill, MCH.AirAnchor);
 
 		if (level >= MCH.Levels.Drill)
-			return PickByCooldown(actionID, MCH.HotShot, MCH.Drill);
+			return PickByCooldown(preference, MCH.HotShot, MCH.Drill);
 
 		return MCH.HotShot;
 	}
