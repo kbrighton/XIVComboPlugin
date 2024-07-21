@@ -127,6 +127,11 @@ internal class MachinistCleanShot: CustomCombo {
 
 		if (IsEnabled(CustomComboPreset.MachinistMainComboHeatBlast) && level >= MCH.Levels.HeatBlast && gauge.IsOverheated) {
 
+			if (IsEnabled(CustomComboPreset.MachinistHyperchargeWildfire) && level >= MCH.Levels.Wildfire) {
+				if (gauge.OverheatTimeRemaining >= 9_000 && IsOffCooldown(MCH.Wildfire) && HasTarget)
+					return MCH.Wildfire;
+			}
+
 			if (IsEnabled(CustomComboPreset.MachinistHeatBlastWeaveGaussRoundRicochet) && CanWeave(MCH.HeatBlast)) { // Heat Blast has a 1.5s cooldown instead of the normal GCD
 
 				if (level >= MCH.Levels.Ricochet) {
@@ -190,7 +195,7 @@ internal class MachinistHypercharge: CustomCombo {
 
 			if (level >= MCH.Levels.Wildfire && gauge.IsOverheated) {
 
-				if (IsOffCooldown(MCH.Wildfire) && HasTarget)
+				if (gauge.OverheatTimeRemaining >= 9_000 && IsOffCooldown(MCH.Wildfire) && HasTarget)
 					return MCH.Wildfire;
 
 				if (IsOnCooldown(MCH.Hypercharge) && !IsOriginal(MCH.Wildfire))
@@ -221,7 +226,7 @@ internal class MachinistHeatBlastAutoCrossbow: CustomCombo {
 		}
 
 		if (IsEnabled(CustomComboPreset.MachinistHyperchargeWildfire) && level >= MCH.Levels.Wildfire) {
-			if (gauge.IsOverheated && IsOffCooldown(MCH.Wildfire) && HasTarget)
+			if (gauge.IsOverheated && gauge.OverheatTimeRemaining >= 9_000 && IsOffCooldown(MCH.Wildfire) && HasTarget)
 				return MCH.Wildfire;
 		}
 
