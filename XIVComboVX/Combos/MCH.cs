@@ -180,7 +180,7 @@ internal class MachinistHypercharge: CustomCombo {
 
 		if (IsEnabled(CustomComboPreset.MachinistHyperchargeWildfire)) {
 
-			if (level >= MCH.Levels.Wildfire) {
+			if (level >= MCH.Levels.Wildfire && gauge.IsOverheated) {
 
 				if (IsOffCooldown(MCH.Wildfire) && HasTarget)
 					return MCH.Wildfire;
@@ -213,7 +213,7 @@ internal class MachinistHeatBlastAutoCrossbow: CustomCombo {
 		}
 
 		if (IsEnabled(CustomComboPreset.MachinistHyperchargeWildfire) && level >= MCH.Levels.Wildfire) {
-			if (IsOffCooldown(MCH.Wildfire) && HasTarget)
+			if (gauge.IsOverheated && IsOffCooldown(MCH.Wildfire) && HasTarget)
 				return MCH.Wildfire;
 		}
 
