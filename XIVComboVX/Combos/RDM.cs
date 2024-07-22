@@ -7,7 +7,7 @@ namespace PrincessRTFM.XIVComboVX.Combos;
 internal static class RDM {
 	public const byte JobID = 35;
 
-	public const int
+	public const byte
 		ManaCostMelee1 = 20,
 		ManaCostMelee2 = 15,
 		ManaCostMelee3 = 15;
@@ -77,6 +77,8 @@ internal static class RDM {
 			Swiftcast = 18,
 			Verthunder2 = 18,
 			Veraero2 = 22,
+			Verfire = 26,
+			Verstone = 30,
 			Zwerchhau = 35,
 			Displacement = 40,
 			Engagement = 40,
@@ -101,6 +103,16 @@ internal static class RDM {
 	}
 
 #pragma warning disable IDE0045 // Convert to conditional expression - helper function readability
+	public static byte ManaForMeleeChain(byte level) {
+		byte mana = ManaCostMelee1;
+		if (level >= Levels.Zwerchhau) {
+			mana += ManaCostMelee2;
+			if (level >= Levels.Redoublement)
+				mana += ManaCostMelee3;
+		}
+		return mana;
+	}
+
 	public static bool CheckFinishers(ref uint actionID, uint lastComboMove, byte level) {
 		const int
 			finisherDelta = 11,
@@ -124,8 +136,8 @@ internal static class RDM {
 			bool canFinishWhite = level >= Levels.Verholy;
 			int blackThreshold = white + imbalanceDiffMax;
 			int whiteThreshold = black + imbalanceDiffMax;
-			bool verfireUp = CustomCombo.SelfHasEffect(Buffs.VerfireReady);
-			bool verstoneUp = CustomCombo.SelfHasEffect(Buffs.VerstoneReady);
+			bool verfireUp = level >= Levels.Verfire && CustomCombo.SelfHasEffect(Buffs.VerfireReady);
+			bool verstoneUp = level >= Levels.Verstone && CustomCombo.SelfHasEffect(Buffs.VerstoneReady);
 
 			if (black >= white && canFinishWhite) {
 				// If we can already Verstone, but we can't Verfire, and Verflare WON'T imbalance us, use Verflare
@@ -155,7 +167,7 @@ internal static class RDM {
 		byte mana = black != white || black == 100
 			? Math.Min(black, white)
 			: (byte)0;
-		bool buff = CustomCombo.SelfHasEffect(RDM.Buffs.MagickedSwordplay);
+		bool buff = level >= Levels.Manafication && CustomCombo.SelfHasEffect(Buffs.MagickedSwordplay);
 
 		if (lastComboMove is Zwerchhau or EnchantedZwerchhau && level >= Levels.Redoublement && (buff || mana >= ManaCostMelee3)) {
 			actionID = EnchantedRedoublement;
@@ -167,7 +179,7 @@ internal static class RDM {
 			return true;
 		}
 
-		if (checkComboStart && (buff || mana >= ManaCostMelee1 + ManaCostMelee2 + ManaCostMelee3)) {
+		if (checkComboStart && (buff || mana >= ManaForMeleeChain(level))) {
 			actionID = EnchantedRiposte;
 			return true;
 		}
@@ -181,18 +193,19 @@ internal static class RDM {
 
 		RDMGauge gauge = CustomCombo.GetJobGauge<RDMGauge>();
 		byte mana = Math.Min(gauge.BlackMana, gauge.WhiteMana);
+		bool buff = level >= Levels.Manafication && CustomCombo.SelfHasEffect(Buffs.MagickedSwordplay);
 
-		if (lastComboMove is EnchantedMoulinetDeux && mana >= ManaCostMelee3) {
+		if (lastComboMove is EnchantedMoulinetDeux && (buff || mana >= ManaCostMelee3)) {
 			actionID = EnchantedMoulinetTrois;
 			return true;
 		}
 
-		if (lastComboMove is Moulinet or EnchantedMoulinet && mana >= ManaCostMelee2) {
+		if (lastComboMove is Moulinet or EnchantedMoulinet && (buff || mana >= ManaCostMelee2)) {
 			actionID = EnchantedMoulinetDeux;
 			return true;
 		}
 
-		if (checkComboStart && mana >= ManaCostMelee1) {
+		if (checkComboStart && (buff || mana >= ManaCostMelee1)) {
 			actionID = EnchantedMoulinet;
 			return true;
 		}
@@ -276,7 +289,7 @@ internal class RedMageMeleeCombo: CustomCombo {
 
 		if (actionID is RDM.Riposte) {
 
-			if (IsEnabled(CustomComboPreset.RedMageMeleeComboCloser)) {
+			if (IsEnabled(CustomComboPreset.RedMageMeleeComboCloser) && level >= RDM.Levels.Corpsacorps) {
 				if (HasTarget && !InMeleeRange)
 					return RDM.Corpsacorps;
 			}
@@ -322,8 +335,8 @@ internal class RedMageSmartcastAoECombo: CustomCombo {
 			return actionID;
 
 		bool fastCast = IsFastcasting
-			|| SelfHasEffect(RDM.Buffs.Acceleration)
-			|| SelfHasEffect(RDM.Buffs.GrandImpactReady);
+			|| (level >= RDM.Levels.Acceleration && SelfHasEffect(RDM.Buffs.Acceleration))
+			|| (level >= RDM.Levels.GrandImpact && SelfHasEffect(RDM.Buffs.GrandImpactReady));
 
 		// Yes, this block being below the finisher checks means that you won't get a smart weave while doing the finisher combo.
 		// However, that's available on the ST smartcast option, which means it's still available while the AoE one here will show your GCD.
@@ -367,7 +380,7 @@ internal class RedmageSmartcastSingleComboOpener: CustomCombo {
 			return RDM.Jolt;
 
 		if (level is < RDM.Levels.Veraero and >= RDM.Levels.Verthunder)
-			return OriginalHook(RDM.Verthunder);
+			return RDM.Verthunder;
 
 		// This is for the long opener only, so we're not bothered about fast casting or finishers or anything like that
 		// However, we DO want to prevent the mana levels from being perfectly even, cause that fucks up Manafication into melee as an opener
@@ -390,7 +403,7 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 
 		if (allowAccelerate) {
 			bool canAccelerate = level >= RDM.Levels.Acceleration && CanUse(RDM.Acceleration);
-			bool canSwiftcast = IsEnabled(CustomComboPreset.RedMageSmartcastSingleTargetAccelerationSwiftcast) && CanUse(Common.Swiftcast);
+			bool canSwiftcast = level >= Common.Levels.Swiftcast && IsEnabled(CustomComboPreset.RedMageSmartcastSingleTargetAccelerationSwiftcast) && CanUse(Common.Swiftcast);
 
 			if (canSwiftcast && IsEnabled(CustomComboPreset.RedMageSmartcastSingleTargetAccelerationSwiftcastFirst))
 				return Common.Swiftcast;
@@ -400,7 +413,7 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 				return Common.Swiftcast;
 		}
 
-		ushort engageCharges = engageCheck && canMelee ? GetCooldown(RDM.Engagement).RemainingCharges : (ushort)0;
+		ushort engageCharges = engageCheck && canMelee && level >= RDM.Levels.Engagement ? GetCooldown(RDM.Engagement).RemainingCharges : (ushort)0;
 		bool canEngage = engageCharges > 0;
 
 		bool shouldEngage = canEngage
@@ -444,7 +457,7 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 		// Just let the compiler handle optimisations :)
 
 		bool fastCasting = IsFastcasting;
-		bool accelerated = SelfHasEffect(RDM.Buffs.Acceleration);
+		bool accelerated = level >= RDM.Levels.Acceleration && SelfHasEffect(RDM.Buffs.Acceleration);
 		bool instacasting = fastCasting || accelerated;
 		bool weaving = CanWeave(actionID);
 		bool moving = IsMoving;
@@ -459,14 +472,15 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 		int blackThreshold = white + imbalanceDiffMax;
 		int whiteThreshold = black + imbalanceDiffMax;
 
-		bool verfireUp = SelfHasEffect(RDM.Buffs.VerfireReady);
-		bool verstoneUp = SelfHasEffect(RDM.Buffs.VerstoneReady);
+		bool verfireUp = level >= RDM.Levels.Verfire && SelfHasEffect(RDM.Buffs.VerfireReady);
+		bool verstoneUp = level >= RDM.Levels.Verstone && SelfHasEffect(RDM.Buffs.VerstoneReady);
 		bool isFinishingAny = RDM.CheckFinishers(ref actionID, lastComboActionId, level);
 
 		bool meleeCombo = IsEnabled(CustomComboPreset.RedMageSmartcastSingleTargetMeleeCombo)
 			&& !isFinishingAny && targeting
 			&& RDM.CheckMeleeST(ref actionID, lastComboActionId, level, IsEnabled(CustomComboPreset.RedMageSmartcastSingleTargetMeleeComboStarter));
 		bool shouldCloseGap = IsEnabled(CustomComboPreset.RedMageSmartcastSingleTargetMeleeComboStarterCloser)
+			&& level >= RDM.Levels.Corpsacorps
 			&& meleeCombo && !isClose;
 		meleeCombo &= isClose;
 
@@ -485,7 +499,7 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 		bool accelWeave = allowAccel && IsEnabled(CustomComboPreset.RedMageSmartcastSingleTargetAccelerationWeave);
 		bool accelMove = allowAccel && IsEnabled(CustomComboPreset.RedMageSmartcastSingleTargetAccelerationMoving);
 		bool accelNoNormal = IsEnabled(CustomComboPreset.RedMageSmartcastSingleTargetAccelerationNoOverride);
-		bool useGrandImpact = IsEnabled(CustomComboPreset.RedMageSmartcastSingleTargetGrandImpact) && SelfHasEffect(RDM.Buffs.GrandImpactReady);
+		bool useGrandImpact = IsEnabled(CustomComboPreset.RedMageSmartcastSingleTargetGrandImpact) && level >= RDM.Levels.GrandImpact && SelfHasEffect(RDM.Buffs.GrandImpactReady);
 
 		if (Common.CheckLucidWeave(CustomComboPreset.RedMageSmartcastSingleTargetWeaveLucid, level, Service.Configuration.RedMageSmartcastSingleWeaveLucidManaThreshold, actionID))
 			return Common.LucidDreaming;
@@ -509,7 +523,10 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 		if (instacasting) {
 			// TODO: need to account for hardcasting spells with no cast time!
 
-			if (level is < RDM.Levels.Veraero and >= RDM.Levels.Verthunder)
+			if (level < RDM.Levels.Verthunder)
+				return RDM.Jolt;
+
+			if (level is < RDM.Levels.Veraero)
 				return RDM.Verthunder;
 
 			if (verfireUp == verstoneUp) {
@@ -553,7 +570,7 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 		if (meleeCombo) {
 			// If we're out of range while in the combo, become Corps-a-corps to get back in range. Otherwise, just run the combo.
 
-			if (targeting && !isClose)
+			if (targeting && !isClose && level >= RDM.Levels.Corpsacorps)
 				return RDM.Corpsacorps;
 
 			return actionID; // meleeCombo is only true if the helper function assigned the appropriate actionID value
@@ -572,6 +589,9 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 		if (useGrandImpact) {
 			// Should maybe check time remaining on GI Ready and verprocs, but checking time on three different buffs to calculate priorities is gonna be a bit of a bitch...
 			// Eventually(tm)
+			// Hm, note to self - could probably just check the lesser of the nonzero verprocs is at least ~6s, to account for cooldown from GI being GCD and then the cast time on the spell...
+			// What if both are about to run out, though? Verproc gives dualcast, so.. probably that one?
+			// Might need to check with a sweaty RDM optimiser
 
 			return RDM.GrandImpact;
 		}
@@ -579,6 +599,8 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 		// Stand fast, slow cast!
 
 		if (verfireUp && verstoneUp) {
+
+			// TODO should probably check at the VERY least that the effect for the chosen action has at least ~3 seconds left, or you won't finish the cast before it interrupts you and you'll drift
 
 			// Decide by mana levels
 			if (black < white || Math.Min(100, white + procDelta) == black)
@@ -599,14 +621,14 @@ internal class RedmageSmartcastSingleComboFull: CustomCombo {
 		if (verstoneUp && white + procDelta <= whiteThreshold)
 			return RDM.Verstone;
 
-		// If there's NOTHING up right to use, should we override with Accleration (or Swiftcast)?
+		// If there's NOTHING up right now to use, should we override with Accleration (or Swiftcast)?
 		if (allowAccel && !accelNoNormal) {
 			uint alt = noCastingSubCheck(level, false, false, false, false, allowAccel);
 			if (alt > 0)
 				return alt;
 		}
 
-		// Finally, if all else fails, become Jolt (II[I]), or Grand Impact too I guess
+		// Finally, if all else fails, become Jolt whatever, or Grand Impact I guess
 		return OriginalHook(RDM.Jolt);
 	}
 }
@@ -642,23 +664,25 @@ internal class RedMageManafication: CustomCombo {
 	public override uint[] ActionIDs => [RDM.Manafication];
 
 	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
-		bool melee = SelfHasEffect(RDM.Buffs.MagickedSwordplay)
+		bool melee = (level >= RDM.Levels.Manafication && SelfHasEffect(RDM.Buffs.MagickedSwordplay))
 			|| lastComboActionId is RDM.Riposte or RDM.EnchantedRiposte or RDM.Zwerchhau or RDM.EnchantedZwerchhau;
+
 		if (IsEnabled(CustomComboPreset.RedMageManaficationIntoMeleeGauge) && !melee) {
 			RDMGauge gauge = GetJobGauge<RDMGauge>();
 			byte black = gauge.BlackMana;
 			byte white = gauge.WhiteMana;
-			if ((black >= 50 && white >= 50 && black != white) || black == 100)
+			byte threshold = RDM.ManaForMeleeChain(level);
+			if ((black >= threshold && white >= threshold && black != white) || black == 100)
 				melee = true;
 		}
 
 		if (melee) {
-			if (IsEnabled(CustomComboPreset.RedMageMeleeComboCloser) && HasTarget && !InMeleeRange)
+			if (IsEnabled(CustomComboPreset.RedMageMeleeComboCloser) && level >= RDM.Levels.Corpsacorps && HasTarget && !InMeleeRange)
 				return RDM.Corpsacorps;
 
-			if (lastComboActionId is RDM.Zwerchhau or RDM.EnchantedZwerchhau)
+			if (level >= RDM.Levels.Redoublement && lastComboActionId is RDM.Zwerchhau or RDM.EnchantedZwerchhau)
 				return RDM.EnchantedRedoublement;
-			if (lastComboActionId is RDM.Riposte or RDM.EnchantedRiposte)
+			if (level >= RDM.Levels.Zwerchhau && lastComboActionId is RDM.Riposte or RDM.EnchantedRiposte)
 				return RDM.EnchantedZwerchhau;
 
 			return RDM.EnchantedRiposte;
