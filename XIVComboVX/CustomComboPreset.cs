@@ -292,7 +292,7 @@ public enum CustomComboPreset {
 	// ====================================================================================
 	#region DRAGOON (22xx)
 
-	[CustomComboInfo("Bloodbath Replacer Feature", "Replace Bloodbath with Second Wind when underlevel or when Bloodbath is on cooldown and Second Wind is not.", DRG.JobID)]
+	[CustomComboInfo("Second Wind / Bloodbath", "Replace Bloodbath and Second Wind with each other based on cooldown, or with only Second Wind when under level.\nIf both are available, the button will default to whichever you placed on your hotbar.", DRG.JobID)]
 	DragoonBloodbathReplacer = 2218,
 
 	//[CustomComboInfo("Coerthan Torment Combo", "Replace Coerthan Torment with its combo chain.", DRG.JobID)]
@@ -545,7 +545,7 @@ public enum CustomComboPreset {
 	// ====================================================================================
 	#region MONK (20xx)
 
-	[CustomComboInfo("Bloodbath Replacer Feature", "Replace Bloodbath with Second Wind when underlevel or when Bloodbath is on cooldown and Second Wind is not.", MNK.JobID)]
+	[CustomComboInfo("Second Wind / Bloodbath", "Replace Bloodbath and Second Wind with each other based on cooldown, or with only Second Wind when under level.\nIf both are available, the button will default to whichever you placed on your hotbar.", MNK.JobID)]
 	MonkBloodbathReplacer = 2018,
 
 	//[CustomComboInfo("Monk AoE Combo", "Replaces the selected actions with the AoE combo chain.", MNK.JobID)]
@@ -600,7 +600,7 @@ public enum CustomComboPreset {
 	// ====================================================================================
 	#region NINJA (30xx)
 
-	[CustomComboInfo("Bloodbath Replacer Feature", "Replace Bloodbath with Second Wind when underlevel or when Bloodbath is on cooldown and Second Wind is not.", NIN.JobID)]
+	[CustomComboInfo("Second Wind / Bloodbath", "Replace Bloodbath and Second Wind with each other based on cooldown, or with only Second Wind when under level.\nIf both are available, the button will default to whichever you placed on your hotbar.", NIN.JobID)]
 	NinjaBloodbathReplacer = 3037,
 
 	[CustomComboInfo("Armor Crush Combo", "Replace Armor Crush with its combo chain.", NIN.JobID)]
@@ -990,7 +990,7 @@ public enum CustomComboPreset {
 	// ====================================================================================
 	#region REAPER (39xx)
 
-	[CustomComboInfo("Bloodbath Replacer Feature", "Replace Bloodbath with Second Wind when underlevel or when Bloodbath is on cooldown and Second Wind is not.", RPR.JobID)]
+	[CustomComboInfo("Second Wind / Bloodbath", "Replace Bloodbath and Second Wind with each other based on cooldown, or with only Second Wind when under level.\nIf both are available, the button will default to whichever you placed on your hotbar.", RPR.JobID)]
 	ReaperBloodbathReplacer = 3950,
 
 	[CustomComboInfo("Slice Combo", "Replace Infernal Slice with its combo chain.", RPR.JobID)]
@@ -1150,7 +1150,7 @@ public enum CustomComboPreset {
 	#region SAMURAI (34xx)
 	// Working on updating SAM. Will gradually be releasing more features as they are verified working.
 
-	[CustomComboInfo("Bloodbath Replacer Feature", "Replace Bloodbath with Second Wind when underlevel or when Bloodbath is on cooldown and Second Wind is not.", SAM.JobID)]
+	[CustomComboInfo("Second Wind / Bloodbath", "Replace Bloodbath and Second Wind with each other based on cooldown, or with only Second Wind when under level.\nIf both are available, the button will default to whichever you placed on your hotbar.", SAM.JobID)]
 	SamuraiBloodbathReplacer = 3419,
 
 	[CustomComboInfo("Yukikaze Combo", "Replace Yukikaze with its combo chain.", SAM.JobID)]
@@ -1407,7 +1407,7 @@ public enum CustomComboPreset {
 	// ====================================================================================
 	#region VIPER (41xx)
 
-	[CustomComboInfo("Bloodbath Replacer Feature", "Replace Bloodbath with Second Wind when underlevel or when Bloodbath is on cooldown and Second Wind is not.", VPR.JobID)]
+	[CustomComboInfo("Second Wind / Bloodbath", "Replace Bloodbath and Second Wind with each other based on cooldown, or with only Second Wind when under level.\nIf both are available, the button will default to whichever you placed on your hotbar.", VPR.JobID)]
 	ViperBloodbathReplacer = 4100,
 
 	#endregion

@@ -72,7 +72,7 @@ internal abstract class StunInterruptCombo: CustomCombo {
 }
 
 internal abstract class SecondBloodbathCombo: CustomCombo {
-	public override uint[] ActionIDs { get; } = [Common.Bloodbath];
+	public override uint[] ActionIDs { get; } = [Common.Bloodbath, Common.SecondWind];
 
 	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
 		if (level < Common.Levels.Bloodbath)
