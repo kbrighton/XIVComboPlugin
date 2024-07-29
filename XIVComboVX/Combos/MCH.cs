@@ -94,7 +94,7 @@ internal class MachinistCleanShot: CustomCombo {
 
 		if (IsEnabled(CustomComboPreset.MachinistMainComboReassembledOverride)) {
 
-			if (level is >= MCH.Levels.HotShot and < MCH.Levels.AirAnchor) {
+			if (level is >= MCH.Levels.HotShot and < MCH.Levels.Drill) {
 				bool canCleanShot = level >= MCH.Levels.CleanShot && lastComboMove is MCH.SlugShot; // note that Hot Shot is LESS potency than Clean Shot when part of the combo
 				bool canHeatedShot = level >= MCH.Levels.HeatedSlugshot && lastComboMove is MCH.HeatedSplitShot or MCH.HeatedSlugshot; // HS is also weaker than Heated Slug/Clean Shot
 				if (!canCleanShot && !canHeatedShot) {
@@ -107,7 +107,11 @@ internal class MachinistCleanShot: CustomCombo {
 
 			if (level >= MCH.Levels.Drill) {
 				if (SelfHasEffect(MCH.Buffs.Reassembled)) {
-					uint preference = gauge.Battery > 80 ? MCH.Drill : MCH.AirAnchor;
+					uint preference = gauge.Battery > 80
+						? MCH.Drill
+						: level >= MCH.Levels.AirAnchor
+							? MCH.AirAnchor
+							: MCH.Drill;
 					uint choice = 0;
 
 					if (level >= MCH.Levels.Chainsaw)
@@ -290,7 +294,7 @@ internal class MachinistDrillAirAnchorFeature: CustomCombo {
 			? MCH.Drill
 			: level >= MCH.Levels.AirAnchor
 			? MCH.AirAnchor
-			: MCH.HotShot;
+			: MCH.Drill;
 
 		if (level >= MCH.Levels.Chainsaw && IsEnabled(CustomComboPreset.MachinistDrillAirAnchorPlus))
 			return PickByCooldown(preference, OriginalHook(MCH.Chainsaw), MCH.Drill, MCH.AirAnchor);
