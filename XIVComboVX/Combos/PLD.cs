@@ -224,7 +224,7 @@ internal class PaladinRequiescat: CustomCombo {
 				return OriginalHook(PLD.Confiteor);
 		}
 
-		return OriginalHook(actionID);
+		return actionID;
 	}
 }
 
