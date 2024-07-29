@@ -177,9 +177,9 @@ public sealed class Plugin: IDalamudPlugin {
 		msg.AddUiForegroundOff();
 		msg.AddText($" as well as {Service.Interface.InternalName}. This is generally considered a ");
 		msg.AddUiForeground(ChatUtil.ColourForeError);
-		msg.AddText("Very Bad Idea.");
+		msg.AddText("Very Bad Idea");
 		msg.AddUiForegroundOff();
-		msg.AddText(" Running more than one combo plugin is known to cause problems with your game as they fight each other for control.");
+		msg.AddText(" and should not be done. Running more than one combo plugin is known to cause problems with your game as they fight each other for control.");
 		msg.AddText($"\nFor your safety, {Service.Interface.InternalName} has ");
 		msg.AddUiForeground(ChatUtil.ColourForeWarning);
 		msg.AddText("automatically disabled itself");
