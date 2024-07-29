@@ -36,18 +36,17 @@ public sealed class Plugin: IDalamudPlugin {
 	private readonly ConfigWindow? configWindow;
 
 	public static readonly Version Version = Assembly.GetExecutingAssembly().GetName().Version!;
-	public const bool Debug =
+
 #if DEBUG
-		true;
+	public const string PluginBuildType = $"debug build";
 #else
-		false;
+	public const string PluginBuildType = $"release build";
 #endif
 
 #pragma warning disable CA1822 // Mark members as static (some of these shouldn't be used until the plugin is initialised)
-	public string PluginBuildType { get; } = $"{(Debug ? "debug" : "release")} build";
 	public string PluginInstallType => $"{(Service.Interface.IsDev ? "dev" : "standard")} install";
 	public string ShortPluginSignature => $"{Plugin.Name} v{Version}";
-	public string FullPluginSignature => $"{this.ShortPluginSignature} ({this.PluginBuildType}, {this.PluginInstallType})";
+	public string FullPluginSignature => $"{this.ShortPluginSignature} ({PluginBuildType}, {this.PluginInstallType})";
 #pragma warning restore CA1822 // Mark members as static
 
 	public static bool AcquiredBaseCommand { get; private set; } = false;

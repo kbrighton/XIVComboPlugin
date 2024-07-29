@@ -76,13 +76,15 @@ internal class UpdateAlerter: IDisposable {
 		Service.Log.Information("Displaying update alert in game chat");
 
 		List<Payload> parts = [];
-		if (!(Plugin.Debug && Service.Interface.IsDev)) {
+#if !DEBUG
+		if (!Service.Interface.IsDev) {
 			parts.Add(new TextPayload(
 				this.isFreshInstall
 					? $"{Service.Plugin.ShortPluginSignature} has been installed. By default, all features are disabled.\n"
 					: $"{Plugin.Name} has been updated to {this.current}. Features may have been added or changed.\n"
 			));
 		}
+#endif
 		parts.AddRange([
 			new UIForegroundPayload(ChatUtil.ColourForeOpenConfig),
 			new UIGlowPayload(ChatUtil.ColourGlowOpenConfig),

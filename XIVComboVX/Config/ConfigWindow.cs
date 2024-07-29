@@ -36,7 +36,7 @@ public class ConfigWindow: Window {
 
 	private const int Width = 900;
 
-	public ConfigWindow() : base($"Custom Combo Setup - {Service.Plugin.ShortPluginSignature}, {Service.Plugin.PluginBuildType}###{Plugin.Name} Custom Combo Setup", ImGuiWindowFlags.MenuBar) {
+	public ConfigWindow() : base($"Custom Combo Setup - {Service.Plugin.ShortPluginSignature}, {Plugin.PluginBuildType}###{Plugin.Name} Custom Combo Setup", ImGuiWindowFlags.MenuBar) {
 		this.RespectCloseHotkey = true;
 		this.TitleBarButtons = [
 			new() {
