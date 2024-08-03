@@ -53,7 +53,7 @@ internal abstract class CustomCombo {
 		if (classJobID is >= 16 and <= 18)
 			classJobID = DOL.JobID;
 
-		if (this.JobID != classJobID && this.ClassID != classJobID)
+		if (this.JobID > 0 && this.JobID != classJobID && this.ClassID != classJobID)
 			return false;
 		if (this.AffectedIDs.Count > 0 && !this.AffectedIDs.Contains(actionID))
 			return false;
@@ -83,8 +83,8 @@ internal abstract class CustomCombo {
 	protected abstract uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level);
 
 	protected internal static bool IsEnabled(CustomComboPreset preset) {
-		if ((int)preset == 99) {
-			Service.TickLogger.Debug($"Aborting is-enabled check, this preset is forcibly disabled");
+		if ((int)preset < 0) {
+			Service.TickLogger.Debug($"Aborting is-enabled check, {preset}#{(int)preset} is forcibly disabled");
 			return false;
 		}
 		if ((int)preset < 100) {

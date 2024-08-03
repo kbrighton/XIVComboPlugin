@@ -1,7 +1,7 @@
 namespace PrincessRTFM.XIVComboVX.Combos;
 
 internal static class DOH {
-	public const byte JobID = 97;
+	public const byte JobID = 98;
 
 	public const uint
 		Placeholder = 0;

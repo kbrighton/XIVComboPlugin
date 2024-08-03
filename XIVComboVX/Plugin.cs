@@ -62,6 +62,7 @@ public sealed class Plugin: IDalamudPlugin {
 
 		Service.Configuration.Active = true;
 		Service.Configuration.UpgradeIfNeeded();
+		Service.Configuration.CleanRemovedPresetIds();
 
 		Service.Address.Setup();
 

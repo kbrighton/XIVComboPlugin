@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 
 using Dalamud.Configuration;
 using Dalamud.Interface.ImGuiNotification;
@@ -25,7 +26,7 @@ public class PluginConfiguration: IPluginConfiguration {
 		UserDismissable = true,
 	};
 
-	public int Version { get; set; } = 6;
+	public int Version { get; set; } = 7;
 
 	public PluginConfiguration() { }
 	public PluginConfiguration(bool firstRun) => this.IsFirstRun = firstRun;
@@ -443,6 +444,9 @@ public class PluginConfiguration: IPluginConfiguration {
 	public bool ShowUpdateMessage { get; set; } = true;
 
 	[JsonProperty("EnabledActionsV5")]
+	public HashSet<CustomComboPreset> EnabledActionsSmallIdSpace { get; set; } = [];
+
+	[JsonProperty("EnabledActionsV7")]
 	public HashSet<CustomComboPreset> EnabledActions { get; set; } = [];
 
 	[Obsolete("Use the explicit 'Dancer*ActionID' ushorts instead")]
@@ -456,17 +460,50 @@ public class PluginConfiguration: IPluginConfiguration {
 
 	public void Save() => Service.Interface.SavePluginConfig(this);
 
+	public void CleanRemovedPresetIds() {
+		int cleaned = this.EnabledActions.RemoveWhere(p => {
+			bool valid = Enum.IsDefined(p);
+			if (!valid)
+				Service.Log.Info($"Removing invalid preset ID {p}");
+			return !valid;
+		});
+		if (cleaned > 0) {
+			Service.Log.Info($"{cleaned} invalid preset{(cleaned == 1 ? string.Empty : "s")} removed");
+			this.Save();
+		}
+	}
+
 	public void UpgradeIfNeeded() {
 #pragma warning disable CS0618 // Type or member is obsolete
+		bool changed = false;
 		if (this.Version == 5) {
 			this.DancerEmboiteRedActionID = this.DancerDanceCompatActionIDs[0];
 			this.DancerEntrechatBlueActionID = this.DancerDanceCompatActionIDs[1];
 			this.DancerJeteGreenActionID = this.DancerDanceCompatActionIDs[2];
 			this.DancerPirouetteYellowActionID = this.DancerDanceCompatActionIDs[3];
 			this.DancerDanceCompatActionIDs = [];
-			this.Version++;
+			++this.Version;
+			changed = true;
 		}
 #pragma warning restore CS0618 // Type or member is obsolete
+		if (this.Version == 6) {
+			this.EnabledActions = this.EnabledActionsSmallIdSpace
+				.Select(p => {
+					int v = (int)p;
+					int job = v / 100;
+					int id = v - (job * 100);
+					int n = (job * 1000) + id;
+					Service.Log.Info($"Updating old preset {p} ({id} for job {job}) to {n}");
+					return (CustomComboPreset)n;
+				})
+				.ToHashSet();
+			this.EnabledActionsSmallIdSpace.Clear();
+			++this.Version;
+			changed = true;
+		}
+
+		if (changed)
+			this.Save();
 	}
 
 	#endregion

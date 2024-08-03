@@ -3,7 +3,7 @@ using Dalamud.Game.ClientState.Conditions;
 namespace PrincessRTFM.XIVComboVX.Combos;
 
 internal static class DOL {
-	public const byte JobID = 98,
+	public const byte JobID = 99,
 		MinID = 16,
 		BtnID = 17,
 		FshID = 18;
@@ -325,6 +325,7 @@ internal class FisherSwapFeatures: CustomCombo {
 		return thaliak(actionID, level);
 	}
 }
+
 internal class PrimedMetFeature: CustomCombo {
 
 	public override CustomComboPreset Preset { get; } = CustomComboPreset.PrimedMetFeature;
@@ -336,7 +337,7 @@ internal class PrimedMetFeature: CustomCombo {
 		if (level >= DOL.Levels.PrimingTouch) {
 			if (LocalPlayer.CurrentGp >= 400) {
 				if (SelfHasEffect(DOL.Buffs.CollectorsStandard) || SelfHasEffect(DOL.Buffs.CollectorsHighStandard)) {
-					if (!SelfHasEffect(DOL.Buffs.PrimingTouch)) 
+					if (!SelfHasEffect(DOL.Buffs.PrimingTouch))
 						return IsJob(DOL.MinID) ? MIN.PrimingTouch : BTN.PrimingTouch;
 				}
 			}
