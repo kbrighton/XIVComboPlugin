@@ -27,7 +27,11 @@ internal static class BLM {
 		Blizzard2 = 25793,
 		HighFire2 = 25794,
 		HighBlizzard2 = 25795,
-		Paradox = 25797;
+		Paradox = 25797,
+		HighThunder = 36986,
+		HighThunder2 = 36987,
+		Retrace = 36988,
+		FlareStar = 36989;
 
 	public static class Buffs {
 		public const ushort
@@ -40,25 +44,47 @@ internal static class BLM {
 	public static class Debuffs {
 		public const ushort
 			Thunder = 161,
-			Thunder3 = 163;
+			Thunder3 = 163,
+			HighThunder = 3871,
+			Highthunder2 = 3872;
 	}
 
 	public static class Levels {
 		public const byte
+			Blizzard = 1,
+			Fire = 2,
+			Transpose = 4,
+			Thunder = 6,
+			Blizzard2 = 12,
+			Scathe = 15,
+			Fire2 = 18,
+			Thunder2 = 26,
+			Manaward = 30,
+			Manafont = 30,
 			Fire3 = 35,
 			Blizzard3 = 35,
+			UmbralSoul = 35,
 			Freeze = 40,
 			Thunder3 = 45,
+			AetherialManipulation = 50,
 			Flare = 50,
+			LeyLines = 52,
 			Blizzard4 = 58,
 			Fire4 = 60,
 			BetweenTheLines = 62,
+			Thunder4 = 64,
+			Triplecast = 66,
+			Foul = 70,
 			Despair = 72,
-			UmbralSoul = 76,
 			Xenoglossy = 80,
 			HighFire2 = 82,
 			HighBlizzard2 = 82,
-			Paradox = 90;
+			Amplifier = 86,
+			Paradox = 90,
+			HighThunder = 92,
+			HighTunder2 = 92,
+			Retrace = 96,
+			FlareStar = 100;
 	}
 }
 

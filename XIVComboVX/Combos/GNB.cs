@@ -557,3 +557,5 @@ internal class GunbreakerNoMercy: CustomCombo {
 		return actionID;
 	}
 }
+
+//Next idea: Replace Burst Zone/Blast Zone with Double Down when available
