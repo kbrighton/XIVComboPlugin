@@ -211,30 +211,28 @@ internal class MachinistHypercharge: CustomCombo {
 	}
 }
 
-internal class MachinistHeatBlastAutoCrossbow: CustomCombo {
+internal class MachinistHeatBlastBlazingShot: CustomCombo {
 	public override CustomComboPreset Preset => CustomComboPreset.MchAny;
-	public override uint[] ActionIDs { get; } = [MCH.HeatBlast, MCH.BlazingShot, MCH.AutoCrossbow];
+	public override uint[] ActionIDs { get; } = [MCH.HeatBlast, MCH.BlazingShot];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
-
-		if (IsEnabled(CustomComboPreset.MachinistSmartHeatup) && level < MCH.Levels.Hypercharge)
-			return MCH.Hypercharge;
-
 		MCHGauge gauge = GetJobGauge<MCHGauge>();
 
-		if (IsEnabled(CustomComboPreset.MachinistHyperchargeStabiliser) && level >= MCH.Levels.BarrelStabiliser) {
-			if (!gauge.IsOverheated && gauge.Heat < 50 && !SelfHasEffect(MCH.Buffs.Hypercharged))
-				return MCH.BarrelStabiliser;
+		if (level < MCH.Levels.Hypercharge)
+			return MCH.Hypercharge;
+
+		if (IsEnabled(CustomComboPreset.MachinistSmartHeatup) && !gauge.IsOverheated) {
+			if (IsEnabled(CustomComboPreset.MachinistHyperchargeStabiliser) && level >= MCH.Levels.BarrelStabiliser) {
+				if (!gauge.IsOverheated && gauge.Heat < 50 && !SelfHasEffect(MCH.Buffs.Hypercharged))
+					return MCH.BarrelStabiliser;
+			}
+
+			return MCH.Hypercharge;
 		}
 
 		if (IsEnabled(CustomComboPreset.MachinistHyperchargeWildfire) && level >= MCH.Levels.Wildfire) {
 			if (gauge.IsOverheated && gauge.OverheatTimeRemaining >= 9_000 && IsOffCooldown(MCH.Wildfire) && HasTarget)
 				return MCH.Wildfire;
-		}
-
-		if (IsEnabled(CustomComboPreset.MachinistSmartHeatup)) {
-			if (!gauge.IsOverheated)
-				return MCH.Hypercharge;
 		}
 
 		if ((actionID is MCH.HeatBlast or MCH.BlazingShot || level < MCH.Levels.AutoCrossbow) && level >= MCH.Levels.HeatBlast) {
@@ -265,6 +263,29 @@ internal class MachinistSpreadShotFeature: CustomCombo {
 
 		if (level >= MCH.Levels.AutoCrossbow && GetJobGauge<MCHGauge>().IsOverheated)
 			return MCH.AutoCrossbow;
+
+		return actionID;
+	}
+}
+
+internal class MachinistAutoCrossbow: CustomCombo {
+	public override CustomComboPreset Preset => CustomComboPreset.MachinistSmartHeatup;
+	public override uint[] ActionIDs { get; } = [MCH.AutoCrossbow];
+
+	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
+		MCHGauge gauge = GetJobGauge<MCHGauge>();
+
+		if (level < MCH.Levels.Hypercharge) // cannot overheat, so auto crossbow doesn't even work
+			return MCH.Hypercharge;
+
+		if (!gauge.IsOverheated) {
+			if (IsEnabled(CustomComboPreset.MachinistHyperchargeStabiliser) && level >= MCH.Levels.BarrelStabiliser) {
+				if (!gauge.IsOverheated && gauge.Heat < 50 && !SelfHasEffect(MCH.Buffs.Hypercharged))
+					return MCH.BarrelStabiliser;
+			}
+
+			return MCH.Hypercharge;
+		}
 
 		return actionID;
 	}
