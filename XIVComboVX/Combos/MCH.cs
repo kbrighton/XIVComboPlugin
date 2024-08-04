@@ -107,18 +107,16 @@ internal class MachinistCleanShot: CustomCombo {
 
 			if (level >= MCH.Levels.Drill) {
 				if (SelfHasEffect(MCH.Buffs.Reassembled)) {
-					uint preference = gauge.Battery > 80
+					uint preference = gauge.Battery > 80 || level < MCH.Levels.AirAnchor
 						? MCH.Drill
-						: level >= MCH.Levels.AirAnchor
-							? MCH.AirAnchor
-							: MCH.Drill;
+						: MCH.AirAnchor;
 					uint choice = 0;
 
 					if (level >= MCH.Levels.Chainsaw)
-						choice = PickByCooldown(preference, actionID, OriginalHook(MCH.Chainsaw), MCH.Drill, MCH.AirAnchor);
+						choice = PickByCooldown(preference, OriginalHook(MCH.Chainsaw), MCH.Drill, MCH.AirAnchor);
 
 					if (level >= MCH.Levels.AirAnchor)
-						choice = PickByCooldown(preference, actionID, MCH.Drill, MCH.AirAnchor);
+						choice = PickByCooldown(preference, MCH.Drill, MCH.AirAnchor);
 
 					if (CanUse(MCH.Drill))
 						choice = MCH.Drill; // probably shouldn't return actionID so it can run through the chain below
