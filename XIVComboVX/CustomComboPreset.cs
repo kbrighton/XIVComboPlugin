@@ -152,6 +152,13 @@ public enum CustomComboPreset {
 	//[CustomComboInfo("Scathe/Xenoglossy Feature", "Scathe becomes Xenoglossy when available.", BLM.JobID)]
 	//BlackScatheFeature = 25006,
 
+	//[CustomComboInfo("Fire to Ice 3 Feature", "When under 1600 MP and in Astral Fire, Blizzard will become Blizzard 3", BLM.JobID)]
+	//BlackFireToIce3 = 25019,
+
+	//[CustomComboInfo("Ice to Fire 3 Feature", "When in Umbral Ice, Fire will become Fire 3", BLM.JobID)]
+	//BlackIceToFire3 = 25020,
+	
+
 	#endregion
 	// ====================================================================================
 	#region BARD (23xxx)

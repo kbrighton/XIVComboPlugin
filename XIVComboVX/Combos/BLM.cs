@@ -295,4 +295,35 @@ internal class BlackScathe: CustomCombo {
 		return actionID;
 	}
 }
+
+
+
+internal class BlackFireToIce3: CustomCombo {
+	public override CustomComboPreset Preset { get;} = CustomComboPreset.BlackFireToIce3;
+	public override uint[] ActionIDs => [BLM.Blizzard3];
+	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
+		BLMGauge gauge = GetJobGauge<BLMGauge>();
+
+		if (gauge.InAstralFire && LocalPlayer.CurrentMp >= 1600 && level >= BLM.Blizzard3) 
+			return BLM.Blizzard;
+		
+		return BLM.Blizzard3;
+		
+	}
+}
+
+internal class BlackIceToFire3: CustomCombo {
+	public override CustomComboPreset Preset { get; } = CustomComboPreset.BlackIceToFire3;
+	public override uint[] ActionIDs => [BLM.Fire3];
+	protected override uint Invoke(uint actionID, uint lastComboActionId, float comboTime, byte level) {
+		BLMGauge gauge = GetJobGauge<BLMGauge>();
+
+		if (gauge.InUmbralIce && level >= BLM.Fire3)
+			return BLM.Fire;
+
+		return BLM.Fire3;
+
+	}
+}
+
 */
