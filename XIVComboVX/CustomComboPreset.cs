@@ -157,7 +157,7 @@ public enum CustomComboPreset {
 
 	//[CustomComboInfo("Ice to Fire 3 Feature", "When in Umbral Ice, Fire will become Fire 3", BLM.JobID)]
 	//BlackIceToFire3 = 25020,
-	
+
 
 	#endregion
 	// ====================================================================================
@@ -642,6 +642,10 @@ public enum CustomComboPreset {
 	NinjaArmorCrushAssasinateFeature = 30032,
 
 	[ParentPreset(NinjaArmorCrushCombo)]
+	[CustomComboInfo("Gauge Saver", "Replaces Armor Crush with Aeolian Edge when at 4 or 5 stacks of Kazematoi.", NIN.JobID)]
+	NinjaArmorCrushGaugeSaver = 30038,
+
+	[ParentPreset(NinjaArmorCrushCombo)]
 	[CustomComboInfo("Phantom Kamaitachi Feature", "Replaces the combo with Phantom Kamaitachi when you have no stacks of Bunshin.", NIN.JobID)]
 	NinjaArmorCrushKamaitachiFeature = 30028,
 
@@ -682,6 +686,10 @@ public enum CustomComboPreset {
 	[ParentPreset(NinjaAeolianEdgeCombo)]
 	[CustomComboInfo("Smart Weave: Assassinate/DWaD", "Weave into Assassinate / Dream Within a Dream when available.", NIN.JobID)]
 	NinjaAeolianEdgeAssasinateFeature = 30035,
+
+	[ParentPreset(NinjaAeolianEdgeCombo)]
+	[CustomComboInfo("Gauge Saver", "Replaces Aeolian Edge with Armor Crush when at 0 stacks of Kazematoi.", NIN.JobID)]
+	NinjaAeolianEdgeGaugeSaver = 30039,
 
 	[ParentPreset(NinjaAeolianEdgeCombo)]
 	[CustomComboInfo("Phantom Kamaitachi Feature", "Replaces the combo with Phantom Kamaitachi when you have no stacks of Bunshin.", NIN.JobID)]

@@ -85,6 +85,7 @@ internal class NinjaArmorCrushCombo: CustomCombo {
 	public override uint[] ActionIDs { get; } = [NIN.ArmorCrush];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+		NINGauge gauge = GetJobGauge<NINGauge>();
 		bool canRaiju = level >= NIN.Levels.Raiju && SelfHasEffect(NIN.Buffs.RaijuReady);
 		bool isDistant = TargetDistance is > 3;
 
@@ -129,10 +130,16 @@ internal class NinjaArmorCrushCombo: CustomCombo {
 		}
 
 		if (lastComboMove is NIN.GustSlash) {
+
+			if (IsEnabled(CustomComboPreset.NinjaArmorCrushGaugeSaver) && gauge.Kazematoi >= 4)
+				return NIN.AeolianEdge;
+
 			if (level >= NIN.Levels.ArmorCrush)
 				return NIN.ArmorCrush;
-			else if (IsEnabled(CustomComboPreset.NinjaArmorCrushFallbackFeature) && level >= NIN.Levels.AeolianEdge)
+
+			if (IsEnabled(CustomComboPreset.NinjaArmorCrushFallbackFeature) && level >= NIN.Levels.AeolianEdge)
 				return NIN.AeolianEdge;
+
 		}
 
 		if (IsEnabled(CustomComboPreset.NinjaArmorCrushKamaitachiFeature)) {
@@ -149,6 +156,7 @@ internal class NinjaAeolianEdgeCombo: CustomCombo {
 	public override uint[] ActionIDs { get; } = [NIN.AeolianEdge];
 
 	protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level) {
+		NINGauge gauge = GetJobGauge<NINGauge>();
 		bool canRaiju = level >= NIN.Levels.Raiju && SelfHasEffect(NIN.Buffs.RaijuReady);
 		bool isDistant = TargetDistance is > 3;
 
@@ -196,9 +204,13 @@ internal class NinjaAeolianEdgeCombo: CustomCombo {
 		}
 
 		if (lastComboMove is NIN.GustSlash) {
-			if (level >= NIN.Levels.AeolianEdge) {
+
+			if (IsEnabled(CustomComboPreset.NinjaAeolianEdgeGaugeSaver) && gauge.Kazematoi == 0 && level >= NIN.Levels.ArmorCrush)
+				return NIN.ArmorCrush;
+
+			if (level >= NIN.Levels.AeolianEdge)
 				return NIN.AeolianEdge;
-			}
+
 		}
 
 		if (IsEnabled(CustomComboPreset.NinjaAeolianEdgeKamaitachiFeature)) {
