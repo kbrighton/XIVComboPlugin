@@ -276,31 +276,31 @@ public class ConfigWindow: Window {
 				ImGui.EndMenu();
 			}
 
-#if DEBUG
-			if (ImGui.BeginMenu("Debugging")) {
-
-				IPlayerCharacter? player = Service.Client.LocalPlayer;
-				if (player is null) {
-					ImGui.MenuItem("Not logged in", false);
-				}
-				else {
-					ImGui.MenuItem($"{player.Name}: {player.ClassJob.GameData!.Abbreviation.ToString().ToUpper()} ({player.ClassJob.Id})", false);
-				}
-
-				bool clickDebug = ImGui.MenuItem("Snapshot debug messages");
-				if (ImGui.IsItemHovered()) {
-					ImGui.BeginTooltip();
-					ImGui.Text("This enables a snapshot of debug messages in the dalamud log.");
-					ImGui.Text("They will appear in your log file and also in the /xllog window.");
-					ImGui.EndTooltip();
-				}
-				if (clickDebug) {
-					Service.TickLogger.EnableNextTick();
-				}
-
-				ImGui.EndMenu();
-			}
-#endif
+//#if DEBUG
+//			if (ImGui.BeginMenu("Debugging")) {
+//
+//				IPlayerCharacter? player = Service.Client.LocalPlayer;
+//				if (player is null) {
+//					ImGui.MenuItem("Not logged in", false);
+//				}
+//				else {
+//					ImGui.MenuItem($"{player.Name}: {player.ClassJob.GameData!.Abbreviation.ToString().ToUpper()} ({player.ClassJob.RowId})", false);
+//				}
+//
+//				bool clickDebug = ImGui.MenuItem("Snapshot debug messages");
+//				if (ImGui.IsItemHovered()) {
+//					ImGui.BeginTooltip();
+//					ImGui.Text("This enables a snapshot of debug messages in the dalamud log.");
+//					ImGui.Text("They will appear in your log file and also in the /xllog window.");
+//					ImGui.EndTooltip();
+//				}
+//				if (clickDebug) {
+//					Service.TickLogger.EnableNextTick();
+//				}
+//
+//				ImGui.EndMenu();
+//			}
+//#endif
 
 			ImGui.EndMenuBar();
 		}
