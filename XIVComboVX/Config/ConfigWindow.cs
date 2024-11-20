@@ -284,7 +284,7 @@ public class ConfigWindow: Window {
 					ImGui.MenuItem("Not logged in", false);
 				}
 				else {
-					ImGui.MenuItem($"{player.Name}: {player.ClassJob.Value.Abbreviation.ToString().ToUpper()} ({player.ClassJob.RowId})", false);
+					ImGui.MenuItem($"{player.Name}: {player.ClassJob.Value.Abbreviation.ExtractText()} ({player.ClassJob.RowId})", false);
 				}
 
 				bool clickDebug = ImGui.MenuItem("Snapshot debug messages");
